@@ -30,7 +30,7 @@ public class MenuActivity extends AppCompatActivity {
 
     private void setupCarbonTotalsBtn()
     {
-        Button newJourneyBtn = (Button)findViewById(R.id.createJourneyBtn);
+        Button newJourneyBtn = (Button)findViewById(R.id.viewCarbonTotalsBtn);
         newJourneyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -17,6 +17,8 @@
         </activity>
         <activity android:name=".CarbonFootprintActivity" />
         <activity android:name=".TransportationModeActivity"></activity>
+        <activity android:name=".MenuActivity"></activity>
+
     </application>
 
 </manifest>
