@@ -2,6 +2,7 @@ package sfu.cmpt276.carbontracker;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
 
 public class TransportationModeActivity extends AppCompatActivity {
 
@@ -75,6 +75,12 @@ public class TransportationModeActivity extends AppCompatActivity {
         carList.setAdapter(carListAdapter);
     }
 
+    private void launchNewVehicleDialog(){
+        FragmentManager manager = getSupportFragmentManager();
+        NewVehicleFragment dialog = new NewVehicleFragment();
+        dialog.show(manager, "NewVehicleDialog");
+    }
+
     private void setUpAddVehicleButton() {
         Button addVehicleButton = (Button) findViewById(R.id.addVehicleButton);
 
@@ -82,6 +88,7 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "Add Vehicle Button clicked");
+                launchNewVehicleDialog();
             }
         });
     }
