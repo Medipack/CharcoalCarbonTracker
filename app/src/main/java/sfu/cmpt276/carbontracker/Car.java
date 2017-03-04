@@ -34,11 +34,27 @@ public class Car {
         engineDispl = 0;
     }
 
-    public Car(String nickname, String model, String make, int year, int cityCO2, int hwyCO2, double engineDispl){
+    public Car(String nickname, String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
+        isActive = false;
         this.nickname = nickname;
         this.model = model;
         this.make = make;
         this.year = year;
+        this.fuelType = fuelType;
+        this.transmission = transmission;
+        setCityCO2(cityCO2);
+        setHwyCO2(hwyCO2);
+        setEngineDispl(engineDispl);
+    }
+
+    public Car(String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
+        isActive = false;
+        this.nickname = Default;
+        this.model = model;
+        this.make = make;
+        this.year = year;
+        this.fuelType = fuelType;
+        this.transmission = transmission;
         setCityCO2(cityCO2);
         setHwyCO2(hwyCO2);
         setEngineDispl(engineDispl);
