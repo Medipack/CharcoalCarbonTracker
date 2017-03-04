@@ -5,16 +5,20 @@ package sfu.cmpt276.carbontracker;
  */
 
 public class Car {
-    public static final String Default = "NA";
+    //Constants
+    private static final String Default = "NA";
+    private static final double MILES_TO_METERS = 1609.34;
+    private static final double GAL_TO_LITRES = 3.78541;
+    //Attributes
     private String nickname;
     private String model;
     private String make;
     private String fuelType;
     private String transmission;
     private int year;
-    private int cityCO2;
-    private int hwyCO2;
-    private int engineDispl;
+    private double cityCO2;
+    private double hwyCO2;
+    private double engineDispl;
 
     //Constructor
     public Car(){
@@ -28,13 +32,14 @@ public class Car {
         engineDispl = 0;
     }
 
-    public Car(String nickname, String model, String make, int year, int cityCO2, int hwyCO2){
+    public Car(String nickname, String model, String make, int year, int cityCO2, int hwyCO2, int engineDispl){
         this.nickname = nickname;
         this.model = model;
         this.make = make;
         this.year = year;
-        this.cityCO2 = cityCO2;
-        this.hwyCO2 = hwyCO2;
+        setCityCO2(cityCO2);
+        setHwyCO2(hwyCO2);
+        setEngineDispl(engineDispl);
     }
 
     //Getter
@@ -59,15 +64,15 @@ public class Car {
         return transmission;
     }
 
-    public int getCityCO2() {
+    public double getCityCO2() {
         return cityCO2;
     }
 
-    public int getHwyCO2() {
+    public double getHwyCO2() {
         return hwyCO2;
     }
 
-    public int getEngineDispl() {
+    public double getEngineDispl() {
         return engineDispl;
     }
 
@@ -93,15 +98,29 @@ public class Car {
     }
 
     public void setCityCO2(int cityCO2) {
-        this.cityCO2 = cityCO2;
+        double CO2 = toMeters(cityCO2);
+        this.cityCO2 = CO2;
     }
 
     public void setHwyCO2(int hwyCO2) {
-        this.hwyCO2 = hwyCO2;
+        double CO2 = toMeters(hwyCO2);
+        this.hwyCO2 = CO2;
     }
 
     public void setEngineDispl(int engineDispl) {
-        this.engineDispl = engineDispl;
+        double liters = toLitres(engineDispl);
+        this.engineDispl = liters;
+    }
+
+    //Helper functions
+    double toMeters(int miles){
+        double meters = miles/MILES_TO_METERS;
+        return meters;
+    }
+
+    double toLitres(int gallons){
+        double litres = gallons/GAL_TO_LITRES;
+        return litres;
     }
 }
 
