@@ -32,7 +32,7 @@ public class Car {
         engineDispl = 0;
     }
 
-    public Car(String nickname, String model, String make, int year, int cityCO2, int hwyCO2, int engineDispl){
+    public Car(String nickname, String model, String make, int year, int cityCO2, int hwyCO2, double engineDispl){
         this.nickname = nickname;
         this.model = model;
         this.make = make;
@@ -107,7 +107,7 @@ public class Car {
         this.hwyCO2 = CO2;
     }
 
-    public void setEngineDispl(int engineDispl) {
+    public void setEngineDispl(double engineDispl) {
         double liters = toLitres(engineDispl);
         this.engineDispl = liters;
     }
@@ -118,7 +118,7 @@ public class Car {
         return meters;
     }
 
-    double toLitres(int gallons){
+    double toLitres(double gallons){
         double litres = gallons/GAL_TO_LITRES;
         return litres;
     }
