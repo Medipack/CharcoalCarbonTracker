@@ -94,6 +94,10 @@ public class Car {
         this.nickname = nickname;
     }
 
+    public void setMake(String make) {
+        this.make = make;
+    }
+
     public void setModel(String model) {
         this.model = model;
     }
