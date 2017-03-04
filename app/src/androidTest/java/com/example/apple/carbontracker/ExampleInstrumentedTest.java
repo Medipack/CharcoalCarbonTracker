@@ -1,4 +1,4 @@
-package sfu.cmpt276.carbontracker;
+package com.example.apple.carbontracker;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("sfu.cmpt276.carbontracker", appContext.getPackageName());
+        assertEquals("com.example.apple.carbontracker", appContext.getPackageName());
     }
 }

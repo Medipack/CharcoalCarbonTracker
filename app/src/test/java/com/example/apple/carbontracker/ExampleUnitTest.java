@@ -1,4 +1,4 @@
-package sfu.cmpt276.carbontracker;
+package com.example.apple.carbontracker;
 
 import org.junit.Test;
 

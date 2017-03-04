@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="sfu.cmpt276.carbontracker.MenuActivity">
+    tools:context="com.example.apple.carbontracker.MenuActivity">
 
     <TextView
         android:text="Main Menu"
@@ -23,11 +23,34 @@
         android:layout_alignParentTop="true" />
 
     <Button
-        android:text="ADD JOURNEY"
+        android:text="View Current Footprint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/addJourney" />
+        android:layout_below="@+id/mainMenu"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:id="@+id/viewFootprint"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="24sp"
+        android:textStyle="normal|italic" />
+
+    <Button
+        android:text="Add New Journey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/addJourney"
+        android:textSize="24sp"
+        android:textStyle="normal|italic" />
+
+    <Button
+        android:text="temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addJourney"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="63dp"
+        android:id="@+id/temp" />
+
 </RelativeLayout>
