@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import com.example.apple.carbontracker.R;
 
 public class MainActivity extends AppCompatActivity {
-    private static int welcomeTime = 4000;
+    private static int welcomeTime = 6000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
     }
     private void setupCar() {
         ImageView car1 =(ImageView) findViewById(R.id.carOne);
-        car1.animate().translationX(car1.getTranslationX()+900).setDuration(5500);
+        car1.animate().translationX(car1.getTranslationX()+900).setDuration(6500);
         ImageView car2 =(ImageView) findViewById(R.id.carTwo);
-        car2.animate().translationX(car1.getTranslationX()+1600).setDuration(5500);
+        car2.animate().translationX(car1.getTranslationX()+1600).setDuration(6500);
     }
 }
