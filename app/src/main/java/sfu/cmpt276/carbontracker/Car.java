@@ -10,6 +10,7 @@ public class Car {
     private static final double MILES_TO_METERS = 1609.34;
     private static final double GAL_TO_LITRES = 3.78541;
     //Attributes
+    private Boolean isActive;
     private String nickname;
     private String model;
     private String make;
@@ -22,6 +23,7 @@ public class Car {
 
     //Constructor
     public Car(){
+        isActive = false;
         nickname = Default;
         model = Default;
         make = Default;
@@ -43,6 +45,11 @@ public class Car {
     }
 
     //Getter
+
+    public Boolean checkActive() {
+        return isActive;
+    }
+
     public String getNickname() {
         return nickname;
     }
@@ -77,6 +84,12 @@ public class Car {
     }
 
     //Setter
+
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
