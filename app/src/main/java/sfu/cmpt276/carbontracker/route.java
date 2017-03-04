@@ -1,7 +1,7 @@
-package com.example.apple.carbontracker;
+package sfu.cmpt276.carbontracker;
 
 /**
- * Created by apple on 17/2/28.
+ * Created by apple on 17/3/4.
  */
 
 public class route {
@@ -53,3 +53,4 @@ public class route {
         routeDistanceHighway = distanceH;
     }
 }
+
