@@ -2,7 +2,7 @@ package sfu.cmpt276.carbontracker;
 
 
 
-public class route {
+public class Route {
     private String routeName;
     private int routeDistanceCity;
     private int routeDistanceHighway;
@@ -11,6 +11,7 @@ public class route {
         routeName = name;
         routeDistanceCity = distanceC;
         routeDistanceHighway = distanceH;
+
     }
 
     //return the name
@@ -48,6 +49,7 @@ public class route {
     public void setRouteDistanceHighway(int distanceH){
         if(distanceH<0){
             throw new IllegalArgumentException();
+
         }
         routeDistanceHighway = distanceH;
     }

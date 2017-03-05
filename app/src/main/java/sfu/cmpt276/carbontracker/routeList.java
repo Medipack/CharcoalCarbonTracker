@@ -9,6 +9,7 @@ public class RouteList {
 
     public void addRoute(route newRoute){
         routes.add(newRoute);
+
     }
 
     public void editRoute(route editRoute, int index){
@@ -43,6 +44,7 @@ public class RouteList {
     private void validateIndexWithException(int index) {
         if(index<0 || index>=countRoutes()){
             throw new IllegalArgumentException();
+
         }
     }
 }
