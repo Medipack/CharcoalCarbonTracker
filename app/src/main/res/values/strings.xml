@@ -6,4 +6,6 @@
     <string name="make">Make</string>
     <string name="nickname">Nickname</string>
     <string name="name">Name</string>
+    <string name="create_journey">Create New Journey</string>
+    <string name="view_carbon_totals">View Carbon Totals</string>
 </resources>

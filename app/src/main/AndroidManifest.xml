@@ -16,11 +16,16 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".MenuActivity"></activity>
+
         <activity
             android:name=".TransportationModeActivity"
             android:label="@string/select_a_vehicle"
             android:exported="true">
         </activity>
+
+        <activity android:name=".CarbonFootprintActivity" />
+
     </application>
 
 </manifest>
