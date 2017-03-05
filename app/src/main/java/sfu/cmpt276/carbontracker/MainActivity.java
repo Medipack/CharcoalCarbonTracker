@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.example.apple.carbontracker.R;
-
 public class MainActivity extends AppCompatActivity {
     private static int welcomeTime = 4000;
     @Override
