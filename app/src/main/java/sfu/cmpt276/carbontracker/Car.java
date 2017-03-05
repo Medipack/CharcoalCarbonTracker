@@ -34,6 +34,14 @@ public class Car {
         engineDispl = 0;
     }
 
+    public Car(String nickname, String make, String model, int year){
+        isActive = false;
+        this.nickname = nickname;
+        this.make = make;
+        this.model = model;
+        this.year = year;
+    }
+
     public Car(String nickname, String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
         isActive = false;
         this.nickname = nickname;
