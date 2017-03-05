@@ -136,7 +136,7 @@ public class CarDirectory{
     }
 
     //Duplicate Checkers
-        //checks for duplicate entries for year
+    //checks for duplicate entries for year
     private void checkYearDup(String key, HashMap<String, List<String>> tempYear) {
         if(!tempYear.containsKey(key)){
             //Add a new entry for the Year
@@ -144,7 +144,7 @@ public class CarDirectory{
         }
     }
 
-        //checks for duplicate entries for model
+    //checks for duplicate entries for model
     private void checkModelDup(String key, HashMap<String, HashMap<String, List<String>>> tempModel) {
         if(!tempModel.containsKey(key)){
             //Add a new entry for the Model
@@ -152,7 +152,7 @@ public class CarDirectory{
         }
     }
 
-        //checks for duplicate entries for make
+    //checks for duplicate entries for make
     private void checkMakeDup(String key) {
         if(!mainList.containsKey(key)){
             //Add an entry for the Make
