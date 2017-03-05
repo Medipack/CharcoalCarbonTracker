@@ -3,9 +3,6 @@ package sfu.cmpt276.carbontracker;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by apple on 17/2/28.
- */
 
 public class routeList {
     private List<route> routes = new ArrayList<>();

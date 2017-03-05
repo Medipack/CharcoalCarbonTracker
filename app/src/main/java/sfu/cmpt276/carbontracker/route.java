@@ -1,8 +1,6 @@
 package sfu.cmpt276.carbontracker;
 
-/**
- * Created by apple on 17/2/28.
- */
+
 
 public class route {
     private String routeName;
