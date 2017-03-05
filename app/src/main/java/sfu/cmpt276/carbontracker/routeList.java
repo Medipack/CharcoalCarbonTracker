@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class routeList {
+public class RouteList {
     private List<route> routes = new ArrayList<>();
 
     public void addRoute(route newRoute){
