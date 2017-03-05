@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }, welcomeTime);
     }
+
     private void setupCar() {
         ImageView car1 =(ImageView) findViewById(R.id.carOne);
         car1.animate().translationX(car1.getTranslationX()+900).setDuration(5500);
