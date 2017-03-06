@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.apple.carbontracker.R;
 
 public class RouteActivity extends AppCompatActivity {
     private routeList myRouteList = new routeList();
@@ -35,6 +34,7 @@ public class RouteActivity extends AppCompatActivity {
 
         registerClickCallback();
     }
+
 
     private void populateRouteList() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -65,53 +65,49 @@ public class RouteActivity extends AppCompatActivity {
                 saveButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        nameSaved = routeName.getText().toString();
-                        //Toast.makeText(RouteActivity.this, "save: " + nameSaved, Toast.LENGTH_SHORT).show();
-                        String str_citySaved = routeCity.getText().toString();
-                        citySaved = Integer.parseInt(str_citySaved);
-                        String str_highwaySaved = routeHighway.getText().toString();
-                        highwaySaved = Integer.parseInt(str_highwaySaved);
-
-                        /*
-                        // check input
-                        if(nameSaved.equals("")){
+                        if(routeName.length() == 0){
                             Toast.makeText(RouteActivity.this,
                                     "Please enter a name",
                                     Toast.LENGTH_SHORT).show();
-                            viewDialog.cancel();
                         }
-                        else if(str_citySaved.length() == 0){
+                        else if (routeCity.length() == 0) {
                             Toast.makeText(RouteActivity.this,
                                     "Please enter the city distance",
                                     Toast.LENGTH_SHORT).show();
-                            viewDialog.cancel();
                         }
-                        else if(citySaved <= 0){
-                            Toast.makeText(RouteActivity.this,
-                                    "Please enter a non-negative city distance",
-                                    Toast.LENGTH_SHORT).show();
-                            viewDialog.cancel();
-                        }
-                        else if(str_highwaySaved.length() == 0){
+                        else if(routeHighway.length() == 0){
                             Toast.makeText(RouteActivity.this,
                                     "Please enter the highway distance",
                                     Toast.LENGTH_SHORT).show();
-                            viewDialog.cancel();
                         }
-                        else if(highwaySaved <= 0){
-                            Toast.makeText(RouteActivity.this,
-                                    "Please enter a non-negative highway distance",
-                                    Toast.LENGTH_SHORT).show();
-                            viewDialog.cancel();
-                        }
-                        */
+                        else{
+                            nameSaved = routeName.getText().toString();
+                            //Toast.makeText(RouteActivity.this, "save: " + nameSaved, Toast.LENGTH_SHORT).show();
+                            String str_citySaved = routeCity.getText().toString();
+                            citySaved = Integer.parseInt(str_citySaved);
+                            String str_highwaySaved = routeHighway.getText().toString();
+                            highwaySaved = Integer.parseInt(str_highwaySaved);
 
-                        route newRoute = new route(nameSaved, citySaved, highwaySaved);
-                        myRouteList.addRoute(newRoute);
-                        populateRouteList();
-                        viewDialog.cancel();
+                            if (citySaved == 0) {
+                                Toast.makeText(RouteActivity.this, "Please enter an positive city distance", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (highwaySaved == 0) {
+                                Toast.makeText(RouteActivity.this, "Please enter an positive highway distance", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                route newRoute = new route(nameSaved, citySaved, highwaySaved);
+                                myRouteList.addRoute(newRoute);
+                                populateRouteList();
+                                viewDialog.cancel();
+                            }
+                        }
+
+
+
+
 
                     }
+
                 });
 
                 cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -148,16 +144,43 @@ public class RouteActivity extends AppCompatActivity {
                 editSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String editNameSaved = editName.getText().toString();
-                        String str_editCitySaved = editCity.getText().toString();
-                        int editCitySaved = Integer.parseInt(str_editCitySaved);
-                        String str_editHighwaySaved = editHighway.getText().toString();
-                        int editHighwaySaved = Integer.parseInt(str_editHighwaySaved);
+                        if (editName.length() == 0) {
+                            Toast.makeText(RouteActivity.this,
+                                    "Please enter a name",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else if (editCity.length() == 0) {
+                            Toast.makeText(RouteActivity.this,
+                                    "Please enter the city distance",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else if (editHighway.length() == 0) {
+                            Toast.makeText(RouteActivity.this,
+                                    "Please enter the highway distance",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else {
 
-                        route editRoute = new route(editNameSaved, editCitySaved, editHighwaySaved);
-                        myRouteList.editRoute(editRoute, route_position);
-                        populateRouteList();
-                        editDialog.cancel();
+                            String editNameSaved = editName.getText().toString();
+                            String str_editCitySaved = editCity.getText().toString();
+                            int editCitySaved = Integer.parseInt(str_editCitySaved);
+                            String str_editHighwaySaved = editHighway.getText().toString();
+                            int editHighwaySaved = Integer.parseInt(str_editHighwaySaved);
+
+                            if (editCitySaved == 0) {
+                                Toast.makeText(RouteActivity.this, "Please enter an positive city distance", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (editHighwaySaved == 0) {
+                                Toast.makeText(RouteActivity.this, "Please enter an positive highway distance", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+
+                                route editRoute = new route(editNameSaved, editCitySaved, editHighwaySaved);
+                                myRouteList.editRoute(editRoute, route_position);
+                                populateRouteList();
+                                editDialog.cancel();
+                            }
+                        }
                     }
                 });
 
