@@ -7,8 +7,10 @@ package sfu.cmpt276.carbontracker;
 public class Car {
     //Constants
     private static final String Default = "NA";
-    private static final double MILES_TO_METERS = 1609.34;
+    private static final double MILES_TO_KM = 1.60934;
     private static final double GAL_TO_LITRES = 3.78541;
+
+    private static final double MPG_TO_KML = 0.425144;
     //Attributes
     private Boolean isActive;
     private String nickname;
@@ -139,12 +141,12 @@ public class Car {
     }
 
     public void setCityCO2(int cityCO2) {
-        double CO2 = toMeters(cityCO2);
+        double CO2 = toLitres(toKM(cityCO2));
         this.cityCO2 = CO2;
     }
 
     public void setHwyCO2(int hwyCO2) {
-        double CO2 = toMeters(hwyCO2);
+        double CO2 = toKM(hwyCO2);
         this.hwyCO2 = CO2;
     }
 
@@ -154,8 +156,8 @@ public class Car {
     }
 
     //Helper functions
-    double toMeters(int miles){
-        double meters = miles/MILES_TO_METERS;
+    double toKM(int miles){
+        double meters = miles * MILES_TO_KM;
         return meters;
     }
 
