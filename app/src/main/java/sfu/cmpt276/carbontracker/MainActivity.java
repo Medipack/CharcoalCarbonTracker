@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import sfu.cmpt276.carbontracker.MainActivity;
-import com.example.apple.carbontracker.R;
+
 
 public class MainActivity extends AppCompatActivity {
     private static int welcomeTime = 6000;
