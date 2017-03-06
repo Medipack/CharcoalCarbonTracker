@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 
 public class RouteActivity extends AppCompatActivity {
-    private routeList myRouteList = new routeList();
+    private RouteList myRouteList = new RouteList();
     private String nameSaved;
     private int citySaved;
     private int highwaySaved;
@@ -30,7 +30,7 @@ public class RouteActivity extends AppCompatActivity {
 
         setupAddRoute();
 
-        myRouteList.addRoute(new route("shopping", 6, 5));
+        myRouteList.addRoute(new Route("shopping", 6, 5));
         populateRouteList();
 
         registerClickCallback();
@@ -96,7 +96,7 @@ public class RouteActivity extends AppCompatActivity {
                                 Toast.makeText(RouteActivity.this, "Please enter an positive highway distance", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                route newRoute = new route(nameSaved, citySaved, highwaySaved);
+                                Route newRoute = new Route(nameSaved, citySaved, highwaySaved);
                                 myRouteList.addRoute(newRoute);
                                 populateRouteList();
                                 viewDialog.cancel();
@@ -176,7 +176,7 @@ public class RouteActivity extends AppCompatActivity {
                             }
                             else {
 
-                                route editRoute = new route(editNameSaved, editCitySaved, editHighwaySaved);
+                                Route editRoute = new Route(editNameSaved, editCitySaved, editHighwaySaved);
                                 myRouteList.editRoute(editRoute, route_position);
                                 populateRouteList();
                                 editDialog.cancel();
@@ -189,7 +189,7 @@ public class RouteActivity extends AppCompatActivity {
                 editDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        route hideRoute = myRouteList.getRoute(route_position);
+                        Route hideRoute = myRouteList.getRoute(route_position);
                         myRouteList.removeRoute(route_position);
                         populateRouteList();
                         //myRouteList.addRoute(hideRoute);

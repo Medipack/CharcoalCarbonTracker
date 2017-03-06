@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.apple.carbontracker", appContext.getPackageName());
+        assertEquals("sfu.cmpt276.carbontracker", appContext.getPackageName());
     }
 }

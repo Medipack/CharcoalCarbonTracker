@@ -1,28 +1,20 @@
 package sfu.cmpt276.carbontracker;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ImageButton;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-
-import sfu.cmpt276.carbontracker.MainActivity;
-
 
 public class MainActivity extends AppCompatActivity {
     private static int welcomeTime = 6000;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         setupCar();
-        setupName();
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -37,11 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupCar() {
         ImageView car1 =(ImageView) findViewById(R.id.carOne);
         car1.animate().translationX(car1.getTranslationX()+900).setDuration(6500);
-
         ImageView car2 =(ImageView) findViewById(R.id.carTwo);
         car2.animate().translationX(car1.getTranslationX()+1600).setDuration(6500);
-    }
-    private void setupName(){
-
     }
 }
