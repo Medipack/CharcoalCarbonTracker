@@ -5,14 +5,14 @@ import java.util.List;
 
 
 public class RouteList {
-    private List<route> routes = new ArrayList<>();
+    private List<Route> routes = new ArrayList<>();
 
-    public void addRoute(route newRoute){
+    public void addRoute(Route newRoute){
         routes.add(newRoute);
 
     }
 
-    public void editRoute(route editRoute, int index){
+    public void editRoute(Route editRoute, int index){
         validateIndexWithException(index);
         routes.remove(index);
         routes.add(index, editRoute);
@@ -26,7 +26,7 @@ public class RouteList {
     }
 
 
-    public route getRoute(int index){
+    public Route getRoute(int index){
         validateIndexWithException(index);
         return routes.get(index);
     }
@@ -34,7 +34,7 @@ public class RouteList {
     public String[] getRouteDescription(){
         String[] descriptions = new String[countRoutes()];
         for(int i=0; i<countRoutes();i++){
-            route routes = getRoute(i);
+            Route routes = getRoute(i);
             descriptions[i] = "Name: " + routes.getRouteName() + "\n" + "City Distance: " + routes.getRouteDistanceCity()
                     + "\n" + "Highway Distance: " + routes.getRouteDistanceHighway();
         }

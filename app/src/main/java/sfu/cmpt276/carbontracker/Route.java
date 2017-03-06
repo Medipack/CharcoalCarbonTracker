@@ -7,7 +7,7 @@ public class Route {
     private int routeDistanceCity;
     private int routeDistanceHighway;
 
-    public route(String name, int distanceC, int distanceH){
+    public Route(String name, int distanceC, int distanceH){
         routeName = name;
         routeDistanceCity = distanceC;
         routeDistanceHighway = distanceH;
