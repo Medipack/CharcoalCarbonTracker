@@ -1,6 +1,7 @@
 package sfu.cmpt276.carbontracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -101,13 +102,11 @@ public class TransportationModeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // User has selected a vehicle
                 Car car = carArrayList.get(i);
-                Log.i(TAG, "User selected a vehicle");
+                Log.i(TAG, "User selected vehicle \"" + car.getNickname()
+                            + "\" " + car.getMake() + " " + car.getModel());
 
-                Toast.makeText(TransportationModeActivity.this,
-                        "Selected " + car.getMake() + " " + car.getModel(),
-                        Toast.LENGTH_SHORT).show();
-
-                // todo go to route activity
+                Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
+                startActivity(intent);
             }
         });
 
