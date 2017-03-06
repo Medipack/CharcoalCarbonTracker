@@ -155,7 +155,7 @@ public class Car {
 
     //Helper functions
     double toMeters(int miles){
-        double meters = miles/MILES_TO_METERS;
+        double meters = miles/MILES_TO_METERS; //todo going from miles/gallon to meters/gallon, should be miles * miles_to_meters (consider changing to km instead of m)
         return meters;
     }
 

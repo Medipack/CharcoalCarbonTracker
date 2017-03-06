@@ -1,9 +1,18 @@
 package sfu.cmpt276.carbontracker;
 
 public class Route {
+    //todo add isActive attribute?
     private String routeName;
     private int routeDistanceCity;
     private int routeDistanceHighway;
+
+    //todo constructor that doesnt accept name, for routes that aren't saved
+    public Route(){ //default constructor
+        routeName = "";
+        routeDistanceCity = 0;
+        routeDistanceHighway = 0;
+
+    }
 
     public Route(String name, int distanceC, int distanceH){
         routeName = name;
