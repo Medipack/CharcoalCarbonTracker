@@ -26,5 +26,12 @@ public class User {
         return routeList;
     }
 
+    public void addCarToCarList(Car car){
+        carList.add(car);
+    }
+
+    public void addRouteToRouteList(Route route){
+        routeList.addRoute(route);
+    }
 
 }
