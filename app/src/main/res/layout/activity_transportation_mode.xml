@@ -15,7 +15,7 @@
     />
 
     <Button
-        android:text="Add Vehicle"
+        android:text="@string/add_vehicle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

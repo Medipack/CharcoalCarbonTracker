@@ -1,7 +1,5 @@
 package sfu.cmpt276.carbontracker;
 
-
-
 public class Route {
     private String routeName;
     private int routeDistanceCity;

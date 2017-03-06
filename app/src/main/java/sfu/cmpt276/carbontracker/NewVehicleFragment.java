@@ -17,8 +17,6 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Don't allow user to cancel by tapping outside of dialog
-        setCancelable(false);
 
         // Create the view
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
