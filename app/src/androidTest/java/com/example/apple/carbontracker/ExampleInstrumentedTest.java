@@ -1,4 +1,4 @@
-package com.example.apple.carbontracker;
+package sfu.cmpt276.carbontracker;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
