@@ -147,11 +147,6 @@ public class RouteActivity extends AppCompatActivity {
                                 viewDialog.cancel();
                             }
                         }
-
-
-
-
-
                     }
 
                 });
@@ -162,7 +157,6 @@ public class RouteActivity extends AppCompatActivity {
                         viewDialog.cancel();
                     }
                 });
-
             }
         });
     }

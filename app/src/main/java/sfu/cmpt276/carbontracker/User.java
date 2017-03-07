@@ -54,8 +54,8 @@ public class User {
         notifyListenerCarWasEdited();
     }
 
-    public void removeCarFromCarList(Car car){
-        carList.remove(car);
+    public void removeCarFromCarList(int index){
+        carList.remove(index);
         notifyListenerCarWasEdited();
     }
 
