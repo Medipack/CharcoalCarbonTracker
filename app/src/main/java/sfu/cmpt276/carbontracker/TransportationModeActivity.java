@@ -79,7 +79,7 @@ public class TransportationModeActivity extends AppCompatActivity {
 
             // Fill the TextView
             TextView description = (TextView) itemView.findViewById(R.id.car_description);
-            description.setText(car.getNickname() + ": " + car.getMake() + " " + car.getModel() + " (" + car.getYear() + ")");
+            description.setText(car.getShortDecription());
 
             return itemView;
         }

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.io.InputStream;
@@ -27,13 +28,15 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         car = new Car();
         // Create the view
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
+        final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
 
         // Add button listener
         DialogInterface.OnClickListener addListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.i(TAG, "Add button clicked");
+                EditText nickname = (EditText) view.findViewById(R.id.name);
+                car.setNickname(String.valueOf(nickname.getText()).trim());
                 User.getInstance().addCarToCarList(car);
             }
         };
