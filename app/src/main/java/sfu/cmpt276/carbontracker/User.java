@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+    private CarListener carListener;
+
     private List<Car> carList;
     private RouteList routeList;
     private List<Journey> journeyList;
     private CarDirectory mainDirectory;
-
-    private CarListener carListener;
 
     private User(){
         carList = new ArrayList<>();
