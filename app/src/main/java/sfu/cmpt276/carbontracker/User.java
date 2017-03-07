@@ -6,6 +6,7 @@ import java.util.List;
 
 public class User {
     private CarListener carListener;
+    private RouteListener routeListener;
 
     private List<Car> carList;
     private RouteList routeList;
@@ -44,6 +45,10 @@ public class User {
         carListener = listener;
     }
 
+    public void setRouteListener(RouteListener listener){
+        routeListener = listener;
+    }
+
     public void addCarToCarList(Car car){
         carList.add(car);
         notifyListenerCarWasEdited();
@@ -56,6 +61,12 @@ public class User {
 
     public void addRouteToRouteList(Route route){
         routeList.addRoute(route);
+        notifyListenerRouteWasEdited();
+    }
+
+    public void removeRouteFromRouteList(int index){
+        routeList.removeRoute(index);
+        notifyListenerRouteWasEdited();
     }
 
     public void addJourney( Car car, Route route){
@@ -68,6 +79,13 @@ public class User {
 
     public boolean directoryNotSetup(){
         return mainDirectory == null;
+    }
+
+    private void notifyListenerRouteWasEdited(){
+        if(routeListener != null)
+            routeListener.routeListWasEdited();
+        else
+            throw new ExceptionInInitializerError("No one is listening to route list");
     }
 
     private void notifyListenerCarWasEdited(){

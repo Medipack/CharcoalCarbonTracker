@@ -7,6 +7,10 @@ import java.util.List;
 public class RouteList {
     private List<Route> routes = new ArrayList<>();
 
+    public List<Route> getRoutes(){
+        return routes;
+    }
+
     public void addRoute(Route newRoute){
         routes.add(newRoute);
     }
