@@ -14,31 +14,44 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TransportationModeActivity extends AppCompatActivity {
 
     private final String TAG = "TransportationActivity";
 
-    private ArrayList<Car> carArrayList = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transportation_mode);
-
         setUpAddVehicleButton();
         setUpCarListView();
         registerListViewClickCallback();
 
         addTestVehicleToArray();
+        setupCarDirectory();
+    }
+
+    private void setupCarDirectory() {
+        User user = User.getInstance();
+        InputStream inputStream = getResources().openRawResource(
+                getResources().getIdentifier("vehicles",
+                        "raw", this.getPackageName()));
+        user.setUpDirectory(inputStream);
     }
 
 
     private void addTestVehicleToArray() {
+        User user = User.getInstance();
+
+        List<Car> carArrayList = user.getCarList();
+
         carArrayList.add(new Car("My fav car", "Lamborghini", "Diablo", 1999));
         carArrayList.add(new Car("The fun car", "Porsche", "911", 2017));
         carArrayList.add(new Car("The Ancient One", "Honda", "Civic", 1985));
@@ -47,7 +60,7 @@ public class TransportationModeActivity extends AppCompatActivity {
     private class CarListAdapter extends ArrayAdapter<Car> {
 
         CarListAdapter(Context context) {
-            super(context, R.layout.car_listview_item, carArrayList);
+            super(context, R.layout.car_listview_item, User.getInstance().getCarList());
         }
 
         @NonNull
@@ -59,8 +72,10 @@ public class TransportationModeActivity extends AppCompatActivity {
                 itemView = LayoutInflater.from(getContext()).inflate(R.layout.car_listview_item, parent, false);
             }
 
+
+            User user = User.getInstance();
             // Get the current car
-            Car car = carArrayList.get(position);
+            Car car = user.getCarList().get(position);
 
             // Fill the TextView
             TextView description = (TextView) itemView.findViewById(R.id.car_description);
@@ -80,7 +95,9 @@ public class TransportationModeActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         NewVehicleFragment dialog = new NewVehicleFragment();
         dialog.show(manager, "NewVehicleDialog");
+
     }
+
 
     private void setUpAddVehicleButton() {
         Button addVehicleButton = (Button) findViewById(R.id.addVehicleButton);
@@ -101,7 +118,7 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // User has selected a vehicle
-                Car car = carArrayList.get(i);
+                Car car = User.getInstance().getCarList().get(i);
                 Log.i(TAG, "User selected vehicle \"" + car.getNickname()
                             + "\" " + car.getMake() + " " + car.getModel());
 
@@ -114,7 +131,7 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // User has long pressed to edit a vehicle
-                Car car = carArrayList.get(i);
+                Car car = User.getInstance().getCarList().get(i);
                 Log.i(TAG, "User long pressed on a vehicle");
 
                 Toast.makeText(TransportationModeActivity.this,
