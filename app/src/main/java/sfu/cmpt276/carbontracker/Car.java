@@ -146,7 +146,7 @@ public class Car {
     }
 
     public void setHwyCO2(int hwyCO2) {
-        double CO2 = toKM(hwyCO2);
+        double CO2 = toLitres(toKM(hwyCO2));
         this.hwyCO2 = CO2;
     }
 
