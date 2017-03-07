@@ -163,6 +163,23 @@ public class RouteActivity extends AppCompatActivity {
 
     private void registerClickCallback(){
         ListView listRoute = (ListView) findViewById(R.id.routeList);
+
+        listRoute.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // User has selected a route
+                Route route = User.getInstance().getRouteList().getRoute(i);
+
+                Log.i(TAG, "User selected route \"" + route.getRouteName() + "\"");
+
+                // Set current Journey to use the selected route
+                User.getInstance().setCurrentJourneyRoute(route);
+
+                Intent intent = new Intent(RouteActivity.this, CarbonFootprintActivity.class);
+                startActivityForResult(intent,0);
+            }
+        });
+
         //edit + delete
         listRoute.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -246,6 +263,14 @@ public class RouteActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {
+            setResult(User.ACTIITY_FINISHED_REQUESTCODE);
+            finish();
+        }
     }
 }
 

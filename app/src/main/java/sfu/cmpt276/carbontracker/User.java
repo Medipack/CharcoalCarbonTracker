@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+
+    public static final int ACTIITY_FINISHED_REQUESTCODE = 1000;
+
     private CarListener carListener;
     private RouteListener routeListener;
 
@@ -83,8 +86,12 @@ public class User {
         notifyListenerRouteWasEdited();
     }
 
-    public void addJourney( Car car, Route route){
+    public void addJourney(Car car, Route route){
         journeyList.add(new Journey(car, route));
+    }
+
+    public void addJourney(Journey journey){
+        journeyList.add(journey);
     }
 
     // *** Directory *** //

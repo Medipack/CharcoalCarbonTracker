@@ -128,8 +128,11 @@ public class TransportationModeActivity extends AppCompatActivity {
                 Log.i(TAG, "User selected vehicle \"" + car.getNickname()
                             + "\" " + car.getMake() + " " + car.getModel());
 
+                // Set current Journey to use the selected car
+                User.getInstance().setCurrentJourneyCar(car);
+
                 Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
 
@@ -148,5 +151,11 @@ public class TransportationModeActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {
+            finish();
+        }
     }
 }
