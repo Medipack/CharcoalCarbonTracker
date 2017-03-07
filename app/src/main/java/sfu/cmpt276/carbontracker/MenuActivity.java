@@ -6,12 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.InputStream;
+
 public class MenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        InputStream input = getResources().openRawResource(R.raw.vehicles);
+        User.getInstance().setUpDirectory(input);
         setupNewJourneyBtn();
         setupCarbonTotalsBtn();
     }
