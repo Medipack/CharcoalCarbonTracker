@@ -19,7 +19,10 @@ public class RouteActivity extends AppCompatActivity {
     private RouteList myRouteList = new RouteList();
     private String nameSaved;
     private int citySaved;
+    private String str_citySaved;
+
     private int highwaySaved;
+    private String str_highwaySaved;
 
     private int route_position;
 
@@ -84,9 +87,9 @@ public class RouteActivity extends AppCompatActivity {
                         else{
                             nameSaved = routeName.getText().toString();
                             //Toast.makeText(RouteActivity.this, "save: " + nameSaved, Toast.LENGTH_SHORT).show();
-                            String str_citySaved = routeCity.getText().toString();
+                            str_citySaved = routeCity.getText().toString();
                             citySaved = Integer.parseInt(str_citySaved);
-                            String str_highwaySaved = routeHighway.getText().toString();
+                            str_highwaySaved = routeHighway.getText().toString();
                             highwaySaved = Integer.parseInt(str_highwaySaved);
 
                             if (citySaved == 0) {
@@ -111,6 +114,54 @@ public class RouteActivity extends AppCompatActivity {
 
                 });
 
+                useButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(routeName.length() == 0){
+                            Toast.makeText(RouteActivity.this,
+                                    "Please enter a name",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else if (routeCity.length() == 0) {
+                            Toast.makeText(RouteActivity.this,
+                                    "Please enter the city distance",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else if(routeHighway.length() == 0){
+                            Toast.makeText(RouteActivity.this,
+                                    "Please enter the highway distance",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            nameSaved = routeName.getText().toString();
+                            //Toast.makeText(RouteActivity.this, "save: " + nameSaved, Toast.LENGTH_SHORT).show();
+                            str_citySaved = routeCity.getText().toString();
+                            citySaved = Integer.parseInt(str_citySaved);
+                            str_highwaySaved = routeHighway.getText().toString();
+                            highwaySaved = Integer.parseInt(str_highwaySaved);
+
+                            if (citySaved == 0) {
+                                Toast.makeText(RouteActivity.this, "Please enter an positive city distance", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (highwaySaved == 0) {
+                                Toast.makeText(RouteActivity.this, "Please enter an positive highway distance", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Route newRoute = new Route(nameSaved, citySaved, highwaySaved);
+                                myRouteList.addRoute(newRoute);
+                                populateRouteList();
+                                Intent intent = new Intent(RouteActivity.this, EmissionActivity.class);
+                                intent.putExtra("route name", nameSaved);
+                                intent.putExtra("city distance", citySaved);
+                                intent.putExtra("highway distance", highwaySaved);
+                                startActivity(intent);
+                                //viewDialog.cancel();
+                            }
+                        }
+
+                    }
+                });
+
                 cancelButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -123,7 +174,23 @@ public class RouteActivity extends AppCompatActivity {
     }
 
     private void registerClickCallback(){
-        ListView listRoute = (ListView) findViewById(R.id.routeList);
+        final ListView listRoute = (ListView) findViewById(R.id.routeList);
+        listRoute.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Route choseRoute = myRouteList.getRoute(position);
+                String choseName = choseRoute.getRouteName();
+                int choseCity = choseRoute.getRouteDistanceCity();
+                int choseHighway = choseRoute.getRouteDistanceHighway();
+                Intent intent = new Intent(RouteActivity.this, EmissionActivity.class);
+                intent.putExtra("route name", choseName);
+                intent.putExtra("city distance", choseCity);
+                intent.putExtra("highway distance", choseHighway);
+                startActivity(intent);
+            }
+        });
+
+
         //edit + delete
         listRoute.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -189,7 +256,7 @@ public class RouteActivity extends AppCompatActivity {
                 editDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Route hideRoute = myRouteList.getRoute(route_position);
+                        //Route hideRoute = myRouteList.getRoute(route_position);
                         myRouteList.removeRoute(route_position);
                         populateRouteList();
                         //myRouteList.addRoute(hideRoute);
