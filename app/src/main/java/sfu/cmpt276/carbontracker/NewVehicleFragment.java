@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -44,16 +45,35 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         };
 
         Spinner makeSpinner = (Spinner)view.findViewById(R.id.make);
-        User user = User.getInstance();
-        InputStream inputStream = getResources().openRawResource(
-                getResources().getIdentifier("vehicles",
-                        "raw", getActivity().getPackageName()));
-        user.setUpDirectory(inputStream);
-        CarDirectory directory = user.getMain();
-        List<String> makeList = new ArrayList<>(directory.getMakeKeys());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_spinner_item, makeList);
-        makeSpinner.setAdapter(adapter);
+        final Spinner modelSpinner = (Spinner)view.findViewById(R.id.model);
+        final Spinner yearSpinner = (Spinner)view.findViewById(R.id.year);
+
+        populateSpinner(makeSpinner, getMakeList());
+
+        makeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                String make = parent.getItemAtPosition(position).toString();
+                populateSpinner(modelSpinner, getModelList(make));
+            }
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
+        });
+        /*modelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                String model = parent.getItemAtPosition(position).toString();
+                populateSpinner(yearSpinner, getYearList(model));
+            }
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
+        });*/
 
         // Build the dialog
         return new AlertDialog.Builder(getActivity())
@@ -65,7 +85,40 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
     }
 
+    private List<String> getMakeList()
+    {
+        CarDirectory directory = getCarDirectory();
+        List<String> makeList = new ArrayList<>(directory.getMakeKeys());
+        return makeList;
+    }
+    private List<String> getModelList(String make)
+    {
+        CarDirectory directory = getCarDirectory();
+        List<String> modelList = new ArrayList<>(directory.getModelKeys(make));
+        return modelList;
+    }
+    private List<String> getYearList(String model)
+    {
+        CarDirectory directory = getCarDirectory();
+        List<String> yearList = new ArrayList<>(directory.getModelKeys(model));
+        return yearList;
+    }
 
+    private CarDirectory getCarDirectory() {
+        User user = User.getInstance();
+        InputStream inputStream = getResources().openRawResource(
+                getResources().getIdentifier("vehicles",
+                        "raw", getActivity().getPackageName()));
+        user.setUpDirectory(inputStream);
+        return user.getMain();
+    }
+
+    private void populateSpinner(Spinner makeSpinner, List<String> list) {
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item, list);
+        makeSpinner.setAdapter(adapter);
+    }
 
 
 }
