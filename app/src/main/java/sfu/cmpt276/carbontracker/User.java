@@ -13,13 +13,19 @@ public class User {
     private List<Journey> journeyList;
     private CarDirectory mainDirectory;
 
+    private Journey currentJourney;
+
     private User(){
         carList = new ArrayList<>();
         routeList = new RouteList();
         journeyList = new ArrayList<Journey>();
+
+        currentJourney = new Journey();
     }
 
     private static User instance = new User();
+
+    // *** Getters *** //
 
     public static User getInstance() {
         return instance;
@@ -41,13 +47,21 @@ public class User {
         return mainDirectory;
     }
 
-    public void setCarListener(CarListener listener){
-        carListener = listener;
+    // *** Current Journey *** //
+
+    public void setCurrentJourneyCar(Car car){
+        currentJourney.setCar(car);
     }
 
-    public void setRouteListener(RouteListener listener){
-        routeListener = listener;
+    public void setCurrentJourneyRoute(Route route){
+        currentJourney.setRoute(route);
     }
+
+    public Journey getCurrentJourney(){
+        return currentJourney;
+    }
+
+    // *** Modify lists *** //
 
     public void addCarToCarList(Car car){
         carList.add(car);
@@ -73,12 +87,24 @@ public class User {
         journeyList.add(new Journey(car, route));
     }
 
+    // *** Directory *** //
+
     public void setUpDirectory(InputStream input){
         mainDirectory = new CarDirectory(input);
     }
 
     public boolean directoryNotSetup(){
         return mainDirectory == null;
+    }
+
+    // *** Event Listeners *** //
+
+    public void setCarListener(CarListener listener){
+        carListener = listener;
+    }
+
+    public void setRouteListener(RouteListener listener){
+        routeListener = listener;
     }
 
     private void notifyListenerRouteWasEdited(){
