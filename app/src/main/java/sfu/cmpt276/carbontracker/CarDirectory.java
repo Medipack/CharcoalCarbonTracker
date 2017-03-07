@@ -56,8 +56,8 @@ public class CarDirectory{
         return keys;
     }
 
-    public Set<String> getYearKeys(HashMap<String, HashMap<String, List<String>>> Model){
-        Set<String> keys = Model.keySet();
+    public Set<String> getYearKeys(String make, String model){
+        Set<String> keys = mainList.get(make).get(model).keySet();
         return keys;
     }
 

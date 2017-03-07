@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,9 +26,6 @@ public class TransportationModeActivity extends AppCompatActivity {
 
     private final String TAG = "TransportationActivity";
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +35,15 @@ public class TransportationModeActivity extends AppCompatActivity {
         registerListViewClickCallback();
 
         addTestVehicleToArray();
+        setupCarDirectory();
+    }
+
+    private void setupCarDirectory() {
+        User user = User.getInstance();
+        InputStream inputStream = getResources().openRawResource(
+                getResources().getIdentifier("vehicles",
+                        "raw", this.getPackageName()));
+        user.setUpDirectory(inputStream);
     }
 
 
@@ -88,7 +95,9 @@ public class TransportationModeActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         NewVehicleFragment dialog = new NewVehicleFragment();
         dialog.show(manager, "NewVehicleDialog");
+
     }
+
 
     private void setUpAddVehicleButton() {
         Button addVehicleButton = (Button) findViewById(R.id.addVehicleButton);
