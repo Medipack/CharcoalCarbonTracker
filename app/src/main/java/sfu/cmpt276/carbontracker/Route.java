@@ -1,5 +1,9 @@
 package sfu.cmpt276.carbontracker;
 
+interface RouteListener {
+    void routeListWasEdited();
+}
+
 public class Route {
     private boolean isActive;
     private String routeName;

@@ -7,8 +7,8 @@ import java.util.Date;
  */
 
 public class Journey {
-    private static final double GASOLINE = 8.89; //kg of co2 per gallon
-    private static final double DIESEL = 10.16; //kg of co2 per gallon
+    private static final double GASOLINE = 2.34849; //kg of co2 per litre
+    private static final double DIESEL = 2.6839881; //kg of co2 per litre
     private static final double ELECTRIC = 0; //kg of co2 per gallon
 
     private Car car;
@@ -37,8 +37,8 @@ public class Journey {
 
     private double calculateCarbonEmission() //returns kg of co2 for journey
     {
-        double cityGallons = route.getRouteDistanceCity()/car.getCityCO2(); //cityCO2 is in km per gallon, so divide distance by this to get gallons used
-        double highwayGallons = route.getRouteDistanceHighway()/car.getHwyCO2();
+        double cityLitres = route.getRouteDistanceCity()/car.getCityCO2(); //cityCO2 is in km per litre, so divide distance by this to get litres used
+        double highwayLitres = route.getRouteDistanceHighway()/car.getHwyCO2();
         double co2 = 0;
         if(car.getFuelType().contains("Gasoline")) //checks for all gasoline types
             co2 = GASOLINE;
@@ -46,7 +46,7 @@ public class Journey {
             co2 = DIESEL;
         else
             co2 = ELECTRIC;
-        return co2 * cityGallons + co2 * highwayGallons;
+        return co2 * cityLitres + co2 * highwayLitres;
     }
 
     public String getRouteName() { //needed to populate table in total Emissions Screen

@@ -2,20 +2,30 @@ package sfu.cmpt276.carbontracker;
 
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 
 public class RouteActivity extends AppCompatActivity {
+
+    private final String TAG = "RouteActivity";
+
+
     private String nameSaved;
     private int citySaved;
     private int highwaySaved;
@@ -29,7 +39,7 @@ public class RouteActivity extends AppCompatActivity {
 
         setupAddRoute();
 
-        addTestRoute();
+        //addTestRoute();
         populateRouteList();
 
         registerClickCallback();
@@ -40,14 +50,45 @@ public class RouteActivity extends AppCompatActivity {
         user.getRouteList().addRoute(new Route("shopping", 6, 5));
     }
 
+    private class RouteListAdapter extends ArrayAdapter<Route> implements RouteListener{
+
+        RouteListAdapter(Context context) {
+            super(context, R.layout.route_item, User.getInstance().getRouteList().getRoutes());
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, View convertView, @NonNull ViewGroup parent){
+            // Ensure we have a view (could have been passed a null)
+            View itemView = convertView;
+            if(itemView == null) {
+                itemView = LayoutInflater.from(getContext()).inflate(R.layout.route_item, parent, false);
+            }
+
+
+            User user = User.getInstance();
+            // Get the current car
+            Route route = user.getRouteList().getRoute(position);
+
+            // Fill the TextView
+            TextView description = (TextView) itemView.findViewById(R.id.routeDescription);
+            description.setText(route.getRouteName());
+
+            return itemView;
+        }
+
+        @Override
+        public void routeListWasEdited() {
+            Log.i(TAG, "Route List changed, updating listview");
+            notifyDataSetChanged();
+        }
+    }
 
     private void populateRouteList() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                R.layout.route_item,
-                User.getInstance().getRouteList().getRouteDescription());
+        ArrayAdapter<Route> routeListAdapter = new RouteListAdapter(RouteActivity.this);
+        User.getInstance().setRouteListener((RouteListener) routeListAdapter);
         ListView list = (ListView) findViewById(R.id.routeList);
-        list.setAdapter(adapter);
+        list.setAdapter(routeListAdapter);
     }
 
     private void setupAddRoute() {
@@ -106,11 +147,6 @@ public class RouteActivity extends AppCompatActivity {
                                 viewDialog.cancel();
                             }
                         }
-
-
-
-
-
                     }
 
                 });
@@ -121,7 +157,6 @@ public class RouteActivity extends AppCompatActivity {
                         viewDialog.cancel();
                     }
                 });
-
             }
         });
     }
