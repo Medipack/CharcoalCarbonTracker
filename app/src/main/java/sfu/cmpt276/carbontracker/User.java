@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+    private CarListener carListener;
+
     private List<Car> carList;
     private RouteList routeList;
     private List<Journey> journeyList;
@@ -38,19 +40,40 @@ public class User {
         return mainDirectory;
     }
 
+    public void setCarListener(CarListener listener){
+        carListener = listener;
+    }
+
     public void addCarToCarList(Car car){
         carList.add(car);
+        notifyListenerCarWasEdited();
+    }
+
+    public void removeCarFromCarList(Car car){
+        carList.remove(car);
+        notifyListenerCarWasEdited();
     }
 
     public void addRouteToRouteList(Route route){
         routeList.addRoute(route);
     }
 
-    public void  addJourney( Car car, Route route){
+    public void addJourney( Car car, Route route){
         journeyList.add(new Journey(car, route));
     }
 
     public void setUpDirectory(InputStream input){
         mainDirectory = new CarDirectory(input);
+    }
+
+    public boolean directoryNotSetup(){
+        return mainDirectory == null;
+    }
+
+    private void notifyListenerCarWasEdited(){
+        if(carListener != null)
+            carListener.carListWasEdited();
+        else
+            throw new ExceptionInInitializerError("No one is listening to car list");
     }
 }

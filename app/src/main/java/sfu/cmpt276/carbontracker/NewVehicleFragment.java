@@ -11,10 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class NewVehicleFragment extends AppCompatDialogFragment {
@@ -26,13 +28,16 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         car = new Car();
         // Create the view
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
+        final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
 
         // Add button listener
         DialogInterface.OnClickListener addListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.i(TAG, "Add button clicked");
+                EditText nickname = (EditText) view.findViewById(R.id.name);
+                car.setNickname(String.valueOf(nickname.getText()).trim());
+                User.getInstance().addCarToCarList(car);
             }
         };
 
@@ -67,7 +72,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                  car.setModel(parent.getItemAtPosition(position).toString());
+                car.setModel(parent.getItemAtPosition(position).toString());
                 populateSpinner(yearSpinner, getYearList(car.getMake(), car.getModel()));
             }
             public void onNothingSelected(AdapterView<?> parent)
@@ -91,6 +96,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         User user = User.getInstance();
         CarDirectory directory = user.getMain();
         List<String> makeList = new ArrayList<>(directory.getMakeKeys());
+        Collections.sort(makeList);
         return makeList;
     }
 
@@ -99,6 +105,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         User user = User.getInstance();
         CarDirectory directory = user.getMain();
         List<String> modelList = new ArrayList<>(directory.getModelKeys(make));
+        Collections.sort(modelList);
         return modelList;
     }
 
@@ -107,14 +114,15 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         User user = User.getInstance();
         CarDirectory directory = user.getMain();
         List<String> yearList = new ArrayList<>(directory.getYearKeys(make, model));
+        Collections.sort(yearList, Collections.reverseOrder());
         return yearList;
     }
 
-    private void populateSpinner(Spinner makeSpinner, List<String> list) {
+    private void populateSpinner(Spinner spinner, List<String> list) {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, list);
-        makeSpinner.setAdapter(adapter);
+        spinner.setAdapter(adapter);
     }
 
 }

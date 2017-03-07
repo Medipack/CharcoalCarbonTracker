@@ -3,10 +3,14 @@ package sfu.cmpt276.carbontracker;
 /**
  * Class to hold profile data for cars
  */
+interface CarListener {
+    void carListWasEdited();
+}
 
 public class Car {
     //Constants
-    private static final String Default = "NA";
+    private static final String DEFAULT_NICKNAME = "";
+    private static final String DEFAULT_DESCRIPTION = "N/A";
     private static final double MILES_TO_KM = 1.60934;
     private static final double GAL_TO_LITRES = 3.78541;
 
@@ -26,10 +30,10 @@ public class Car {
     //Constructor
     public Car(){
         isActive = false;
-        nickname = Default;
-        model = Default;
-        make = Default;
-        transmission = Default;
+        nickname = DEFAULT_NICKNAME;
+        model = DEFAULT_DESCRIPTION;
+        make = DEFAULT_DESCRIPTION;
+        transmission = DEFAULT_DESCRIPTION;
         year = 0;
         cityCO2 = 0;
         hwyCO2 = 0;
@@ -59,7 +63,7 @@ public class Car {
 
     public Car(String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
         isActive = false;
-        this.nickname = Default;
+        this.nickname = DEFAULT_DESCRIPTION;
         this.model = model;
         this.make = make;
         this.year = year;
@@ -74,6 +78,25 @@ public class Car {
 
     public Boolean checkActive() {
         return isActive;
+    }
+
+    public String getShortDecription(){
+        String description = make + " " + model + " (" + year + ")";
+
+        if(nickname == null || nickname.equals(DEFAULT_NICKNAME))
+            return description;
+        else
+            return nickname + ": " + description;
+    }
+
+    public String getLongDescription(){
+        //todo add transmission type, fuel type, etc
+        String description = make + " " + model + " (" + year + ")";
+
+        if(nickname == null || nickname.equals(DEFAULT_NICKNAME))
+            return description;
+        else
+            return nickname + ": " + description;
     }
 
     public String getNickname() {

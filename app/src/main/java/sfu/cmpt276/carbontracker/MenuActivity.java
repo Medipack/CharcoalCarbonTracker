@@ -14,10 +14,16 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        InputStream input = getResources().openRawResource(R.raw.vehicles);
-        User.getInstance().setUpDirectory(input);
+        setupMainDirectory();
         setupNewJourneyBtn();
         setupCarbonTotalsBtn();
+    }
+
+    private void setupMainDirectory(){
+        if(User.getInstance().directoryNotSetup()){
+            InputStream input = getResources().openRawResource(R.raw.vehicles);
+            User.getInstance().setUpDirectory(input);
+        }
     }
 
     private void setupNewJourneyBtn()
