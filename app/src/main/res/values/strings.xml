@@ -10,4 +10,5 @@
     <string name="view_carbon_totals">View Carbon Totals</string>
     <string name="add_vehicle">Add Vehicle</string>
     <string name="select_a_route">Select a Route</string>
+    <string name="pie_chart">Pie Chart</string>
 </resources>
