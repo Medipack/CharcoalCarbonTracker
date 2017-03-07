@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 
 public class RouteActivity extends AppCompatActivity {
-    private RouteList myRouteList = new RouteList();
     private String nameSaved;
     private int citySaved;
     private int highwaySaved;
@@ -30,10 +29,15 @@ public class RouteActivity extends AppCompatActivity {
 
         setupAddRoute();
 
-        myRouteList.addRoute(new Route("shopping", 6, 5));
+        addTestRoute();
         populateRouteList();
 
         registerClickCallback();
+    }
+
+    private void addTestRoute(){
+        User user = User.getInstance();
+        user.getRouteList().addRoute(new Route("shopping", 6, 5));
     }
 
 
@@ -41,7 +45,7 @@ public class RouteActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 R.layout.route_item,
-                myRouteList.getRouteDescription());
+                User.getInstance().getRouteList().getRouteDescription());
         ListView list = (ListView) findViewById(R.id.routeList);
         list.setAdapter(adapter);
     }
@@ -97,7 +101,7 @@ public class RouteActivity extends AppCompatActivity {
                             }
                             else {
                                 Route newRoute = new Route(nameSaved, citySaved, highwaySaved);
-                                myRouteList.addRoute(newRoute);
+                                User.getInstance().getRouteList().addRoute(newRoute);
                                 populateRouteList();
                                 viewDialog.cancel();
                             }
@@ -177,7 +181,7 @@ public class RouteActivity extends AppCompatActivity {
                             else {
 
                                 Route editRoute = new Route(editNameSaved, editCitySaved, editHighwaySaved);
-                                myRouteList.editRoute(editRoute, route_position);
+                                User.getInstance().getRouteList().editRoute(editRoute, route_position);
                                 populateRouteList();
                                 editDialog.cancel();
                             }
@@ -189,6 +193,7 @@ public class RouteActivity extends AppCompatActivity {
                 editDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        RouteList myRouteList = User.getInstance().getRouteList();
                         Route hideRoute = myRouteList.getRoute(route_position);
                         myRouteList.removeRoute(route_position);
                         populateRouteList();
