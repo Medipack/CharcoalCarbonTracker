@@ -20,12 +20,11 @@ import java.util.List;
 public class NewVehicleFragment extends AppCompatDialogFragment {
 
     private final String TAG = "NewVehicleDialog";
-    private String make;
-    private String model;
+    private Car car;
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
+        car = new Car();
         // Create the view
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
 
@@ -55,8 +54,8 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                make = parent.getItemAtPosition(position).toString();
-                populateSpinner(modelSpinner, getModelList(make));
+                car.setMake(parent.getItemAtPosition(position).toString());
+                populateSpinner(modelSpinner, getModelList(car.getMake()));
             }
             public void onNothingSelected(AdapterView<?> parent)
             {
@@ -64,18 +63,18 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             }
         });
         //todo uncomment when getYearKeys has been changed
-        /*modelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        modelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                 model = parent.getItemAtPosition(position).toString();
-                populateSpinner(yearSpinner, getYearList(make, model));
+                  car.setModel(parent.getItemAtPosition(position).toString());
+                populateSpinner(yearSpinner, getYearList(car.getMake(), car.getModel()));
             }
             public void onNothingSelected(AdapterView<?> parent)
             {
 
             }
-        });*/
+        });
 
         // Build the dialog
         return new AlertDialog.Builder(getActivity())
@@ -89,32 +88,28 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
     private List<String> getMakeList()
     {
-        CarDirectory directory = getCarDirectory();
+        User user = User.getInstance();
+        CarDirectory directory = user.getMain();
         List<String> makeList = new ArrayList<>(directory.getMakeKeys());
         return makeList;
     }
     private List<String> getModelList(String make)
     {
-        CarDirectory directory = getCarDirectory();
+        User user = User.getInstance();
+        CarDirectory directory = user.getMain();
         List<String> modelList = new ArrayList<>(directory.getModelKeys(make));
         return modelList;
     }
     //todo uncomment when getYearKeys has been changed
-    /*private List<String> getYearList(String model, String make)
+    private List<String> getYearList(String make, String model)
     {
-        CarDirectory directory = getCarDirectory();
+        User user = User.getInstance();
+        CarDirectory directory = user.getMain();
         List<String> yearList = new ArrayList<>(directory.getYearKeys(make, model));
         return yearList;
-    }*/
-
-    private CarDirectory getCarDirectory() {
-        User user = User.getInstance();
-        InputStream inputStream = getResources().openRawResource(
-                getResources().getIdentifier("vehicles",
-                        "raw", getActivity().getPackageName()));
-        user.setUpDirectory(inputStream);
-        return user.getMain();
     }
+
+
 
     private void populateSpinner(Spinner makeSpinner, List<String> list) {
 

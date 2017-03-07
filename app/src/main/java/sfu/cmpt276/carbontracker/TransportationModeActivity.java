@@ -26,9 +26,6 @@ public class TransportationModeActivity extends AppCompatActivity {
 
     private final String TAG = "TransportationActivity";
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +35,16 @@ public class TransportationModeActivity extends AppCompatActivity {
         registerListViewClickCallback();
 
         addTestVehicleToArray();
+        setupCarDirectory();
     }
 
-
+    private void setupCarDirectory() {
+        User user = User.getInstance();
+        InputStream inputStream = getResources().openRawResource(
+                getResources().getIdentifier("vehicles",
+                        "raw", this.getPackageName()));
+        user.setUpDirectory(inputStream);
+    }
 
 
     private void addTestVehicleToArray() {
