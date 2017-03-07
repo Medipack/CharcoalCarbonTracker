@@ -9,7 +9,6 @@ public class RouteList {
 
     public void addRoute(Route newRoute){
         routes.add(newRoute);
-
     }
 
     public void editRoute(Route editRoute, int index){
