@@ -10,6 +10,8 @@ public class User {
     private List<Journey> journeyList;
     private CarDirectory mainDirectory;
 
+    private CarListener carListener;
+
     private User(){
         carList = new ArrayList<>();
         routeList = new RouteList();
@@ -38,19 +40,40 @@ public class User {
         return mainDirectory;
     }
 
+    public void setCarListener(CarListener listener){
+        carListener = listener;
+    }
+
     public void addCarToCarList(Car car){
         carList.add(car);
+        notifyListenerCarWasEdited();
+    }
+
+    public void removeCarFromCarList(Car car){
+        carList.remove(car);
+        notifyListenerCarWasEdited();
     }
 
     public void addRouteToRouteList(Route route){
         routeList.addRoute(route);
     }
 
-    public void  addJourney( Car car, Route route){
+    public void addJourney( Car car, Route route){
         journeyList.add(new Journey(car, route));
     }
 
     public void setUpDirectory(InputStream input){
         mainDirectory = new CarDirectory(input);
+    }
+
+    public boolean directoryNotSetup(){
+        return mainDirectory == null;
+    }
+
+    private void notifyListenerCarWasEdited(){
+        if(carListener != null)
+            carListener.carListWasEdited();
+        else
+            throw new ExceptionInInitializerError("No one is listening to car list");
     }
 }

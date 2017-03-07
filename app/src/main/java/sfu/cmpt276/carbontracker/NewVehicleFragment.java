@@ -34,6 +34,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.i(TAG, "Add button clicked");
+                User.getInstance().addCarToCarList(car);
             }
         };
 

@@ -3,6 +3,9 @@ package sfu.cmpt276.carbontracker;
 /**
  * Class to hold profile data for cars
  */
+interface CarListener {
+    void carListWasEdited();
+}
 
 public class Car {
     //Constants

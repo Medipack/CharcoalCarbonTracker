@@ -34,7 +34,7 @@ public class TransportationModeActivity extends AppCompatActivity {
         setUpCarListView();
         registerListViewClickCallback();
 
-        addTestVehicleToArray();
+        //addTestVehicleToArray();
         setupCarDirectory();
     }
 
@@ -57,7 +57,7 @@ public class TransportationModeActivity extends AppCompatActivity {
         carArrayList.add(new Car("The Ancient One", "Honda", "Civic", 1985));
     }
 
-    private class CarListAdapter extends ArrayAdapter<Car> {
+    private class CarListAdapter extends ArrayAdapter<Car> implements CarListener {
 
         CarListAdapter(Context context) {
             super(context, R.layout.car_listview_item, User.getInstance().getCarList());
@@ -83,10 +83,17 @@ public class TransportationModeActivity extends AppCompatActivity {
 
             return itemView;
         }
+
+        @Override
+        public void carListWasEdited() {
+            Log.i(TAG, "Car List changed, updating listview");
+            notifyDataSetChanged();
+        }
     }
 
     private void setUpCarListView() {
         ArrayAdapter<Car> carListAdapter = new CarListAdapter(TransportationModeActivity.this);
+        User.getInstance().setCarListener((CarListener) carListAdapter);
         ListView carList = (ListView) findViewById(R.id.carListView);
         carList.setAdapter(carListAdapter);
     }
@@ -95,7 +102,6 @@ public class TransportationModeActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         NewVehicleFragment dialog = new NewVehicleFragment();
         dialog.show(manager, "NewVehicleDialog");
-
     }
 
 
