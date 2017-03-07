@@ -10,6 +10,7 @@ public class User {
 
     private User(){
         carList = new ArrayList<>();
+        routeList = new RouteList();
     }
 
     private static User instance = new User();
