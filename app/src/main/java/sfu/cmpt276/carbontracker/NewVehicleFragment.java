@@ -62,7 +62,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
             }
         });
-        //todo uncomment when getYearKeys has been changed
+
         modelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
@@ -93,6 +93,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         List<String> makeList = new ArrayList<>(directory.getMakeKeys());
         return makeList;
     }
+
     private List<String> getModelList(String make)
     {
         User user = User.getInstance();
@@ -100,7 +101,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         List<String> modelList = new ArrayList<>(directory.getModelKeys(make));
         return modelList;
     }
-    //todo uncomment when getYearKeys has been changed
+
     private List<String> getYearList(String make, String model)
     {
         User user = User.getInstance();
@@ -109,14 +110,11 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         return yearList;
     }
 
-
-
     private void populateSpinner(Spinner makeSpinner, List<String> list) {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, list);
         makeSpinner.setAdapter(adapter);
     }
-
 
 }
