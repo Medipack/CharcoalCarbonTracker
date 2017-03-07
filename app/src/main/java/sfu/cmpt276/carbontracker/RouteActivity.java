@@ -175,7 +175,7 @@ public class RouteActivity extends AppCompatActivity {
                 // Set current Journey to use the selected route
                 User.getInstance().setCurrentJourneyRoute(route);
 
-                Intent intent = new Intent(RouteActivity.this, CarbonFootprintActivity.class);
+                Intent intent = new Intent(RouteActivity.this, JourneyEmissionActivity.class);
                 startActivityForResult(intent,0);
             }
         });

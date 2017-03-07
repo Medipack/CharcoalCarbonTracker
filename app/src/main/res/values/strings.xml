@@ -10,4 +10,20 @@
     <string name="view_carbon_totals">View Carbon Totals</string>
     <string name="add_vehicle">Add Vehicle</string>
     <string name="select_a_route">Select a Route</string>
+    <string name="journey_emissions">Journey Emissions</string>
+    <string name="car_name">Car Name:</string>
+    <string name="car_description">Car Info:</string>
+    <string name="car_make">Make:</string>
+    <string name="car_model">Model:</string>
+    <string name="fuel_type">Fuel Type</string>
+    <string name="transmission">Transmission:</string>
+    <string name="displacement">Engine Displacement</string>
+    <string name="route_info">Route Info:</string>
+    <string name="route_name">Name:</string>
+    <string name="city_distance">City Distance:</string>
+    <string name="highway_distance">Highway Distance</string>
+    <string name="total_distance">Total Distance</string>
+    <string name="journey_info">Journey Info:</string>
+    <string name="date">Date</string>
+    <string name="emission">Emissions</string>
 </resources>
