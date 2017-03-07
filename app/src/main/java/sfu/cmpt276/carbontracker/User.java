@@ -6,7 +6,7 @@ import java.util.List;
 public class User {
     private List<Car> carList;
     private RouteList routeList;
-    //private List<Journey> journeyList;
+    private List<Journey> journeyList;
 
     private User(){
         carList = new ArrayList<>();
@@ -34,4 +34,12 @@ public class User {
         routeList.addRoute(route);
     }
 
+    public void addJourney(Car car, Route route){
+        journeyList.add(new Journey(car, route));
+    }
+
+    public List<Journey> getJourneyList()
+    {
+        return journeyList;
+    }
 }
