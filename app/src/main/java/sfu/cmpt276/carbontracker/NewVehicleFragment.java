@@ -62,7 +62,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
             }
         });
-        /*modelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        modelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
@@ -73,7 +73,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             {
 
             }
-        });*/
+        });
 
         // Build the dialog
         return new AlertDialog.Builder(getActivity())
