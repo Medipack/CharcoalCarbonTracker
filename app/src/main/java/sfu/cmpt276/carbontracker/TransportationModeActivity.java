@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ public class TransportationModeActivity extends AppCompatActivity {
 
         addTestVehicleToArray();
     }
+
+
 
 
     private void addTestVehicleToArray() {
@@ -88,7 +91,9 @@ public class TransportationModeActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         NewVehicleFragment dialog = new NewVehicleFragment();
         dialog.show(manager, "NewVehicleDialog");
+
     }
+
 
     private void setUpAddVehicleButton() {
         Button addVehicleButton = (Button) findViewById(R.id.addVehicleButton);
