@@ -4,6 +4,7 @@
     android:id="@+id/activity_transportation_mode"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/background"
 
     tools:context="sfu.cmpt276.carbontracker.TransportationModeActivity">
 
