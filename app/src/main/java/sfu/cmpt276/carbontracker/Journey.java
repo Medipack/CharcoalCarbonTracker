@@ -46,6 +46,7 @@ public class Journey {
         else
             co2 = ELECTRIC;
         return co2 * cityLitres + co2 * highwayLitres;
+
     }
 
     public String getRouteName() { //needed to populate table in total Emissions Screen
@@ -55,6 +56,8 @@ public class Journey {
     public String getVehicleName() { //needed to populate table in total emissions screen
         return car.getNickname();
     }
+
+
 
     public Date getDate() {
         return date;

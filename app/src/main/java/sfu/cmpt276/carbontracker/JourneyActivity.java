@@ -18,6 +18,7 @@ import java.util.List;
 
 public class JourneyActivity extends AppCompatActivity {
     List JourneyList = User.getInstance().getJourneyList();
+    //Journey journey = User.getInstance().getCurrentJourney();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +36,17 @@ public class JourneyActivity extends AppCompatActivity {
         for (int i = 0; i < JourneyList.size(); i++) {
             //Toast.makeText(this, "" + JourneyList.size(), Toast.LENGTH_SHORT).show();
             Journey journey = (Journey) JourneyList.get(i);
-            Toast.makeText(this, "" + JourneyList.get(0), Toast.LENGTH_SHORT).show();
-            String carName = journey.getVehicleName();
-
-            String routeName = journey.getRouteName();
+            //Toast.makeText(this, "" + JourneyList.get(0), Toast.LENGTH_SHORT).show();
+            String carName = User.getInstance().getCarList().get(i).getNickname();
+            //String routeName = journey.getRouteName();
+            String routeName = User.getInstance().getRouteList().getRoute(i).getRouteName();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
             String str_date = sdf.format(journey.getDate());
-            double distance = journey.getTotalDistance();
+            //double distance = journey.getTotalDistance();
+            double distance = User.getInstance().getRouteList().getRoute(i).getRouteDistanceCity() + User.getInstance().getRouteList().getRoute(i).getRouteDistanceHighway();
             String str_distance = String.valueOf(distance);
-            double emission = journey.getCarbonEmitted();
+            //double emission = journey.getCarbonEmitted();
+            double emission = User.getInstance().getJourneyList().get(i).getCarbonEmitted();
             String str_emission = String.valueOf(emission);
 
             TextView textDate = new TextView(this);
