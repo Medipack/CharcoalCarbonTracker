@@ -1,6 +1,7 @@
 package sfu.cmpt276.carbontracker;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,10 +10,14 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -53,12 +58,14 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         final Spinner modelSpinner = (Spinner)view.findViewById(R.id.model);
         final Spinner yearSpinner = (Spinner)view.findViewById(R.id.year);
 
+
         populateSpinner(makeSpinner, getMakeList());
 
         makeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
+
                 car.setMake(parent.getItemAtPosition(position).toString());
                 populateSpinner(modelSpinner, getModelList(car.getMake()));
             }
@@ -80,6 +87,21 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
             }
         });
+        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                car.setYear(Integer.parseInt(parent.getItemAtPosition(position).toString()));
+                //populateSpinner(transmissionDisplacement, getCarList(car.getMake(), car.getModel(), car.getYear()));
+                List<Car> carList = getCarList(car.getMake(), car.getModel(), String.valueOf(car.getYear()));
+                //todo populate listview @timr
+                //transmissionDisplacement.setEnabled(true);
+            }
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
+        });
 
         // Build the dialog
         return new AlertDialog.Builder(getActivity())
@@ -89,6 +111,13 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 .setNegativeButton("CANCEL", cancelListener)
                 .create();
 
+    }
+
+    @NonNull
+    private List<Car> getCarList(String make, String model, String year) {
+        String data = make+","+model+","+year;
+        List<Car> carList = User.getInstance().getMain().carList(data); //returns list of cars fitting the chosen make, model, year
+        return carList;
     }
 
     private List<String> getMakeList()
@@ -124,5 +153,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 android.R.layout.simple_spinner_item, list);
         spinner.setAdapter(adapter);
     }
+
+
 
 }

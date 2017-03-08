@@ -10,25 +10,8 @@ public class CarbonFootprintActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journey_emission);
-
-        saveJourneyToList();
-        setupDebugTextView();
     }
 
-    private void saveJourneyToList() {
-        User.getInstance().addJourney(User.getInstance().getCurrentJourney());
-    }
-
-    private void setupDebugTextView(){
-        Journey selectedJourney = User.getInstance().getCurrentJourney();
-
-        String debug = "Selected Journey: "
-                + "\n- Route \"" + selectedJourney.getRouteName() + "\""
-                + "\n- Car \"" + selectedJourney.getCar().getShortDecription() + "\"";
-
-        TextView textView = (TextView) findViewById(R.id.selectedJourney);
-        textView.setText(debug);
-    }
 
 
     @Override

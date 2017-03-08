@@ -2,6 +2,9 @@ package sfu.cmpt276.carbontracker;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 public class JourneyEmissionActivity extends AppCompatActivity {
@@ -23,14 +26,34 @@ public class JourneyEmissionActivity extends AppCompatActivity {
         Journey journey = User.getInstance().getCurrentJourney();
         Car car = journey.getCar();
         Route route = journey.getRoute();
+        //todo change the grid data to include the extra car data & add params to format grid
+        String[] gridData = {
+                getResources().getString(R.string.car_description), "",
+                getResources().getString(R.string.car_name), car.getNickname(),
+                getResources().getString(R.string.make),  car.getMake(),
+                getResources().getString(R.string.model), car.getModel(),
+                getResources().getString(R.string.fuel_type), "",//car.getFuelType(),
+                getResources().getString(R.string.transmission),"", //car.getTransmission(),
+                getResources().getString(R.string.year), "",//String.valueOf(car.getYear()),
+                getResources().getString(R.string.displacement),"", //String.valueOf(car.getEngineDispl()),
+                "", "",
+                getResources().getString(R.string.route_info), "",
+                getResources().getString(R.string.route_name), route.getRouteName(),
+                getResources().getString(R.string.city_distance), String.valueOf(route.getRouteDistanceCity()),
+                getResources().getString(R.string.highway_distance), String.valueOf(route.getRouteDistanceHighway()),
+                "", "",
+                getResources().getString(R.string.journey_info), "",
+                getResources().getString(R.string.total_distance), String.valueOf(journey.getTotalDistance()),
+                getResources().getString(R.string.date), String.valueOf(journey.getDate()),
+                getResources().getString(R.string.emission), String.valueOf(journey.getCarbonEmitted()),
+        };
 
-        TextView
-        String debug = "Selected Journey: "
-                + "\n- Route \"" + selectedJourney.getRouteName() + "\""
-                + "\n- Car \"" + selectedJourney.getCar().getShortDecription() + "\"";
+        GridView journeyGrid = (GridView) findViewById(R.id.journeyGRid);
 
-        TextView textView = (TextView) findViewById(R.id.selectedJourney);
-        textView.setText(debug);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, gridData);
+        journeyGrid.setHorizontalSpacing(0);
+        journeyGrid.setAdapter(adapter);
     }
 
 

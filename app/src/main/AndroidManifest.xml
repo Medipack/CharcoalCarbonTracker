@@ -27,6 +27,7 @@
         </activity>
 
         <activity android:name=".JourneyEmissionActivity" />
+        <activity android:name=".CarbonFootprintActivity" />
 
         <activity android:name=".RouteActivity"
             android:label="@string/select_a_route"></activity>
