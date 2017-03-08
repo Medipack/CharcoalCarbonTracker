@@ -64,7 +64,9 @@
         android:minWidth="@dimen/activity_vertical_margin" />
 
     <ListView
-        android:id="@+id/carList"
+        android:id="@+id/detailedCarList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+
+        android:visibility="visible" />
 </LinearLayout>
