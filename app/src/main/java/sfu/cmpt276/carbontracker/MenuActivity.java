@@ -44,7 +44,7 @@ public class MenuActivity extends AppCompatActivity {
         newJourneyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuActivity.this, CarbonFootprintActivity.class);
+                Intent intent = new Intent(MenuActivity.this, JourneyActivity.class);
                 startActivity(intent);
             }
         });

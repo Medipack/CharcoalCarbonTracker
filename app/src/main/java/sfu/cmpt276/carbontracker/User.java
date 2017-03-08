@@ -21,9 +21,9 @@ public class User {
     private User(){
         carList = new ArrayList<>();
         routeList = new RouteList();
+        currentJourney = new Journey();
         journeyList = new ArrayList<Journey>();
 
-        currentJourney = new Journey();
     }
 
     private static User instance = new User();
@@ -63,6 +63,7 @@ public class User {
     public Journey getCurrentJourney(){
         return currentJourney;
     }
+
 
     // *** Modify lists *** //
 
