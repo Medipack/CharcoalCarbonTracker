@@ -63,6 +63,7 @@ public class CarDirectory{
 
 
     //Creates a list of each line read into program
+    //Takes at LEAST three tokens: Make, Model and Year
     public List<String> getDataList(String[] token){
         String make = token[0];
         String model = token[1];
@@ -88,6 +89,7 @@ public class CarDirectory{
     }
 
     //gives a list of cars objects
+    //Accepts a csv string that has at least a Make, Model and Year
     public List<Car> carList(String data){
         String[] tokens = getTokens(data);
         List<String> dataList = getDataList(tokens);

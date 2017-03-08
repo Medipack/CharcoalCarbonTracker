@@ -1,5 +1,6 @@
 package sfu.cmpt276.carbontracker;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -17,8 +18,7 @@ public class Journey {
     private double totalDistance;
     private double carbonEmitted;
 
-    Journey()
-    {
+    Journey() {
         car = new Car(); //initializes car as new car with default values
         route = new Route(); //initializes route as a new route with default values
         date = new Date(); //sets date to current date
@@ -26,36 +26,38 @@ public class Journey {
         carbonEmitted = 0;
     }
 
-    Journey(Car car, Route route)
-    {
-        this.car  = car;
+    Journey(Car car, Route route) {
+        this.car = car;
         this.route = route;
         date = new Date(); //sets date as current date
         totalDistance = route.getRouteDistanceCity() + route.getRouteDistanceHighway();
         carbonEmitted = calculateCarbonEmission();
     }
 
-    private double calculateCarbonEmission() //returns kg of co2 for journey
+    public double calculateCarbonEmission() //returns kg of co2 for journey
     {
-        double cityLitres = route.getRouteDistanceCity()/car.getCityCO2(); //cityCO2 is in km per litre, so divide distance by this to get litres used
-        double highwayLitres = route.getRouteDistanceHighway()/car.getHwyCO2();
+        double cityLitres = route.getRouteDistanceCity() / car.getCityCO2(); //cityCO2 is in km per litre, so divide distance by this to get litres used
+        double highwayLitres = route.getRouteDistanceHighway() / car.getHwyCO2();
         double co2 = 0;
-        if(car.getFuelType().contains("Gasoline")) //checks for all gasoline types
+        if (car.getFuelType().contains("Gasoline")) //checks for all gasoline types
             co2 = GASOLINE;
-        else if(car.getFuelType().equals("Diesel"))
+        else if (car.getFuelType().equals("Diesel"))
             co2 = DIESEL;
         else
             co2 = ELECTRIC;
         return co2 * cityLitres + co2 * highwayLitres;
+
     }
 
     public String getRouteName() { //needed to populate table in total Emissions Screen
         return route.getRouteName();
     }
 
-    public String getVehicleName() { //needed to populte table in total emissions screen
+    public String getVehicleName() { //needed to populate table in total emissions screen
         return car.getNickname();
     }
+
+
 
     public Date getDate() {
         return date;
@@ -89,6 +91,7 @@ public class Journey {
     public void setCar(Car car) {
         this.car = car;
     }
+
     public Route getRoute() {
         return route;
     }
@@ -96,4 +99,5 @@ public class Journey {
     public void setRoute(Route route) {
         this.route = route;
     }
+
 }
