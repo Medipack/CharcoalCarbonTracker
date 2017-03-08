@@ -48,6 +48,7 @@ public class CarbonFootprintActivity extends AppCompatActivity {
         textView.setText(debug);
     }
 
+
     @Override
     public void onBackPressed() {
         setResult(User.ACTIITY_FINISHED_REQUESTCODE);
