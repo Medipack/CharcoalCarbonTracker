@@ -3,6 +3,7 @@ package sfu.cmpt276.carbontracker;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -33,9 +34,11 @@ public class JourneyActivity extends AppCompatActivity {
     private void setupTable() {
         TableLayout journeyTable = (TableLayout) findViewById(R.id.table);
 
-        for (int i = 0; i < JourneyList.size(); i++) {
+        for (Journey journey : User.getInstance().getJourneyList()) {
+
+            Log.i("TABLETEST", journey.getRouteName());
+
             //Toast.makeText(this, "" + JourneyList.size(), Toast.LENGTH_SHORT).show();
-            Journey journey = (Journey) JourneyList.get(i);
             //Toast.makeText(this, "" + JourneyList.get(0), Toast.LENGTH_SHORT).show();
             String carName = journey.getCar().getNickname();
             String routeName = journey.getRouteName();
