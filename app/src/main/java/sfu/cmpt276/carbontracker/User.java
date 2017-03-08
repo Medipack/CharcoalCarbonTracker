@@ -59,7 +59,7 @@ public class User {
     public void setCurrentJourneyRoute(Route route){
         currentJourney.setRoute(route);
     }
-    public void resetCurrentJourneyEmission(Route route){
+    public void resetCurrentJourneyEmission(){
         currentJourney.resetCarbonEmitted();
     }
 

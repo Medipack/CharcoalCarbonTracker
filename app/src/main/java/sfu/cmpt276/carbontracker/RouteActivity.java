@@ -206,8 +206,9 @@ public class RouteActivity extends AppCompatActivity {
                         journey.setTotalDistance(citySaved + highwaySaved);
                         //double emission = journey.calculateCarbonEmission();
                         //journey.setCarbonEmitted(emission);
+                        User.getInstance().resetCurrentJourneyEmission();
 
-                        Intent intent = new Intent(RouteActivity.this, CarbonFootprintActivity.class);
+                        Intent intent = new Intent(RouteActivity.this, JourneyEmissionActivity.class);
                         startActivityForResult(intent,0);
                     }
                 });
@@ -239,8 +240,7 @@ public class RouteActivity extends AppCompatActivity {
                 //double test = journey.getTotalDistance();
                 //double emission = journey.calculateCarbonEmission();
                 //journey.setCarbonEmitted(emission);
-                User.getInstance().getCurrentJourney().setCarbonEmitted(User.getInstance().getCurrentJourney().calculateCarbonEmission());
-
+                User.getInstance().resetCurrentJourneyEmission();
                 Intent intent = new Intent(RouteActivity.this, JourneyEmissionActivity.class);
                 startActivityForResult(intent,0);
             }

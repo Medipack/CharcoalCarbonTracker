@@ -26,4 +26,5 @@
     <string name="journey_info">Journey Info:</string>
     <string name="date">Date</string>
     <string name="emission">Emissions</string>
+    <string name="view_carbon_footprint">View Carbon Footprint</string>
 </resources>

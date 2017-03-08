@@ -19,13 +19,22 @@
         android:text="@string/journey_emissions"
         android:textSize="30sp" />
 
+    <Button
+        android:id="@+id/journeyBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/journeyTitleTxt"
+        android:layout_centerHorizontal="true"
+        android:text="@string/view_carbon_footprint"
+        />
     <GridView
         android:id="@+id/journeyGRid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="2"
-        android:layout_below="@id/journeyTitleTxt"
+        android:layout_below="@id/journeyBtn"
         />
+
 <!--
     <TableLayout
         android:layout_width="match_parent"
