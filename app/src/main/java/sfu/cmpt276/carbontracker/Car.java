@@ -174,8 +174,8 @@ public class Car {
     }
 
     public void setEngineDispl(double engineDispl) {
-        double liters = toLitres(engineDispl);
-        this.engineDispl = liters;
+        //double liters = toLitres(engineDispl);
+        this.engineDispl = engineDispl;
     }
 
     //Helper functions
