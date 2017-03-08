@@ -1,5 +1,12 @@
 package sfu.cmpt276.carbontracker;
 
+import android.content.res.Resources;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+import static java.security.AccessController.getContext;
+
 /**
  * Class to hold profile data for cars
  */
@@ -91,7 +98,7 @@ public class Car {
 
     public String getLongDescription(){
         //todo add transmission type, fuel type, etc
-        String description =  getShortDecription() + " " + getTransmissionFuelTypeDescription();
+        String description =  getShortDecription() + " " + getTransmissionFuelTypeDispacementDescription();
 
         if(nickname == null || nickname.equals(DEFAULT_NICKNAME))
             return description;
@@ -99,8 +106,8 @@ public class Car {
             return nickname + ": " + description;
     }
 
-    public String getTransmissionFuelTypeDescription(){
-        return fuelType +  " (" + transmission + ")";
+    public String getTransmissionFuelTypeDispacementDescription(){
+        return fuelType +  " : " + transmission + " (" + new BigDecimal(engineDispl).setScale(2, RoundingMode.HALF_UP).doubleValue() +"L)" ;
     }
 
     public String getNickname() {

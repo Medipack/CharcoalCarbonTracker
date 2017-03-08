@@ -17,10 +17,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -165,12 +162,13 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
             // Fill the TextView
             final RadioButton selected = (RadioButton) itemView.findViewById(R.id.selectedRadioButton);
-            selected.setText(car.getTransmissionFuelTypeDescription());
+            selected.setText(car.getTransmissionFuelTypeDispacementDescription());
 
             // Set the radiobutton
 
-            if(position == selectedIndex)
+            if(position == selectedIndex) {
                 selected.setChecked(true);
+            }
             else
                 selected.setChecked(false);
 
