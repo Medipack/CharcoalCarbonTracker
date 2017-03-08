@@ -1,0 +1,14 @@
+<RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/selectedRadioButton"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:textSize="24sp"
+    android:paddingStart="16dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="16dp"
+    android:checked="false"
+    android:focusable="false"
+    android:clickable="false">
+</RadioButton>

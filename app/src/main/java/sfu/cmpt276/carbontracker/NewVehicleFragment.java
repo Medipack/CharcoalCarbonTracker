@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,12 +29,28 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
     private final String TAG = "NewVehicleDialog";
     private Car car;
+    private List<Car> detailedCarList;
+    private CarListener detailedCarListener;
+
+    private DetailedCarAdapter detailedCarArrayAdapter;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        registerListViewClickCallback();
+
         car = new Car();
         // Create the view
         final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
+
+        detailedCarList = new ArrayList<>();
+
+        detailedCarArrayAdapter = new DetailedCarAdapter(getActivity());
+        detailedCarListener = (CarListener) detailedCarArrayAdapter;
+        ListView detailedCarListView = (ListView) view.findViewById(R.id.detailedCarList);
+        detailedCarListView.setAdapter(detailedCarArrayAdapter);
+
+
 
         // Add button listener
         DialogInterface.OnClickListener addListener = new DialogInterface.OnClickListener() {
@@ -94,7 +111,9 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 car.setYear(Integer.parseInt(parent.getItemAtPosition(position).toString()));
                 //populateSpinner(transmissionDisplacement, getCarList(car.getMake(), car.getModel(), car.getYear()));
                 List<Car> carList = getCarList(car.getMake(), car.getModel(), String.valueOf(car.getYear()));
-                //todo populate listview @timr
+                detailedCarList.clear();
+                detailedCarList.addAll(carList);
+                detailedCarListener.carListWasEdited();
                 //transmissionDisplacement.setEnabled(true);
             }
             public void onNothingSelected(AdapterView<?> parent)
@@ -111,6 +130,67 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 .setNegativeButton("CANCEL", cancelListener)
                 .create();
 
+    }
+
+    private class DetailedCarAdapter extends ArrayAdapter<Car> implements CarListener{
+
+        private int selectedIndex = 0;
+
+        DetailedCarAdapter(Context context) {
+            super(context, R.layout.car_listview_item_dialog, detailedCarList);
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, View convertView, @NonNull ViewGroup parent){
+            // Ensure we have a view (could have been passed a null)
+            View itemView = convertView;
+            if(itemView == null) {
+                itemView = LayoutInflater.from(NewVehicleFragment.this.getContext()).inflate(R.layout.car_listview_item_dialog, parent, false);
+            }
+
+            // Get the current car
+            Car car = detailedCarList.get(position);
+
+            // Fill the TextView
+            RadioButton selected = (RadioButton) itemView.findViewById(R.id.selectedRadioButton);
+            selected.setText(car.getLongDescription());
+
+            // Set the radiobutton
+
+            if(position == selectedIndex)
+                selected.setChecked(true);
+            else
+                selected.setChecked(false);
+
+            return itemView;
+        }
+
+        public void setSelectedIndex(int index){
+            selectedIndex = index;
+        }
+
+        @Override
+        public void carListWasEdited() {
+            Log.i(TAG, "Car List changed, updating listview");
+            notifyDataSetChanged();
+        }
+    }
+
+    private void registerListViewClickCallback() {
+        ListView list = (ListView) NewVehicleFragment.this.getActivity().findViewById(R.id.carListView);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // User has selected a vehicle
+                detailedCarList.get(i);
+                Log.i(TAG, "User selected vehicle \"" + car.getNickname()
+                        + "\" " + car.getMake() + " " + car.getModel());
+                detailedCarArrayAdapter.setSelectedIndex(i);
+                detailedCarArrayAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @NonNull
