@@ -7,6 +7,9 @@ import android.widget.GridView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class JourneyEmissionActivity extends AppCompatActivity {
 
     @Override
@@ -35,7 +38,7 @@ public class JourneyEmissionActivity extends AppCompatActivity {
                 getResources().getString(R.string.fuel_type), car.getFuelType(),
                 getResources().getString(R.string.transmission), car.getTransmission(),
                 getResources().getString(R.string.year), String.valueOf(car.getYear()),
-                getResources().getString(R.string.displacement), String.valueOf(car.getEngineDispl()),
+                getResources().getString(R.string.displacement), String.valueOf(new BigDecimal(car.getEngineDispl()).setScale(2, RoundingMode.HALF_UP).doubleValue()),
                 "", "",
                 getResources().getString(R.string.route_info), "",
                 getResources().getString(R.string.route_name), route.getRouteName(),

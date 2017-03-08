@@ -55,6 +55,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                         + "\" " + car.getMake() + " " + car.getModel());
                 detailedCarArrayAdapter.setSelectedIndex(i);
                 detailedCarArrayAdapter.notifyDataSetChanged();
+
             }
         });
 
@@ -68,6 +69,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 EditText nickname = (EditText) view.findViewById(R.id.name);
                 car.setNickname(String.valueOf(nickname.getText()).trim());
                 User.getInstance().addCarToCarList(car);
+
             }
         };
 
