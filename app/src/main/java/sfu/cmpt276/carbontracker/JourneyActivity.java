@@ -37,16 +37,16 @@ public class JourneyActivity extends AppCompatActivity {
             //Toast.makeText(this, "" + JourneyList.size(), Toast.LENGTH_SHORT).show();
             Journey journey = (Journey) JourneyList.get(i);
             //Toast.makeText(this, "" + JourneyList.get(0), Toast.LENGTH_SHORT).show();
-            String carName = User.getInstance().getCarList().get(i).getNickname();
-            //String routeName = journey.getRouteName();
-            String routeName = User.getInstance().getRouteList().getRoute(i).getRouteName();
+            String carName = journey.getCar().getNickname();
+            String routeName = journey.getRouteName();
+            //String routeName = User.getInstance().getRouteList().getRoute(i).getRouteName();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
             String str_date = sdf.format(journey.getDate());
             //double distance = journey.getTotalDistance();
-            double distance = User.getInstance().getRouteList().getRoute(i).getRouteDistanceCity() + User.getInstance().getRouteList().getRoute(i).getRouteDistanceHighway();
+            double distance = journey.getRoute().getRouteDistanceCity() + journey.getRoute().getRouteDistanceHighway();
             String str_distance = String.valueOf(distance);
             //double emission = journey.getCarbonEmitted();
-            double emission = User.getInstance().getJourneyList().get(i).getCarbonEmitted();
+            double emission = journey.getCarbonEmitted();
             String str_emission = String.valueOf(emission);
 
             TextView textDate = new TextView(this);
