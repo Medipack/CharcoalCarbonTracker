@@ -34,7 +34,7 @@ public class TransportationModeActivity extends AppCompatActivity {
         setUpCarListView();
         registerListViewClickCallback();
 
-        addTestVehicleToArray();
+        //addTestVehicleToArray();
         setupCarDirectory();
     }
 
@@ -57,7 +57,7 @@ public class TransportationModeActivity extends AppCompatActivity {
         carArrayList.add(new Car("The Ancient One", "Honda", "Civic", 1985));
     }
 
-    private class CarListAdapter extends ArrayAdapter<Car> {
+    private class CarListAdapter extends ArrayAdapter<Car> implements CarListener {
 
         CarListAdapter(Context context) {
             super(context, R.layout.car_listview_item, User.getInstance().getCarList());
@@ -79,14 +79,21 @@ public class TransportationModeActivity extends AppCompatActivity {
 
             // Fill the TextView
             TextView description = (TextView) itemView.findViewById(R.id.car_description);
-            description.setText(car.getNickname() + ": " + car.getMake() + " " + car.getModel() + " (" + car.getYear() + ")");
+            description.setText(car.getShortDecription());
 
             return itemView;
+        }
+
+        @Override
+        public void carListWasEdited() {
+            Log.i(TAG, "Car List changed, updating listview");
+            notifyDataSetChanged();
         }
     }
 
     private void setUpCarListView() {
         ArrayAdapter<Car> carListAdapter = new CarListAdapter(TransportationModeActivity.this);
+        User.getInstance().setCarListener((CarListener) carListAdapter);
         ListView carList = (ListView) findViewById(R.id.carListView);
         carList.setAdapter(carListAdapter);
     }
@@ -95,7 +102,6 @@ public class TransportationModeActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         NewVehicleFragment dialog = new NewVehicleFragment();
         dialog.show(manager, "NewVehicleDialog");
-
     }
 
 
@@ -122,8 +128,11 @@ public class TransportationModeActivity extends AppCompatActivity {
                 Log.i(TAG, "User selected vehicle \"" + car.getNickname()
                             + "\" " + car.getMake() + " " + car.getModel());
 
+                // Set current Journey to use the selected car
+                User.getInstance().setCurrentJourneyCar(car);
+
                 Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
 
@@ -142,5 +151,11 @@ public class TransportationModeActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {
+            finish();
+        }
     }
 }

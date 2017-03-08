@@ -10,4 +10,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="sfu.cmpt276.carbontracker.CarbonFootprintActivity">
 
+    <TextView
+        android:id="@+id/selectedJourney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="94dp"
+        android:text="Selected Journey"
+        android:textSize="30sp" />
+
+    <Button
+        android:text="Journey List"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:id="@+id/jumpToJ"
+        android:textSize="18sp" />
 </RelativeLayout>

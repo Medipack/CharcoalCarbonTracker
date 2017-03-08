@@ -14,7 +14,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberSigned"
+        android:inputType="numberDecimal|numberSigned"
         android:ems="10"
         android:id="@+id/editCity"
         android:hint="City Distance" />
@@ -25,7 +25,7 @@
         android:ems="10"
         android:id="@+id/editHighway"
         android:hint="Highway Distance"
-        android:inputType="numberSigned" />
+        android:inputType="numberDecimal|numberSigned" />
     <Button
         android:text="SAVE EDIT"
         android:layout_width="match_parent"

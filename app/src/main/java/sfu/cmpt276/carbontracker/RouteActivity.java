@@ -2,23 +2,34 @@ package sfu.cmpt276.carbontracker;
 
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 
 public class RouteActivity extends AppCompatActivity {
+
+    private final String TAG = "RouteActivity";
+    private int use_position;
+
+
     private String nameSaved;
-    private int citySaved;
-    private int highwaySaved;
+    private double citySaved;
+    private double highwaySaved;
 
     private int route_position;
 
@@ -29,7 +40,6 @@ public class RouteActivity extends AppCompatActivity {
 
         setupAddRoute();
 
-        addTestRoute();
         populateRouteList();
 
         registerClickCallback();
@@ -40,14 +50,43 @@ public class RouteActivity extends AppCompatActivity {
         user.getRouteList().addRoute(new Route("shopping", 6, 5));
     }
 
+    private class RouteListAdapter extends ArrayAdapter<Route> implements RouteListener{
+
+        RouteListAdapter(Context context) {
+            super(context, R.layout.route_item, User.getInstance().getRouteList().getRoutes());
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, View convertView, @NonNull ViewGroup parent){
+            // Ensure we have a view (could have been passed a null)
+            View itemView = convertView;
+            if(itemView == null) {
+                itemView = LayoutInflater.from(getContext()).inflate(R.layout.route_item, parent, false);
+            }
+            User user = User.getInstance();
+            // Get the current car
+            Route route = user.getRouteList().getRoute(position);
+
+            // Fill the TextView
+            TextView description = (TextView) itemView.findViewById(R.id.routeDescription);
+            description.setText(route.getRouteName());
+
+            return itemView;
+        }
+
+        @Override
+        public void routeListWasEdited() {
+            Log.i(TAG, "Route List changed, updating listview");
+            notifyDataSetChanged();
+        }
+    }
 
     private void populateRouteList() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                R.layout.route_item,
-                User.getInstance().getRouteList().getRouteDescription());
+        ArrayAdapter<Route> routeListAdapter = new RouteListAdapter(RouteActivity.this);
+        User.getInstance().setRouteListener((RouteListener) routeListAdapter);
         ListView list = (ListView) findViewById(R.id.routeList);
-        list.setAdapter(adapter);
+        list.setAdapter(routeListAdapter);
     }
 
     private void setupAddRoute() {
@@ -87,11 +126,59 @@ public class RouteActivity extends AppCompatActivity {
                         }
                         else{
                             nameSaved = routeName.getText().toString();
-                            //Toast.makeText(RouteActivity.this, "save: " + nameSaved, Toast.LENGTH_SHORT).show();
                             String str_citySaved = routeCity.getText().toString();
-                            citySaved = Integer.parseInt(str_citySaved);
+                            citySaved = Double.valueOf(str_citySaved);
                             String str_highwaySaved = routeHighway.getText().toString();
-                            highwaySaved = Integer.parseInt(str_highwaySaved);
+                            highwaySaved = Double.valueOf(str_highwaySaved);
+
+                            if (citySaved == 0) {
+                                Toast.makeText(RouteActivity.this, "Please enter an positive city distance", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (highwaySaved == 0) {
+                                Toast.makeText(RouteActivity.this, "Please enter an positive highway distance", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Route newRoute = new Route(nameSaved, citySaved, highwaySaved);
+                                User.getInstance().getRouteList().addRoute(newRoute);
+                                populateRouteList();
+                                viewDialog.cancel();
+                            }
+                        }
+                    }
+
+                });
+
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        viewDialog.cancel();
+                    }
+                });
+
+                useButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(routeName.length() == 0){
+                            Toast.makeText(RouteActivity.this,
+                                    "Please enter a name",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else if (routeCity.length() == 0) {
+                            Toast.makeText(RouteActivity.this,
+                                    "Please enter the city distance",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else if(routeHighway.length() == 0){
+                            Toast.makeText(RouteActivity.this,
+                                    "Please enter the highway distance",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            nameSaved = routeName.getText().toString();
+                            String str_citySaved = routeCity.getText().toString();
+                            citySaved = Double.valueOf(str_citySaved);
+                            String str_highwaySaved = routeHighway.getText().toString();
+                            highwaySaved = Double.valueOf(str_highwaySaved);
 
                             if (citySaved == 0) {
                                 Toast.makeText(RouteActivity.this, "Please enter an positive city distance", Toast.LENGTH_SHORT).show();
@@ -108,26 +195,57 @@ public class RouteActivity extends AppCompatActivity {
                         }
 
 
+                        Route route = User.getInstance().getRouteList().getRoute(use_position);
 
+                        Log.i(TAG, "User selected route \"" + route.getRouteName() + "\"");
 
+                        // Set current Journey to use the selected route
+                        User.getInstance().setCurrentJourneyRoute(route);
 
+                        Journey journey = User.getInstance().getCurrentJourney();
+                        journey.setTotalDistance(citySaved + highwaySaved);
+                        //double emission = journey.calculateCarbonEmission();
+                        //journey.setCarbonEmitted(emission);
+
+                        Intent intent = new Intent(RouteActivity.this, CarbonFootprintActivity.class);
+                        startActivityForResult(intent,0);
                     }
-
                 });
-
-                cancelButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        viewDialog.cancel();
-                    }
-                });
-
             }
         });
     }
 
     private void registerClickCallback(){
         ListView listRoute = (ListView) findViewById(R.id.routeList);
+
+        listRoute.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                use_position = i;
+                // User has selected a route
+                Route route = User.getInstance().getRouteList().getRoute(i);
+
+                Log.i(TAG, "User selected route \"" + route.getRouteName() + "\"");
+
+                // Set current Journey to use the selected route
+                User.getInstance().setCurrentJourneyRoute(route);
+                //Journey journey = User.getInstance().getCurrentJourney();
+                //journey.setTotalDistance(citySaved + highwaySaved);
+                //journey.setCarbonEmitted();
+
+                Journey journey = User.getInstance().getCurrentJourney();
+                journey.setTotalDistance(citySaved + highwaySaved);
+
+                //double test = journey.getTotalDistance();
+                //double emission = journey.calculateCarbonEmission();
+                //journey.setCarbonEmitted(emission);
+
+
+                Intent intent = new Intent(RouteActivity.this, CarbonFootprintActivity.class);
+                startActivityForResult(intent,0);
+            }
+        });
+
         //edit + delete
         listRoute.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -168,9 +286,9 @@ public class RouteActivity extends AppCompatActivity {
 
                             String editNameSaved = editName.getText().toString();
                             String str_editCitySaved = editCity.getText().toString();
-                            int editCitySaved = Integer.parseInt(str_editCitySaved);
+                            double editCitySaved = Double.valueOf(str_editCitySaved);
                             String str_editHighwaySaved = editHighway.getText().toString();
-                            int editHighwaySaved = Integer.parseInt(str_editHighwaySaved);
+                            double editHighwaySaved = Double.valueOf(str_editHighwaySaved);
 
                             if (editCitySaved == 0) {
                                 Toast.makeText(RouteActivity.this, "Please enter an positive city distance", Toast.LENGTH_SHORT).show();
@@ -194,7 +312,7 @@ public class RouteActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         RouteList myRouteList = User.getInstance().getRouteList();
-                        Route hideRoute = myRouteList.getRoute(route_position);
+                        //Route hideRoute = myRouteList.getRoute(route_position);
                         myRouteList.removeRoute(route_position);
                         populateRouteList();
                         //myRouteList.addRoute(hideRoute);
@@ -211,6 +329,14 @@ public class RouteActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {
+            setResult(User.ACTIITY_FINISHED_REQUESTCODE);
+            finish();
+        }
     }
 }
 
