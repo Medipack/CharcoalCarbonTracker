@@ -239,7 +239,7 @@ public class RouteActivity extends AppCompatActivity {
                 //double test = journey.getTotalDistance();
                 //double emission = journey.calculateCarbonEmission();
                 //journey.setCarbonEmitted(emission);
-
+                User.getInstance().getCurrentJourney().setCarbonEmitted(User.getInstance().getCurrentJourney().calculateCarbonEmission());
 
                 Intent intent = new Intent(RouteActivity.this, JourneyEmissionActivity.class);
                 startActivityForResult(intent,0);

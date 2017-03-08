@@ -82,6 +82,9 @@ public class Journey {
     public void setCarbonEmitted(double carbonEmitted) {
         this.carbonEmitted = carbonEmitted;
     }
+    public void resetCarbonEmitted() {
+        this.carbonEmitted = calculateCarbonEmission();
+    }
 
     //needed for editing cars/routes=>alters journeys
     public Car getCar() {
