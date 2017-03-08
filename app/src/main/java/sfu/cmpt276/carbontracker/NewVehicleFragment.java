@@ -42,8 +42,6 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         // Create the view
         final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
 
-
-
         detailedCarList = new ArrayList<>();
 
         detailedCarArrayAdapter = new DetailedCarAdapter(getActivity());
@@ -69,6 +67,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.i(TAG, "Add button clicked");
+                car = detailedCarArrayAdapter.getSelectedCar();
                 EditText nickname = (EditText) view.findViewById(R.id.name);
                 car.setNickname(String.valueOf(nickname.getText()).trim());
                 User.getInstance().addCarToCarList(car);
@@ -166,7 +165,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
             // Fill the TextView
             final RadioButton selected = (RadioButton) itemView.findViewById(R.id.selectedRadioButton);
-            selected.setText(car.getLongDescription());
+            selected.setText(car.getTransmissionFuelTypeDescription());
 
             // Set the radiobutton
 
@@ -180,6 +179,10 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
         public void setSelectedIndex(int index){
             selectedIndex = index;
+        }
+
+        public Car getSelectedCar(){
+            return detailedCarList.get(selectedIndex);
         }
 
         @Override

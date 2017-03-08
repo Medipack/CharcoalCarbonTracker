@@ -63,7 +63,7 @@ public class Car {
 
     public Car(String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
         isActive = false;
-        this.nickname = DEFAULT_DESCRIPTION;
+        this.nickname = DEFAULT_NICKNAME;
         this.model = model;
         this.make = make;
         this.year = year;
@@ -91,12 +91,16 @@ public class Car {
 
     public String getLongDescription(){
         //todo add transmission type, fuel type, etc
-        String description = make + " " + model + " (" + year + ")";
+        String description =  getShortDecription() + " " + getTransmissionFuelTypeDescription();
 
         if(nickname == null || nickname.equals(DEFAULT_NICKNAME))
             return description;
         else
             return nickname + ": " + description;
+    }
+
+    public String getTransmissionFuelTypeDescription(){
+        return fuelType +  " (" + transmission + ")";
     }
 
     public String getNickname() {
