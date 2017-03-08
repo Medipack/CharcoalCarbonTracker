@@ -8,7 +8,7 @@
     android:paddingTop="16dp"
     android:paddingEnd="16dp"
     android:paddingBottom="16dp"
-    android:checked="false"
+
     android:focusable="false"
     android:clickable="false">
 </RadioButton>

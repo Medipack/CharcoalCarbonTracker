@@ -37,11 +37,12 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        registerListViewClickCallback();
 
         car = new Car();
         // Create the view
         final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
+
+
 
         detailedCarList = new ArrayList<>();
 
@@ -50,6 +51,17 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         ListView detailedCarListView = (ListView) view.findViewById(R.id.detailedCarList);
         detailedCarListView.setAdapter(detailedCarArrayAdapter);
 
+        detailedCarListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // User has selected a vehicle
+                detailedCarList.get(i);
+                Log.i(TAG, "User selected vehicle \"" + car.getNickname()
+                        + "\" " + car.getMake() + " " + car.getModel());
+                detailedCarArrayAdapter.setSelectedIndex(i);
+                detailedCarArrayAdapter.notifyDataSetChanged();
+            }
+        });
 
 
         // Add button listener
@@ -153,7 +165,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             Car car = detailedCarList.get(position);
 
             // Fill the TextView
-            RadioButton selected = (RadioButton) itemView.findViewById(R.id.selectedRadioButton);
+            final RadioButton selected = (RadioButton) itemView.findViewById(R.id.selectedRadioButton);
             selected.setText(car.getLongDescription());
 
             // Set the radiobutton
@@ -173,24 +185,9 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         @Override
         public void carListWasEdited() {
             Log.i(TAG, "Car List changed, updating listview");
+            selectedIndex = 0;
             notifyDataSetChanged();
         }
-    }
-
-    private void registerListViewClickCallback() {
-        ListView list = (ListView) NewVehicleFragment.this.getActivity().findViewById(R.id.carListView);
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // User has selected a vehicle
-                detailedCarList.get(i);
-                Log.i(TAG, "User selected vehicle \"" + car.getNickname()
-                        + "\" " + car.getMake() + " " + car.getModel());
-                detailedCarArrayAdapter.setSelectedIndex(i);
-                detailedCarArrayAdapter.notifyDataSetChanged();
-            }
-        });
     }
 
     @NonNull
