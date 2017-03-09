@@ -19,13 +19,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+/*Displays know routes, allows for adding, editing, deleting routes*/
 
 public class RouteActivity extends AppCompatActivity {
 
     private final String TAG = "RouteActivity";
     private int use_position;
-
 
     private String nameSaved;
     private double citySaved;
@@ -335,7 +334,6 @@ public class RouteActivity extends AppCompatActivity {
             }
         });
     }
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {
