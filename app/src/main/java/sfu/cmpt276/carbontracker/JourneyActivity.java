@@ -16,6 +16,7 @@ import com.github.mikephil.charting.listener.PieRadarChartTouchListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+/* Activity that displays carbon footprint in form of table of journeys or pie graph*/
 
 public class JourneyActivity extends AppCompatActivity {
     List JourneyList = User.getInstance().getJourneyList();
@@ -29,7 +30,6 @@ public class JourneyActivity extends AppCompatActivity {
         setupTable();
         setupPieButton();
     }
-
 
     private void setupTable() {
         TableLayout journeyTable = (TableLayout) findViewById(R.id.table);
