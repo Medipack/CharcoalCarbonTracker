@@ -2,6 +2,7 @@ package sfu.cmpt276.carbontracker;
 
 import android.content.res.Resources;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -14,7 +15,7 @@ interface CarListener {
     void carListWasEdited();
 }
 
-public class Car {
+public class Car implements Cloneable, Serializable{
     //Constants
     private static final String DEFAULT_NICKNAME = "";
     private static final String DEFAULT_DESCRIPTION = "N/A";
@@ -198,6 +199,10 @@ public class Car {
     double toLitres(double gallons){
         double litres = gallons/GAL_TO_LITRES;
         return litres;
+    }
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
 

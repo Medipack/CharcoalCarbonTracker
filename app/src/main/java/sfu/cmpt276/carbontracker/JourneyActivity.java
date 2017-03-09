@@ -47,25 +47,31 @@ public class JourneyActivity extends AppCompatActivity {
             String str_date = sdf.format(journey.getDate());
             //double distance = journey.getTotalDistance();
             double distance = journey.getRoute().getRouteDistanceCity() + journey.getRoute().getRouteDistanceHighway();
-            String str_distance = String.valueOf(distance);
+            String str_distance = String.format("%.2f", distance);
+            //String str_distance = String.valueOf(distance);
             //double emission = journey.getCarbonEmitted();
             double emission = journey.getCarbonEmitted();
-            String str_emission = String.valueOf(emission);
+            String str_emission = String.format("%.2f", emission);
 
             TextView textDate = new TextView(this);
-            textDate.setText(str_date + "  ");
+            textDate.setText(str_date + "     ");
+            textDate.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
             TextView textCar = new TextView(this);
-            textCar.setText(carName + "  ");
+            textCar.setText(carName + "     ");
+            textCar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
             TextView textRoute = new TextView(this);
-            textRoute.setText(routeName + "  ");
+            textRoute.setText(routeName + "     ");
+            textRoute.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
             TextView textDistance = new TextView(this);
-            textDistance.setText(str_distance + "  ");
+            textDistance.setText(str_distance + "     ");
+            textDistance.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
             TextView textEmission = new TextView(this);
-            textEmission.setText(str_emission + "  ");
+            textEmission.setText(str_emission + "     ");
+            textEmission.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
             TableRow row = new TableRow(this);
 
