@@ -98,6 +98,14 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             }
         };
 
+        // Delete button listener
+        DialogInterface.OnClickListener deleteListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                User.getInstance().removeCarFromCarList(editCarPosition);
+            }
+        };
+
         // Use button listener
         DialogInterface.OnClickListener useListener = new DialogInterface.OnClickListener() {
             @Override
@@ -178,6 +186,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             return new AlertDialog.Builder(getActivity())
                     .setTitle(title)
                     .setView(view)
+                    .setNeutralButton("DELETE", deleteListener)
                     .setPositiveButton("SAVE", addListener)
                     .setNegativeButton("CANCEL", cancelListener)
                     .create();
