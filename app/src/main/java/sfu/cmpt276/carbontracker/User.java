@@ -107,12 +107,35 @@ public class User {
         notifyListenerCarWasEdited();
     }
 
+    public void editRouteFromRouteList(int index, Route newRoute){
+        Route oldRoute = routeList.getRoute(index);
+        for(Journey journey : journeyList) {
+            if(journey.getRoute() == oldRoute)
+                journey.setRoute(newRoute);
+        }
+        routeList.editRoute(newRoute, index);
+        notifyListenerRouteWasEdited();
+    }
+
+
     public void addRouteToRouteList(Route route){
         routeList.addRoute(route);
         notifyListenerRouteWasEdited();
     }
 
     public void removeRouteFromRouteList(int index){
+        Route route = routeList.getRoute(index);
+        for(Journey journey : journeyList){
+            if(journey.getRoute() == route){
+                Route newRoute = new Route();
+                try{
+                    newRoute = (Route) route.clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                journey.setRoute(newRoute);
+            }
+        }
         routeList.removeRoute(index);
         notifyListenerRouteWasEdited();
     }

@@ -70,4 +70,9 @@ public class Route {
         }
         routeDistanceHighway = distanceH;
     }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }
