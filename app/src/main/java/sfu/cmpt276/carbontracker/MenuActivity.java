@@ -29,6 +29,7 @@ public class MenuActivity extends AppCompatActivity {
     private void setupNewJourneyBtn()
     {
         Button newJourneyBtn = (Button)findViewById(R.id.createJourneyBtn);
+        newJourneyBtn.setBackgroundResource(R.mipmap.menu1);
         newJourneyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

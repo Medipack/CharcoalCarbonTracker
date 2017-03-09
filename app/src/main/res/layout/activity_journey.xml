@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@mipmap/back7"
     tools:context="sfu.cmpt276.carbontracker.JourneyActivity">
     <Button
         android:text="Pie Graph"
@@ -36,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/date"
                 android:text="Car"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:layout_weight="1.0"
                 />
@@ -46,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pieButton"
                 android:text="Date"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:layout_weight="1.0"/>
 
@@ -54,6 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Route"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:layout_weight="1.0"/>
 
@@ -63,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/route"
                 android:text="Distance"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:layout_weight="1.0"/>
 
@@ -71,6 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Emission"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:layout_weight="1.0"/>
         </TableRow>

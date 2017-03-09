@@ -34,7 +34,6 @@ public class TransportationModeActivity extends AppCompatActivity {
         setUpCarListView();
         registerListViewClickCallback();
 
-        //addTestVehicleToArray();
         setupCarDirectory();
     }
 
@@ -116,6 +115,7 @@ public class TransportationModeActivity extends AppCompatActivity {
 
     private void setUpAddVehicleButton() {
         Button addVehicleButton = (Button) findViewById(R.id.addVehicleButton);
+        addVehicleButton.setBackgroundResource(R.mipmap.carrrr);
 
         addVehicleButton.setOnClickListener(new View.OnClickListener() {
             @Override
