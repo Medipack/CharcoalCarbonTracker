@@ -104,11 +104,11 @@ public class TransportationModeActivity extends AppCompatActivity {
         dialog.show(manager, "NewVehicleDialog");
     }
 
-    private void launchNewVehicleDialog(Car car){
+    private void launchNewVehicleDialog(int carPosition){
         FragmentManager manager = getSupportFragmentManager();
         NewVehicleFragment dialog = new NewVehicleFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("car", car);
+        bundle.putInt("car", carPosition);
         dialog.setArguments(bundle);
         dialog.show(manager, "NewVehicleDialog");
     }
@@ -134,8 +134,7 @@ public class TransportationModeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // User has selected a vehicle
                 Car car = User.getInstance().getCarList().get(i);
-                Log.i(TAG, "User selected vehicle \"" + car.getNickname()
-                            + "\" " + car.getMake() + " " + car.getModel());
+                Log.i(TAG, "User selected vehicle " + car.getShortDecription());
 
                 // Set current Journey to use the selected car
                 User.getInstance().setCurrentJourneyCar(car);
@@ -150,16 +149,9 @@ public class TransportationModeActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // User has long pressed to edit a vehicle
                 Car car = User.getInstance().getCarList().get(i);
-                Log.i(TAG, "User long pressed on a vehicle");
+                Log.i(TAG, "User long pressed on " + car.getShortDecription());
 
-                Toast.makeText(TransportationModeActivity.this,
-                        "Long pressed on " + car.getMake() + " " + car.getModel(),
-                        Toast.LENGTH_SHORT).show();
-
-                launchNewVehicleDialog(car);
-
-
-
+                launchNewVehicleDialog(i);
 
                 return true;
             }

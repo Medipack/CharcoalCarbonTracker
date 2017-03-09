@@ -27,12 +27,14 @@ import java.util.List;
 
 public class NewVehicleFragment extends AppCompatDialogFragment {
 
+    private final int DEFAULT_EDIT_CAR_POSITION = -1;
     private final String TAG = "NewVehicleDialog";
     private Car car;
     private List<Car> detailedCarList;
     private CarListener detailedCarListener;
 
     private boolean editing = false;
+    private int editCarPosition = DEFAULT_EDIT_CAR_POSITION;
 
     private DetailedCarAdapter detailedCarArrayAdapter;
 
@@ -41,6 +43,18 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         car = new Car();
+
+        if(getArguments() != null)
+            editCarPosition = getArguments().getInt("car", DEFAULT_EDIT_CAR_POSITION); // defaults to -1
+
+        if(editCarPosition != DEFAULT_EDIT_CAR_POSITION)
+        {
+            car = User.getInstance().getCarList().get(editCarPosition);
+            Log.i(TAG, "Editing car " + car.getShortDecription());
+            editing = true;
+        } else {
+            Log.i(TAG, "Not editing a car");
+        }
 
         // Create the view
         final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
@@ -69,12 +83,17 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         DialogInterface.OnClickListener addListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Log.i(TAG, "Add button clicked");
                 car = detailedCarArrayAdapter.getSelectedCar();
                 EditText nickname = (EditText) view.findViewById(R.id.name);
                 car.setNickname(String.valueOf(nickname.getText()).trim());
-                User.getInstance().addCarToCarList(car);
 
+                if(editing) {
+                    Log.i(TAG, "Save button clicked");
+                    User.getInstance().editCarFromCarList(editCarPosition, car);
+                } else {
+                    Log.i(TAG, "Add button clicked");
+                    User.getInstance().addCarToCarList(car);
+                }
             }
         };
 
@@ -154,21 +173,32 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         });
 
         if(editing){
-            //populateSpinner(transmissionDisplacement, getCarList(car.getMake(), car.getModel(), car.getYear()));
-            List<Car> carList = getCarList(car.getMake(), car.getModel(), String.valueOf(car.getYear()));
-            detailedCarList.clear();
-            detailedCarList.addAll(carList);
-            detailedCarListener.carListWasEdited();
+            // Build the dialog
+            final String title;
+            if(car.getNickname().equals(new Car().getNickname()))
+                title = "Edit Vehicle";
+            else
+                title = "Edit \"" + car.getNickname() +"\"";
+
+            return new AlertDialog.Builder(getActivity())
+                    .setTitle(title)
+                    .setView(view)
+                    .setPositiveButton("SAVE", addListener)
+                    .setNeutralButton("USE", useListener)
+                    .setNegativeButton("CANCEL", cancelListener)
+                    .create();
+        } else {
+            // Build the dialog
+            return new AlertDialog.Builder(getActivity())
+                    .setTitle("Add New Vehicle")
+                    .setView(view)
+                    .setPositiveButton("ADD", addListener)
+                    .setNeutralButton("USE", useListener)
+                    .setNegativeButton("CANCEL", cancelListener)
+                    .create();
         }
 
-        // Build the dialog
-        return new AlertDialog.Builder(getActivity())
-                .setTitle("Add New Vehicle")
-                .setView(view)
-                .setPositiveButton("ADD", addListener)
-                .setNeutralButton("USE", useListener)
-                .setNegativeButton("CANCEL", cancelListener)
-                .create();
+
 
     }
 
