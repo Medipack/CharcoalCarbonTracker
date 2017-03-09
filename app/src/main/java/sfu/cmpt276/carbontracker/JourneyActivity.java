@@ -33,6 +33,8 @@ public class JourneyActivity extends AppCompatActivity {
 
     private void setupTable() {
         TableLayout journeyTable = (TableLayout) findViewById(R.id.table);
+        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
+        lp.setMargins(0, 0, 0, 0);
 
         for (Journey journey : User.getInstance().getJourneyList()) {
 
@@ -55,31 +57,36 @@ public class JourneyActivity extends AppCompatActivity {
 
             TextView textDate = new TextView(this);
             textDate.setText(str_date + "     ");
-            textDate.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            textDate.setPadding(0,0,0,0);
+            //textDate.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
             TextView textCar = new TextView(this);
             textCar.setText(carName + "     ");
-            textCar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            textCar.setPadding(0,0,0,0);
+            //textCar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
             TextView textRoute = new TextView(this);
             textRoute.setText(routeName + "     ");
-            textRoute.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            textRoute.setPadding(0,0,0,0);
+            //textRoute.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
             TextView textDistance = new TextView(this);
             textDistance.setText(str_distance + "     ");
-            textDistance.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            textDistance.setPadding(0,0,0,0);
+            //textDistance.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
             TextView textEmission = new TextView(this);
             textEmission.setText(str_emission + "     ");
-            textEmission.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            textEmission.setPadding(0,0,0,0);
+            //metextEmission.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
             TableRow row = new TableRow(this);
 
-            row.addView(textDate);
-            row.addView(textCar);
-            row.addView(textRoute);
-            row.addView(textDistance);
-            row.addView(textEmission);
+            row.addView(textDate, lp);
+            row.addView(textCar, lp);
+            row.addView(textRoute, lp);
+            row.addView(textDistance, lp);
+            row.addView(textEmission, lp);
             journeyTable.addView(row);
         }
 
