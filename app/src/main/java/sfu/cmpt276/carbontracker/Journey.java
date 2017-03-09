@@ -45,7 +45,7 @@ public class Journey {
             co2 = DIESEL;
         else
             co2 = ELECTRIC;
-        return co2 * cityLitres + co2 * highwayLitres;
+        return Math.round(co2 * cityLitres + co2 * highwayLitres);
 
     }
 
