@@ -263,6 +263,11 @@ public class RouteActivity extends AppCompatActivity {
                 Button editDelete = (Button) editDialog.findViewById(R.id.editDelete);
                 Button editCancel = (Button) editDialog.findViewById(R.id.editCancel);
 
+                Route editRoute = User.getInstance().getRouteList().getRoute(position);
+                editName.setText(editRoute.getRouteName());
+                editCity.setText(Double.toString(editRoute.getRouteDistanceCity()));
+                editHighway.setText(Double.toString(editRoute.getRouteDistanceHighway()));
+
                 //edit route
                 editSave.setOnClickListener(new View.OnClickListener() {
                     @Override
