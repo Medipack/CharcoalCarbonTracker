@@ -3,7 +3,7 @@ package sfu.cmpt276.carbontracker;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -34,9 +34,11 @@ public class JourneyActivity extends AppCompatActivity {
     private void setupTable() {
         TableLayout journeyTable = (TableLayout) findViewById(R.id.table);
 
-        for (int i = 0; i < JourneyList.size(); i++) {
+        for (Journey journey : User.getInstance().getJourneyList()) {
+
+            Log.i("TABLETEST", journey.getRouteName());
+
             //Toast.makeText(this, "" + JourneyList.size(), Toast.LENGTH_SHORT).show();
-            Journey journey = (Journey) JourneyList.get(i);
             //Toast.makeText(this, "" + JourneyList.get(0), Toast.LENGTH_SHORT).show();
             String carName = journey.getCar().getNickname();
             String routeName = journey.getRouteName();
@@ -52,28 +54,18 @@ public class JourneyActivity extends AppCompatActivity {
 
             TextView textDate = new TextView(this);
             textDate.setText(str_date + "  ");
-            textDate.setGravity(Gravity.CENTER);
-            //textDate.setPadding(50, 50, 50, 50);
 
             TextView textCar = new TextView(this);
             textCar.setText(carName + "  ");
-            textDate.setGravity(Gravity.CENTER);
-            //textDate.setPadding(50, 50, 50, 50);
 
             TextView textRoute = new TextView(this);
             textRoute.setText(routeName + "  ");
-            textDate.setGravity(Gravity.CENTER);
-            //textDate.setPadding(50, 50, 50, 50);
 
             TextView textDistance = new TextView(this);
             textDistance.setText(str_distance + "  ");
-            textDate.setGravity(Gravity.CENTER);
-            //textDate.setPadding(50, 50, 50, 50);
 
             TextView textEmission = new TextView(this);
             textEmission.setText(str_emission + "  ");
-            textDate.setGravity(Gravity.CENTER);
-            //textDate.setPadding(50, 50, 50, 50);
 
             TableRow row = new TableRow(this);
 
@@ -83,8 +75,6 @@ public class JourneyActivity extends AppCompatActivity {
             row.addView(textDistance);
             row.addView(textEmission);
             journeyTable.addView(row);
-
-
         }
 
 

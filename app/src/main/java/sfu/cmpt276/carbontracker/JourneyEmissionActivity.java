@@ -38,7 +38,7 @@ public class JourneyEmissionActivity extends AppCompatActivity {
     }
 
     private void saveJourneyToList() {
-        User.getInstance().addJourney(User.getInstance().getCurrentJourney());
+        //User.getInstance().addJourney(User.getInstance().getCurrentJourney());
     }
 
     private void setupTextViews(){

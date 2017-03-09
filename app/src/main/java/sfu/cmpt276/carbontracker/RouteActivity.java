@@ -45,11 +45,6 @@ public class RouteActivity extends AppCompatActivity {
         registerClickCallback();
     }
 
-    private void addTestRoute(){
-        User user = User.getInstance();
-        user.getRouteList().addRoute(new Route("shopping", 6, 5));
-    }
-
     private class RouteListAdapter extends ArrayAdapter<Route> implements RouteListener{
 
         RouteListAdapter(Context context) {
@@ -156,6 +151,9 @@ public class RouteActivity extends AppCompatActivity {
                 });
 
                 useButton.setOnClickListener(new View.OnClickListener() {
+
+                    Route newRoute = new Route();
+
                     @Override
                     public void onClick(View v) {
                         if(routeName.length() == 0){
@@ -187,29 +185,28 @@ public class RouteActivity extends AppCompatActivity {
                                 Toast.makeText(RouteActivity.this, "Please enter an positive highway distance", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                Route newRoute = new Route(nameSaved, citySaved, highwaySaved);
-                                User.getInstance().getRouteList().addRoute(newRoute);
-                                populateRouteList();
+                                newRoute = new Route(nameSaved, citySaved, highwaySaved);
+                                User.getInstance().setCurrentJourneyRoute(newRoute);
+
+                                Log.i(TAG, "User selected route \"" + newRoute.getRouteName() + "\"");
+
+                                // Set current Journey to use the selected route
+                                User.getInstance().setCurrentJourneyRoute(newRoute);
+
+                                Journey journey = User.getInstance().getCurrentJourney();
+                                journey.setTotalDistance(citySaved + highwaySaved);
+                                //double emission = journey.calculateCarbonEmission();
+                                //journey.setCarbonEmitted(emission);
+                                User.getInstance().resetCurrentJourneyEmission();
+
+                                User.getInstance().addJourney(User.getInstance().getCurrentJourney());
+
+                                Intent intent = new Intent(RouteActivity.this, JourneyEmissionActivity.class);
+                                startActivityForResult(intent,0);
+
                                 viewDialog.cancel();
                             }
                         }
-
-
-                        Route route = User.getInstance().getRouteList().getRoute(use_position);
-
-                        Log.i(TAG, "User selected route \"" + route.getRouteName() + "\"");
-
-                        // Set current Journey to use the selected route
-                        User.getInstance().setCurrentJourneyRoute(route);
-
-                        Journey journey = User.getInstance().getCurrentJourney();
-                        journey.setTotalDistance(citySaved + highwaySaved);
-                        //double emission = journey.calculateCarbonEmission();
-                        //journey.setCarbonEmitted(emission);
-                        User.getInstance().resetCurrentJourneyEmission();
-
-                        Intent intent = new Intent(RouteActivity.this, JourneyEmissionActivity.class);
-                        startActivityForResult(intent,0);
                     }
                 });
             }
@@ -241,6 +238,9 @@ public class RouteActivity extends AppCompatActivity {
                 //double emission = journey.calculateCarbonEmission();
                 //journey.setCarbonEmitted(emission);
                 User.getInstance().resetCurrentJourneyEmission();
+
+                User.getInstance().addJourney(User.getInstance().getCurrentJourney());
+
                 Intent intent = new Intent(RouteActivity.this, JourneyEmissionActivity.class);
                 startActivityForResult(intent,0);
             }
