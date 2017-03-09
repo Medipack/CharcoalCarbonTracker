@@ -19,7 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+/*Displays know routes, allows for adding, editing, deleting routes*/
 
 public class RouteActivity extends AppCompatActivity {
 

@@ -7,7 +7,8 @@ import android.view.View;
 import android.widget.Button;
 
 import java.io.InputStream;
-
+/*  Menu Activity displays main menu
+* */
 public class MenuActivity extends AppCompatActivity {
 
     @Override
