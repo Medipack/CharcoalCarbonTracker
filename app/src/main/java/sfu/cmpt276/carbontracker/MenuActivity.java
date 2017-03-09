@@ -32,6 +32,7 @@ public class MenuActivity extends AppCompatActivity {
         newJourneyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                User.getInstance().createNewCurrentJourney();
                 Intent intent = new Intent(MenuActivity.this, TransportationModeActivity.class);
                 startActivity(intent);
             }
