@@ -27,14 +27,15 @@ public class PieGraphActivity extends AppCompatActivity {
         String emission[] = new String[journeyList.size()];
         List<PieEntry> pieEntries = new ArrayList<>();
 
+
         for(int i=0; i<journeyList.size();i++){
-            String carName = User.getInstance().getCarList().get(i).getNickname();
+            String car = User.getInstance().getJourneyList().get(i).getVehicleName();
+
             double emissionTemp = User.getInstance().getJourneyList().get(i).getCarbonEmitted();
             String str_emissionTemp = String.valueOf(emissionTemp);
             emission[i] = str_emissionTemp;
             float temp = Float.valueOf(emission[i]);
-            pieEntries.add(new PieEntry(temp, carName));
-
+            pieEntries.add(new PieEntry(temp, car));
         }
 
         PieDataSet dataSet = new PieDataSet(pieEntries, "emission");
