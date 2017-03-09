@@ -26,7 +26,6 @@ public class RouteActivity extends AppCompatActivity {
     private final String TAG = "RouteActivity";
     private int use_position;
 
-
     private String nameSaved;
     private double citySaved;
     private double highwaySaved;
@@ -335,7 +334,6 @@ public class RouteActivity extends AppCompatActivity {
             }
         });
     }
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {

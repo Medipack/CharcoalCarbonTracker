@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by jarinyah on 3/6/17.
+ * Class to hold Journey data and calculate carbon emission for journey. Journey is a combination of specific car, route, and date.
  */
 
 public class Journey {
