@@ -19,6 +19,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -166,8 +169,11 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             final String title;
             if(car.getNickname().equals(new Car().getNickname()))
                 title = "Edit Vehicle";
-            else
-                title = "Edit \"" + car.getNickname() +"\"";
+            else {
+                title = "Edit \"" + car.getNickname() + "\"";
+                TextView name = (TextView) view.findViewById(R.id.name);
+                name.setText(car.getNickname());
+            }
 
             return new AlertDialog.Builder(getActivity())
                     .setTitle(title)
