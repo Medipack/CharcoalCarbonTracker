@@ -11,7 +11,8 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/*  Displays Pie chart of journey emissions
+* */
 public class PieGraphActivity extends AppCompatActivity {
     List journeyList = User.getInstance().getJourneyList();
 

@@ -27,7 +27,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.IllegalFormatCodePointException;
 import java.util.List;
-
+/* Fragment for adding a new car to car list when creating a journey
+* */
 public class NewVehicleFragment extends AppCompatDialogFragment {
 
     private final int DEFAULT_EDIT_CAR_POSITION = -1;

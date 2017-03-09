@@ -3,7 +3,7 @@ package sfu.cmpt276.carbontracker;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
+/*Singleton class holding list of known cars, list of known routes, and list of known journeys*/
 public class User {
 
     public static final int ACTIITY_FINISHED_REQUESTCODE = 1000;
@@ -83,8 +83,10 @@ public class User {
     public void editCarFromCarList(int index, Car newCar){
         Car oldCar = carList.get(index);
         for(Journey journey : journeyList) {
-            if(journey.getCar() == oldCar)
+            if(journey.getCar() == oldCar) {
                 journey.setCar(newCar);
+                journey.resetCarbonEmitted();
+            }
         }
         carList.set(index, newCar);
         notifyListenerCarWasEdited();
@@ -101,11 +103,25 @@ public class User {
                     e.printStackTrace();
                 }
                 journey.setCar(newCar);
+                journey.resetCarbonEmitted();
             }
         }
         carList.remove(index);
         notifyListenerCarWasEdited();
     }
+
+    public void editRouteFromRouteList(int index, Route newRoute){
+        Route oldRoute = routeList.getRoute(index);
+        for(Journey journey : journeyList) {
+            if(journey.getRoute() == oldRoute) {
+                journey.setRoute(newRoute);
+                journey.resetCarbonEmitted();
+            }
+        }
+        routeList.editRoute(newRoute, index);
+        notifyListenerRouteWasEdited();
+    }
+
 
     public void addRouteToRouteList(Route route){
         routeList.addRoute(route);
@@ -113,6 +129,19 @@ public class User {
     }
 
     public void removeRouteFromRouteList(int index){
+        Route route = routeList.getRoute(index);
+        for(Journey journey : journeyList){
+            if(journey.getRoute() == route){
+                Route newRoute = new Route();
+                try{
+                    newRoute = (Route) route.clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                journey.setRoute(newRoute);
+                journey.resetCarbonEmitted();
+            }
+        }
         routeList.removeRoute(index);
         notifyListenerRouteWasEdited();
     }

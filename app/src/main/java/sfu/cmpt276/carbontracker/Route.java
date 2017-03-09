@@ -1,5 +1,5 @@
 package sfu.cmpt276.carbontracker;
-
+/*Class to hold route data*/
 interface RouteListener {
     void routeListWasEdited();
 }
@@ -69,5 +69,10 @@ public class Route {
 
         }
         routeDistanceHighway = distanceH;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

@@ -19,13 +19,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+/*Displays know routes, allows for adding, editing, deleting routes*/
 
 public class RouteActivity extends AppCompatActivity {
 
     private final String TAG = "RouteActivity";
     private int use_position;
-
 
     private String nameSaved;
     private double citySaved;
@@ -249,7 +248,7 @@ public class RouteActivity extends AppCompatActivity {
         //edit + delete
         listRoute.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 route_position = position;
                 final Dialog editDialog = new Dialog(RouteActivity.this);
                 editDialog.setContentView(R.layout.route_edit_delete_layout);
@@ -304,7 +303,7 @@ public class RouteActivity extends AppCompatActivity {
                             else {
 
                                 Route editRoute = new Route(editNameSaved, editCitySaved, editHighwaySaved);
-                                User.getInstance().getRouteList().editRoute(editRoute, route_position);
+                                User.getInstance().editRouteFromRouteList(position, editRoute);
                                 populateRouteList();
                                 editDialog.cancel();
                             }
@@ -318,7 +317,7 @@ public class RouteActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         RouteList myRouteList = User.getInstance().getRouteList();
                         //Route hideRoute = myRouteList.getRoute(route_position);
-                        myRouteList.removeRoute(route_position);
+                        User.getInstance().removeRouteFromRouteList(position);
                         populateRouteList();
                         //myRouteList.addRoute(hideRoute);
                         editDialog.cancel();
@@ -335,7 +334,6 @@ public class RouteActivity extends AppCompatActivity {
             }
         });
     }
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {

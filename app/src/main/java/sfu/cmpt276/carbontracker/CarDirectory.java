@@ -61,7 +61,6 @@ public class CarDirectory{
         return keys;
     }
 
-
     //Creates a list of each line read into program
     //Takes at LEAST three tokens: Make, Model and Year
     public List<String> getDataList(String[] token){

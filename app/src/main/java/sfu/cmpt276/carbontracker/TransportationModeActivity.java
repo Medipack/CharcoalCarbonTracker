@@ -21,7 +21,7 @@ import android.widget.Toast;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
+/*Displays list of vehicles, allows for adding, editing, deleting cars*/
 public class TransportationModeActivity extends AppCompatActivity {
 
     private final String TAG = "TransportationActivity";
@@ -44,7 +44,6 @@ public class TransportationModeActivity extends AppCompatActivity {
                         "raw", this.getPackageName()));
         user.setUpDirectory(inputStream);
     }
-
 
     private void addTestVehicleToArray() {
         User user = User.getInstance();
@@ -111,7 +110,6 @@ public class TransportationModeActivity extends AppCompatActivity {
         dialog.setArguments(bundle);
         dialog.show(manager, "NewVehicleDialog");
     }
-
 
     private void setUpAddVehicleButton() {
         Button addVehicleButton = (Button) findViewById(R.id.addVehicleButton);

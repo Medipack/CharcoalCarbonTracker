@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
+/*
+Main activity splash screen, displays welcome image and proceeds to main menu
+ */
 public class MainActivity extends AppCompatActivity {
     private static int welcomeTime = 6000;
     @Override
