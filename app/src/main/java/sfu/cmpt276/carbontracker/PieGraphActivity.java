@@ -26,15 +26,25 @@ public class PieGraphActivity extends AppCompatActivity {
     private void setupPieChart() {
         String emission[] = new String[journeyList.size()];
         List<PieEntry> pieEntries = new ArrayList<>();
-
-        for(int i=0; i<journeyList.size();i++){
-            String carName = User.getInstance().getCarList().get(i).getNickname();
-            double emissionTemp = User.getInstance().getJourneyList().get(i).getCarbonEmitted();
+        /*
+        for (int i = 0; i < journeyList.size(); i++) {
+            Journey journey = User.getInstance().getCurrentJourney();
+            double emissionTemp = journey.getCarbonEmitted();
             String str_emissionTemp = String.valueOf(emissionTemp);
             emission[i] = str_emissionTemp;
             float temp = Float.valueOf(emission[i]);
-            pieEntries.add(new PieEntry(temp, carName));
-
+            pieEntries.add(new PieEntry(temp));
+        }
+        */
+        for(int i=0; i<journeyList.size();i++){
+            //String carName = User.getInstance().getCarList().get(i).getNickname();
+            String routeName = User.getInstance().getRouteList().getRoute(i).getRouteName();
+            double emissionTemp = User.getInstance().getJourneyList().get(i).getCarbonEmitted();
+            //double emissionTemp = User.getInstance().getCurrentJourney().getCarbonEmitted();
+            String str_emissionTemp = String.valueOf(emissionTemp);
+            emission[i] = str_emissionTemp;
+            float temp = Float.valueOf(emission[i]);
+            pieEntries.add(new PieEntry(temp, routeName));
         }
 
         PieDataSet dataSet = new PieDataSet(pieEntries, "emission");
