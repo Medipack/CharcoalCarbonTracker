@@ -52,8 +52,6 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             car = User.getInstance().getCarList().get(editCarPosition);
             Log.i(TAG, "Editing car " + car.getShortDecription());
             editing = true;
-        } else {
-            Log.i(TAG, "Not editing a car");
         }
 
         // Create the view
@@ -79,7 +77,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         });
 
 
-        // Add button listener
+        // Add/Save button listener
         DialogInterface.OnClickListener addListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -136,10 +134,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 car.setMake(parent.getItemAtPosition(position).toString());
                 populateSpinner(modelSpinner, getModelList(car.getMake()), String.valueOf(car.getModel()));
             }
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         modelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -149,10 +144,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 car.setModel(parent.getItemAtPosition(position).toString());
                 populateSpinner(yearSpinner, getYearList(car.getMake(), car.getModel()), String.valueOf(car.getYear()));
             }
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
         yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -166,10 +158,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 detailedCarListener.carListWasEdited();
                 //transmissionDisplacement.setEnabled(true);
             }
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         if(editing){
@@ -184,7 +173,6 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                     .setTitle(title)
                     .setView(view)
                     .setPositiveButton("SAVE", addListener)
-                    .setNeutralButton("USE", useListener)
                     .setNegativeButton("CANCEL", cancelListener)
                     .create();
         } else {
@@ -197,9 +185,6 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                     .setNegativeButton("CANCEL", cancelListener)
                     .create();
         }
-
-
-
     }
 
     private class DetailedCarAdapter extends ArrayAdapter<Car> implements CarListener{
@@ -298,7 +283,4 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             spinner.setSelection(position);
         }
     }
-
-
-
 }
