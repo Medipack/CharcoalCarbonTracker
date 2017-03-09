@@ -34,6 +34,7 @@ public class PieGraphActivity extends AppCompatActivity {
             emission[i] = str_emissionTemp;
             float temp = Float.valueOf(emission[i]);
             pieEntries.add(new PieEntry(temp, carName));
+
         }
 
         PieDataSet dataSet = new PieDataSet(pieEntries, "emission");
