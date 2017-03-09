@@ -1,8 +1,4 @@
-package sfu.cmpt276.carbontracker;
-/*Class to hold route data*/
-interface RouteListener {
-    void routeListWasEdited();
-}
+package sfu.cmpt276.carbontracker.carbonmodel;
 
 public class Route {
     private boolean isActive;
@@ -72,7 +68,7 @@ public class Route {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 }

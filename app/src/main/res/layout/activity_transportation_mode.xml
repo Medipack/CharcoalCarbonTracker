@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@mipmap/background"
 
-    tools:context="sfu.cmpt276.carbontracker.TransportationModeActivity">
+    tools:context="sfu.cmpt276.carbontracker.ui.TransportationModeActivity">
 
     <ListView
         android:layout_width="match_parent"

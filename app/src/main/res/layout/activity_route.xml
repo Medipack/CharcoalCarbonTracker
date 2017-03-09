@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@mipmap/background"
-    tools:context="sfu.cmpt276.carbontracker.RouteActivity">
+    tools:context="sfu.cmpt276.carbontracker.ui.RouteActivity">
 
     <Button
         android:text="ADD A NEW ROUTE"

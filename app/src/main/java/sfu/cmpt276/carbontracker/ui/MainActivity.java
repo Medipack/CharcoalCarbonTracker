@@ -1,12 +1,13 @@
-package sfu.cmpt276.carbontracker;
+package sfu.cmpt276.carbontracker.ui;
 
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+
+import sfu.cmpt276.carbontracker.R;
+
 /*
 Main activity splash screen, displays welcome image and proceeds to main menu
  */

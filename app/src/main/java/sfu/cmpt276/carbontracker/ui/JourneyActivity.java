@@ -1,4 +1,4 @@
-package sfu.cmpt276.carbontracker;
+package sfu.cmpt276.carbontracker.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,13 +9,13 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.github.mikephil.charting.listener.PieRadarChartTouchListener;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+
+import sfu.cmpt276.carbontracker.R;
+import sfu.cmpt276.carbontracker.carbonmodel.User;
+import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 /* Activity that displays carbon footprint in form of table of journeys or pie graph*/
 
 public class JourneyActivity extends AppCompatActivity {

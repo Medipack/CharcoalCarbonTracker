@@ -8,27 +8,27 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuActivity" />
+        <activity android:name=".ui.MenuActivity" />
         <activity
-            android:name=".TransportationModeActivity"
+            android:name=".ui.TransportationModeActivity"
             android:label="@string/select_a_vehicle"
             android:exported="true">
         </activity>
 
-        <activity android:name=".JourneyEmissionActivity" />
-        <activity android:name=".CarbonFootprintActivity" />
+        <activity android:name=".ui.JourneyEmissionActivity" />
+        <activity android:name=".ui.CarbonFootprintActivity" />
         <activity
-            android:name=".RouteActivity"
+            android:name=".ui.RouteActivity"
             android:label="@string/select_a_route" />
-        <activity android:name=".JourneyActivity" />
-        <activity android:name=".PieGraphActivity"></activity>
+        <activity android:name=".ui.JourneyActivity" />
+        <activity android:name=".ui.PieGraphActivity"></activity>
     </application>
 
 </manifest>

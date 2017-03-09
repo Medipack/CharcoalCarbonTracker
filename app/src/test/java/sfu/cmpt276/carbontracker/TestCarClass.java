@@ -2,6 +2,8 @@ package sfu.cmpt276.carbontracker;
 
 import org.junit.Test;
 
+import sfu.cmpt276.carbontracker.carbonmodel.Car;
+
 import static org.junit.Assert.assertEquals;
 
 public class TestCarClass {
