@@ -52,6 +52,10 @@ public class User {
 
     // *** Current Journey *** //
 
+    public void createNewCurrentJourney(){
+        currentJourney = new Journey();
+    }
+
     public void setCurrentJourneyCar(Car car){
         currentJourney.setCar(car);
     }
