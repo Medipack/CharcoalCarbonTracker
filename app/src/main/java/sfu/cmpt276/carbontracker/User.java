@@ -83,8 +83,10 @@ public class User {
     public void editCarFromCarList(int index, Car newCar){
         Car oldCar = carList.get(index);
         for(Journey journey : journeyList) {
-            if(journey.getCar() == oldCar)
+            if(journey.getCar() == oldCar) {
                 journey.setCar(newCar);
+                journey.resetCarbonEmitted();
+            }
         }
         carList.set(index, newCar);
         notifyListenerCarWasEdited();
@@ -101,6 +103,7 @@ public class User {
                     e.printStackTrace();
                 }
                 journey.setCar(newCar);
+                journey.resetCarbonEmitted();
             }
         }
         carList.remove(index);
@@ -110,8 +113,10 @@ public class User {
     public void editRouteFromRouteList(int index, Route newRoute){
         Route oldRoute = routeList.getRoute(index);
         for(Journey journey : journeyList) {
-            if(journey.getRoute() == oldRoute)
+            if(journey.getRoute() == oldRoute) {
                 journey.setRoute(newRoute);
+                journey.resetCarbonEmitted();
+            }
         }
         routeList.editRoute(newRoute, index);
         notifyListenerRouteWasEdited();
@@ -134,6 +139,7 @@ public class User {
                     e.printStackTrace();
                 }
                 journey.setRoute(newRoute);
+                journey.resetCarbonEmitted();
             }
         }
         routeList.removeRoute(index);
