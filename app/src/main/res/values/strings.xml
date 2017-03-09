@@ -27,4 +27,8 @@
     <string name="date">Date</string>
     <string name="emission">Emissions</string>
     <string name="view_carbon_footprint">View Carbon Footprint</string>
+    <string name="jarinya_hochstrasser">Jarinya Hochstrasser</string>
+    <string name="calvin_chou">Calvin Chou</string>
+    <string name="tim_robertson">Tim Robertson</string>
+    <string name="xiangyi_li">Xiangyi Li</string>
 </resources>

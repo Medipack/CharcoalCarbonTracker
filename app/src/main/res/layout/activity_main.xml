@@ -43,7 +43,7 @@
         android:textSize="36sp" />
 
     <TextView
-        android:text="Jarinya Hochstrasser"
+        android:text="@string/jarinya_hochstrasser"
         android:textColor="#e78e4f"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
         android:textStyle="normal|italic" />
 
     <TextView
-        android:text="Calvin Chou"
+        android:text="@string/calvin_chou"
         android:textColor="#a5ce13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
         android:textStyle="normal|italic" />
 
     <TextView
-        android:text="Tim Robertson"
+        android:text="@string/tim_robertson"
         android:textColor="#14de79"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
         android:textStyle="normal|italic" />
 
     <TextView
-        android:text="Xiangyi Li"
+        android:text="@string/xiangyi_li"
         android:textColor="#20d5f1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
