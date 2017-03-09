@@ -3,6 +3,7 @@ package sfu.cmpt276.carbontracker;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -55,7 +56,6 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                         + "\" " + car.getMake() + " " + car.getModel());
                 detailedCarArrayAdapter.setSelectedIndex(i);
                 detailedCarArrayAdapter.notifyDataSetChanged();
-
             }
         });
 
@@ -70,6 +70,23 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 car.setNickname(String.valueOf(nickname.getText()).trim());
                 User.getInstance().addCarToCarList(car);
 
+            }
+        };
+
+        // Use button listener
+        DialogInterface.OnClickListener useListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.i(TAG, "Use button clicked");
+                car = detailedCarArrayAdapter.getSelectedCar();
+                EditText nickname = (EditText) view.findViewById(R.id.name);
+                car.setNickname(String.valueOf(nickname.getText()).trim());
+
+                // Set current Journey to use the selected car
+                User.getInstance().setCurrentJourneyCar(car);
+
+                Intent intent = new Intent(getActivity(), RouteActivity.class);
+                startActivityForResult(intent, 0);
             }
         };
 
@@ -137,6 +154,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 .setTitle("Add New Vehicle")
                 .setView(view)
                 .setPositiveButton("ADD", addListener)
+                .setNeutralButton("USE", useListener)
                 .setNegativeButton("CANCEL", cancelListener)
                 .create();
 
