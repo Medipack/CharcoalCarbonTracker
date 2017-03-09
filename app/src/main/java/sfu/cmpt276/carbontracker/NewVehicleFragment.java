@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 public class NewVehicleFragment extends AppCompatDialogFragment {
@@ -30,6 +32,8 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     private List<Car> detailedCarList;
     private CarListener detailedCarListener;
 
+    private boolean editing = false;
+
     private DetailedCarAdapter detailedCarArrayAdapter;
 
     @NonNull
@@ -37,6 +41,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         car = new Car();
+
         // Create the view
         final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
 
@@ -102,8 +107,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         final Spinner modelSpinner = (Spinner)view.findViewById(R.id.model);
         final Spinner yearSpinner = (Spinner)view.findViewById(R.id.year);
 
-
-        populateSpinner(makeSpinner, getMakeList());
+        populateSpinner(makeSpinner, getMakeList(), car.getMake());
 
         makeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -111,7 +115,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             {
 
                 car.setMake(parent.getItemAtPosition(position).toString());
-                populateSpinner(modelSpinner, getModelList(car.getMake()));
+                populateSpinner(modelSpinner, getModelList(car.getMake()), String.valueOf(car.getModel()));
             }
             public void onNothingSelected(AdapterView<?> parent)
             {
@@ -124,7 +128,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
                 car.setModel(parent.getItemAtPosition(position).toString());
-                populateSpinner(yearSpinner, getYearList(car.getMake(), car.getModel()));
+                populateSpinner(yearSpinner, getYearList(car.getMake(), car.getModel()), String.valueOf(car.getYear()));
             }
             public void onNothingSelected(AdapterView<?> parent)
             {
@@ -148,6 +152,14 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
             }
         });
+
+        if(editing){
+            //populateSpinner(transmissionDisplacement, getCarList(car.getMake(), car.getModel(), car.getYear()));
+            List<Car> carList = getCarList(car.getMake(), car.getModel(), String.valueOf(car.getYear()));
+            detailedCarList.clear();
+            detailedCarList.addAll(carList);
+            detailedCarListener.carListWasEdited();
+        }
 
         // Build the dialog
         return new AlertDialog.Builder(getActivity())
@@ -245,11 +257,16 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         return yearList;
     }
 
-    private void populateSpinner(Spinner spinner, List<String> list) {
+    private void populateSpinner(Spinner spinner, List<String> list, String compareValue) {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, list);
         spinner.setAdapter(adapter);
+        if(!compareValue.equals(null))
+        {
+            int position = adapter.getPosition(compareValue);
+            spinner.setSelection(position);
+        }
     }
 
 

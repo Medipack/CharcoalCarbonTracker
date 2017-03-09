@@ -104,6 +104,15 @@ public class TransportationModeActivity extends AppCompatActivity {
         dialog.show(manager, "NewVehicleDialog");
     }
 
+    private void launchNewVehicleDialog(Car car){
+        FragmentManager manager = getSupportFragmentManager();
+        NewVehicleFragment dialog = new NewVehicleFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("car", car);
+        dialog.setArguments(bundle);
+        dialog.show(manager, "NewVehicleDialog");
+    }
+
 
     private void setUpAddVehicleButton() {
         Button addVehicleButton = (Button) findViewById(R.id.addVehicleButton);
@@ -147,7 +156,11 @@ public class TransportationModeActivity extends AppCompatActivity {
                         "Long pressed on " + car.getMake() + " " + car.getModel(),
                         Toast.LENGTH_SHORT).show();
 
-                // todo edit selected vehicle
+                launchNewVehicleDialog(car);
+
+
+
+
                 return true;
             }
         });

@@ -81,6 +81,18 @@ public class User {
     }
 
     public void removeCarFromCarList(int index){
+        Car car = carList.get(index);
+        for(Journey journey : journeyList){
+            if(journey.getCar() == car){
+                Car newCar = new Car();
+                try{
+                    newCar = (Car) car.clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                journey.setCar(newCar);
+            }
+        }
         carList.remove(index);
         notifyListenerCarWasEdited();
     }
