@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.io.InputStream;
 import java.util.List;
 
@@ -40,6 +42,14 @@ public class TransportationModeActivity extends AppCompatActivity {
 
         //addTestVehicleToArray();
         setupCarDirectory();
+        
+        setupSelectModeTxt();
+    }
+
+    private void setupSelectModeTxt() {
+        TextView selectTxt = (TextView) findViewById(R.id.selectMode);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/Peter.ttf");
+        selectTxt.setTypeface(face);
     }
 
     private void setupCarDirectory() {
@@ -160,9 +170,11 @@ public class TransportationModeActivity extends AppCompatActivity {
         });
     }
 
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {
             finish();
         }
     }
+
 }

@@ -51,7 +51,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User.getInstance().createNewCurrentJourney();
-                Intent intent = new Intent(MenuActivity.this, SelectTransportationActivity.class);
+                Intent intent = new Intent(MenuActivity.this, TransportationModeActivity.class);
                 startActivity(intent);
             }
         });

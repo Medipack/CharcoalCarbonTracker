@@ -11,6 +11,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import sfu.cmpt276.carbontracker.R;
+import sfu.cmpt276.carbontracker.carbonmodel.User;
 
 public class SelectTransportationActivity extends AppCompatActivity {
 
@@ -40,4 +41,5 @@ public class SelectTransportationActivity extends AppCompatActivity {
             }
         });
     }
+
 }
