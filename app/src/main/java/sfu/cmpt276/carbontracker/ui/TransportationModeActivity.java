@@ -1,7 +1,8 @@
-package sfu.cmpt276.carbontracker;
+package sfu.cmpt276.carbontracker.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,13 +15,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
+
+import sfu.cmpt276.carbontracker.R;
+import sfu.cmpt276.carbontracker.carbonmodel.User;
+import sfu.cmpt276.carbontracker.carbonmodel.Car;
+import sfu.cmpt276.carbontracker.carbonmodel.CarListener;
+
 /*Displays list of vehicles, allows for adding, editing, deleting cars*/
 public class TransportationModeActivity extends AppCompatActivity {
 
@@ -36,6 +42,14 @@ public class TransportationModeActivity extends AppCompatActivity {
 
         //addTestVehicleToArray();
         setupCarDirectory();
+        
+        setupSelectModeTxt();
+    }
+
+    private void setupSelectModeTxt() {
+        TextView selectTxt = (TextView) findViewById(R.id.selectMode);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/Peter.ttf");
+        selectTxt.setTypeface(face);
     }
 
     private void setupCarDirectory() {
@@ -156,9 +170,11 @@ public class TransportationModeActivity extends AppCompatActivity {
         });
     }
 
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {
             finish();
         }
     }
+
 }

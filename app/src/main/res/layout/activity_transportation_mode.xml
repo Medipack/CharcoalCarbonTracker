@@ -4,24 +4,65 @@
     android:id="@+id/activity_transportation_mode"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/background"
+    android:background="@mipmap/backk6"
 
-    tools:context="sfu.cmpt276.carbontracker.TransportationModeActivity">
+    tools:context="sfu.cmpt276.carbontracker.ui.TransportationModeActivity">
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="380dp"
         android:id="@+id/carListView"
-        android:layout_marginBottom="?attr/actionBarSize"
 
-    />
+        />
 
     <Button
-        android:text="@string/add_vehicle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:background="@mipmap/car5"
+        android:layout_width="73dp"
+        android:layout_height="73dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="15dp"
         android:id="@+id/addVehicleButton" />
+
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignBottom="@+id/addVehicleButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="@mipmap/bike"
+        android:id="@+id/addBikeButton" />
+
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignBottom="@+id/addBikeButton"
+        android:layout_toEndOf="@+id/addBikeButton"
+        android:layout_marginStart="15dp"
+        android:background="@mipmap/bus"
+        android:id="@+id/addBusButton" />
+
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignBottom="@+id/addBusButton"
+        android:layout_toStartOf="@+id/addVehicleButton"
+        android:layout_marginEnd="15dp"
+        android:background="@mipmap/skytrain1"
+        android:id="@+id/addSkytrainButton" />
+
+    <TextView
+        android:text="Select Transportation Mode:"
+        android:textSize="18sp"
+        android:textColor="#0c742d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/carListView"
+        android:layout_alignStart="@+id/addBikeButton"
+        android:layout_marginTop="9dp"
+        android:id="@+id/selectMode" />
 
 </RelativeLayout>

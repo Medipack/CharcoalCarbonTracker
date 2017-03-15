@@ -1,6 +1,5 @@
-package sfu.cmpt276.carbontracker;
+package sfu.cmpt276.carbontracker.carbonmodel;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**

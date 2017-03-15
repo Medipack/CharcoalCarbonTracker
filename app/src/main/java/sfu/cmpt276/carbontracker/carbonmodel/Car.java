@@ -1,4 +1,4 @@
-package sfu.cmpt276.carbontracker;
+package sfu.cmpt276.carbontracker.carbonmodel;
 
 import android.content.res.Resources;
 
@@ -7,13 +7,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import static java.security.AccessController.getContext;
-
-/**
- * Class to hold profile data for cars
- */
-interface CarListener {
-    void carListWasEdited();
-}
 
 public class Car implements Cloneable, Serializable{
     //Constants
@@ -201,7 +194,7 @@ public class Car implements Cloneable, Serializable{
         return litres;
     }
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 }

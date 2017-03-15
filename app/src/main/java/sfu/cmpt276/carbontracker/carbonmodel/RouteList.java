@@ -1,7 +1,9 @@
-package sfu.cmpt276.carbontracker;
+package sfu.cmpt276.carbontracker.carbonmodel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import sfu.cmpt276.carbontracker.carbonmodel.Route;
 
 
 public class RouteList {

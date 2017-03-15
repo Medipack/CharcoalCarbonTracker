@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:background="@mipmap/back"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="sfu.cmpt276.carbontracker.MainActivity">
+    tools:context="sfu.cmpt276.carbontracker.ui.MainActivity">
 
     <ImageView
         android:layout_width="150dp"
@@ -33,60 +33,13 @@
 
     <TextView
         android:text="Carbon Tracker"
-        android:textColor="#9c9292"
+        android:textColor="#e67031"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/NameTitle"
-        android:textStyle="normal|bold|italic"
-        android:textSize="36sp" />
+        android:textStyle="normal|bold"
+        android:textSize="56sp" />
 
-    <TextView
-        android:text="@string/jarinya_hochstrasser"
-        android:textColor="#e78e4f"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/NameTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
-        android:id="@+id/name1"
-        android:textSize="18sp"
-        android:textStyle="normal|italic" />
-
-    <TextView
-        android:text="@string/calvin_chou"
-        android:textColor="#a5ce13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/name1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
-        android:id="@+id/name2"
-        android:textSize="18sp"
-        android:textStyle="normal|italic" />
-
-    <TextView
-        android:text="@string/tim_robertson"
-        android:textColor="#14de79"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/name2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:id="@+id/name3"
-        android:textSize="18sp"
-        android:textStyle="normal|italic" />
-
-    <TextView
-        android:text="@string/xiangyi_li"
-        android:textColor="#20d5f1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/name3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:id="@+id/name4"
-        android:textSize="18sp"
-        android:textStyle="normal|italic" />
 </RelativeLayout>

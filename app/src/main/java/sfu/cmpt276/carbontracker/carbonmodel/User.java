@@ -1,8 +1,9 @@
-package sfu.cmpt276.carbontracker;
+package sfu.cmpt276.carbontracker.carbonmodel;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 /*Singleton class holding list of known cars, list of known routes, and list of known journeys*/
 public class User {
 

@@ -8,8 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@mipmap/background"
-    tools:context="sfu.cmpt276.carbontracker.JourneyEmissionActivity">
+    android:background="@mipmap/backk9"
+    tools:context="sfu.cmpt276.carbontracker.ui.JourneyEmissionActivity">
 
     <TextView
         android:id="@+id/journeyTitleTxt"
@@ -18,22 +18,31 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:text="@string/journey_emissions"
-        android:textSize="30sp" />
+        android:textColor="#06509b"
+        android:textSize="24sp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:textStyle="normal|italic" />
 
     <Button
         android:id="@+id/journeyBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/journeyTitleTxt"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="10dp"
+
         android:layout_centerHorizontal="true"
-        android:text="@string/view_carbon_footprint"
+        android:background="@mipmap/co2"
+
         />
     <GridView
         android:id="@+id/journeyGRid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="2"
-        android:layout_below="@id/journeyBtn"
+        android:layout_below="@id/journeyTitleTxt"
         />
 
 </RelativeLayout>

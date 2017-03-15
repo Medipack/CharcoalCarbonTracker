@@ -1,11 +1,9 @@
-package sfu.cmpt276.carbontracker;
+package sfu.cmpt276.carbontracker.carbonmodel;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
+import sfu.cmpt276.carbontracker.carbonmodel.Car;
 
 /**
  * Class to keep a record of all the car data read from the CSV

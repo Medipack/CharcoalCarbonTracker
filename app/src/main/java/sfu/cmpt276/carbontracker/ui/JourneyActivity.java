@@ -1,4 +1,4 @@
-package sfu.cmpt276.carbontracker;
+package sfu.cmpt276.carbontracker.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,13 +9,13 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.github.mikephil.charting.listener.PieRadarChartTouchListener;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+
+import sfu.cmpt276.carbontracker.R;
+import sfu.cmpt276.carbontracker.carbonmodel.User;
+import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 /* Activity that displays carbon footprint in form of table of journeys or pie graph*/
 
 public class JourneyActivity extends AppCompatActivity {
@@ -50,23 +50,23 @@ public class JourneyActivity extends AppCompatActivity {
             String str_emission = String.format("%.2f", emission);
 
             TextView textDate = new TextView(this);
-            textDate.setText(str_date + "     ");
+            textDate.setText(str_date);
             textDate.setPadding(0,0,0,0);
 
             TextView textCar = new TextView(this);
-            textCar.setText(carName + "     ");
+            textCar.setText(carName);
             textCar.setPadding(0,0,0,0);
 
             TextView textRoute = new TextView(this);
-            textRoute.setText(routeName + "     ");
+            textRoute.setText(routeName);
             textRoute.setPadding(0,0,0,0);
 
             TextView textDistance = new TextView(this);
-            textDistance.setText(str_distance + "     ");
+            textDistance.setText(str_distance);
             textDistance.setPadding(0,0,0,0);
 
             TextView textEmission = new TextView(this);
-            textEmission.setText(str_emission + "     ");
+            textEmission.setText(str_emission);
             textEmission.setPadding(0,0,0,0);
 
             TableRow row = new TableRow(this);

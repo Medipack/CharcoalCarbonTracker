@@ -1,4 +1,4 @@
-package sfu.cmpt276.carbontracker;
+package sfu.cmpt276.carbontracker.ui;
 
 
 import android.app.Dialog;
@@ -18,6 +18,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import sfu.cmpt276.carbontracker.R;
+import sfu.cmpt276.carbontracker.carbonmodel.RouteList;
+import sfu.cmpt276.carbontracker.carbonmodel.RouteListener;
+import sfu.cmpt276.carbontracker.carbonmodel.User;
+import sfu.cmpt276.carbontracker.carbonmodel.Journey;
+import sfu.cmpt276.carbontracker.carbonmodel.Route;
 
 /*Displays know routes, allows for adding, editing, deleting routes*/
 
@@ -44,7 +51,7 @@ public class RouteActivity extends AppCompatActivity {
         registerClickCallback();
     }
 
-    private class RouteListAdapter extends ArrayAdapter<Route> implements RouteListener{
+    private class RouteListAdapter extends ArrayAdapter<Route> implements RouteListener {
 
         RouteListAdapter(Context context) {
             super(context, R.layout.route_item, User.getInstance().getRouteList().getRoutes());

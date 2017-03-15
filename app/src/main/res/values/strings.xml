@@ -36,4 +36,5 @@
     <string name="car">Car</string>
     <string name="route">Route</string>
     <string name="distance">Distance</string>
+    <string name="select_vehicle">Select Vehicle</string>
 </resources>

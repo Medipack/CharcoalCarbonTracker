@@ -1,12 +1,15 @@
-package sfu.cmpt276.carbontracker;
+package sfu.cmpt276.carbontracker.ui;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import sfu.cmpt276.carbontracker.R;
+
 /*
 Main activity splash screen, displays welcome image and proceeds to main menu
  */
@@ -17,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupCar();
+
+        setupWelcome();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -26,6 +31,14 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }, welcomeTime);
+    }
+
+    private void setupWelcome() {
+        TextView welcome = (TextView) findViewById(R.id.NameTitle);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/Cache.ttf");
+        welcome.setTypeface(face);
+
+
     }
 
     private void setupCar() {
