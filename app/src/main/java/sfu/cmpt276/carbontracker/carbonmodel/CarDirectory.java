@@ -81,7 +81,12 @@ public class CarDirectory{
         String transmission = token[4];
         int cityCO2 = Integer.valueOf(token[5]);
         int hwyCO2 = Integer.valueOf(token[6]);
-        double enginedisp = Double.valueOf(token[7]);
+        double enginedisp = 0;
+        try {
+            enginedisp = Double.valueOf(token[7]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            Log.i("MakeProfile", make + " " + model + " does not have engine displacement. Defaulting to 0");
+        }
         //make new Car class
         Car temp = new Car(make, model, year, fuelType, transmission, cityCO2, hwyCO2, enginedisp);
         return temp;
