@@ -10,14 +10,19 @@ public class Journey {
     private static final double GASOLINE = 2.34849; //kg of co2 per litre
     private static final double DIESEL = 2.6839881; //kg of co2 per litre
     private static final double ELECTRIC = 0; //kg of co2 per gallon
+    private static final double BUS = 0.089; //kg of co2 per KM of travel
+    private static final double WALK_BIKE = 0; //kg of co2 per KM of travel
+    private static final double SKYTRAIN = 0; //kg of co2 per KM of travel todo: verify skytrain emisisons
 
     private Car car;
     private Route route;
     private Date date;
     private double totalDistance;
     private double carbonEmitted;
+    private String transport_mode;
 
     Journey() {
+        transport_mode = "car";
         car = new Car(); //initializes car as new car with default values
         route = new Route(); //initializes route as a new route with default values
         date = new Date(); //sets date to current date
@@ -26,6 +31,7 @@ public class Journey {
     }
 
     Journey(Car car, Route route) {
+        transport_mode = "car";
         this.car = car;
         this.route = route;
         date = new Date(); //sets date as current date
@@ -35,16 +41,31 @@ public class Journey {
 
     public double calculateCarbonEmission() //returns kg of co2 for journey
     {
-        double cityLitres = route.getRouteDistanceCity() / car.getCityCO2(); //cityCO2 is in km per litre, so divide distance by this to get litres used
-        double highwayLitres = route.getRouteDistanceHighway() / car.getHwyCO2();
         double co2 = 0;
-        if (car.getFuelType().contains("Gasoline")) //checks for all gasoline types
-            co2 = GASOLINE;
-        else if (car.getFuelType().equals("Diesel"))
-            co2 = DIESEL;
-        else
-            co2 = ELECTRIC;
-        return Math.round(co2 * cityLitres + co2 * highwayLitres);
+        if(transport_mode.equals("car")) {
+            double cityLitres = route.getRouteDistanceCity() / car.getCityCO2(); //cityCO2 is in km per litre, so divide distance by this to get litres used
+            double highwayLitres = route.getRouteDistanceHighway() / car.getHwyCO2();
+            if (car.getFuelType().contains("Gasoline")) //checks for all gasoline types
+                co2 = GASOLINE;
+            else if (car.getFuelType().equals("Diesel"))
+                co2 = DIESEL;
+            else
+                co2 = ELECTRIC;
+            return Math.round(co2 * cityLitres + co2 * highwayLitres);
+        }
+        else if(transport_mode.equals("bus"))
+        {
+             co2 = totalDistance * BUS;
+        }
+        else if(transport_mode.equals("walk_bike"))
+        {
+             co2 = totalDistance * WALK_BIKE;
+        }
+        else if(transport_mode.equals("skytrain"))
+        {
+             co2 = totalDistance * SKYTRAIN;
+        }
+        return co2;
 
     }
 
