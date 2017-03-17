@@ -65,11 +65,11 @@ public class JourneyActivity extends AppCompatActivity {
             //find the journey
             Journey thisJourney = User.getInstance().getJourneyList().get(position);
             //Initialize TextViews
-            TextView date = (TextView) findViewById(R.id.viewDate);
-            TextView vehicle = (TextView) findViewById(R.id.viewVehicle);
-            TextView route = (TextView) findViewById(R.id.viewRoute);
-            TextView distance = (TextView) findViewById(R.id.viewDistance);
-            TextView emission = (TextView) findViewById(R.id.viewEmission);
+            TextView date = (TextView) journeyView.findViewById(R.id.viewDate);
+            TextView vehicle = (TextView) journeyView.findViewById(R.id.viewVehicle);
+            TextView route = (TextView) journeyView.findViewById(R.id.viewRoute);
+            TextView distance = (TextView) journeyView.findViewById(R.id.viewDistance);
+            TextView emission = (TextView) journeyView.findViewById(R.id.viewEmission);
             //fill the view
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
             String str_date = sdf.format(thisJourney.getDate());
@@ -78,9 +78,9 @@ public class JourneyActivity extends AppCompatActivity {
             vehicle.setText(nickname);
             String routeName = thisJourney.getRoute().getRouteName();
             route.setText(routeName);
-            String totalDistance = String.format("%d", thisJourney.getTotalDistance());
+            String totalDistance = Double.toString(thisJourney.getTotalDistance());
             distance.setText(totalDistance);
-            String totalEmissions = String.format("%d", thisJourney.getCarbonEmitted());
+            String totalEmissions = Double.toString(thisJourney.getCarbonEmitted());
             emission.setText(totalEmissions);
 
             return journeyView;
