@@ -37,7 +37,7 @@ public class JourneyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_journey);
         
         populateListView(JourneyList);
-        setupTable();
+        //setupTable();
         setupPieButton();
     }
 
@@ -63,21 +63,25 @@ public class JourneyActivity extends AppCompatActivity {
             }
             //populate the list
             //find the journey
-            Journey currentJourney = JourneyList.get(position);
+            Journey thisJourney = User.getInstance().getJourneyList().get(position);
             //Initialize TextViews
-            TextView date = (TextView) findViewById(R.id.listDate);
-            TextView vehicle = (TextView) findViewById(R.id.listVehicle);
-            TextView route = (TextView) findViewById(R.id.listRoute);
-            TextView distance = (TextView) findViewById(R.id.listDistance);
-            TextView emission = (TextView) findViewById(R.id.listEmission);
+            TextView date = (TextView) findViewById(R.id.viewDate);
+            TextView vehicle = (TextView) findViewById(R.id.viewVehicle);
+            TextView route = (TextView) findViewById(R.id.viewRoute);
+            TextView distance = (TextView) findViewById(R.id.viewDistance);
+            TextView emission = (TextView) findViewById(R.id.viewEmission);
             //fill the view
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-            String str_date = sdf.format(currentJourney.getDate());
+            String str_date = sdf.format(thisJourney.getDate());
             date.setText(str_date);
-            vehicle.setText(currentJourney.getVehicleName());
-            route.setText(currentJourney.getRouteName());
-            distance.setText(String.format("%d", currentJourney.getTotalDistance()));
-            emission.setText(String.format("%d", currentJourney.getCarbonEmitted()));
+            String nickname = thisJourney.getCar().getNickname();
+            vehicle.setText(nickname);
+            String routeName = thisJourney.getRoute().getRouteName();
+            route.setText(routeName);
+            String totalDistance = String.format("%d", thisJourney.getTotalDistance());
+            distance.setText(totalDistance);
+            String totalEmissions = String.format("%d", thisJourney.getCarbonEmitted());
+            emission.setText(totalEmissions);
 
             return journeyView;
         }
