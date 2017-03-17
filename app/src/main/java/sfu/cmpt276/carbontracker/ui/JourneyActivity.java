@@ -51,6 +51,16 @@ public class JourneyActivity extends AppCompatActivity {
                 Log.i(MY_APP, msg);
             }
         });
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Journey journey = JourneyList.get(position);
+                String msg = "This journey has been longClicked";
+                Toast.makeText(JourneyActivity.this, msg, Toast.LENGTH_SHORT).show();
+                Log.i(MY_APP, msg);
+                return true;
+            }
+        });
     }
 
     private void setupPieButton() {
