@@ -30,7 +30,6 @@ public class SelectTransportationActivity extends AppCompatActivity {
         test.setTypeface(face);
     }
 
-
     private void setupCarMode() {
         Button carButton = (Button) findViewById(R.id.carMode);
         carButton.setOnClickListener(new View.OnClickListener() {

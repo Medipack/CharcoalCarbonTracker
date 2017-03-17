@@ -56,50 +56,40 @@ public class Journey {
         return car.getNickname();
     }
 
-
-
     public Date getDate() {
         return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public double getTotalDistance() {
         return totalDistance;
     }
-
-    public void setTotalDistance(double totalDistance) {
-        this.totalDistance = totalDistance;
+    //needed for editing cars/routes=>alters journeys
+    public Car getCar() {
+        return car;
+    }
+    public Route getRoute() {
+        return route;
     }
 
     public double getCarbonEmitted() {
         return carbonEmitted;
     }
-
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    public void setTotalDistance(double totalDistance) {
+        this.totalDistance = totalDistance;
+    }
     public void setCarbonEmitted(double carbonEmitted) {
         this.carbonEmitted = carbonEmitted;
     }
     public void resetCarbonEmitted() {
         this.carbonEmitted = calculateCarbonEmission();
     }
-
-    //needed for editing cars/routes=>alters journeys
-    public Car getCar() {
-        return car;
-    }
-
     public void setCar(Car car) {
         this.car = car;
     }
-
-    public Route getRoute() {
-        return route;
-    }
-
     public void setRoute(Route route) {
         this.route = route;
     }
-
 }

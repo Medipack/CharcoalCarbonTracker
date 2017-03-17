@@ -35,8 +35,23 @@ public class Car implements Cloneable, Serializable{
         model = DEFAULT_DESCRIPTION;
         make = DEFAULT_DESCRIPTION;
         transmission = DEFAULT_DESCRIPTION;
+        fuelType = DEFAULT_DESCRIPTION;
         year = 0;
         cityCO2 = 0;
+        hwyCO2 = 0;
+        engineDispl = 0;
+    }
+
+    //Constructor for public modes of transportation
+    public Car(String nickname, double cityCO2){
+        isActive = false;
+        this.nickname = nickname;
+        model = DEFAULT_DESCRIPTION;
+        make = DEFAULT_DESCRIPTION;
+        transmission = DEFAULT_DESCRIPTION;
+        fuelType = DEFAULT_DESCRIPTION;
+        year = 0;
+        this.cityCO2 = cityCO2;
         hwyCO2 = 0;
         engineDispl = 0;
     }
