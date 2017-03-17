@@ -26,11 +26,22 @@ public class MenuActivity extends AppCompatActivity {
         setupMainDirectory();
         setupNewJourneyBtn();
         setupCarbonTotalsBtn();
-
-        setupCarbon();
+        setupCarbonTxt();
+        setupUtilityBtn();
     }
 
-    private void setupCarbon() {
+    private void setupUtilityBtn() {
+        Button utilityBtn = (Button)findViewById(R.id.createUtilityBtn);
+        utilityBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MenuActivity.this, UtilitiesActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setupCarbonTxt() {
         TextView carbon = (TextView) findViewById(R.id.carbon);
         Typeface face = Typeface.createFromAsset(getAssets(),"fonts/Super.ttf");
         carbon.setTypeface(face);

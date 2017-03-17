@@ -42,9 +42,11 @@ public class TransportationModeActivity extends AppCompatActivity {
 
         //addTestVehicleToArray();
         setupCarDirectory();
+        setupBike();
         
         setupSelectModeTxt();
     }
+
 
     private void setupSelectModeTxt() {
         TextView selectTxt = (TextView) findViewById(R.id.selectMode);
@@ -166,6 +168,17 @@ public class TransportationModeActivity extends AppCompatActivity {
                 launchNewVehicleDialog(i);
 
                 return true;
+            }
+        });
+    }
+
+    private void setupBike() {
+        Button bike = (Button) findViewById(R.id.addBikeButton);
+        bike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
+                startActivity(intent);
             }
         });
     }

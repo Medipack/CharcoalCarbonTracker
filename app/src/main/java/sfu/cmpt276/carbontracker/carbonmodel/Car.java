@@ -82,7 +82,7 @@ public class Car implements Cloneable, Serializable{
     }
 
     public String getShortDecription(){
-        String description = make + " " + model + " (" + year + ")";
+        String description = "\n" + make + "\n" + model + "\n" + year;
 
         if(nickname == null || nickname.equals(DEFAULT_NICKNAME))
             return description;

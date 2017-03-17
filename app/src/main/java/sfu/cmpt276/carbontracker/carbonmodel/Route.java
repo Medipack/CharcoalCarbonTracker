@@ -5,12 +5,16 @@ public class Route {
     private String routeName;
     private double routeDistanceCity;
     private double routeDistanceHighway;
+    //for new vehicle
+    private double routeDistance;
 
     public Route() {
         isActive = false;
         routeName = "";
         routeDistanceCity = 0;
         routeDistanceHighway = 0;
+        //for new vehicle
+        routeDistance = 0;
     }
 
     public Route(double distanceC, double distanceH) {
@@ -50,6 +54,11 @@ public class Route {
         return routeDistanceHighway;
     }
 
+    //for new vehicle
+    public double getRouteDistance() {
+        return routeDistance;
+    }
+
     //set the distance of city
     public void setRouteDistanceCity(double distanceC) {
         if (distanceC < 0) {
@@ -66,7 +75,6 @@ public class Route {
         }
         routeDistanceHighway = distanceH;
     }
-
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();

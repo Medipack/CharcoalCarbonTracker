@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.RouteList;
 import sfu.cmpt276.carbontracker.carbonmodel.RouteListener;
@@ -66,6 +68,7 @@ public class RouteActivity extends AppCompatActivity {
                 itemView = LayoutInflater.from(getContext()).inflate(R.layout.route_item, parent, false);
             }
             User user = User.getInstance();
+
             // Get the current car
             Route route = user.getRouteList().getRoute(position);
 
@@ -89,6 +92,18 @@ public class RouteActivity extends AppCompatActivity {
         ListView list = (ListView) findViewById(R.id.routeList);
         list.setAdapter(routeListAdapter);
     }
+
+    /*
+    private void populateBikeRouteList() {
+        ArrayAdapter<Route> routeListAdapter = new RouteListAdapter(RouteActivity.this);
+        User.getInstance().setRouteListener((RouteListener) routeListAdapter);
+        ListView bikeList = (ListView) findViewById(R.id.bikeRouteList);
+        bikeList.setAdapter(routeListAdapter);
+    }
+    */
+
+
+
 
     private void setupAddRoute() {
         Button addRoute = (Button)findViewById(R.id.addRoute);

@@ -37,8 +37,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/createJourneyBtn"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/carbon"
         android:textSize="30sp" />
+
+    <Button
+        android:background="@mipmap/gas"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="170dp"
+        android:id="@+id/createUtilityBtn" />
 
 </RelativeLayout>

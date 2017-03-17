@@ -19,11 +19,18 @@ public class User {
 
     private Journey currentJourney;
 
+    ///////////////////
+    private List<Gas>naturalGasList;
+    private Gas currentGas;
+
     private User(){
         carList = new ArrayList<>();
         routeList = new RouteList();
         currentJourney = new Journey();
         journeyList = new ArrayList<Journey>();
+        ////////////////////
+        currentGas = new Gas();
+        naturalGasList = new ArrayList<Gas>();
 
     }
 
@@ -73,6 +80,11 @@ public class User {
         return currentJourney;
     }
 
+    //////////////////
+    public Gas getCurrentGas(){
+        return currentGas;
+    }
+
 
     // *** Modify lists *** //
 
@@ -80,6 +92,15 @@ public class User {
         carList.add(car);
         notifyListenerCarWasEdited();
     }
+
+
+    ///////////////////////
+    public void addGasToGasList(Gas gas){
+        naturalGasList.add(gas);
+        notifyListenerCarWasEdited();
+    }
+
+
 
     public void editCarFromCarList(int index, Car newCar){
         Car oldCar = carList.get(index);
@@ -92,6 +113,7 @@ public class User {
         carList.set(index, newCar);
         notifyListenerCarWasEdited();
     }
+
 
     public void removeCarFromCarList(int index){
         Car car = carList.get(index);
@@ -154,7 +176,6 @@ public class User {
     public void addJourney(Journey journey){
         journeyList.add(journey);
     }
-
     // *** Directory *** //
 
     public void setUpDirectory(InputStream input){
@@ -188,4 +209,5 @@ public class User {
         else
             throw new ExceptionInInitializerError("No one is listening to car list");
     }
+
 }
