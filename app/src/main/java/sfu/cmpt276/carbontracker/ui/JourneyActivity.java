@@ -26,9 +26,20 @@ public class JourneyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journey);
+        setupPieButton();
         populateListView();
         registerJourneyListCallBack();
-        setupPieButton();
+    }
+
+    private void setupPieButton() {
+        Button pieButton = (Button) findViewById(R.id.pieButton);
+        pieButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(JourneyActivity.this, PieGraphActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void populateListView() {
@@ -41,16 +52,11 @@ public class JourneyActivity extends AppCompatActivity {
 
     private void registerJourneyListCallBack() {
         ListView list = (ListView) findViewById(R.id.listJourney);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Journey journey = JourneyList.get(position);
-                String msg = "You clicked a journey with: " + journey.getVehicleName() +
-                        " and " + journey.getRouteName();
-                Toast.makeText(JourneyActivity.this, msg, Toast.LENGTH_SHORT).show();
-                Log.i(MY_APP, msg);
-            }
-        });
+        registerListShortClick(list);
+        registerListLongClick(list);
+    }
+
+    private void registerListLongClick(ListView list) {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -63,13 +69,15 @@ public class JourneyActivity extends AppCompatActivity {
         });
     }
 
-    private void setupPieButton() {
-        Button pieButton = (Button) findViewById(R.id.pieButton);
-        pieButton.setOnClickListener(new View.OnClickListener() {
+    private void registerListShortClick(ListView list) {
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(JourneyActivity.this, PieGraphActivity.class);
-                startActivity(intent);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Journey journey = JourneyList.get(position);
+                String msg = "You clicked a journey with: " + journey.getVehicleName() +
+                        " and " + journey.getRouteName();
+                Toast.makeText(JourneyActivity.this, msg, Toast.LENGTH_SHORT).show();
+                Log.i(MY_APP, msg);
             }
         });
     }
