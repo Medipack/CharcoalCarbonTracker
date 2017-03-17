@@ -7,15 +7,20 @@ import java.util.Date;
  */
 
 public class Utility {
+
+    public static final double ELECTRICITY = 9000; //amount of CO2 per GWh
+    public static final double NATURAL_GAS = 56.1; //amount of CO2 per GJ
+
     private Date startDate;
     private Date endDate;
-    private double electricUsed;
-    private double naturalGasUsed;
-    private int numberOfPeople;
-    private int daysInPeriod;
-    private double averageKWhCurrent;
-    private double averageKWhPrevious;
-    private double meterReading;
+    private double electricUsed;     //in kWh
+    private double naturalGasUsed;  // in GJ
+    private int numberOfPeople;     //number of people in household
+    private int daysInPeriod;       //number of days in period based on start and end date
+    private double averageKWhCurrent;  //average daily electricity used current
+    private double averageKWhPrevious; //average daily electricity used previous year (same billing period)
+    private double averageGJCurrent;   //average daily gas used current
+    private double averageGJPrevious;  //average daily electricity used previous year (same billing period)
 
     Utility()
     {
@@ -27,7 +32,6 @@ public class Utility {
         daysInPeriod = 0;
         averageKWhCurrent = 0;
         averageKWhPrevious = 0;
-        meterReading = 0;
     }
 
     Utility(Date startDate, Date endDate, double electricUsed, double naturalGasUsed, int numberOfPeople, int daysInPeriod, double averageKWhCurrent, double averageKWhPrevious, double meterReading)
@@ -40,7 +44,6 @@ public class Utility {
         this.daysInPeriod = daysInPeriod;
         this.averageKWhCurrent = averageKWhCurrent;
         this.averageKWhPrevious = averageKWhPrevious;
-        this.meterReading = meterReading;
 
     }
 
@@ -108,11 +111,19 @@ public class Utility {
         this.averageKWhPrevious = averageKWhPrevious;
     }
 
-    public double getMeterReading() {
-        return meterReading;
+    public double getAverageGJCurrent() {
+        return averageGJCurrent;
     }
 
-    public void setMeterReading(double meterReading) {
-        this.meterReading = meterReading;
+    public void setAverageGJCurrent(double averageGJCurrent) {
+        this.averageGJCurrent = averageGJCurrent;
+    }
+
+    public double getAverageGJPrevious() {
+        return averageGJPrevious;
+    }
+
+    public void setAverageGJPrevious(double averageGJPrevious) {
+        this.averageGJPrevious = averageGJPrevious;
     }
 }
