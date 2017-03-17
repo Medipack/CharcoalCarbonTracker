@@ -16,10 +16,10 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 /**
  * a custom array adapter for the purposes of creating a multicolumn Listview
  */
-class MyListAdapter extends ArrayAdapter<Journey> {
+class JourneyListAdapter extends ArrayAdapter<Journey> {
     private JourneyActivity journeyActivity;
 
-    public MyListAdapter(JourneyActivity journeyActivity) {
+    public JourneyListAdapter(JourneyActivity journeyActivity) {
         super(journeyActivity, R.layout.journeys, journeyActivity.JourneyList);
         this.journeyActivity = journeyActivity;
     }

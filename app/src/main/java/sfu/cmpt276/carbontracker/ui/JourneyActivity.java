@@ -9,12 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
@@ -57,7 +53,7 @@ public class JourneyActivity extends AppCompatActivity {
     private void populateListView(List<Journey> journeyList) {
         //create list
         //Build adapter
-        ArrayAdapter<Journey> adapter = new MyListAdapter(this); // items to be displayed
+        ArrayAdapter<Journey> adapter = new JourneyListAdapter(this); // items to be displayed
         //configure items;
         ListView list = (ListView) findViewById(R.id.listJourney);
         list.setAdapter(adapter);
