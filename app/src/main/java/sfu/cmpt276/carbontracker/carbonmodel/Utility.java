@@ -11,12 +11,14 @@ public class Utility {
     public static final double ELECTRICITY = 9000; //amount of CO2 per GWh
     public static final double NATURAL_GAS = 56.1; //amount of CO2 per GJ
 
+    private String utility_type;
     private Date startDate;
     private Date endDate;
     private double electricUsed;     //in kWh
     private double naturalGasUsed;  // in GJ
     private int numberOfPeople;     //number of people in household
     private int daysInPeriod;       //number of days in period based on start and end date
+
     private double averageKWhCurrent;  //average daily electricity used current
     private double averageKWhPrevious; //average daily electricity used previous year (same billing period)
     private double averageGJCurrent;   //average daily gas used current
@@ -34,18 +36,30 @@ public class Utility {
         averageKWhPrevious = 0;
     }
 
-    Utility(Date startDate, Date endDate, double electricUsed, double naturalGasUsed, int numberOfPeople, int daysInPeriod, double averageKWhCurrent, double averageKWhPrevious, double meterReading)
+    Utility(String utility_type, Date startDate, Date endDate, double utilityUsed, int numberOfPeople, int daysInPeriod, double averageCurrent, double averagePrevious)
     {
+        this.utility_type = utility_type;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.electricUsed = electricUsed;
-        this.naturalGasUsed = naturalGasUsed;
         this.numberOfPeople = numberOfPeople;
         this.daysInPeriod = daysInPeriod;
-        this.averageKWhCurrent = averageKWhCurrent;
-        this.averageKWhPrevious = averageKWhPrevious;
+
+        if(utility_type.equals("electricity"))
+        {
+            this.electricUsed = utilityUsed;
+            this.averageKWhCurrent = averageCurrent;
+            this.averageKWhPrevious = averagePrevious;
+        }
+        else if(utility_type.equals("gas"))
+        {
+            this.naturalGasUsed = utilityUsed;
+            this.averageGJCurrent = averageCurrent;
+            this.averageGJPrevious = averagePrevious;
+        }
 
     }
+
+
 
     public Date getStartDate() {
         return startDate;
