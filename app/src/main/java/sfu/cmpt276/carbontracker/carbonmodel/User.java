@@ -155,6 +155,10 @@ public class User {
         journeyList.add(journey);
     }
 
+    public Journey getJourney(int position){
+        return journeyList.get(position);
+    }
+
     // *** Directory *** //
 
     public void setUpDirectory(InputStream input){

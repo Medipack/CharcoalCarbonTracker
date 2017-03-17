@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableRow android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TableRow>
+        <TextView
+            android:id="@+id/listDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_weight="1.0"
+            android:textStyle="normal|bold|italic" />
 
-    <TextView
-        android:id="@+id/listDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/pieButton"
-        android:textSize="16sp"
-        android:layout_weight="1.0"
-        android:textStyle="normal|bold|italic" />
+        <TextView
+            android:id="@+id/listVehicle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/listDate"
+            android:layout_weight="1.0"
+            android:textSize="16sp"
+            android:textStyle="normal|bold|italic" />
 
-    <TextView
-        android:id="@+id/listVehicle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/listDate"
-        android:layout_weight="1.0"
-        android:textSize="16sp"
-        android:textStyle="normal|bold|italic" />
+        <TextView
+            android:id="@+id/listRoute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_weight="1.0"
+            android:textStyle="normal|bold|italic" />
 
-    <TextView
-        android:id="@+id/listRoute"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_weight="1.0"
-        android:textStyle="normal|bold|italic" />
+        <TextView
+            android:id="@+id/listDistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/listRoute"
+            android:layout_weight="1.0"
+            android:textSize="16sp"
+            android:textStyle="normal|bold|italic" />
 
-    <TextView
-        android:id="@+id/listDistance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/listRoute"
-        android:layout_weight="1.0"
-        android:textSize="16sp"
-        android:textStyle="normal|bold|italic" />
-
-    <TextView
-        android:id="@+id/listEmission"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.0"
-        android:textSize="16sp"
-        android:textStyle="normal|bold|italic" />
-</TableRow>
+        <TextView
+            android:id="@+id/listEmission"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:textSize="16sp"
+            android:textStyle="normal|bold|italic" />
+    </TableRow>
+</RelativeLayout>

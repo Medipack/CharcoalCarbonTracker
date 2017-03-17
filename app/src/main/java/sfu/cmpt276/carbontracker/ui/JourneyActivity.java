@@ -1,10 +1,13 @@
 package sfu.cmpt276.carbontracker.ui;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -25,7 +28,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 // ListView: {views: journeys.xml}
 
 public class JourneyActivity extends AppCompatActivity {
-    List JourneyList = User.getInstance().getJourneyList();
+    List<Journey> JourneyList = User.getInstance().getJourneyList();
     //Journey journey = User.getInstance().getCurrentJourney();
 
     @Override
@@ -41,12 +44,43 @@ public class JourneyActivity extends AppCompatActivity {
     private void populateListView(List<Journey> journeyList) {
         //create list
         //Build adapter
-        ArrayAdapter<Journey> adapter = new ArrayAdapter<Journey>(
-                this, //context
-                R.layout.journeys, //Layout to use
-                journeyList); // items to be displayed
+        ArrayAdapter<Journey> adapter = new MyListAdapter(); // items to be displayed
         //configure items;
         ListView list = (ListView) findViewById(R.id.listJourney);
+        list.setAdapter(adapter);
+    }
+
+    private class MyListAdapter extends ArrayAdapter<Journey> {
+        public MyListAdapter() {
+            super(JourneyActivity.this, R.layout.journeys, JourneyList);
+        }
+
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            View journeyView = convertView;
+            if(journeyView == null){
+                journeyView = getLayoutInflater().inflate(R.layout.journeys, parent, false);
+            }
+            //populate the list
+            //find the journey
+            Journey currentJourney = JourneyList.get(position);
+            //Initialize TextViews
+            TextView date = (TextView) findViewById(R.id.listDate);
+            TextView vehicle = (TextView) findViewById(R.id.listVehicle);
+            TextView route = (TextView) findViewById(R.id.listRoute);
+            TextView distance = (TextView) findViewById(R.id.listDistance);
+            TextView emission = (TextView) findViewById(R.id.listEmission);
+            //fill the view
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+            String str_date = sdf.format(currentJourney.getDate());
+            date.setText(str_date);
+            vehicle.setText(currentJourney.getVehicleName());
+            route.setText(currentJourney.getRouteName());
+            distance.setText(String.format("%d", currentJourney.getTotalDistance()));
+            emission.setText(String.format("%d", currentJourney.getCarbonEmitted()));
+
+            return journeyView;
+        }
     }
 
     private void setupTable() {
