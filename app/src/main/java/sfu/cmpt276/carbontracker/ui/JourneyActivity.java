@@ -18,22 +18,25 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 /* Activity that displays carbon footprint in form of table of journeys or pie graph*/
 
-//Array of options --> Array Adapter --> ListView
-
-// ListView: {views: journeys.xml}
-
 public class JourneyActivity extends AppCompatActivity {
     public static final String MY_APP = "MyApp";
     List<Journey> JourneyList = User.getInstance().getJourneyList();
-    //Journey journey = User.getInstance().getCurrentJourney();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journey);
-        populateListView(JourneyList);
+        populateListView();
         registerJourneyListCallBack();
         setupPieButton();
+    }
+
+    private void populateListView() {
+        //Build adapter
+        ArrayAdapter<Journey> adapter = new JourneyListAdapter(this);
+        //Configure items;
+        ListView list = (ListView) findViewById(R.id.listJourney);
+        list.setAdapter(adapter);
     }
 
     private void registerJourneyListCallBack() {
@@ -48,15 +51,6 @@ public class JourneyActivity extends AppCompatActivity {
                 Log.i(MY_APP, msg);
             }
         });
-    }
-
-    private void populateListView(List<Journey> journeyList) {
-        //create list
-        //Build adapter
-        ArrayAdapter<Journey> adapter = new JourneyListAdapter(this); // items to be displayed
-        //configure items;
-        ListView list = (ListView) findViewById(R.id.listJourney);
-        list.setAdapter(adapter);
     }
 
     private void setupPieButton() {

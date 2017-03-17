@@ -14,7 +14,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 
 /**
- * a custom array adapter for the purposes of creating a multicolumn Listview
+ * A custom array adapter for the purposes of creating a multicolumn Listview
  */
 class JourneyListAdapter extends ArrayAdapter<Journey> {
     private JourneyActivity journeyActivity;
@@ -30,8 +30,7 @@ class JourneyListAdapter extends ArrayAdapter<Journey> {
         if (journeyView == null) {
             journeyView = journeyActivity.getLayoutInflater().inflate(R.layout.journeys, parent, false);
         }
-        //populate the list
-        //find the journey
+        //Find the journey
         Journey thisJourney = User.getInstance().getJourneyList().get(position);
         //Initialize TextViews
         TextView date = (TextView) journeyView.findViewById(R.id.viewDate);
@@ -39,16 +38,21 @@ class JourneyListAdapter extends ArrayAdapter<Journey> {
         TextView route = (TextView) journeyView.findViewById(R.id.viewRoute);
         TextView distance = (TextView) journeyView.findViewById(R.id.viewDistance);
         TextView emission = (TextView) journeyView.findViewById(R.id.viewEmission);
-        //fill the view
+        //Fill the view
+        //Date
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
         String str_date = sdf.format(thisJourney.getDate());
         date.setText(str_date);
+        //Nickname
         String nickname = thisJourney.getCar().getNickname();
         vehicle.setText(nickname);
+        //Route
         String routeName = thisJourney.getRoute().getRouteName();
         route.setText(routeName);
+        //Distance
         String totalDistance = Double.toString(thisJourney.getTotalDistance());
         distance.setText(totalDistance);
+        //Emissions
         String totalEmissions = Double.toString(thisJourney.getCarbonEmitted());
         emission.setText(totalEmissions);
 
