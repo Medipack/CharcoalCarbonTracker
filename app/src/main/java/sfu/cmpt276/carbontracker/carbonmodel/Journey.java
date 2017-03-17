@@ -42,8 +42,10 @@ public class Journey {
             co2 = GASOLINE;
         else if (car.getFuelType().equals("Diesel"))
             co2 = DIESEL;
-        else
+        else if (car.getFuelType().equals("Electric"))
             co2 = ELECTRIC;
+        else
+            co2 = car.getCityCO2();
         return Math.round(co2 * cityLitres + co2 * highwayLitres);
 
     }

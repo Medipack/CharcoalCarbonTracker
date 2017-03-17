@@ -84,7 +84,7 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User user = User.getInstance();
-                Car bus = new Car("Bus", 89);
+                Car bus = new Car("Bus", 89, 89);
                 user.setCurrentJourneyCar(bus);
                 Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
                 startActivityForResult(intent, 0);
