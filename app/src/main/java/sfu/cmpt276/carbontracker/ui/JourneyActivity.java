@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -18,6 +20,10 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 /* Activity that displays carbon footprint in form of table of journeys or pie graph*/
 
+//Array of options --> Array Adapter --> ListView
+
+// ListView: {views: journeys.xml}
+
 public class JourneyActivity extends AppCompatActivity {
     List JourneyList = User.getInstance().getJourneyList();
     //Journey journey = User.getInstance().getCurrentJourney();
@@ -26,9 +32,21 @@ public class JourneyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journey);
-
+        
+        populateListView(JourneyList);
         setupTable();
         setupPieButton();
+    }
+
+    private void populateListView(List<Journey> journeyList) {
+        //create list
+        //Build adapter
+        ArrayAdapter<Journey> adapter = new ArrayAdapter<Journey>(
+                this, //context
+                R.layout.journeys, //Layout to use
+                journeyList); // items to be displayed
+        //configure items;
+        ListView list = (ListView) findViewById(R.id.listJourney);
     }
 
     private void setupTable() {
