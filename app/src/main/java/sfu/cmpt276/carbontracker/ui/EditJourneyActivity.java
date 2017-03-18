@@ -192,7 +192,9 @@ public class EditJourneyActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         routeSpin.setAdapter(adapter);
         if(index >= 0){
-            routeSpin.setSelection(index);
+            Route originalRoute = User.getInstance().getJourney(index).getRoute();
+            int routeIndex = routeList.getRoutes().indexOf(originalRoute);
+            routeSpin.setSelection(routeIndex);
         }
     }
 
