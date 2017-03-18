@@ -26,6 +26,7 @@ import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Car;
 import sfu.cmpt276.carbontracker.carbonmodel.CarListener;
+import sfu.cmpt276.carbontracker.ui.database.CarDataSource;
 
 /*Displays list of vehicles, allows for adding, editing, deleting cars*/
 public class TransportationModeActivity extends AppCompatActivity {
@@ -36,14 +37,32 @@ public class TransportationModeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transportation_mode);
+
         setUpAddVehicleButton();
         setUpCarListView();
         registerListViewClickCallback();
 
-        //addTestVehicleToArray();
         setupCarDirectory();
         
         setupSelectModeTxt();
+
+        populateCarListFromDatabase();
+    }
+
+    private void populateCarListFromDatabase() {
+        // Check if car list already populated from database
+        // This prevents duplicate entries from re-opening this activity
+        if(!User.getInstance().isCarListPopulatedFromDatabase()){
+            CarDataSource carDataSource = new CarDataSource(this);
+            carDataSource.open();
+
+            List<Car> cars = carDataSource.getAllCars();
+            User user = User.getInstance();
+            for(Car car : cars) {
+                user.addCarToCarList(car);
+            }
+            User.getInstance().setCarListPopulatedFromDatabase();
+        }
     }
 
     private void setupSelectModeTxt() {
@@ -58,16 +77,6 @@ public class TransportationModeActivity extends AppCompatActivity {
                 getResources().getIdentifier("vehicles",
                         "raw", this.getPackageName()));
         user.setUpDirectory(inputStream);
-    }
-
-    private void addTestVehicleToArray() {
-        User user = User.getInstance();
-
-        List<Car> carArrayList = user.getCarList();
-
-        carArrayList.add(new Car("My fav car", "Lamborghini", "Diablo", 1999));
-        carArrayList.add(new Car("The fun car", "Porsche", "911", 2017));
-        carArrayList.add(new Car("The Ancient One", "Honda", "Civic", 1985));
     }
 
     private class CarListAdapter extends ArrayAdapter<Car> implements CarListener {

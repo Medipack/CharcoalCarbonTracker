@@ -19,6 +19,8 @@ public class User {
 
     private Journey currentJourney;
 
+    private boolean carListPopulatedFromDatabase = false;
+
     private User(){
         carList = new ArrayList<>();
         routeList = new RouteList();
@@ -186,5 +188,15 @@ public class User {
             carListener.carListWasEdited();
         else
             throw new ExceptionInInitializerError("No one is listening to car list");
+    }
+
+    // *** Database *** //
+
+    public boolean isCarListPopulatedFromDatabase() {
+        return carListPopulatedFromDatabase;
+    }
+
+    public void setCarListPopulatedFromDatabase() {
+        carListPopulatedFromDatabase = true;
     }
 }

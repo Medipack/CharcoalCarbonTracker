@@ -29,6 +29,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Car;
 import sfu.cmpt276.carbontracker.carbonmodel.CarDirectory;
 import sfu.cmpt276.carbontracker.carbonmodel.CarListener;
+import sfu.cmpt276.carbontracker.ui.database.CarDataSource;
 
 /* Fragment for adding a new car to car list when creating a journey
 * */
@@ -93,11 +94,10 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 car.setNickname(String.valueOf(nickname.getText()).trim());
 
                 if(editing) {
-                    Log.i(TAG, "Save button clicked");
-                    User.getInstance().editCarFromCarList(editCarPosition, car);
+                    editExistingCar(editCarPosition, car);
+
                 } else {
-                    Log.i(TAG, "Add button clicked");
-                    User.getInstance().addCarToCarList(car);
+                    addNewCar(car);
                 }
             }
         };
@@ -204,6 +204,23 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                     .setNegativeButton("CANCEL", cancelListener)
                     .create();
         }
+    }
+
+    private void editExistingCar(int editCarPosition, Car car) {
+        Log.i(TAG, "Save button clicked");
+        User.getInstance().editCarFromCarList(editCarPosition, car);
+        //todo change in db
+    }
+
+    private void addNewCar(Car car) {
+        Log.i(TAG, "Add button clicked");
+        CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
+        db.open();
+        // insert car adds an id to newCar
+        Car newCar = db.insertCar(car);
+        // add updated car to the list
+        User.getInstance().addCarToCarList(newCar);
+        db.close();
     }
 
     private class DetailedCarAdapter extends ArrayAdapter<Car> implements CarListener{
