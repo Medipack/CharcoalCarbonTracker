@@ -75,6 +75,10 @@ public class User {
     }
 
 
+    public Car getCarFromCarList(int index) {
+        return carList.get(index);
+    }
+
     // *** Modify lists *** //
 
     public void addCarToCarList(Car car){
@@ -94,8 +98,7 @@ public class User {
         notifyListenerCarWasEdited();
     }
 
-    public void removeCarFromCarList(int index){
-        Car car = carList.get(index);
+    public void removeCarFromCarList(Car car){
         for(Journey journey : journeyList){
             if(journey.getCar() == car){
                 Car newCar = new Car();
@@ -108,7 +111,7 @@ public class User {
                 journey.resetCarbonEmitted();
             }
         }
-        carList.remove(index);
+        carList.remove(car);
         notifyListenerCarWasEdited();
     }
 

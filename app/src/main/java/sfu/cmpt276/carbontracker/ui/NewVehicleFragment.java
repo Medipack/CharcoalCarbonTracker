@@ -106,7 +106,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         DialogInterface.OnClickListener deleteListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                User.getInstance().removeCarFromCarList(editCarPosition);
+                deleteCar(editCarPosition);
             }
         };
 
@@ -206,21 +206,43 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         }
     }
 
+    private void deleteCar(int editCarPosition) {
+        Log.i(TAG, "Delete button clicked");
+
+        Car carToDelete = User.getInstance().getCarFromCarList(editCarPosition);
+
+        CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
+        db.open();
+        db.deleteCar(carToDelete);
+        db.close();
+
+        User.getInstance().removeCarFromCarList(carToDelete);
+    }
+
     private void editExistingCar(int editCarPosition, Car car) {
-        Log.i(TAG, "Save button clicked");
-        User.getInstance().editCarFromCarList(editCarPosition, car);
-        //todo change in db
+        Log.i(TAG, "Save edit button clicked");
+        // Pass old car id to the new car
+        int oldCarId = User.getInstance().getCarList().get(editCarPosition).getId();
+        car.setId(oldCarId);
+
+        CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
+        db.open();
+        db.deleteCar(car); // deletes existing car with same id
+        Car newCar = db.insertCar(car); // adds this new car in its place
+        db.close();
+
+        User.getInstance().editCarFromCarList(editCarPosition, newCar);
     }
 
     private void addNewCar(Car car) {
         Log.i(TAG, "Add button clicked");
+
         CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
         db.open();
-        // insert car adds an id to newCar
         Car newCar = db.insertCar(car);
-        // add updated car to the list
-        User.getInstance().addCarToCarList(newCar);
         db.close();
+
+        User.getInstance().addCarToCarList(newCar);
     }
 
     private class DetailedCarAdapter extends ArrayAdapter<Car> implements CarListener{
