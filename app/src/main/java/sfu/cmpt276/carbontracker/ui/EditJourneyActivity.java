@@ -15,6 +15,7 @@ public class EditJourneyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_journey);
 
         setupSelectModeTxt();
+        setUpSpinner();
 
 
 
@@ -24,5 +25,8 @@ public class EditJourneyActivity extends AppCompatActivity {
         TextView selectTxt = (TextView) findViewById(R.id.edit_journey_selectTransportationMode);
         Typeface face = Typeface.createFromAsset(getAssets(),"fonts/Peter.ttf");
         selectTxt.setTypeface(face);
+    }
+
+    private void setUpSpinner() {
     }
 }

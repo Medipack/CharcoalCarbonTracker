@@ -78,7 +78,11 @@ public class JourneyActivity extends AppCompatActivity {
                         " and " + journey.getRouteName();
                 Toast.makeText(JourneyActivity.this, msg, Toast.LENGTH_SHORT).show();
                 Log.i(MY_APP, msg);
+                Intent intent = new Intent(JourneyActivity.this, EditJourneyActivity.class);
+                intent.putExtra("index", position);
+                startActivity(intent);
             }
         });
+
     }
 }
