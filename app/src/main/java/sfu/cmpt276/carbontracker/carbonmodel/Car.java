@@ -18,7 +18,6 @@ public class Car implements Cloneable, Serializable{
     private static final double MPG_TO_KML = 0.425144;
     //Attributes
     private int id;
-    private Boolean isActive;
     private String nickname;
     private String model;
     private String make;
@@ -31,7 +30,6 @@ public class Car implements Cloneable, Serializable{
 
     //Constructor
     public Car(){
-        isActive = false;
         nickname = DEFAULT_NICKNAME;
         model = DEFAULT_DESCRIPTION;
         make = DEFAULT_DESCRIPTION;
@@ -43,7 +41,6 @@ public class Car implements Cloneable, Serializable{
     }
 
     public Car(String nickname, String make, String model, int year){
-        isActive = false;
         this.nickname = nickname;
         this.make = make;
         this.model = model;
@@ -51,7 +48,6 @@ public class Car implements Cloneable, Serializable{
     }
 
     public Car(String nickname, String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
-        isActive = false;
         this.nickname = nickname;
         this.model = model;
         this.make = make;
@@ -64,7 +60,6 @@ public class Car implements Cloneable, Serializable{
     }
 
     public Car(String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
-        isActive = false;
         this.nickname = DEFAULT_NICKNAME;
         this.model = model;
         this.make = make;
@@ -80,10 +75,6 @@ public class Car implements Cloneable, Serializable{
 
     public int getId() {
         return id;
-    }
-
-    public Boolean checkActive() {
-        return isActive;
     }
 
     public String getShortDecription(){
@@ -146,10 +137,6 @@ public class Car implements Cloneable, Serializable{
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
     }
 
     public void setNickname(String nickname) {
