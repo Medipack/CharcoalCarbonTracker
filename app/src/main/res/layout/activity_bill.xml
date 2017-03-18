@@ -13,26 +13,106 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="21dp"
-        android:text="@string/utility" />
+        android:text="@string/bill"
+        android:textSize="24sp" />
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" >
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/utilityGroup">
 
-        <RadioButton
-            android:id="@+id/gasRb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/natural_gas" />
-
-        <RadioButton
-            android:id="@+id/electricityRb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/electricity" />
     </RadioGroup>
+
+    <Button
+        android:text="From"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="150dp"
+        android:id="@+id/startBtn" />
+
+    <TextView
+        android:text="xx/xx/xxxx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/startBtn"
+        android:layout_toEndOf="@+id/startBtn"
+        android:layout_marginBottom="12dp"
+        android:id="@+id/startDateText" />
+
+    <Button
+        android:text="To"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/startBtn"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginStart="0dp"
+        android:id="@+id/endBtn" />
+
+    <TextView
+        android:text="xx/xx/xxxx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/startDateText"
+        android:layout_toEndOf="@+id/endBtn"
+        android:layout_marginStart="13dp"
+        android:id="@+id/endDateText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned|numberDecimal"
+        android:ems="10"
+        android:layout_below="@+id/startDateText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp"
+        android:id="@+id/amountInput"
+        android:hint="Amount Used" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:ems="10"
+        android:layout_below="@+id/amountInput"
+        android:layout_alignStart="@+id/amountInput"
+        android:layout_marginTop="10dp"
+        android:id="@+id/peopleInput"
+        android:hint="# people" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:layout_below="@+id/peopleInput"
+        android:layout_alignStart="@+id/peopleInput"
+        android:layout_marginTop="7dp"
+        android:id="@+id/currentAvgInput"
+        android:hint="Current Average" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:layout_below="@+id/currentAvgInput"
+        android:layout_alignStart="@+id/currentAvgInput"
+        android:layout_marginTop="8dp"
+        android:id="@+id/previousAvgInput"
+        android:hint="Previous Average" />
+
+    <Button
+        android:text="Save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="19dp"
+        android:id="@+id/utilitySaveBtn" />
+
 </RelativeLayout>

@@ -24,7 +24,7 @@ public class Utility {
     private double averageGJCurrent;   //average daily gas used current
     private double averageGJPrevious;  //average daily electricity used previous year (same billing period)
 
-    Utility()
+    public Utility()
     {
         startDate = new Date();
         endDate = new Date();
@@ -36,7 +36,7 @@ public class Utility {
         averageKWhPrevious = 0;
     }
 
-    Utility(String utility_type, Date startDate, Date endDate, double utilityUsed, int numberOfPeople, int daysInPeriod, double averageCurrent, double averagePrevious)
+    public Utility(String utility_type, Date startDate, Date endDate, double utilityUsed, int numberOfPeople, int daysInPeriod, double averageCurrent, double averagePrevious)
     {
         this.utility_type = utility_type;
         this.startDate = startDate;

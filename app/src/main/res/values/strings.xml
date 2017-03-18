@@ -40,4 +40,5 @@
     <string name="utility">Utility</string>
     <string name="natural_gas">Natural Gas</string>
     <string name="electricity">Electricity</string>
+    <string name="bill">bill</string>
 </resources>
