@@ -19,10 +19,8 @@ public class Journey {
     private Date date;
     private double totalDistance;
     private double carbonEmitted;
-    private String transport_mode;
 
     Journey() {
-        transport_mode = "car";
         car = new Car(); //initializes car as new car with default values
         route = new Route(); //initializes route as a new route with default values
         date = new Date(); //sets date to current date
@@ -31,7 +29,6 @@ public class Journey {
     }
 
     Journey(Car car, Route route) {
-        transport_mode = "car";
         this.car = car;
         this.route = route;
         date = new Date(); //sets date as current date
@@ -42,7 +39,7 @@ public class Journey {
     public double calculateCarbonEmission() //returns kg of co2 for journey
     {
         double co2 = 0;
-        if(transport_mode.equals("car")) {
+        if(car.getTransport_mode().equals(Car.CAR)) {
             double cityLitres = route.getRouteDistanceCity() / car.getCityCO2(); //cityCO2 is in km per litre, so divide distance by this to get litres used
             double highwayLitres = route.getRouteDistanceHighway() / car.getHwyCO2();
             if (car.getFuelType().contains("Gasoline")) //checks for all gasoline types
@@ -53,20 +50,16 @@ public class Journey {
                 co2 = ELECTRIC;
             return Math.round(co2 * cityLitres + co2 * highwayLitres);
         }
-        else if(transport_mode.equals("bus"))
-        {
-             co2 = totalDistance * BUS;
+        else {
+            if (car.getTransport_mode().equals(Car.BUS)) {
+                co2 = BUS;
+            } else if (car.getTransport_mode().equals(Car.WALK_BIKE)) {
+                co2 = WALK_BIKE;
+            } else if (car.getTransport_mode().equals(Car.SKYTRAIN)) {
+                co2 = SKYTRAIN;
+            }
+            return co2 * totalDistance;
         }
-        else if(transport_mode.equals("walk_bike"))
-        {
-             co2 = totalDistance * WALK_BIKE;
-        }
-        else if(transport_mode.equals("skytrain"))
-        {
-             co2 = totalDistance * SKYTRAIN;
-        }
-        return co2;
-
     }
 
     public String getRouteName() { //needed to populate table in total Emissions Screen
