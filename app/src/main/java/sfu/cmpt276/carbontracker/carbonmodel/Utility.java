@@ -14,6 +14,8 @@ public class Utility {
     private String utility_type;
     private Date startDate;
     private Date endDate;
+
+
     private double electricUsed;     //in kWh
     private double naturalGasUsed;  // in GJ
     private int numberOfPeople;     //number of people in household
@@ -56,6 +58,16 @@ public class Utility {
             this.averageGJCurrent = averageCurrent;
             this.averageGJPrevious = averagePrevious;
         }
+
+    }
+
+    public Utility(String utility_type, double utilityUsed, int numberOfPeople, int daysInPeriod, double averageCurrent, double averagePrevious){
+        this.utility_type = utility_type;
+        this.numberOfPeople = numberOfPeople;
+        this.daysInPeriod = daysInPeriod;
+        this.naturalGasUsed = utilityUsed;
+        this.averageKWhCurrent = averageCurrent;
+        this.averageKWhPrevious = averagePrevious;
 
     }
 
@@ -139,5 +151,9 @@ public class Utility {
 
     public void setAverageGJPrevious(double averageGJPrevious) {
         this.averageGJPrevious = averageGJPrevious;
+    }
+
+    public String getUtility_type(){
+        return utility_type;
     }
 }
