@@ -1,4 +1,4 @@
-package sfu.cmpt276.carbontracker.carbonmodel.database;
+package sfu.cmpt276.carbontracker.ui.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
