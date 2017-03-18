@@ -55,6 +55,7 @@ public class TransportationModeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 User user = User.getInstance();
                  Car bike = new Car();
+                bike.setTransport_mode(Car.WALK_BIKE);
                 bike.setNickname("Bike");
                 user.setCurrentJourneyCar(bike);
                 Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
@@ -70,6 +71,7 @@ public class TransportationModeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 User user = User.getInstance();
                 Car skytrain = new Car();
+                skytrain.setTransport_mode(Car.SKYTRAIN);
                 skytrain.setNickname("Skytrain");
                 user.setCurrentJourneyCar(skytrain);
                 Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
@@ -85,6 +87,7 @@ public class TransportationModeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 User user = User.getInstance();
                 Car bus = new Car("Bus", 89, 89);
+                bus.setTransport_mode(Car.BUS);
                 user.setCurrentJourneyCar(bus);
                 Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
                 startActivityForResult(intent, 0);
