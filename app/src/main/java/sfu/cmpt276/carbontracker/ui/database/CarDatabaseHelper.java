@@ -13,17 +13,34 @@ import android.util.Log;
 public class CarDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_CARS = "cars";
+
     public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_CAR = "car";
+    public static final String COLUMN_NICKNAME = "nickname";
+    public static final String COLUMN_MAKE = "make";
+    public static final String COLUMN_MODEL = "model";
+    public static final String COLUMN_FUELTYPE = "fueltype";
+    public static final String COLUMN_TRANSMISSION = "transmission";
+    public static final String COLUMN_YEAR = "year";
+    public static final String COLUMN_CITYCO2 = "cityco2";
+    public static final String COLUMN_HWYCO2 = "hwyco2";
+    public static final String COLUMN_ENGINEDISPL = "enginedispl";
 
     private static final String DATABASE_NAME = "cars.db";
-    private static final int DATABASE_VERSION = 1; // update if Car class is ever changed
+    private static final int DATABASE_VERSION = 3; // update if Car class is ever changed
 
     // SQL command to create the database
-    private static final String DATABASE_CREATE = "create table "
-            + TABLE_CARS + "( " + COLUMN_ID
-            + " integer primary key autoincrement, " + COLUMN_CAR
-            + " text not null);";
+    private static final String DATABASE_CREATE = "create table " +
+            TABLE_CARS + "( " +
+            COLUMN_ID + " integer primary key autoincrement, " +
+            COLUMN_NICKNAME + " text not null, " +
+            COLUMN_MAKE + " text not null, " +
+            COLUMN_MODEL + " text not null, " +
+            COLUMN_FUELTYPE + " text not null, " +
+            COLUMN_TRANSMISSION + " text not null, " +
+            COLUMN_YEAR + " integer not null, " +
+            COLUMN_CITYCO2 + " integer not null, " +
+            COLUMN_HWYCO2 + " integer not null, " +
+            COLUMN_ENGINEDISPL + " double not null);";
 
     public CarDatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
