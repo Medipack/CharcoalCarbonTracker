@@ -156,4 +156,40 @@ public class Utility {
     public String getUtility_type(){
         return utility_type;
     }
+
+    public double getPerDayUsed(){
+        if(utility_type.equals("electricity")) {
+            return electricUsed / daysInPeriod;
+        }
+        else{
+            return naturalGasUsed / daysInPeriod;
+        }
+    }
+
+    public double getPeopleShare(){
+        if(utility_type.equals("electricity")) {
+            return electricUsed / numberOfPeople;
+        }
+        else{
+            return naturalGasUsed / numberOfPeople;
+        }
+    }
+
+    public double getPerPersonEmission(){
+        if(utility_type.equals("electricity")){
+            return 9000 * 1000 * (averageKWhCurrent - averageKWhPrevious)/1000000 / numberOfPeople;   // g per gwh per person
+        }
+        else{
+            return 56.1 * (averageGJCurrent - averageGJPrevious) / numberOfPeople;                 //g per GJ per person
+        }
+    }
+
+    public double getPerDayUsage(){
+        if(utility_type.equals("electricity")){
+            return 9000 * 1000 * (averageKWhCurrent - averageKWhPrevious)/1000000 / daysInPeriod;   // g per gwh per day
+        }
+        else{
+            return 56.1 * (averageGJCurrent - averageGJPrevious) / daysInPeriod;                 //g per GJ per day
+        }
+    }
 }

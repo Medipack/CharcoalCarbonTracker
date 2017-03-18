@@ -44,13 +44,17 @@ public class UtilityList {
             if (utility.getUtility_type().equals("gas")) {
                 descriptions[i] = utility.getUtility_type() + ": \nfrom " + utility.getStartDate() + "\n" + "to " + utility.getEndDate()
                         + "\n" + utility.getDaysInPeriod() + " days in total\n" + utility.getNaturalGasUsed() + " used by " + utility.getNumberOfPeople()
-                        + " people in home\n" + "current average is: " + utility.getAverageGJCurrent() + ", previous average is: " + utility.getAverageGJPrevious();
+                        + " people in home\n" + "current average is: " + utility.getAverageGJCurrent() + ", previous average is: " + utility.getAverageGJPrevious()
+                        +  "\nper day: " + utility.getPerDayUsed() + "\npeople in home share: " + utility.getPeopleShare() + "\nemission per person: " + utility.getPerPersonEmission()
+                        + "\nemission per day: " + utility.getPerDayUsage();
             }
 
             else{
                 descriptions[i] = utility.getUtility_type() + ": \nfrom " + utility.getStartDate() + "\n" + "to " + utility.getEndDate()
                         + "\n" + utility.getDaysInPeriod() + " days in total\n" + utility.getElectricUsed() + " used by " + utility.getNumberOfPeople()
-                        + " people in home\n" + "current average is: " + utility.getAverageKWhCurrent() + ", previous average is: " + utility.getAverageKWhPrevious();
+                        + " people in home\n" + "current average is: " + utility.getAverageKWhCurrent() + ", previous average is: " + utility.getAverageKWhPrevious()
+                        +  "\nper day: " + utility.getPerDayUsed() + "\npeople in home share: " + utility.getPeopleShare() + "\nemission: " + utility.getPerPersonEmission()
+                        + "\ndaily usage: " + utility.getPerDayUsage();
             }
         }
 
@@ -64,13 +68,5 @@ public class UtilityList {
         }
     }
 
-    public String[] getTemp(){
-        String[] temp = new String[countUtility()];
-        for(int i=0; i<countUtility();i++){
-            Utility utility = getUtility(i);
-            temp[i] = utility.getNumberOfPeople() + "";
-        }
-        return temp;
-    }
 }
 

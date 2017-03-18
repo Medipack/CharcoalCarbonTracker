@@ -51,7 +51,6 @@ public class BillActivity extends AppCompatActivity {
     String tempPeriod;
     String tempType;
 
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +86,6 @@ public class BillActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Toast.makeText(BillActivity.this, "You clicked " + utility1, Toast.LENGTH_SHORT).show();
                     if(utility1.equals(choice[0])){
                         utilityChosen = 0; //user choose natural gas
                         tempChosen = Integer.toString(utilityChosen);
@@ -105,12 +103,6 @@ public class BillActivity extends AppCompatActivity {
 
 
     private void setupSaveButton() {
-        //if (utilityChosen == 0) {
-        //    Utility test = new Utility("gas", startDate, endDate, amount, people, 5, currentAvg, previousAvg);
-        //    Toast.makeText(this, "" + test, Toast.LENGTH_SHORT).show();
-        //}
-
-        //Toast.makeText(this, "" + amount, Toast.LENGTH_SHORT).show();
         Button save = (Button)findViewById(R.id.utilitySaveBtn);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +111,6 @@ public class BillActivity extends AppCompatActivity {
                 peopleInput = (EditText) findViewById(R.id.peopleInput);
                 currentAvgInput = (EditText) findViewById(R.id.currentAvgInput);
                 previousAvgInput = (EditText) findViewById(R.id.previousAvgInput);
-
 
                 String str_amount = amountInput.getText().toString();
                 String str_people = peopleInput.getText().toString();
