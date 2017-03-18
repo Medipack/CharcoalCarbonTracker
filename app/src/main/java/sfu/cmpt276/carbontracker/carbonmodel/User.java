@@ -24,7 +24,6 @@ public class User {
         routeList = new RouteList();
         currentJourney = new Journey();
         journeyList = new ArrayList<Journey>();
-
     }
 
     private static User instance = new User();
