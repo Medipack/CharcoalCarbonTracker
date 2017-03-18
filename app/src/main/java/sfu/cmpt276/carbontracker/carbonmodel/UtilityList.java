@@ -43,18 +43,18 @@ public class UtilityList {
             Utility utility = getUtility(i);
             if (utility.getUtility_type().equals("gas")) {
                 descriptions[i] = utility.getUtility_type() + ": \nfrom " + utility.getStartDate() + "\n" + "to " + utility.getEndDate()
-                        + "\n" + utility.getDaysInPeriod() + " days in total\n" + utility.getNaturalGasUsed() + " used by " + utility.getNumberOfPeople()
-                        + " people in home\n" + "current average is: " + utility.getAverageGJCurrent() + ", previous average is: " + utility.getAverageGJPrevious()
-                        +  "\nper day: " + utility.getPerDayUsed() + "\npeople in home share: " + utility.getPeopleShare() + "\nemission per person: " + utility.getPerPersonEmission()
-                        + "\nemission per day: " + utility.getPerDayUsage();
+                        + "\n" + utility.getDaysInPeriod() + " days in total\n$" + utility.getNaturalGasUsed() + " used by " + utility.getNumberOfPeople()
+                        + " people in home\n" + "current average is: " + utility.getAverageGJCurrent() + "GJ, previous average is: " + utility.getAverageGJPrevious()
+                        +  "GJ\npeople in home share: $" + utility.getPeopleShare() + "\nemission per person: " + utility.getPerPersonEmission()
+                        + "g\nemission per day: " + utility.getPerDayUsage() + "g";
             }
 
             else{
                 descriptions[i] = utility.getUtility_type() + ": \nfrom " + utility.getStartDate() + "\n" + "to " + utility.getEndDate()
-                        + "\n" + utility.getDaysInPeriod() + " days in total\n" + utility.getElectricUsed() + " used by " + utility.getNumberOfPeople()
-                        + " people in home\n" + "current average is: " + utility.getAverageKWhCurrent() + ", previous average is: " + utility.getAverageKWhPrevious()
-                        +  "\nper day: " + utility.getPerDayUsed() + "\npeople in home share: " + utility.getPeopleShare() + "\nemission: " + utility.getPerPersonEmission()
-                        + "\ndaily usage: " + utility.getPerDayUsage();
+                        + "\n" + utility.getDaysInPeriod() + " days in total\n$" + utility.getElectricUsed() + " used by " + utility.getNumberOfPeople()
+                        + " people in home\n" + "current average is: " + utility.getAverageKWhCurrent() + "kwh, previous average is: " + utility.getAverageKWhPrevious()
+                        +  "kwh\npeople in home share: " + utility.getPeopleShare() + "\nemission per person: " + utility.getPerPersonEmission()
+                        + "g\nemission per day: " + utility.getPerDayUsage() + "g";
             }
         }
 

@@ -157,15 +157,6 @@ public class Utility {
         return utility_type;
     }
 
-    public double getPerDayUsed(){
-        if(utility_type.equals("electricity")) {
-            return electricUsed / daysInPeriod;
-        }
-        else{
-            return naturalGasUsed / daysInPeriod;
-        }
-    }
-
     public double getPeopleShare(){
         if(utility_type.equals("electricity")) {
             return electricUsed / numberOfPeople;
