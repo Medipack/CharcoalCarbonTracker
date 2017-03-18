@@ -17,6 +17,7 @@ public class Car implements Cloneable, Serializable{
 
     private static final double MPG_TO_KML = 0.425144;
     //Attributes
+    private int id;
     private Boolean isActive;
     private String nickname;
     private String model;
@@ -76,6 +77,10 @@ public class Car implements Cloneable, Serializable{
     }
 
     //Getter
+
+    public int getId() {
+        return id;
+    }
 
     public Boolean checkActive() {
         return isActive;
@@ -139,6 +144,9 @@ public class Car implements Cloneable, Serializable{
 
     //Setter
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setActive(Boolean active) {
         isActive = active;
@@ -193,9 +201,15 @@ public class Car implements Cloneable, Serializable{
         double litres = gallons/GAL_TO_LITRES;
         return litres;
     }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    @Override
+    public String toString() {
+        return getShortDecription();
     }
 }
 
