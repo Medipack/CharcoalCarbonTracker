@@ -27,7 +27,8 @@
             android:label="@string/select_a_route" />
         <activity android:name=".ui.JourneyActivity" />
         <activity android:name=".ui.PieGraphActivity" />
-        <activity android:name=".ui.SelectTransportationActivity"></activity>
+        <activity android:name=".ui.SelectTransportationActivity" />
+        <activity android:name=".ui.EditJourneyActivity"></activity>
     </application>
 
 </manifest>

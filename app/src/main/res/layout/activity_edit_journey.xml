@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/backk6"
+    tools:context="sfu.cmpt276.carbontracker.ui.EditJourneyActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_journey_selectTransportationMode"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="18dp">
+
+        <Button
+            android:id="@+id/journey_edit_busButton"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="17dp"
+            android:layout_toEndOf="@+id/journey_edit_bikeButton"
+            android:background="@mipmap/bus" />
+
+        <Button
+            android:id="@+id/journey_edit_bikeButton"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="18dp"
+            android:background="@mipmap/bike" />
+
+        <Button
+            android:id="@+id/journey_edit_carButton"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="14dp"
+            android:background="@mipmap/car5" />
+
+        <Button
+            android:id="@+id/journey_edit_skytrainButton"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="16dp"
+            android:layout_toStartOf="@+id/journey_edit_carButton"
+            android:background="@mipmap/skytrain1" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/edit_journey_selectTransportationMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="@string/select_transportation_mode"
+        android:textColor="#0c742d"
+        android:textSize="18sp"
+        android:layout_below="@+id/editRouteLayout"
+        android:layout_alignParentStart="true" />
+
+    <RelativeLayout
+        android:id="@+id/editDateLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editRouteLayout"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="15dp">
+
+        <TextView
+            android:id="@+id/edit_journey_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="17dp"
+            android:text="@string/date_txt"
+            android:textSize="18sp"
+            android:textStyle="bold|italic" />
+
+        <EditText
+            android:id="@+id/edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/edit_journey_date"
+            android:layout_alignBottom="@+id/edit_journey_date"
+            android:layout_marginStart="34dp"
+            android:layout_toEndOf="@+id/edit_journey_date"
+            android:ems="10"
+            android:inputType="date" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/editRouteLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:id="@+id/journey_edit_addRoute"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@mipmap/routee2"
+            android:layout_below="@+id/edit_journey_route"
+            android:layout_toStartOf="@+id/routeListLayout" />
+
+        <RelativeLayout
+            android:id="@+id/routeListLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/edit_journey_route"
+            android:layout_marginStart="26dp">
+
+            <Spinner
+                android:id="@+id/routeList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/edit_journey_route"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/route"
+            android:textSize="18sp"
+            android:textStyle="bold|italic" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/edit_journey_addNewCar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="35dp"
+        android:text="@string/add_vehicle"
+        android:textAlignment="center"
+        android:layout_above="@+id/editDateLayout"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
