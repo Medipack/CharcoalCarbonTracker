@@ -10,6 +10,11 @@ import static java.security.AccessController.getContext;
 
 public class Car implements Cloneable, Serializable{
     //Constants
+    public static final String CAR = "car";
+    public static final String BUS = "bus";
+    public static final String SKYTRAIN = "skytrain";
+    public static final String WALK_BIKE = "walk/bike";
+
     private static final String DEFAULT_NICKNAME = "";
     private static final String DEFAULT_DESCRIPTION = "N/A";
     private static final double MILES_TO_KM = 1.60934;
@@ -17,6 +22,7 @@ public class Car implements Cloneable, Serializable{
 
     private static final double MPG_TO_KML = 0.425144;
     //Attributes
+    private String transport_mode;
     private Boolean isActive;
     private String nickname;
     private String model;
@@ -39,6 +45,7 @@ public class Car implements Cloneable, Serializable{
         cityCO2 = 0;
         hwyCO2 = 0;
         engineDispl = 0;
+        transport_mode = CAR;
     }
 
     public Car(String nickname, String make, String model, int year){
@@ -196,6 +203,14 @@ public class Car implements Cloneable, Serializable{
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public String getTransport_mode() {
+        return transport_mode;
+    }
+
+    public void setTransport_mode(String transport_mode) {
+        this.transport_mode = transport_mode;
     }
 }
 
