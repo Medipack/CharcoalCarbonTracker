@@ -204,8 +204,14 @@ public class BillActivity extends AppCompatActivity {
 
             period = temp/oneDay + 1;
             tempPeriod = Long.toString(period);
-            if(year_x > year_y || month_x > month_y || day_x >= day_y){
-                Toast.makeText(BillActivity.this, "Please pick up a right date", Toast.LENGTH_SHORT).show();
+            if(startDate.getTime() >= endDate.getTime()){
+                Toast.makeText(BillActivity.this, "End date cannot before the start date", Toast.LENGTH_SHORT).show();
+            }
+            else if(System.currentTimeMillis() <= startDate.getTime()){
+                Toast.makeText(BillActivity.this, "Start date cannot be today or future", Toast.LENGTH_SHORT).show();
+            }
+            else if(System.currentTimeMillis() < endDate.getTime()){
+                Toast.makeText(BillActivity.this, "End date cannot be future", Toast.LENGTH_SHORT).show();
             }
             else {
                 TextView endDate = (TextView) findViewById(R.id.endDateText);
