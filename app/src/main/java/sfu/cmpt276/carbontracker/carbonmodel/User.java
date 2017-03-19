@@ -20,6 +20,7 @@ public class User {
     private Journey currentJourney;
 
     private boolean carListPopulatedFromDatabase = false;
+    private boolean routeListPopulatedFromDatabase = false;
 
     private User(){
         carList = new ArrayList<>();
@@ -201,5 +202,13 @@ public class User {
 
     public void setCarListPopulatedFromDatabase() {
         carListPopulatedFromDatabase = true;
+    }
+
+    public boolean isRouteListPopulatedFromDatabase() {
+        return routeListPopulatedFromDatabase;
+    }
+
+    public void setRouteListPopulatedFromDatabase() {
+        routeListPopulatedFromDatabase = true;
     }
 }

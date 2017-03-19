@@ -206,45 +206,6 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         }
     }
 
-    private void deleteCar(int editCarPosition) {
-        Log.i(TAG, "Delete button clicked");
-
-        Car carToDelete = User.getInstance().getCarFromCarList(editCarPosition);
-
-        CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
-        db.open();
-        db.deleteCar(carToDelete);
-        db.close();
-
-        User.getInstance().removeCarFromCarList(carToDelete);
-    }
-
-    private void editExistingCar(int editCarPosition, Car car) {
-        Log.i(TAG, "Save edit button clicked");
-        // Pass old car id to the new car
-        int oldCarId = User.getInstance().getCarList().get(editCarPosition).getId();
-        car.setId(oldCarId);
-
-        CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
-        db.open();
-        db.deleteCar(car); // deletes existing car with same id
-        Car newCar = db.insertCar(car); // adds this new car in its place
-        db.close();
-
-        User.getInstance().editCarFromCarList(editCarPosition, newCar);
-    }
-
-    private void addNewCar(Car car) {
-        Log.i(TAG, "Add button clicked");
-
-        CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
-        db.open();
-        Car newCar = db.insertCar(car);
-        db.close();
-
-        User.getInstance().addCarToCarList(newCar);
-    }
-
     private class DetailedCarAdapter extends ArrayAdapter<Car> implements CarListener{
 
         private int selectedIndex = 0;
@@ -341,4 +302,48 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             spinner.setSelection(position);
         }
     }
+
+    // *** Database related methods *** //
+    // *** Add / Edit / Delete helper functions *** //
+
+    private void deleteCar(int deleteCarPosition) {
+        Log.i(TAG, "Delete button clicked");
+
+        Car carToDelete = User.getInstance().getCarFromCarList(deleteCarPosition);
+
+        CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
+        db.open();
+        db.deleteCar(carToDelete);
+        db.close();
+
+        User.getInstance().removeCarFromCarList(carToDelete);
+    }
+
+    private void editExistingCar(int editCarPosition, Car car) {
+        Log.i(TAG, "Save edit button clicked");
+        // Pass old car id to the new car
+        int oldCarId = User.getInstance().getCarList().get(editCarPosition).getId();
+        car.setId(oldCarId);
+
+        CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
+        db.open();
+        db.deleteCar(car); // deletes existing car with same id
+        Car newCar = db.insertCar(car); // adds this new car in its place
+        db.close();
+
+        User.getInstance().editCarFromCarList(editCarPosition, newCar);
+    }
+
+    private void addNewCar(Car car) {
+        Log.i(TAG, "Add button clicked");
+
+        CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
+        db.open();
+        Car newCar = db.insertCar(car);
+        db.close();
+
+        User.getInstance().addCarToCarList(newCar);
+    }
+
+    // *** end of database related methods *** //
 }
