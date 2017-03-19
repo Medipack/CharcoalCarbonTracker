@@ -40,13 +40,8 @@ public class EditJourneyActivity extends AppCompatActivity {
         setupSelectModeTxt();
         Intent intent = getIntent();
         int index = intent.getIntExtra("index", -1);
-        RouteList routeList = user.getRouteList();
-        Spinner routeSpin = (Spinner) findViewById(R.id.routeList);
         setUpSpinner(index);
         setUpAddRouteButton(index);
-
-
-
     }
 
     private void setUpAddRouteButton(final int index) {
