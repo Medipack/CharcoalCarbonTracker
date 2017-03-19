@@ -253,7 +253,6 @@ public class BillActivity extends AppCompatActivity {
         return intent.getStringExtra("previous avg");
     }
 
-
     public static Intent makeIntent(Context context){
         return new Intent(context, BillActivity.class);
     }

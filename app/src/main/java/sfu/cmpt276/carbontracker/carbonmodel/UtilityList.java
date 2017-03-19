@@ -23,20 +23,20 @@ public class UtilityList {
         utilities.remove(index);
         utilities.add(index, editUtility);
     }
-
+    //remove utility
     public void removeUtility(int index){
         utilities.remove(index);
     }
-
+    //count size of the utility
     public int countUtility(){
         return utilities.size();
     }
-
+    //get utility in the utility list
     public Utility getUtility(int index){
         validateIndexWithException(index);
         return utilities.get(index);
     }
-
+    //utility information in the list
     public String[] getUtilityDescription(){
         String[] descriptions = new String[countUtility()];
         for(int i=0; i<countUtility();i++) {

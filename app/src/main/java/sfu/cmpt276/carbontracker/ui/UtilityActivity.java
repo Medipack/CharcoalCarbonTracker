@@ -37,7 +37,6 @@ public class UtilityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_utility);
 
         populateListView();
-        //setupUtilityList();
         setupAddBtn();
     }
 
@@ -51,7 +50,6 @@ public class UtilityActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void populateListView() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -69,14 +67,10 @@ public class UtilityActivity extends AppCompatActivity {
         switch(requestCode){
             case 10:
                 if(resultCode == Activity.RESULT_OK){
-                    //Intent intent = getIntent();
-                    //tempType = intent.getStringExtra("type of utility");
                     tempType = BillActivity.getTypeName(data);
                     Toast.makeText(this, "" + tempType, Toast.LENGTH_SHORT).show();
                     String str_startDate = BillActivity.getStartDate(data);
                     String str_endDate = BillActivity.getEndDate(data);
-
-
 
                     DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
                     try {
@@ -85,9 +79,6 @@ public class UtilityActivity extends AppCompatActivity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-
-
-
 
                     String str_amount = BillActivity.getUsed(data);
                     amount = Double.valueOf(str_amount);
@@ -101,13 +92,10 @@ public class UtilityActivity extends AppCompatActivity {
                     String str_previousAvg = BillActivity.getPreviousAvg(data);
                     previousAvg = Double.valueOf(str_previousAvg);
 
-
-
                     Utility utility = new Utility(tempType, startDate, endDate, amount, people, period, currentAvg, previousAvg);
                     myUtility.addUtility(utility);
                     populateListView();
                     break;
-
                 }
         }
     }
