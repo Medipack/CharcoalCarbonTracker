@@ -53,7 +53,7 @@ class CarDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(CarDatabaseHelper.class.getName(), "Upgrading database from version "
+        Log.w(CarDatabaseHelper.class.getName(), "Upgrading + " + DATABASE_NAME + " database from version "
                 + oldVersion + " to " + newVersion + ", old data will be destroyed");
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CARS);
