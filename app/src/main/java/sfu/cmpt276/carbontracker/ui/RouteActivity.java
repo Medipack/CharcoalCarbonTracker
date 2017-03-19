@@ -19,12 +19,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.RouteList;
 import sfu.cmpt276.carbontracker.carbonmodel.RouteListener;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.Route;
+import sfu.cmpt276.carbontracker.ui.database.RouteDataSource;
 
 /*Displays know routes, allows for adding, editing, deleting routes*/
 
@@ -45,10 +48,10 @@ public class RouteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_route);
 
         setupAddRoute();
-
-        populateRouteList();
-
+        setUpRouteListView();
         registerClickCallback();
+
+        populateRouteListFromDatabase();
     }
 
     private class RouteListAdapter extends ArrayAdapter<Route> implements RouteListener {
@@ -83,7 +86,7 @@ public class RouteActivity extends AppCompatActivity {
         }
     }
 
-    private void populateRouteList() {
+    private void setUpRouteListView() {
         ArrayAdapter<Route> routeListAdapter = new RouteListAdapter(RouteActivity.this);
         User.getInstance().setRouteListener((RouteListener) routeListAdapter);
         ListView list = (ListView) findViewById(R.id.routeList);
@@ -140,8 +143,8 @@ public class RouteActivity extends AppCompatActivity {
                             }
                             else {
                                 Route newRoute = new Route(nameSaved, citySaved, highwaySaved);
-                                User.getInstance().getRouteList().addRoute(newRoute);
-                                populateRouteList();
+                                addNewRoute(newRoute);
+                                setUpRouteListView();
                                 viewDialog.cancel();
                             }
                         }
@@ -310,22 +313,20 @@ public class RouteActivity extends AppCompatActivity {
                             else {
 
                                 Route editRoute = new Route(editNameSaved, editCitySaved, editHighwaySaved);
-                                User.getInstance().editRouteFromRouteList(position, editRoute);
-                                populateRouteList();
+                                editExistingRoute(position, editRoute);
+                                setUpRouteListView();
                                 editDialog.cancel();
                             }
                         }
                     }
                 });
 
-                //delete route: need to hide!!!
+                //delete route
                 editDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        RouteList myRouteList = User.getInstance().getRouteList();
-                        //Route hideRoute = myRouteList.getRoute(route_position);
-                        User.getInstance().removeRouteFromRouteList(position);
-                        populateRouteList();
+                        deleteRoute(position);
+                        setUpRouteListView();
                         //myRouteList.addRoute(hideRoute);
                         editDialog.cancel();
                     }
@@ -341,6 +342,67 @@ public class RouteActivity extends AppCompatActivity {
             }
         });
     }
+
+    // *** Database related methods *** //
+
+    private void populateRouteListFromDatabase() {
+        // Check if route list already populated from database
+        // This prevents duplicate entries from re-opening this activity
+        if(!User.getInstance().isRouteListPopulatedFromDatabase()){
+            RouteDataSource db = new RouteDataSource(this);
+            db.open();
+
+            List<Route> routes = db.getAllRoutes();
+            User user = User.getInstance();
+            for(Route route : routes) {
+                user.addRouteToRouteList(route);
+            }
+            User.getInstance().setRouteListPopulatedFromDatabase();
+        }
+    }
+
+    // *** Add / Edit / Delete helper methods *** //
+
+    private void deleteRoute(int deleteRoutePosition) {
+        Log.i(TAG, "Delete button clicked");
+
+        Route routeToDelete = User.getInstance().getRouteList().getRoute(deleteRoutePosition);
+
+        RouteDataSource db = new RouteDataSource(this);
+        db.open();
+        db.deleteRoute(routeToDelete);
+        db.close();
+
+        User.getInstance().removeRouteFromRouteList(deleteRoutePosition);
+    }
+
+    private void editExistingRoute(int editRoutePosition, Route route) {
+        Log.i(TAG, "Save edit button clicked");
+        // Pass old route id to the new route
+        int oldRouteId = User.getInstance().getRouteList().getRoute(editRoutePosition).getId();
+        route.setId(oldRouteId);
+
+        RouteDataSource db = new RouteDataSource(this);
+        db.open();
+        db.deleteRoute(route); // deletes old route with same id
+        Route newRoute = db.insertRoute(route); // adds this new route in its place
+        db.close();
+
+        User.getInstance().editRouteFromRouteList(editRoutePosition, newRoute);
+    }
+
+    private void addNewRoute(Route route) {
+        Log.i(TAG, "Add button clicked");
+
+        RouteDataSource db = new RouteDataSource(this);
+        db.open();
+        Route newRoute = db.insertRoute(route);
+        db.close();
+
+        User.getInstance().getRouteList().addRoute(newRoute);
+    }
+
+    // *** end of database related methods *** //
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {
