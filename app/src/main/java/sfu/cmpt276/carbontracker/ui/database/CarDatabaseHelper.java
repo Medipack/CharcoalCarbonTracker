@@ -10,20 +10,20 @@ import android.util.Log;
 /**
  * Database Helper for Car class
  */
-public class CarDatabaseHelper extends SQLiteOpenHelper {
+class CarDatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String TABLE_CARS = "cars";
+    static final String TABLE_CARS = "cars";
 
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_NICKNAME = "nickname";
-    public static final String COLUMN_MAKE = "make";
-    public static final String COLUMN_MODEL = "model";
-    public static final String COLUMN_FUELTYPE = "fueltype";
-    public static final String COLUMN_TRANSMISSION = "transmission";
-    public static final String COLUMN_YEAR = "year";
-    public static final String COLUMN_CITYCO2 = "cityco2";
-    public static final String COLUMN_HWYCO2 = "hwyco2";
-    public static final String COLUMN_ENGINEDISPL = "enginedispl";
+    static final String COLUMN_ID = "_id";
+    static final String COLUMN_NICKNAME = "nickname";
+    static final String COLUMN_MAKE = "make";
+    static final String COLUMN_MODEL = "model";
+    static final String COLUMN_FUELTYPE = "fueltype";
+    static final String COLUMN_TRANSMISSION = "transmission";
+    static final String COLUMN_YEAR = "year";
+    static final String COLUMN_CITYCO2 = "cityco2";
+    static final String COLUMN_HWYCO2 = "hwyco2";
+    static final String COLUMN_ENGINEDISPL = "enginedispl";
 
     private static final String DATABASE_NAME = "cars.db";
     private static final int DATABASE_VERSION = 3; // update if Car class is ever changed
