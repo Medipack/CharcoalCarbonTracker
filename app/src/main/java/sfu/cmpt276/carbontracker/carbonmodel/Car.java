@@ -17,7 +17,7 @@ public class Car implements Cloneable, Serializable{
 
     private static final double MPG_TO_KML = 0.425144;
     //Attributes
-    private int id;
+    private int id = -1;
     private String nickname;
     private String model;
     private String make;
