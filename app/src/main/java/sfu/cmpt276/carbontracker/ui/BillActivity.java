@@ -55,6 +55,7 @@ public class BillActivity extends AppCompatActivity {
     String tempChosen;
     String tempPeriod;
     String tempType;
+    int position;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -76,7 +77,11 @@ public class BillActivity extends AppCompatActivity {
         year_y = cal.get(Calendar.YEAR);
         month_y = cal.get(Calendar.MONTH);
         day_y = cal.get(Calendar.DAY_OF_MONTH);
-
+        Intent intent = getIntent();
+        if(intent.getExtras() != null) {
+            position = intent.getIntExtra("pos", 0);
+            populateBill(position);
+        }
     }
 
     private void createRadioButton() {
@@ -260,19 +265,30 @@ public class BillActivity extends AppCompatActivity {
         return new Intent(context, BillActivity.class);
     }
 
-    public void populateBill(Utility utility)
+    public void populateBill(int position)
     {
-        if(utility.getUtility_type().equals(Utility.GAS_NAME))
-        {
-            gasRb.setSelected(true);
-        }
-        if(utility.getUtility_type().equals(Utility.ELECTRICITY_NAME))
-        {
-            electricityRb.setSelected(true);
-        }
+        Utility utility = User.getInstance().getUtilityList().getUtility(position);
         amountInput = (EditText) findViewById(R.id.amountInput);
         peopleInput = (EditText) findViewById(R.id.peopleInput);
         currentAvgInput = (EditText) findViewById(R.id.currentAvgInput);
         previousAvgInput = (EditText) findViewById(R.id.previousAvgInput);
+
+        peopleInput.setText(String.valueOf(utility.getNumberOfPeople()));
+        if(utility.getUtility_type().equals(Utility.GAS_NAME))
+        {
+            gasRb.setChecked(true);
+            amountInput.setText(String.valueOf(utility.getNaturalGasUsed()));
+            currentAvgInput.setText(String.valueOf(utility.getAverageGJCurrent()));
+            previousAvgInput.setText(String.valueOf(utility.getAverageGJPrevious()));
+
+        }
+        if(utility.getUtility_type().equals(Utility.ELECTRICITY_NAME))
+        {
+            electricityRb.setChecked(true);
+            amountInput.setText(String.valueOf(utility.getElectricUsed()));
+            currentAvgInput.setText(String.valueOf(utility.getAverageKWhCurrent()));
+            previousAvgInput.setText(String.valueOf(utility.getAverageKWhPrevious()));
+        }
+
     }
 }

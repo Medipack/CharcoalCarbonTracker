@@ -185,7 +185,7 @@ public class UtilityActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 edit_position = position;
                 Intent intent = BillActivity.makeIntent(UtilityActivity.this);
-
+                intent.putExtra("pos", edit_position);
                 startActivityForResult(intent, 200);
 
                 return true;
