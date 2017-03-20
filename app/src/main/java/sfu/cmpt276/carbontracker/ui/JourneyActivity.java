@@ -1,6 +1,8 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -62,10 +64,27 @@ public class JourneyActivity extends AppCompatActivity {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Journey journey = JourneyList.get(position);
+                final int index = position;
+                AlertDialog.Builder alert = new AlertDialog.Builder(JourneyActivity.this);
+                alert.setMessage("Are you sure you want to delete this journey?");
+                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        User user = User.getInstance();
+                        user.getJourneyList().remove(index);
+                        populateListView();
+                    }
+                });
+                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
                 String msg = "This journey has been longClicked";
-                Toast.makeText(JourneyActivity.this, msg, Toast.LENGTH_SHORT).show();
                 Log.i(MY_APP, msg);
+                alert.show();
                 return true;
             }
         });
