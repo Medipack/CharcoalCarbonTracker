@@ -8,8 +8,12 @@ import java.util.Date;
 
 public class Utility {
 
-    public static final double ELECTRICITY = 9000; //amount of CO2 per GWh
-    public static final double NATURAL_GAS = 56.1; //amount of CO2 per GJ
+    //public static final double ELECTRICITY = 9000; //kg of CO2 per GWh
+    public static final double ELECTRICITY = 0.009; //kg of CO2 per KWh
+    public static final double NATURAL_GAS = 56.1; //kg of CO2 per GJ
+    public static final String ELECTRICITY_NAME = "electricity";
+    public static final String GAS_NAME = "gas";
+
 
     private String utility_type;
     private Date startDate;
@@ -145,9 +149,14 @@ public class Utility {
     public String getUtility_type(){
         return utility_type;
     }
+    public void setUtility_type(String utility_type){
+
+        this.utility_type = utility_type;
+    }
+
 
     public double getPeopleShare(){
-        if(utility_type.equals("electricity")) {
+        if(utility_type.equals(ELECTRICITY_NAME)) {
             return electricUsed / numberOfPeople;
         }
         else{
@@ -156,20 +165,20 @@ public class Utility {
     }
 
     public double getPerPersonEmission(){
-        if(utility_type.equals("electricity")){
-            return 9000 * 1000 * (averageKWhCurrent - averageKWhPrevious)/1000000 / numberOfPeople;   // g per gwh per person
+        if(utility_type.equals(ELECTRICITY_NAME)){
+            return ELECTRICITY * electricUsed/numberOfPeople;   // kg per kwh per person
         }
         else{
-            return 56.1 * (averageGJCurrent - averageGJPrevious) / numberOfPeople;                 //g per GJ per person
+            return NATURAL_GAS * naturalGasUsed/numberOfPeople;                 //kg per GJ per person
         }
     }
 
     public double getPerDayUsage(){
-        if(utility_type.equals("electricity")){
-            return 9000 * 1000 * (averageKWhCurrent - averageKWhPrevious)/1000000 / daysInPeriod;   // g per gwh per day
+        if(utility_type.equals(ELECTRICITY_NAME)){
+            return ELECTRICITY  * electricUsed / daysInPeriod;   // kg per kwh per day
         }
         else{
-            return 56.1 * (averageGJCurrent - averageGJPrevious) / daysInPeriod;                 //g per GJ per day
+            return NATURAL_GAS * naturalGasUsed / daysInPeriod;                 //kg per GJ per day
         }
     }
 }

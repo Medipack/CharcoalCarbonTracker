@@ -16,21 +16,15 @@ public class User {
     private RouteList routeList;
     private List<Journey> journeyList;
     private CarDirectory mainDirectory;
-
+    private UtilityList utilityList;
     private Journey currentJourney;
-
-    //new utility part
-    private List<Utility> utilityList;
-    private Utility currentUtility;
 
     private User(){
         carList = new ArrayList<>();
         routeList = new RouteList();
         currentJourney = new Journey();
         journeyList = new ArrayList<Journey>();
-        //
-        utilityList = new ArrayList<>();
-
+        utilityList = new UtilityList();
     }
 
     private static User instance = new User();
@@ -57,10 +51,10 @@ public class User {
         return mainDirectory;
     }
 
-    ////////////////////////////////
-    public List<Utility> getUtilityList(){
+    public UtilityList getUtilityList() {
         return utilityList;
     }
+
 
     // *** Current Journey *** //
 

@@ -49,7 +49,7 @@ public class UtilityActivity extends AppCompatActivity {
     static final int DIALOG_ID = 0;
     String str_date;
 
-    private UtilityList myUtility = new UtilityList();
+    private UtilityList myUtility = User.getInstance().getUtilityList();
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -93,6 +93,13 @@ public class UtilityActivity extends AppCompatActivity {
         // Configure the list view
         list = (ListView) findViewById(R.id.utilityList);
         list.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        populateListView();
+
     }
 
     @Override
