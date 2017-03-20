@@ -51,10 +51,45 @@ public class EditJourneyActivity extends AppCompatActivity {
         Journey currentJourney = user.getJourney(index);
         setUpCalendar(index);
         setUpRouteSpinner(index);
-        setUpCarSpinner(index);
         setUpAddRouteButton(index);
+        setUpCarSpinner(index);
         setUpAddCar();
         setUpChangeModeToCar(index);
+        setUpChangeModeToBus(index);
+        setUpChangeModeToSkytrain(index);
+        setUpChangeModeToBike(index);
+    }
+
+    private void setUpChangeModeToBike(final int index) {
+        Button bikeButton = (Button) findViewById(R.id.journey_edit_bikeButton);
+        bikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setJourneyEdits(index, Car.SKYTRAIN);
+                Log.i("MyApp", "clicked");
+                setResult(EDIT_CODE);
+                finish();
+            }
+        });
+    }
+
+    private void setUpChangeModeToSkytrain(final int index) {
+        Button skytrainButton = (Button) findViewById(R.id.journey_edit_skytrainButton);
+        skytrainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setJourneyEdits(index, Car.SKYTRAIN);
+                Log.i("MyApp", "clicked");
+                setResult(EDIT_CODE);
+                finish();
+            }
+        });
+    }
+
+    private void setupSelectModeTxt() {
+        TextView selectTxt = (TextView) findViewById(R.id.edit_journey_selectTransportationMode);
+        Typeface face = Typeface.createFromAsset(getAssets(), "fonts/Peter.ttf");
+        selectTxt.setTypeface(face);
     }
 
     private void setUpCalendar(final int index) {
@@ -82,6 +117,19 @@ public class EditJourneyActivity extends AppCompatActivity {
         updateDate();
     }
 
+    private void setUpChangeModeToBus(final int index) {
+        Button busButton = (Button) findViewById(R.id.journey_edit_busButton);
+        busButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setJourneyEdits(index, Car.BUS);
+                Log.i("MyApp", "clicked");
+                setResult(EDIT_CODE);
+                finish();
+            }
+        });
+    }
+
     private void updateDate(){
         EditText calendarDate = (EditText) findViewById(R.id.edit_journey_editable_date);
         String calendarFormat = "MM/dd/yy";
@@ -90,70 +138,18 @@ public class EditJourneyActivity extends AppCompatActivity {
         calendarDate.setText(journeyDate_str);
     }
 
-    private void setUpCarSpinner(int index) {
+    private void setUpRouteSpinner(int index) {
         //Create a String list
-        List<Car> carList = User.getInstance().getCarList();
-        List<String> list = getCarNames(carList);
-        Spinner routeSpin = (Spinner) findViewById(R.id.edit_journey_car_spinner);
+        RouteList routeList = User.getInstance().getRouteList();
+        List<String> list = getRouteNames(routeList);
+        Spinner routeSpin = (Spinner) findViewById(R.id.routeList);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-        adapter.notifyDataSetChanged();
         routeSpin.setAdapter(adapter);
         if (index >= 0) {
             Route originalRoute = User.getInstance().getJourney(index).getRoute();
-            int routeIndex = carList.indexOf(originalRoute);
+            int routeIndex = routeList.getRoutes().indexOf(originalRoute);
             routeSpin.setSelection(routeIndex);
         }
-    }
-
-    private void setUpChangeModeToCar(final int index) {
-        Button changeVehicle = (Button) findViewById(R.id.journey_edit_carButton);
-        changeVehicle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                User user = User.getInstance();
-                Date selectedDate = getSelectedDate();
-                Car selectedCar= getCarSelection();
-                Route selectedRoute = getSelectedRoute();
-                Journey editedJourney = new Journey(selectedCar, selectedRoute);
-                editedJourney.setDate(selectedDate);
-                user.getJourneyList().set(index, editedJourney);
-                Log.i("MyApp", "clicked");
-                setResult(EDIT_CODE);
-                finish();
-            }
-        });
-    }
-
-    private Date getSelectedDate() {
-        Date selectedDate = calendar.getTime();
-        return selectedDate;
-    }
-
-    private Car getCarSelection() {
-        User user = User.getInstance();
-        Spinner carSpin = (Spinner) findViewById(R.id.edit_journey_car_spinner);
-        List<Car> carList = user.getCarList();
-        Car selectedCar = carList.get(carSpin.getSelectedItemPosition());
-        return selectedCar;
-    }
-
-    private Route getSelectedRoute() {
-        User user = User.getInstance();
-        Spinner routeSpin = (Spinner) findViewById(R.id.routeList);
-        RouteList routeList = user.getRouteList();
-        Route selectedRoute = routeList.getRoute(routeSpin.getSelectedItemPosition());
-       return selectedRoute;
-    }
-
-    private void setUpAddCar() {
-        Button editVehicle = (Button) findViewById(R.id.edit_journey_addNewCar);
-        editVehicle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchNewVehicleDialog();
-                setUpCarSpinner(-1);
-            }
-        });
     }
 
     private void setUpAddRouteButton(final int index) {
@@ -275,24 +271,80 @@ public class EditJourneyActivity extends AppCompatActivity {
         });
     }
 
-    private void setupSelectModeTxt() {
-        TextView selectTxt = (TextView) findViewById(R.id.edit_journey_selectTransportationMode);
-        Typeface face = Typeface.createFromAsset(getAssets(), "fonts/Peter.ttf");
-        selectTxt.setTypeface(face);
-    }
-
-    private void setUpRouteSpinner(int index) {
+    private void setUpCarSpinner(int index) {
         //Create a String list
-        RouteList routeList = User.getInstance().getRouteList();
-        List<String> list = getRouteNames(routeList);
-        Spinner routeSpin = (Spinner) findViewById(R.id.routeList);
+        List<Car> carList = User.getInstance().getCarList();
+        List<String> list = getCarNames(carList);
+        Spinner routeSpin = (Spinner) findViewById(R.id.edit_journey_car_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        adapter.notifyDataSetChanged();
         routeSpin.setAdapter(adapter);
         if (index >= 0) {
             Route originalRoute = User.getInstance().getJourney(index).getRoute();
-            int routeIndex = routeList.getRoutes().indexOf(originalRoute);
+            int routeIndex = carList.indexOf(originalRoute);
             routeSpin.setSelection(routeIndex);
         }
+    }
+
+    private void setUpAddCar() {
+        Button editVehicle = (Button) findViewById(R.id.edit_journey_addNewCar);
+        editVehicle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchNewVehicleDialog();
+                setUpCarSpinner(-1);
+            }
+        });
+    }
+
+    private void setUpChangeModeToCar(final int index) {
+        Button changeVehicle = (Button) findViewById(R.id.journey_edit_carButton);
+        changeVehicle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setJourneyEdits(index, Car.CAR);
+                Log.i("MyApp", "clicked");
+                setResult(EDIT_CODE);
+                finish();
+            }
+        });
+    }
+
+    private void setJourneyEdits(int index, String transportationMode) {
+        User user = User.getInstance();
+        Date selectedDate = getSelectedDate();
+        Route selectedRoute = getSelectedRoute();
+        Journey editedJourney = user.getJourneyList().get(index);
+        editedJourney.getCar().setTransport_mode(transportationMode);
+        editedJourney.setCarbonEmitted(editedJourney.calculateCarbonEmission());
+        editedJourney.setDate(selectedDate);
+        if (transportationMode == Car.CAR){
+            Car selectedCar = getCarSelection();
+            editedJourney.setCar(selectedCar);
+        }else{
+            editedJourney.getCar().setNickname(transportationMode);
+        }
+    }
+
+    private Date getSelectedDate() {
+        Date selectedDate = calendar.getTime();
+        return selectedDate;
+    }
+
+    private Car getCarSelection() {
+        User user = User.getInstance();
+        Spinner carSpin = (Spinner) findViewById(R.id.edit_journey_car_spinner);
+        List<Car> carList = user.getCarList();
+        Car selectedCar = carList.get(carSpin.getSelectedItemPosition());
+        return selectedCar;
+    }
+
+    private Route getSelectedRoute() {
+        User user = User.getInstance();
+        Spinner routeSpin = (Spinner) findViewById(R.id.routeList);
+        RouteList routeList = user.getRouteList();
+        Route selectedRoute = routeList.getRoute(routeSpin.getSelectedItemPosition());
+       return selectedRoute;
     }
 
     @NonNull
