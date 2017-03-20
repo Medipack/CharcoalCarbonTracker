@@ -27,7 +27,7 @@
     </RadioGroup>
 
     <Button
-        android:text="From"
+        android:text="@string/from"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -45,7 +45,7 @@
         android:id="@+id/startDateText" />
 
     <Button
-        android:text="To"
+        android:text="@string/to"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/startBtn"
@@ -71,7 +71,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="31dp"
         android:id="@+id/amountInput"
-        android:hint="Amount Used" />
+        android:hint="@string/amount_used" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
         android:layout_alignStart="@+id/amountInput"
         android:layout_marginTop="10dp"
         android:id="@+id/peopleInput"
-        android:hint="# people" />
+        android:hint="@string/people" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -93,7 +93,7 @@
         android:layout_alignStart="@+id/peopleInput"
         android:layout_marginTop="7dp"
         android:id="@+id/currentAvgInput"
-        android:hint="Current Average" />
+        android:hint="@string/current_average" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -104,10 +104,10 @@
         android:layout_alignStart="@+id/currentAvgInput"
         android:layout_marginTop="8dp"
         android:id="@+id/previousAvgInput"
-        android:hint="Previous Average" />
+        android:hint="@string/previous_average" />
 
     <Button
-        android:text="Save"
+        android:text="@string/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

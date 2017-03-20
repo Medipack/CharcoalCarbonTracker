@@ -41,4 +41,11 @@
     <string name="natural_gas">Natural Gas</string>
     <string name="electricity">Electricity</string>
     <string name="bill">bill</string>
+    <string name="amount_used">Amount Used (KWH or GJ)</string>
+    <string name="people"># of people</string>
+    <string name="current_average">Current Average (KWh or GJ)</string>
+    <string name="previous_average">Previous Average (kWH or GJ)</string>
+    <string name="save">Save</string>
+    <string name="to">To</string>
+    <string name="from">From</string>
 </resources>
