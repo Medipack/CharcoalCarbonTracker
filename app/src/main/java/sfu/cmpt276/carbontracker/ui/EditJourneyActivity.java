@@ -1,5 +1,6 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -11,13 +12,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Car;
@@ -28,6 +34,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 
 public class EditJourneyActivity extends AppCompatActivity {
 
+    Calendar calendar = Calendar.getInstance();
     String nameSaved;
     double citySaved;
     double highwaySaved;
@@ -43,19 +50,54 @@ public class EditJourneyActivity extends AppCompatActivity {
         int index = intent.getIntExtra("index", -1);
         Journey currentJourney = user.getJourney(index);
         user.setCurrentJourney(currentJourney);
+        setUpCalendar(index);
         setUpRouteSpinner(index);
         setUpCarSpinner(index);
         setUpAddRouteButton(index);
         setUpAddCar();
-        setUpChangeModeToCar();
+        setUpChangeModeToCar(index);
+    }
+
+    private void setUpCalendar(final int index) {
+        User user = User.getInstance();
+        Date journeyDate = user.getJourney(index).getDate();
+        calendar.setTime(journeyDate);
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                calendar.set(calendar.YEAR, year);
+                calendar.set(calendar.MONTH, month);
+                calendar.set(calendar.DAY_OF_MONTH, dayOfMonth);
+                updateDate();
+            }
+        };
+
+        EditText calendarDate = (EditText) findViewById(R.id.edit_journey_editable_date);
+        calendarDate.setShowSoftInputOnFocus(false);
+        calendarDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(EditJourneyActivity.this, date, calendar.get(calendar.YEAR), calendar.get(calendar.MONTH), calendar.get(calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        updateDate();
+    }
+
+    private void updateDate(){
+        EditText calendarDate = (EditText) findViewById(R.id.edit_journey_editable_date);
+        String calendarFormat = "MM/dd/yy";
+        SimpleDateFormat sdf = new SimpleDateFormat(calendarFormat);
+        String journeyDate_str = sdf.format(calendar.getTime());
+        calendarDate.setText(journeyDate_str);
     }
 
     private void setUpCarSpinner(int index) {
         //Create a String list
         List<Car> carList = User.getInstance().getCarList();
         List<String> list = getCarNames(carList);
-        Spinner routeSpin = (Spinner) findViewById(R.id.routeList);
+        Spinner routeSpin = (Spinner) findViewById(R.id.edit_journey_car_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        adapter.notifyDataSetChanged();
         routeSpin.setAdapter(adapter);
         if (index >= 0) {
             Route originalRoute = User.getInstance().getJourney(index).getRoute();
@@ -64,31 +106,33 @@ public class EditJourneyActivity extends AppCompatActivity {
         }
     }
 
-    private void setUpChangeModeToCar() {
+    private void setUpChangeModeToCar(final int index) {
         Button changeVehicle = (Button) findViewById(R.id.journey_edit_carButton);
         changeVehicle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 User user = User.getInstance();
-                setCurrentCar(user);
-                setCurrentRoute(user);
+                setCurrentCar(index);
+                setCurrentRoute(index);
                 finish();
             }
         });
     }
 
-    private void setCurrentCar(User user) {
+    private void setCurrentCar(int index) {
+        User user = User.getInstance();
         Spinner carSpin = (Spinner) findViewById(R.id.edit_journey_car_spinner);
         List<Car> carList = user.getCarList();
         Car selectedCar = carList.get(carSpin.getSelectedItemPosition());
-        user.setCurrentJourneyCar(selectedCar);
+        user.getJourneyList().get(index).setCar(selectedCar);
     }
 
-    private void setCurrentRoute(User user) {
+    private void setCurrentRoute(int index) {
+        User user = User.getInstance();
         Spinner routeSpin = (Spinner) findViewById(R.id.routeList);
         RouteList routeList = user.getRouteList();
         Route selectedRoute = routeList.getRoute(routeSpin.getSelectedItemPosition());
-        user.setCurrentJourneyRoute(selectedRoute);
+        user.getJourneyList().get(index).setRoute(selectedRoute);
     }
 
     private void setUpAddCar() {
@@ -97,6 +141,7 @@ public class EditJourneyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 launchNewVehicleDialog();
+                setUpCarSpinner(-1);
             }
         });
     }
@@ -257,7 +302,6 @@ public class EditJourneyActivity extends AppCompatActivity {
         }
         return list;
     }
-
 
     private void launchNewVehicleDialog(){
         FragmentManager manager = getSupportFragmentManager();

@@ -81,7 +81,7 @@
             android:textStyle="bold|italic" />
 
         <EditText
-            android:id="@+id/edit"
+            android:id="@+id/edit_journey_editable_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/edit_journey_date"
@@ -89,7 +89,7 @@
             android:layout_marginStart="34dp"
             android:layout_toEndOf="@+id/edit_journey_date"
             android:ems="10"
-            android:inputType="date" />
+            android:inputType="none" />
     </RelativeLayout>
 
     <RelativeLayout

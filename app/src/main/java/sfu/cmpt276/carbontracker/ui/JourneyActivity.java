@@ -48,6 +48,7 @@ public class JourneyActivity extends AppCompatActivity {
         //Configure items;
         ListView list = (ListView) findViewById(R.id.listJourney);
         list.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     private void registerJourneyListCallBack() {
