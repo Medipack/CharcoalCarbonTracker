@@ -24,8 +24,12 @@ public class Journey {
         car = new Car(); //initializes car as new car with default values
         route = new Route(); //initializes route as a new route with default values
         date = new Date(); //sets date to current date
-        totalDistance = route.getRouteDistanceCity() + route.getRouteDistanceHighway();
+        totalDistance = calculateTotalDistance();
         carbonEmitted = 0;
+    }
+
+    private double calculateTotalDistance() {
+        return route.getRouteDistanceCity() + route.getRouteDistanceHighway();
     }
 
     Journey(Car car, Route route) {
@@ -112,8 +116,11 @@ public class Journey {
         return route;
     }
 
+    //Add route and resets total distance and carbon emitted
     public void setRoute(Route route) {
         this.route = route;
+        totalDistance = calculateTotalDistance();
+        carbonEmitted = calculateCarbonEmission();
     }
 
 }
