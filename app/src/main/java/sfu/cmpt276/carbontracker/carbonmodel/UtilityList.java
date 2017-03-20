@@ -20,6 +20,7 @@ public class UtilityList {
 
     public void editUtility(Utility editUtility, int index){
         validateIndexWithException(index);
+
         utilities.remove(index);
         utilities.add(index, editUtility);
     }

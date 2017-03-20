@@ -45,6 +45,9 @@ public class BillActivity extends AppCompatActivity {
     private EditText peopleInput;
     private EditText currentAvgInput;
     private EditText previousAvgInput;
+    private RadioButton gasRb;
+    private RadioButton electricityRb;
+
 
     String str_startDate;
     String str_endDate;
@@ -73,33 +76,25 @@ public class BillActivity extends AppCompatActivity {
         year_y = cal.get(Calendar.YEAR);
         month_y = cal.get(Calendar.MONTH);
         day_y = cal.get(Calendar.DAY_OF_MONTH);
+
     }
 
     private void createRadioButton() {
+        gasRb = new RadioButton(this);
+        electricityRb = new RadioButton(this);
+
         RadioGroup group = (RadioGroup)findViewById(R.id.utilityGroup);
         final String[] choice = getResources().getStringArray(R.array.choose_utility);
 
-        for(int i = 0; i < choice.length; i++){
-            final String utility1 = choice[i];
+        gasRb.setText(choice[0]);
+        electricityRb.setText(choice[1]);
 
-            final RadioButton button = new RadioButton(this);
-            button.setText(utility1 + "");
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(utility1.equals(choice[0])){
-                        utilityChosen = 0; //user choose natural gas
-                        tempChosen = Integer.toString(utilityChosen);
-                    }
-                    else{
-                        utilityChosen = 1; //user choose electricity
-                        tempChosen = Integer.toString(utilityChosen);
-                    }
-                }
-            });
-            group.addView(button);
-        }
+        group.addView(gasRb);
+        group.addView(electricityRb);
+
     }
+
+
 
     private void setupSaveButton() {
         Button save = (Button)findViewById(R.id.utilitySaveBtn);
@@ -117,13 +112,13 @@ public class BillActivity extends AppCompatActivity {
                 String str_currentAvg = currentAvgInput.getText().toString();
                 String str_previousAvg = previousAvgInput.getText().toString();
 
-                if(utilityChosen == 0){
+                if(gasRb.isChecked()){
                     newUtility.setUtility_type(Utility.GAS_NAME);
                     newUtility.setNaturalGasUsed(Double.parseDouble(str_amount));
                     newUtility.setAverageGJCurrent(Double.parseDouble(str_currentAvg));
                     newUtility.setAverageGJPrevious(Double.parseDouble(str_previousAvg));
                 }
-                else{
+                else if(electricityRb.isChecked()){
                     newUtility.setUtility_type(Utility.ELECTRICITY_NAME);
                     newUtility.setElectricUsed(Double.parseDouble(str_amount));
                     newUtility.setAverageKWhCurrent(Double.parseDouble(str_currentAvg));
@@ -263,5 +258,21 @@ public class BillActivity extends AppCompatActivity {
 
     public static Intent makeIntent(Context context){
         return new Intent(context, BillActivity.class);
+    }
+
+    public void populateBill(Utility utility)
+    {
+        if(utility.getUtility_type().equals(Utility.GAS_NAME))
+        {
+            gasRb.setSelected(true);
+        }
+        if(utility.getUtility_type().equals(Utility.ELECTRICITY_NAME))
+        {
+            electricityRb.setSelected(true);
+        }
+        amountInput = (EditText) findViewById(R.id.amountInput);
+        peopleInput = (EditText) findViewById(R.id.peopleInput);
+        currentAvgInput = (EditText) findViewById(R.id.currentAvgInput);
+        previousAvgInput = (EditText) findViewById(R.id.previousAvgInput);
     }
 }
