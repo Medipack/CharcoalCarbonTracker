@@ -20,6 +20,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 
 public class JourneyActivity extends AppCompatActivity {
     public static final String MY_APP = "MyApp";
+    public static final int EDIT_CODE = 1000;
     List<Journey> JourneyList = User.getInstance().getJourneyList();
 
     @Override
@@ -81,9 +82,22 @@ public class JourneyActivity extends AppCompatActivity {
                 Log.i(MY_APP, msg);
                 Intent intent = new Intent(JourneyActivity.this, EditJourneyActivity.class);
                 intent.putExtra("index", position);
-                startActivity(intent);
+                startActivityForResult(intent, EDIT_CODE);
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case (EDIT_CODE) : {
+                if (resultCode == EDIT_CODE) {
+                    populateListView();
+                }
+                break;
+            }
+        }
     }
 }

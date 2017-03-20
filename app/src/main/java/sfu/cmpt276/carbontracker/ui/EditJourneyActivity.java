@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Car;
@@ -34,6 +33,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 
 public class EditJourneyActivity extends AppCompatActivity {
 
+    public static final int EDIT_CODE = 1000;
     Calendar calendar = Calendar.getInstance();
     String nameSaved;
     double citySaved;
@@ -49,7 +49,6 @@ public class EditJourneyActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int index = intent.getIntExtra("index", -1);
         Journey currentJourney = user.getJourney(index);
-        user.setCurrentJourney(currentJourney);
         setUpCalendar(index);
         setUpRouteSpinner(index);
         setUpCarSpinner(index);
@@ -112,27 +111,38 @@ public class EditJourneyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User user = User.getInstance();
-                setCurrentCar(index);
-                setCurrentRoute(index);
+                Date selectedDate = getSelectedDate();
+                Car selectedCar= getCarSelection();
+                Route selectedRoute = getSelectedRoute();
+                Journey editedJourney = new Journey(selectedCar, selectedRoute);
+                editedJourney.setDate(selectedDate);
+                user.getJourneyList().set(index, editedJourney);
+                Log.i("MyApp", "clicked");
+                setResult(EDIT_CODE);
                 finish();
             }
         });
     }
 
-    private void setCurrentCar(int index) {
+    private Date getSelectedDate() {
+        Date selectedDate = calendar.getTime();
+        return selectedDate;
+    }
+
+    private Car getCarSelection() {
         User user = User.getInstance();
         Spinner carSpin = (Spinner) findViewById(R.id.edit_journey_car_spinner);
         List<Car> carList = user.getCarList();
         Car selectedCar = carList.get(carSpin.getSelectedItemPosition());
-        user.getJourneyList().get(index).setCar(selectedCar);
+        return selectedCar;
     }
 
-    private void setCurrentRoute(int index) {
+    private Route getSelectedRoute() {
         User user = User.getInstance();
         Spinner routeSpin = (Spinner) findViewById(R.id.routeList);
         RouteList routeList = user.getRouteList();
         Route selectedRoute = routeList.getRoute(routeSpin.getSelectedItemPosition());
-        user.getJourneyList().get(index).setRoute(selectedRoute);
+       return selectedRoute;
     }
 
     private void setUpAddCar() {
