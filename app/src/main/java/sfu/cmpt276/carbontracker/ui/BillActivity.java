@@ -63,6 +63,7 @@ public class BillActivity extends AppCompatActivity {
 
         createRadioButton();
         setupSaveButton();
+        setupDeleteButton();
 
         final Calendar cal = Calendar.getInstance();
         year_x = cal.get(Calendar.YEAR);
@@ -72,6 +73,7 @@ public class BillActivity extends AppCompatActivity {
         month_y = cal.get(Calendar.MONTH);
         day_y = cal.get(Calendar.DAY_OF_MONTH);
     }
+
 
 
     private void createRadioButton() {
@@ -139,6 +141,18 @@ public class BillActivity extends AppCompatActivity {
                 setResult(Activity.RESULT_OK, intent);
                 finish();
 
+            }
+        });
+    }
+
+    private void setupDeleteButton() {
+        Button deleteBtn = (Button) findViewById(R.id.deleteBtn);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BillActivity.this, UtilityActivity.class);
+                setResult(Activity.RESULT_FIRST_USER, intent);
+                finish();
             }
         });
     }

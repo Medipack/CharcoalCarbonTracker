@@ -61,17 +61,6 @@ public class Utility {
 
     }
 
-    public Utility(String utility_type, double utilityUsed, int numberOfPeople, int daysInPeriod, double averageCurrent, double averagePrevious){
-        this.utility_type = utility_type;
-        this.numberOfPeople = numberOfPeople;
-        this.daysInPeriod = daysInPeriod;
-        this.naturalGasUsed = utilityUsed;
-        this.averageKWhCurrent = averageCurrent;
-        this.averageKWhPrevious = averagePrevious;
-
-    }
-
-
 
     public Date getStartDate() {
         return startDate;
