@@ -97,7 +97,6 @@ public class JourneyActivity extends AppCompatActivity {
                 Journey journey = JourneyList.get(position);
                 String msg = "You clicked a journey with: " + journey.getVehicleName() +
                         " and " + journey.getRouteName();
-                Toast.makeText(JourneyActivity.this, msg, Toast.LENGTH_SHORT).show();
                 Log.i(MY_APP, msg);
                 Intent intent = new Intent(JourneyActivity.this, EditJourneyActivity.class);
                 intent.putExtra("index", position);
