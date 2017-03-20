@@ -101,11 +101,11 @@
 
         <Button
             android:id="@+id/journey_edit_addRoute"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@mipmap/routee2"
-            android:layout_below="@+id/edit_journey_route"
-            android:layout_toStartOf="@+id/routeListLayout" />
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:background="@mipmap/routee2" />
 
         <RelativeLayout
             android:id="@+id/routeListLayout"
@@ -114,15 +114,15 @@
             android:orientation="vertical"
             android:weightSum="1"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/edit_journey_route"
-            android:layout_marginStart="26dp">
+            android:layout_toStartOf="@+id/journey_edit_addRoute">
 
             <Spinner
                 android:id="@+id/routeList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true" />
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="71dp" />
         </RelativeLayout>
 
         <TextView
@@ -137,14 +137,47 @@
 
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/edit_journey_addNewCar"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/editCarLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="35dp"
-        android:text="@string/add_vehicle"
-        android:textAlignment="center"
-        android:layout_above="@+id/editDateLayout"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginTop="17dp"
+        android:layout_below="@+id/editRouteLayout"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/edit_journey_vehicle"
+            android:layout_toStartOf="@+id/edit_journey_addNewCar">
+
+            <Spinner
+                android:id="@+id/edit_journey_car_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="73dp" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/edit_journey_addNewCar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/add_vehicle"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/edit_journey_vehicle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/editRouteLayout"
+            android:text="@string/car"
+            android:textSize="18sp"
+            android:textStyle="bold|italic" />
+    </RelativeLayout>
 
 </RelativeLayout>
