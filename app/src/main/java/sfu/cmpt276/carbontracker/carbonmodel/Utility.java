@@ -11,6 +11,9 @@ public class Utility {
     //public static final double ELECTRICITY = 9000; //kg of CO2 per GWh
     public static final double ELECTRICITY = 0.009; //kg of CO2 per KWh
     public static final double NATURAL_GAS = 56.1; //kg of CO2 per GJ
+    public static final String ELECTRICITY_NAME = "electricity";
+    public static final String GAS_NAME = "gas";
+
 
     private String utility_type;
     private Date startDate;
@@ -157,9 +160,14 @@ public class Utility {
     public String getUtility_type(){
         return utility_type;
     }
+    public void setUtility_type(String utility_type){
+
+        this.utility_type = utility_type;
+    }
+
 
     public double getPeopleShare(){
-        if(utility_type.equals("electricity")) {
+        if(utility_type.equals(ELECTRICITY_NAME)) {
             return electricUsed / numberOfPeople;
         }
         else{
@@ -168,7 +176,7 @@ public class Utility {
     }
 
     public double getPerPersonEmission(){
-        if(utility_type.equals("electricity")){
+        if(utility_type.equals(ELECTRICITY_NAME)){
             return ELECTRICITY * electricUsed/numberOfPeople;   // kg per kwh per person
         }
         else{
@@ -177,7 +185,7 @@ public class Utility {
     }
 
     public double getPerDayUsage(){
-        if(utility_type.equals("electricity")){
+        if(utility_type.equals(ELECTRICITY_NAME)){
             return ELECTRICITY  * electricUsed / daysInPeriod;   // kg per kwh per day
         }
         else{

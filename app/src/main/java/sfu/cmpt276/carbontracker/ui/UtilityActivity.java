@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import sfu.cmpt276.carbontracker.R;
+import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 import sfu.cmpt276.carbontracker.carbonmodel.UtilityList;
 
@@ -29,7 +30,7 @@ public class UtilityActivity extends AppCompatActivity {
     double currentAvg;
     double previousAvg;
 
-    private UtilityList myUtility = new UtilityList();
+    private UtilityList myUtility = User.getInstance().getUtilityList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,13 @@ public class UtilityActivity extends AppCompatActivity {
         // Configure the list view
         ListView list = (ListView) findViewById(R.id.utilityList);
         list.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        populateListView();
+
     }
 
     @Override

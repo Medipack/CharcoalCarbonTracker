@@ -25,7 +25,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import sfu.cmpt276.carbontracker.R;
+import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
+import sfu.cmpt276.carbontracker.carbonmodel.UtilityList;
 
 public class BillActivity extends AppCompatActivity {
 
@@ -107,6 +109,7 @@ public class BillActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utility newUtility = new Utility();
                 amountInput = (EditText) findViewById(R.id.amountInput);
                 peopleInput = (EditText) findViewById(R.id.peopleInput);
                 currentAvgInput = (EditText) findViewById(R.id.currentAvgInput);
@@ -118,14 +121,30 @@ public class BillActivity extends AppCompatActivity {
                 String str_previousAvg = previousAvgInput.getText().toString();
 
                 if(utilityChosen == 0){
+                    newUtility.setUtility_type(Utility.GAS_NAME);
+                    newUtility.setNaturalGasUsed(Double.parseDouble(str_amount));
+                    newUtility.setAverageGJCurrent(Double.parseDouble(str_currentAvg));
+                    newUtility.setAverageGJPrevious(Double.parseDouble(str_previousAvg));
                     tempType = "gas";
                     Toast.makeText(BillActivity.this, "" + tempType, Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    tempType = "electricity";
+                    newUtility.setUtility_type(Utility.ELECTRICITY_NAME);
+                    newUtility.setElectricUsed(Double.parseDouble(str_amount));
+                    newUtility.setAverageKWhCurrent(Double.parseDouble(str_currentAvg));
+                    newUtility.setAverageKWhPrevious(Double.parseDouble(str_previousAvg));
                     Toast.makeText(BillActivity.this, "" + tempType, Toast.LENGTH_SHORT).show();
                 }
 
+                newUtility.setNumberOfPeople(Integer.parseInt(str_people));
+                newUtility.setStartDate(startDate);
+                newUtility.setEndDate(endDate);
+                newUtility.setDaysInPeriod(Integer.parseInt(tempPeriod));
+                UtilityList tempList = User.getInstance().getUtilityList();
+                tempList.addUtility(newUtility);
+                Toast.makeText(BillActivity.this, "" + newUtility.getPerDayUsage() + " - " + newUtility.getPerPersonEmission(), Toast.LENGTH_SHORT).show();
+
+                /*
                 Intent intent = new Intent(BillActivity.this, UtilityActivity.class);
                 intent.putExtra("type of utility", tempType);
                 intent.putExtra("start date", str_startDate);
@@ -136,7 +155,7 @@ public class BillActivity extends AppCompatActivity {
                 intent.putExtra("current avg", str_currentAvg);
                 intent.putExtra("previous avg", str_previousAvg);
 
-                setResult(Activity.RESULT_OK, intent);
+                setResult(Activity.RESULT_OK, intent);*/
                 finish();
 
             }
