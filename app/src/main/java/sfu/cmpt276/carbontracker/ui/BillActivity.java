@@ -60,7 +60,6 @@ public class BillActivity extends AppCompatActivity {
         showFromDialog();
         showToDialog();
 
-
         createRadioButton();
         setupSaveButton();
         setupDeleteButton();
@@ -74,8 +73,6 @@ public class BillActivity extends AppCompatActivity {
         day_y = cal.get(Calendar.DAY_OF_MONTH);
     }
 
-
-
     private void createRadioButton() {
         RadioGroup group = (RadioGroup)findViewById(R.id.utilityGroup);
         final String[] choice = getResources().getStringArray(R.array.choose_utility);
@@ -83,7 +80,7 @@ public class BillActivity extends AppCompatActivity {
         for(int i = 0; i < choice.length; i++){
             final String utility1 = choice[i];
 
-            RadioButton button = new RadioButton(this);
+            final RadioButton button = new RadioButton(this);
             button.setText(utility1 + "");
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -101,8 +98,6 @@ public class BillActivity extends AppCompatActivity {
             group.addView(button);
         }
     }
-
-
 
     private void setupSaveButton() {
         Button save = (Button)findViewById(R.id.utilitySaveBtn);
@@ -140,7 +135,6 @@ public class BillActivity extends AppCompatActivity {
 
                 setResult(Activity.RESULT_OK, intent);
                 finish();
-
             }
         });
     }
@@ -156,8 +150,6 @@ public class BillActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     private void showFromDialog() {
         Button fromBtn = (Button) findViewById(R.id.startBtn);
@@ -233,7 +225,6 @@ public class BillActivity extends AppCompatActivity {
             }
         }
     };
-
 
     public static String getTypeName(Intent intent){
         return intent.getStringExtra("type of utility");

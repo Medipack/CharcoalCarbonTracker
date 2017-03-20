@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:text="@string/choose_a_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/chooseText"
+        android:textSize="24sp" />
+
+    <Button
+        android:text="@string/choose_a_date_to_check_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/chooseDateBtn" />
+
+    <TextView
+        android:text="@string/xx_xx_xxxx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateChosen"
+        android:textSize="24sp" />
+
+    <TextView
+        android:text="@string/text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text1"
+        android:textSize="24sp" />
+
+    <TextView
+        android:text="@string/text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/emissionChosen"
+        android:textSize="24sp" />
+</LinearLayout>

@@ -19,11 +19,17 @@ public class User {
 
     private Journey currentJourney;
 
+    //new utility part
+    private List<Utility> utilityList;
+    private Utility currentUtility;
+
     private User(){
         carList = new ArrayList<>();
         routeList = new RouteList();
         currentJourney = new Journey();
         journeyList = new ArrayList<Journey>();
+        //
+        utilityList = new ArrayList<>();
 
     }
 
@@ -49,6 +55,11 @@ public class User {
 
     public CarDirectory getMain(){
         return mainDirectory;
+    }
+
+    ////////////////////////////////
+    public List<Utility> getUtilityList(){
+        return utilityList;
     }
 
     // *** Current Journey *** //

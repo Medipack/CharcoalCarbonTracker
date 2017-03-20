@@ -308,7 +308,6 @@ public class RouteActivity extends AppCompatActivity {
                                 Toast.makeText(RouteActivity.this, "Please enter an positive highway distance", Toast.LENGTH_SHORT).show();
                             }
                             else {
-
                                 Route editRoute = new Route(editNameSaved, editCitySaved, editHighwaySaved);
                                 User.getInstance().editRouteFromRouteList(position, editRoute);
                                 populateRouteList();

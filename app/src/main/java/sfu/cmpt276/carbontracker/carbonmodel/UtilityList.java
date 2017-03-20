@@ -57,7 +57,6 @@ public class UtilityList {
                         + "g\nemission per day: " + utility.getPerDayUsage() + "g";
             }
         }
-
         return descriptions;
     }
 
