@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.carbonmodel.Car;
+import sfu.cmpt276.carbontracker.carbonmodel.User;
 
 /**
  * A data source from the Car Database
@@ -22,7 +23,9 @@ public class CarDataSource {
 
     private String[] columns = {
             CarDatabaseHelper.COLUMN_ID,
+            CarDatabaseHelper.COLUMN_ISACTIVE,
             CarDatabaseHelper.COLUMN_NICKNAME,
+            CarDatabaseHelper.COLUMN_TRANSPORTMODE,
             CarDatabaseHelper.COLUMN_MAKE,
             CarDatabaseHelper.COLUMN_MODEL,
             CarDatabaseHelper.COLUMN_FUELTYPE,
@@ -49,7 +52,9 @@ public class CarDataSource {
 
             if(includeId)
                 values.put(CarDatabaseHelper.COLUMN_ID, car.getId());
+        values.put(CarDatabaseHelper.COLUMN_ISACTIVE, User.booleanToInt(car.getActive()));
         values.put(CarDatabaseHelper.COLUMN_NICKNAME, car.getNickname());
+        values.put(CarDatabaseHelper.COLUMN_TRANSPORTMODE, car.getTransport_mode());
         values.put(CarDatabaseHelper.COLUMN_MAKE, car.getMake());
         values.put(CarDatabaseHelper.COLUMN_MODEL, car.getModel());
         values.put(CarDatabaseHelper.COLUMN_FUELTYPE, car.getFuelType());
@@ -107,15 +112,17 @@ public class CarDataSource {
         Car car = new Car();
 
         car.setId(cursor.getInt(0));
-        car.setNickname(cursor.getString(1));
-        car.setMake(cursor.getString(2));
-        car.setModel(cursor.getString(3));
-        car.setFuelType(cursor.getString(4));
-        car.setTransmission(cursor.getString(5));
-        car.setYear(cursor.getInt(6));
-        car.setCityCO2(cursor.getInt(7));
-        car.setHwyCO2(cursor.getInt(8));
-        car.setEngineDispl(cursor.getDouble(9));
+        car.setActive(User.intToBoolean(cursor.getInt(1)));
+        car.setNickname(cursor.getString(2));
+        car.setTransport_mode(cursor.getString(3));
+        car.setMake(cursor.getString(4));
+        car.setModel(cursor.getString(5));
+        car.setFuelType(cursor.getString(6));
+        car.setTransmission(cursor.getString(7));
+        car.setYear(cursor.getInt(8));
+        car.setCityCO2(cursor.getInt(9));
+        car.setHwyCO2(cursor.getInt(10));
+        car.setEngineDispl(cursor.getDouble(11));
 
         return car;
     }

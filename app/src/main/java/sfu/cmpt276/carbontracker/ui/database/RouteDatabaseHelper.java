@@ -44,7 +44,9 @@ class RouteDatabaseHelper extends SQLiteOpenHelper {
         Log.w(RouteDatabaseHelper.class.getName(), "Upgrading + " + DATABASE_NAME + " database from version "
                 + oldVersion + " to " + newVersion + ", old data will be destroyed");
 
+        db.execSQL("DROP TABLE IF EXISTS " + JourneyDatabaseHelper.TABLE_JOURNEYS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ROUTES);
+
         onCreate(db);
     }
 }

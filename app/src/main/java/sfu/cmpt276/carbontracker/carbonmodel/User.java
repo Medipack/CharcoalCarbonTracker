@@ -109,6 +109,7 @@ public class User {
     }
 
     public void removeCarFromCarList(Car car){
+        /*
         for(Journey journey : journeyList){
             if(journey.getCar() == car){
                 Car newCar = new Car();
@@ -122,6 +123,7 @@ public class User {
             }
         }
         carList.remove(car);
+        */
         notifyListenerCarWasEdited();
     }
 
@@ -223,5 +225,13 @@ public class User {
 
     public void setRouteListPopulatedFromDatabase() {
         routeListPopulatedFromDatabase = true;
+    }
+
+    public static int booleanToInt(boolean value) {
+        return (value) ? 1 : 0;
+    }
+
+    public static boolean intToBoolean(int value) {
+        return value > 0;
     }
 }

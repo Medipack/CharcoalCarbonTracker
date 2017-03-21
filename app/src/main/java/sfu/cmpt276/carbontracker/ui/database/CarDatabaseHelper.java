@@ -15,7 +15,9 @@ class CarDatabaseHelper extends SQLiteOpenHelper {
     static final String TABLE_CARS = "cars";
 
     static final String COLUMN_ID = "_id";
+    static final String COLUMN_ISACTIVE = "isactive";
     static final String COLUMN_NICKNAME = "nickname";
+    static final String COLUMN_TRANSPORTMODE = "transportmode";
     static final String COLUMN_MAKE = "make";
     static final String COLUMN_MODEL = "model";
     static final String COLUMN_FUELTYPE = "fueltype";
@@ -26,13 +28,15 @@ class CarDatabaseHelper extends SQLiteOpenHelper {
     static final String COLUMN_ENGINEDISPL = "enginedispl";
 
     private static final String DATABASE_NAME = "cars.db";
-    private static final int DATABASE_VERSION = 3; // update if Car class is ever changed
+    private static final int DATABASE_VERSION = 5; // update if Car class is ever changed
 
     // SQL command to create the database
     private static final String DATABASE_CREATE = "create table " +
             TABLE_CARS + "( " +
             COLUMN_ID + " integer primary key autoincrement, " +
+            COLUMN_ISACTIVE + " integer not null, " +
             COLUMN_NICKNAME + " text not null, " +
+            COLUMN_TRANSPORTMODE + " text not null, " +
             COLUMN_MAKE + " text not null, " +
             COLUMN_MODEL + " text not null, " +
             COLUMN_FUELTYPE + " text not null, " +
@@ -57,6 +61,8 @@ class CarDatabaseHelper extends SQLiteOpenHelper {
                 + oldVersion + " to " + newVersion + ", old data will be destroyed");
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CARS);
+        db.execSQL("DROP TABLE IF EXISTS " + JourneyDatabaseHelper.TABLE_JOURNEYS);
+
         onCreate(db);
     }
 }

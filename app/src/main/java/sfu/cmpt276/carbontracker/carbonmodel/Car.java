@@ -23,11 +23,11 @@ public class Car implements Cloneable, Serializable{
     private static final double MPG_TO_KML = 0.425144;
     //Attributes
     private int id = -1;
-    private String transport_mode;
-    private Boolean isActive;
+    private boolean isActive;
     private String nickname;
-    private String model;
+    private String transport_mode;
     private String make;
+    private String model;
     private String fuelType;
     private String transmission;
     private int year;
@@ -236,6 +236,14 @@ public class Car implements Cloneable, Serializable{
     @Override
     public String toString() {
         return getShortDecription();
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }
 
