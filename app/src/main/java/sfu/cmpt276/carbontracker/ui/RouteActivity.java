@@ -247,7 +247,7 @@ public class RouteActivity extends AppCompatActivity {
 
                 User.getInstance().addJourney(User.getInstance().getCurrentJourney());
 
-                Intent intent = new Intent(RouteActivity.this, JourneyEmissionActivity.class);
+                Intent intent = new Intent(RouteActivity.this, PickDateActivity.class);
                 startActivityForResult(intent,0);
             }
         });
