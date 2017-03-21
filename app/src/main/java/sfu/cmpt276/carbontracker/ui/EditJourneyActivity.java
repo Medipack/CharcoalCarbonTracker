@@ -65,7 +65,7 @@ public class EditJourneyActivity extends AppCompatActivity {
         bikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setJourneyEdits(index, Car.SKYTRAIN);
+                setJourneyEdits(index, Car.WALK_BIKE);
                 Log.i("MyApp", "clicked");
                 setResult(EDIT_CODE);
                 finish();
@@ -315,15 +315,18 @@ public class EditJourneyActivity extends AppCompatActivity {
         Date selectedDate = getSelectedDate();
         Route selectedRoute = getSelectedRoute();
         Journey editedJourney = user.getJourneyList().get(index);
-        editedJourney.getCar().setTransport_mode(transportationMode);
-        editedJourney.setCarbonEmitted(editedJourney.calculateCarbonEmission());
-        editedJourney.setDate(selectedDate);
         if (transportationMode == Car.CAR){
             Car selectedCar = getCarSelection();
             editedJourney.setCar(selectedCar);
         }else{
-            editedJourney.getCar().setNickname(transportationMode);
+            Car vehicle = new Car();
+            vehicle.setTransport_mode(transportationMode);
+            vehicle.setNickname(transportationMode);
+            editedJourney.setCar(vehicle);
         }
+        editedJourney.setCarbonEmitted(editedJourney.calculateCarbonEmission());
+        editedJourney.setDate(selectedDate);
+        editedJourney.setRoute(selectedRoute);
     }
 
     private Date getSelectedDate() {
