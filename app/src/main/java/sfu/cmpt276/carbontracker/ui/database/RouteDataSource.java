@@ -89,4 +89,18 @@ public class RouteDataSource {
 
         return route;
     }
+
+    public Route getRouteById(int id) {
+        Route route = null;
+
+        try (Cursor cursor = db.rawQuery("SELECT * FROM "
+                + RouteDatabaseHelper.TABLE_ROUTES + " WHERE "
+                + RouteDatabaseHelper.COLUMN_ID + " = ?", new String[]{"" + id})) {
+            if (cursor.moveToFirst()) {
+                route = cursorToRoute(cursor);
+            }
+        }
+
+        return route;
+    }
 }

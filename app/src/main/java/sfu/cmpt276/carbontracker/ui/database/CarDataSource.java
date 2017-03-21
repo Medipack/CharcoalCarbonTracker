@@ -106,4 +106,18 @@ public class CarDataSource {
 
         return car;
     }
+
+    public Car getCarById(int id) {
+        Car car = null;
+
+        try (Cursor cursor = db.rawQuery("SELECT * FROM "
+                + CarDatabaseHelper.TABLE_CARS + " WHERE "
+                + CarDatabaseHelper.COLUMN_ID + " = ?", new String[]{"" + id})) {
+            if (cursor.moveToFirst()) {
+                car = cursorToCar(cursor);
+            }
+        }
+
+        return car;
+    }
 }
