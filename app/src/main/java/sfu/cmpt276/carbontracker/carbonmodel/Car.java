@@ -10,6 +10,11 @@ import static java.security.AccessController.getContext;
 
 public class Car implements Cloneable, Serializable{
     //Constants
+    public static final String CAR = "car";
+    public static final String BUS = "bus";
+    public static final String SKYTRAIN = "skytrain";
+    public static final String WALK_BIKE = "walk/bike";
+
     private static final String DEFAULT_NICKNAME = "";
     private static final String DEFAULT_DESCRIPTION = "N/A";
     private static final double MILES_TO_KM = 1.60934;
@@ -18,6 +23,8 @@ public class Car implements Cloneable, Serializable{
     private static final double MPG_TO_KML = 0.425144;
     //Attributes
     private int id = -1;
+    private String transport_mode;
+    private Boolean isActive;
     private String nickname;
     private String model;
     private String make;
@@ -30,24 +37,45 @@ public class Car implements Cloneable, Serializable{
 
     //Constructor
     public Car(){
+        isActive = false;
         nickname = DEFAULT_NICKNAME;
         model = DEFAULT_DESCRIPTION;
         make = DEFAULT_DESCRIPTION;
         transmission = DEFAULT_DESCRIPTION;
+        fuelType = DEFAULT_DESCRIPTION;
         year = 0;
         cityCO2 = 0;
         hwyCO2 = 0;
         engineDispl = 0;
+        transport_mode = CAR;
+    }
+
+    //Constructor for public modes of transportation
+    public Car(String nickname, double cityCO2, double hwyCO2){
+        isActive = false;
+        this.nickname = nickname;
+        model = DEFAULT_DESCRIPTION;
+        make = DEFAULT_DESCRIPTION;
+        transmission = DEFAULT_DESCRIPTION;
+        fuelType = DEFAULT_DESCRIPTION;
+        year = 0;
+        this.cityCO2 = cityCO2;
+        this.hwyCO2 = hwyCO2;
+        engineDispl = 0;
+        transport_mode = CAR;
     }
 
     public Car(String nickname, String make, String model, int year){
+        isActive = false;
         this.nickname = nickname;
         this.make = make;
         this.model = model;
         this.year = year;
+        transport_mode = CAR;
     }
 
     public Car(String nickname, String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
+        isActive = false;
         this.nickname = nickname;
         this.model = model;
         this.make = make;
@@ -57,9 +85,11 @@ public class Car implements Cloneable, Serializable{
         setCityCO2(cityCO2);
         setHwyCO2(hwyCO2);
         setEngineDispl(engineDispl);
+        transport_mode = CAR;
     }
 
     public Car(String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
+        isActive = false;
         this.nickname = DEFAULT_NICKNAME;
         this.model = model;
         this.make = make;
@@ -69,6 +99,7 @@ public class Car implements Cloneable, Serializable{
         setCityCO2(cityCO2);
         setHwyCO2(hwyCO2);
         setEngineDispl(engineDispl);
+        transport_mode = CAR;
     }
 
     //Getter
@@ -192,6 +223,14 @@ public class Car implements Cloneable, Serializable{
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public String getTransport_mode() {
+        return transport_mode;
+    }
+
+    public void setTransport_mode(String transport_mode) {
+        this.transport_mode = transport_mode;
     }
 
     @Override

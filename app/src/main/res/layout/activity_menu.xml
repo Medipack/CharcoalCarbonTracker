@@ -9,8 +9,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@mipmap/backk7">
-
-
     <Button
         android:background="@mipmap/j5"
         android:layout_width="100dp"
@@ -20,7 +18,6 @@
         android:layout_marginStart="25dp"
         android:layout_marginBottom="52dp"
         android:id="@+id/createJourneyBtn" />
-
     <Button
         android:background="@mipmap/co"
         android:layout_width="100dp"
@@ -29,7 +26,6 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="25dp"
         android:id="@+id/viewCarbonTotalsBtn" />
-
     <TextView
         android:text="Main Menu"
         android:textColor="#231919"
@@ -37,8 +33,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/createJourneyBtn"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/carbon"
         android:textSize="30sp" />
-
+    <Button
+        android:background="@mipmap/gas1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="170dp"
+        android:id="@+id/createUtilityBtn" />
 </RelativeLayout>

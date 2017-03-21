@@ -16,7 +16,7 @@ public class User {
     private RouteList routeList;
     private List<Journey> journeyList;
     private CarDirectory mainDirectory;
-
+    private UtilityList utilityList;
     private Journey currentJourney;
 
     private boolean carListPopulatedFromDatabase = false;
@@ -27,6 +27,7 @@ public class User {
         routeList = new RouteList();
         currentJourney = new Journey();
         journeyList = new ArrayList<Journey>();
+        utilityList = new UtilityList();
     }
 
     private static User instance = new User();
@@ -53,10 +54,19 @@ public class User {
         return mainDirectory;
     }
 
+    public UtilityList getUtilityList() {
+        return utilityList;
+    }
+
+
     // *** Current Journey *** //
 
     public void createNewCurrentJourney(){
         currentJourney = new Journey();
+    }
+
+    public void setCurrentJourney(Journey currentJourney){
+        this.currentJourney = currentJourney;
     }
 
     public void setCurrentJourneyCar(Car car){
@@ -69,7 +79,6 @@ public class User {
     public void resetCurrentJourneyEmission(){
         currentJourney.resetCarbonEmitted();
     }
-
 
     public Journey getCurrentJourney(){
         return currentJourney;
@@ -158,6 +167,10 @@ public class User {
 
     public void addJourney(Journey journey){
         journeyList.add(journey);
+    }
+
+    public Journey getJourney(int position){
+        return journeyList.get(position);
     }
 
     // *** Directory *** //
