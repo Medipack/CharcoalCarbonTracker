@@ -28,8 +28,6 @@ public class Journey {
         totalDistance = calculateTotalDistance();
         carbonEmitted = 0;
     }
-
-    public Journey(Car car, Route route) {
     private double calculateTotalDistance() {
         return route.getRouteDistanceCity() + route.getRouteDistanceHighway();
     }

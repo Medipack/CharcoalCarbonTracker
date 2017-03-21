@@ -21,7 +21,6 @@
             android:exported="true"
             android:label="@string/select_a_vehicle" />
         <activity android:name=".ui.JourneyEmissionActivity" />
-        <activity android:name=".ui.CarbonFootprintActivity" />
         <activity
             android:name=".ui.RouteActivity"
             android:label="@string/select_a_route" />
@@ -29,7 +28,6 @@
         <activity android:name=".ui.PieGraphActivity" />
         <activity android:name=".ui.SelectTransportationActivity" />
         <activity android:name=".ui.EditJourneyActivity"></activity>
-        <activity android:name=".ui.SelectTransportationActivity" />
         <activity android:name=".ui.BillActivity" />
         <activity android:name=".ui.UtilityActivity"></activity>
     </application>

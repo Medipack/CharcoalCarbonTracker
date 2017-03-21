@@ -58,17 +58,19 @@ public class TransportationModeActivity extends AppCompatActivity {
     private void populateCarListFromDatabase() {
         // Check if car list already populated from database
         // This prevents duplicate entries from re-opening this activity
-        if(!User.getInstance().isCarListPopulatedFromDatabase()){
+        if (!User.getInstance().isCarListPopulatedFromDatabase()) {
             CarDataSource db = new CarDataSource(this);
             db.open();
 
             List<Car> cars = db.getAllCars();
             User user = User.getInstance();
-            for(Car car : cars) {
+            for (Car car : cars) {
                 user.addCarToCarList(car);
             }
             User.getInstance().setCarListPopulatedFromDatabase();
         }
+    }
+
     private void setUpBikeButton() {
         Button bikeButton = (Button) findViewById(R.id.addBikeButton);
         bikeButton.setOnClickListener(new View.OnClickListener() {

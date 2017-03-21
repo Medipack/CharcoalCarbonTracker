@@ -174,7 +174,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/editRouteLayout"
             android:text="@string/car"
             android:textSize="18sp"
             android:textStyle="bold|italic" />

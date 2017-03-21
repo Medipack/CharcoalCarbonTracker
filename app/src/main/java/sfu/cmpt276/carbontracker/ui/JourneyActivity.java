@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -22,17 +21,32 @@ import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 /* Activity that displays carbon footprint in form of table of journeys or pie graph*/
 
 public class JourneyActivity extends AppCompatActivity {
-    public static final String MY_APP = "MyApp";
+    private static final String TAG = "JourneyActivity";
+
     public static final int EDIT_CODE = 1000;
-    List<Journey> JourneyList = User.getInstance().getJourneyList();
+
+    private JourneyDataSource db;
+    private List<Journey> journeyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journey);
         setupPieButton();
+        setupDatabase();
+        populateJourneyList();
         populateListView();
         registerJourneyListCallBack();
+    }
+
+    private void setupDatabase() {
+        db = new JourneyDataSource(this);
+    }
+
+    private void populateJourneyList() {
+        db.open();
+        journeyList = db.getAllJourneys(this);
+        db.close();
     }
 
     private void setupPieButton() {
@@ -48,7 +62,7 @@ public class JourneyActivity extends AppCompatActivity {
 
     private void populateListView() {
         //Build adapter
-        ArrayAdapter<Journey> adapter = new JourneyListAdapter(this);
+        ArrayAdapter<Journey> adapter = new JourneyListAdapter(this, journeyList);
         //Configure items;
         ListView list = (ListView) findViewById(R.id.listJourney);
         list.setAdapter(adapter);
@@ -71,9 +85,10 @@ public class JourneyActivity extends AppCompatActivity {
                 alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        User user = User.getInstance();
-                        user.getJourneyList().remove(index);
-                        populateListView();
+                        //User user = User.getInstance();
+                        //user.getJourneyList().remove(index);
+                        Journey journeyToDelete = journeyList.get(index);
+                        deleteJourney(journeyToDelete);
                     }
                 });
                 alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -84,21 +99,29 @@ public class JourneyActivity extends AppCompatActivity {
                 });
 
                 String msg = "This journey has been longClicked";
-                Log.i(MY_APP, msg);
+                Log.i(TAG, msg);
                 alert.show();
                 return true;
             }
         });
     }
 
+    private void deleteJourney(Journey journey) {
+        db.open();
+        db.deleteJourney(journey);
+        db.close();
+        populateJourneyList();
+        populateListView();
+    }
+
     private void registerListShortClick(ListView list) {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Journey journey = JourneyList.get(position);
+                Journey journey = journeyList.get(position);
                 String msg = "You clicked a journey with: " + journey.getVehicleName() +
                         " and " + journey.getRouteName();
-                Log.i(MY_APP, msg);
+                Log.i(TAG, msg);
                 Intent intent = new Intent(JourneyActivity.this, EditJourneyActivity.class);
                 intent.putExtra("index", position);
                 startActivityForResult(intent, EDIT_CODE);
