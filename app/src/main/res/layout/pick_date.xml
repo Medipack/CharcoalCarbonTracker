@@ -19,5 +19,7 @@
         android:layout_height="wrap_content"
         android:text="@android:string/ok"
         tools:layout_editor_absoluteX="280dp"
-        tools:layout_editor_absoluteY="447dp" />
+        tools:layout_editor_absoluteY="447dp"
+        android:layout_below="@+id/calendarDate"
+        android:layout_alignEnd="@+id/calendarDate" />
 </RelativeLayout>

@@ -39,7 +39,7 @@ public class PickDateActivity extends AppCompatActivity {
                 calendar.set(calendar.DAY_OF_MONTH, dayOfMonth);
             }
         };
-        Button okButton  = (Button) findViewById(R.id.calendarConfirm);
+        Button okButton = (Button) findViewById(R.id.calendarConfirm);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,6 +48,12 @@ public class PickDateActivity extends AppCompatActivity {
                 Intent intent = new Intent(PickDateActivity.this, JourneyEmissionActivity.class);
                 startActivityForResult(intent, 0);
             }
-        });
-    }
+        });}
+
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {
+                setResult(User.ACTIITY_FINISHED_REQUESTCODE);
+                finish();
+            }
+        }
 }
