@@ -27,6 +27,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.RouteListener;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.Route;
+import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 import sfu.cmpt276.carbontracker.ui.database.RouteDataSource;
 
 /*Displays know routes, allows for adding, editing, deleting routes*/
@@ -232,23 +233,7 @@ public class RouteActivity extends AppCompatActivity {
                 // User has selected a route
                 Route route = User.getInstance().getRouteList().getRoute(i);
 
-                Log.i(TAG, "User selected route \"" + route.getRouteName() + "\"");
-
-                // Set current Journey to use the selected route
-                User.getInstance().setCurrentJourneyRoute(route);
-                //Journey journey = User.getInstance().getCurrentJourney();
-                //journey.setTotalDistance(citySaved + highwaySaved);
-                //journey.setCarbonEmitted();
-
-                Journey journey = User.getInstance().getCurrentJourney();
-                journey.setTotalDistance(citySaved + highwaySaved);
-
-                //double test = journey.getTotalDistance();
-                //double emission = journey.calculateCarbonEmission();
-                //journey.setCarbonEmitted(emission);
-                User.getInstance().resetCurrentJourneyEmission();
-
-                User.getInstance().addJourney(User.getInstance().getCurrentJourney());
+                selectRouteAndAddToJourneyList(route);
 
                 Intent intent = new Intent(RouteActivity.this, JourneyEmissionActivity.class);
                 startActivityForResult(intent,0);
@@ -341,6 +326,27 @@ public class RouteActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void selectRouteAndAddToJourneyList(Route route) {
+        Log.i(TAG, "User selected route \"" + route.getRouteName() + "\"");
+
+        // Set current Journey to use the selected route
+        User.getInstance().setCurrentJourneyRoute(route);
+
+        Journey journey = User.getInstance().getCurrentJourney();
+
+        journey.setTotalDistance(citySaved + highwaySaved);
+        User.getInstance().resetCurrentJourneyEmission();
+
+        Log.i(TAG, "Saving Current Journey to Database");
+
+        JourneyDataSource db = new JourneyDataSource(this);
+        db.open();
+        journey = db.insertJourney(journey, this);
+        db.close();
+
+        User.getInstance().addJourney(journey);
     }
 
     // *** Database related methods *** //

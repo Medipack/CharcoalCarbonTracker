@@ -3,6 +3,7 @@ package sfu.cmpt276.carbontracker.ui;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,8 +11,11 @@ import android.widget.TextView;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
+import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 
 public class CarbonFootprintActivity extends AppCompatActivity {
+
+    private final String TAG = "CarbonFootprintActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,16 @@ public class CarbonFootprintActivity extends AppCompatActivity {
     }
 
     private void saveJourneyToList() {
-        User.getInstance().addJourney(User.getInstance().getCurrentJourney());
+        Log.i(TAG, "Saving Current Journey to Database");
+
+        Journey journeyToSave = User.getInstance().getCurrentJourney();
+
+        JourneyDataSource db = new JourneyDataSource(this);
+        db.open();
+        journeyToSave = db.insertJourney(journeyToSave, this);
+        db.close();
+
+        User.getInstance().addJourney(journeyToSave);
     }
 
     private void setupDebugTextView(){

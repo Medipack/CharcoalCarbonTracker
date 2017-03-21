@@ -16,6 +16,7 @@ import java.util.List;
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
+import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 /* Activity that displays carbon footprint in form of table of journeys or pie graph*/
 
 public class JourneyActivity extends AppCompatActivity {
@@ -36,7 +37,12 @@ public class JourneyActivity extends AppCompatActivity {
         TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
         lp.setMargins(0, 0, 0, 0);
 
-        for (Journey journey : User.getInstance().getJourneyList()) {
+        // *** TESTING JOURNEY DATABASE *** //
+
+        JourneyDataSource db = new JourneyDataSource(this);
+        db.open();
+        //for (Journey journey : User.getInstance().getJourneyList()) {
+        for (Journey journey : db.getAllJourneys(this)) {
 
             Log.i("TABLETEST", journey.getRouteName());
 
@@ -78,7 +84,7 @@ public class JourneyActivity extends AppCompatActivity {
             row.addView(textEmission, lp);
             journeyTable.addView(row);
         }
-
+        db.close();
     }
 
     private void setupPieButton() {
