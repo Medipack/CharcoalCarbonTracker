@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -30,23 +31,28 @@ public class PickDateActivity extends AppCompatActivity {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        date.updateDate(year, month, day);
-        final DatePicker.OnDateChangedListener calendarDate = new DatePicker.OnDateChangedListener() {
+        date.init(year, month, day, new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 calendar.set(calendar.YEAR, year);
                 calendar.set(calendar.MONTH, monthOfYear);
                 calendar.set(calendar.DAY_OF_MONTH, dayOfMonth);
             }
-        };
+        });
+
         Button okButton = (Button) findViewById(R.id.calendarConfirm);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Date newDate = calendar.getTime();
-                User.getInstance().getCurrentJourney().setDate(newDate);
-                Intent intent = new Intent(PickDateActivity.this, JourneyEmissionActivity.class);
-                startActivityForResult(intent, 0);
+                if(newDate.getTime() > journeyDate.getTime()){
+                    String msg = "Please pick an earlier date";
+                    Toast.makeText(PickDateActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }else {
+                    User.getInstance().getCurrentJourney().setDate(newDate);
+                    Intent intent = new Intent(PickDateActivity.this, JourneyEmissionActivity.class);
+                    startActivityForResult(intent, 0);
+                }
             }
         });}
 
