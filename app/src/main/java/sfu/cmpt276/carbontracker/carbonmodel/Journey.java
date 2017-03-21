@@ -11,13 +11,14 @@ public class Journey {
     private static final double DIESEL = 2.6839881; //kg of co2 per litre
     private static final double ELECTRIC = 0; //kg of co2 per gallon
 
+    private int id = -1;
     private Car car;
     private Route route;
     private Date date;
     private double totalDistance;
     private double carbonEmitted;
 
-    Journey() {
+    public Journey() {
         car = new Car(); //initializes car as new car with default values
         route = new Route(); //initializes route as a new route with default values
         date = new Date(); //sets date to current date
@@ -25,7 +26,7 @@ public class Journey {
         carbonEmitted = 0;
     }
 
-    Journey(Car car, Route route) {
+    public Journey(Car car, Route route) {
         this.car = car;
         this.route = route;
         date = new Date(); //sets date as current date
@@ -102,4 +103,11 @@ public class Journey {
         this.route = route;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
