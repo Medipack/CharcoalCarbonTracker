@@ -39,12 +39,25 @@ public class RouteDataSource {
         dbHelper.close();
     }
 
-    public Route insertRoute(Route route) {
+    private ContentValues routeToContentValues(Route route, boolean includeId) {
         ContentValues values = new ContentValues();
 
+        if(includeId)
+            values.put(RouteDatabaseHelper.COLUMN_ID, route.getId());
         values.put(RouteDatabaseHelper.COLUMN_NICKNAME, route.getRouteName());
         values.put(RouteDatabaseHelper.COLUMN_CITY_DISTANCE, route.getRouteDistanceCity());
         values.put(RouteDatabaseHelper.COLUMN_HWY_DISTANCE, route.getRouteDistanceHighway());
+
+        return values;
+    }
+
+    public void updateRoute(Route route) {
+        ContentValues values = routeToContentValues(route, true);
+        db.replace(RouteDatabaseHelper.TABLE_ROUTES, null, values);
+    }
+
+    public Route insertRoute(Route route) {
+        ContentValues values = routeToContentValues(route, false);
 
         long insertId = db.insert(RouteDatabaseHelper.TABLE_ROUTES, null, values);
 

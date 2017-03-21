@@ -22,7 +22,6 @@ import android.widget.Toast;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
-import sfu.cmpt276.carbontracker.carbonmodel.RouteList;
 import sfu.cmpt276.carbontracker.carbonmodel.RouteListener;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
@@ -390,11 +389,10 @@ public class RouteActivity extends AppCompatActivity {
 
         RouteDataSource db = new RouteDataSource(this);
         db.open();
-        db.deleteRoute(route); // deletes old route with same id
-        Route newRoute = db.insertRoute(route); // adds this new route in its place
+        db.updateRoute(route);
         db.close();
 
-        User.getInstance().editRouteFromRouteList(editRoutePosition, newRoute);
+        User.getInstance().editRouteFromRouteList(editRoutePosition, route);
     }
 
     private void addNewRoute(Route route) {

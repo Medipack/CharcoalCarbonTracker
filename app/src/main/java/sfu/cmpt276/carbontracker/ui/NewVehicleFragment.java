@@ -327,11 +327,10 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
         CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
         db.open();
-        db.deleteCar(car); // deletes existing car with same id
-        Car newCar = db.insertCar(car); // adds this new car in its place
+        db.updateCar(car);
         db.close();
 
-        User.getInstance().editCarFromCarList(editCarPosition, newCar);
+        User.getInstance().editCarFromCarList(editCarPosition, car);
     }
 
     private void addNewCar(Car car) {

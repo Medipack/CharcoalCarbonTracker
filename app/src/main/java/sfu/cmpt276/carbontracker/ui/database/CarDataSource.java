@@ -44,9 +44,11 @@ public class CarDataSource {
         dbHelper.close();
     }
 
-    public Car insertCar(Car car) {
+    private ContentValues carToContentValues(Car car, boolean includeId) {
         ContentValues values = new ContentValues();
 
+            if(includeId)
+                values.put(CarDatabaseHelper.COLUMN_ID, car.getId());
         values.put(CarDatabaseHelper.COLUMN_NICKNAME, car.getNickname());
         values.put(CarDatabaseHelper.COLUMN_MAKE, car.getMake());
         values.put(CarDatabaseHelper.COLUMN_MODEL, car.getModel());
@@ -56,6 +58,17 @@ public class CarDataSource {
         values.put(CarDatabaseHelper.COLUMN_CITYCO2, car.getCityCO2());
         values.put(CarDatabaseHelper.COLUMN_HWYCO2, car.getHwyCO2());
         values.put(CarDatabaseHelper.COLUMN_ENGINEDISPL, car.getEngineDispl());
+
+        return values;
+    }
+
+    public void updateCar(Car car) {
+        ContentValues values = carToContentValues(car, true);
+        db.replace(CarDatabaseHelper.TABLE_CARS, null, values);
+    }
+
+    public Car insertCar(Car car) {
+        ContentValues values = carToContentValues(car, false);
 
         long insertId = db.insert(CarDatabaseHelper.TABLE_CARS, null, values);
 
