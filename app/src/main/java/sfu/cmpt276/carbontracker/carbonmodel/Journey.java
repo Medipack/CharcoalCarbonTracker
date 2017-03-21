@@ -20,7 +20,7 @@ public class Journey {
     private double totalDistance;
     private double carbonEmitted;
 
-    Journey() {
+    public Journey() {
         car = new Car(); //initializes car as new car with default values
         route = new Route(); //initializes route as a new route with default values
         date = new Date(); //sets date to current date
@@ -28,7 +28,7 @@ public class Journey {
         carbonEmitted = 0;
     }
 
-    Journey(Car car, Route route) {
+    public Journey(Car car, Route route) {
         this.car = car;
         this.route = route;
         date = new Date(); //sets date as current date

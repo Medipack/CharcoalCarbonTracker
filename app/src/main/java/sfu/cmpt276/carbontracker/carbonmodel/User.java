@@ -62,6 +62,10 @@ public class User {
         currentJourney = new Journey();
     }
 
+    public void setCurrentJourney(Journey currentJourney){
+        this.currentJourney = currentJourney;
+    }
+
     public void setCurrentJourneyCar(Car car){
         currentJourney.setCar(car);
     }
@@ -73,11 +77,9 @@ public class User {
         currentJourney.resetCarbonEmitted();
     }
 
-
     public Journey getCurrentJourney(){
         return currentJourney;
     }
-
 
     // *** Modify lists *** //
 
@@ -167,6 +169,10 @@ public class User {
 
     public void addJourney(Journey journey){
         journeyList.add(journey);
+    }
+
+    public Journey getJourney(int position){
+        return journeyList.get(position);
     }
 
     // *** Directory *** //
