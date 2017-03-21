@@ -37,9 +37,9 @@ public class BillActivity extends AppCompatActivity {
     int year_y, month_y, day_y;
     static final int DIALOG_ID = 0;
     static final int TO_DIALOG_ID = 1;
-    int utilityChosen;
     Date startDate;
     Date endDate;
+    int tempMode;
 
     private EditText amountInput;
     private EditText peopleInput;
@@ -52,9 +52,7 @@ public class BillActivity extends AppCompatActivity {
     String str_startDate;
     String str_endDate;
 
-    String tempChosen;
     String tempPeriod;
-    String tempType;
     int position;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -99,8 +97,6 @@ public class BillActivity extends AppCompatActivity {
 
     }
 
-
-
     private void setupSaveButton() {
         Button save = (Button)findViewById(R.id.utilitySaveBtn);
         save.setOnClickListener(new View.OnClickListener() {
@@ -134,8 +130,16 @@ public class BillActivity extends AppCompatActivity {
                 newUtility.setStartDate(startDate);
                 newUtility.setEndDate(endDate);
                 newUtility.setDaysInPeriod(Integer.parseInt(tempPeriod));
-                UtilityList tempList = User.getInstance().getUtilityList();
-                tempList.addUtility(newUtility);
+                Intent intent = getIntent();
+                tempMode = intent.getIntExtra("mode", 0); //edit mode
+                //User.getInstance().EditUtilityIntoUtilityList(position, );
+                if(tempMode == 10){
+                    User.getInstance().EditUtilityIntoUtilityList(position, newUtility);
+                }
+                else {
+                    UtilityList tempList = User.getInstance().getUtilityList();
+                    tempList.addUtility(newUtility);
+                }
 
                 finish();
             }
@@ -265,6 +269,7 @@ public class BillActivity extends AppCompatActivity {
         return new Intent(context, BillActivity.class);
     }
 
+
     public void populateBill(int position)
     {
         Utility utility = User.getInstance().getUtilityList().getUtility(position);
@@ -272,6 +277,14 @@ public class BillActivity extends AppCompatActivity {
         peopleInput = (EditText) findViewById(R.id.peopleInput);
         currentAvgInput = (EditText) findViewById(R.id.currentAvgInput);
         previousAvgInput = (EditText) findViewById(R.id.previousAvgInput);
+
+        Date startDateEdit = new Date();
+        startDateEdit = startDate;
+
+        Date endDateEdit = new Date();
+        endDateEdit = endDate;
+
+
 
         peopleInput.setText(String.valueOf(utility.getNumberOfPeople()));
         if(utility.getUtility_type().equals(Utility.GAS_NAME))

@@ -39,15 +39,13 @@ public class UtilityActivity extends AppCompatActivity {
     double previousAvg;
     ListView list;
     int edit_position;
+    int mode;
 
     Date date1 = new Date(2017 - 1900, 2 - 1, 8);
     Date date2 = new Date(2017 - 1900, 2 - 1, 28);
     Date date3 = new Date(2017 - 1900, 1 - 1, 1);
     Date date4 = new Date(2017 - 1900, 1 - 1, 19);
 
-    int year_c, month_c, day_c;
-    static final int DIALOG_ID = 0;
-    String str_date;
 
     private UtilityList myUtility = User.getInstance().getUtilityList();
 
@@ -57,20 +55,13 @@ public class UtilityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_utility);
 
-        myUtility.addUtility(new Utility("gas", date1, date2, 189.23, 4, 20, 450.76, 190.34));
-        myUtility.addUtility(new Utility("electricity", date3, date4, 89.31, 3, 18, 1265.8, 1180.19));
+        //myUtility.addUtility(new Utility("gas", date1, date2, 189.23, 4, 20, 450.76, 190.34));
+        //myUtility.addUtility(new Utility("electricity", date3, date4, 89.31, 3, 18, 1265.8, 1180.19));
 
         populateListView();
         setupAddBtn();
-        setupViewBtn();
         registerClickCallback();
-        //showDateDialog();
 
-
-        final Calendar cal = Calendar.getInstance();
-        year_c = cal.get(Calendar.YEAR);
-        month_c = cal.get(Calendar.MONTH);
-        day_c = cal.get(Calendar.DAY_OF_MONTH);
     }
 
     private void setupAddBtn() {
@@ -102,36 +93,12 @@ public class UtilityActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case 10:
                 if (resultCode == Activity.RESULT_OK) {
-                    tempType = BillActivity.getTypeName(data);
-                    Toast.makeText(this, "" + tempType, Toast.LENGTH_SHORT).show();
-                    String str_startDate = BillActivity.getStartDate(data);
-                    String str_endDate = BillActivity.getEndDate(data);
-
-                    DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-                    try {
-                        startDate = df.parse(str_startDate);
-                        endDate = df.parse(str_endDate);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    String str_amount = BillActivity.getUsed(data);
-                    amount = Double.valueOf(str_amount);
-                    String str_people = BillActivity.getPeople(data);
-                    people = Integer.parseInt(str_people);
-
-                    String str_period = BillActivity.getPeriod(data);
-                    period = Integer.parseInt(str_period);
-                    String str_currentAvg = BillActivity.getCurrentAvg(data);
-                    currentAvg = Double.valueOf(str_currentAvg);
-                    String str_previousAvg = BillActivity.getPreviousAvg(data);
-                    previousAvg = Double.valueOf(str_previousAvg);
-
                     Utility utility = new Utility(tempType, startDate, endDate, amount, people, period, currentAvg, previousAvg);
                     myUtility.addUtility(utility);
                     populateListView();
@@ -139,37 +106,14 @@ public class UtilityActivity extends AppCompatActivity {
                 }
             case 200:
                 if (resultCode == Activity.RESULT_OK) {
-                    tempType = BillActivity.getTypeName(data);
-                    Toast.makeText(this, "" + tempType, Toast.LENGTH_SHORT).show();
-                    String str_startDate = BillActivity.getStartDate(data);
-                    String str_endDate = BillActivity.getEndDate(data);
-
-                    DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-                    try {
-                        startDate = df.parse(str_startDate);
-                        endDate = df.parse(str_endDate);
-                    }
-                    catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    String str_amount = BillActivity.getUsed(data);
-                    amount = Double.valueOf(str_amount);
-                    String str_people = BillActivity.getPeople(data);
-                    people = Integer.parseInt(str_people);
-
-                    String str_period = BillActivity.getPeriod(data);
-                    period = Integer.parseInt(str_period);
-                    String str_currentAvg = BillActivity.getCurrentAvg(data);
-                    currentAvg = Double.valueOf(str_currentAvg);
-                    String str_previousAvg = BillActivity.getPreviousAvg(data);
-                    previousAvg = Double.valueOf(str_previousAvg);
 
                     Utility editUtility = new Utility(tempType, startDate, endDate, amount, people, period, currentAvg, previousAvg);
-                    myUtility.editUtility(editUtility, edit_position);
+                    //myUtility.editUtility(editUtility, edit_position);
+                    User.getInstance().EditUtilityIntoUtilityList(edit_position, editUtility);
                     populateListView();
                     break;
                 }
+
                 else if (resultCode == Activity.RESULT_FIRST_USER) {
                     myUtility.removeUtility(edit_position);
                     populateListView();
@@ -184,9 +128,13 @@ public class UtilityActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 edit_position = position;
+                mode = 10;
                 Intent intent = BillActivity.makeIntent(UtilityActivity.this);
                 intent.putExtra("pos", edit_position);
-                startActivityForResult(intent, 200);
+                intent.putExtra("mode", mode);
+                //startActivityForResult(intent, 200);
+                startActivity(intent);
+                Toast.makeText(UtilityActivity.this, "" + edit_position, Toast.LENGTH_SHORT).show();
 
                 return true;
             }
@@ -194,48 +142,4 @@ public class UtilityActivity extends AppCompatActivity {
 
     }
 
-    private void setupViewBtn() {
-        Button viewBtn = (Button) findViewById(R.id.showDate);
-        viewBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Dialog viewDialog = new Dialog(UtilityActivity.this);
-                viewDialog.setContentView(R.layout.view_bill_dialog);
-                viewDialog.show();
-
-                Button chooseBtn = (Button) viewDialog.findViewById(R.id.chooseDateBtn);
-                chooseBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showDialog(DIALOG_ID);
-
-                    }
-                });
-            }
-        });
-    }
-
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        if (id == DIALOG_ID) {
-            return new DatePickerDialog(this, datePickerListener, year_c, month_c, day_c);
-        }
-        return null;
-    }
-
-    private  DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            year_c = year;
-            month_c = month + 1;
-            day_c = dayOfMonth;
-            startDate = new Date(year_c - 1900, month_c - 1, day_c);
-
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-            str_date = df.format(startDate);
-
-            TextView startDate = (TextView) findViewById(R.id.text1);
-            startDate.setText(day_c + "/" + month_c + "/" + year_c);
-        }
-    };
 }

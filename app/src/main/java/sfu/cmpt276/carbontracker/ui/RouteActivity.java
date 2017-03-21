@@ -317,15 +317,12 @@ public class RouteActivity extends AppCompatActivity {
                     }
                 });
 
-                //delete route: need to hide!!!
                 editDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         RouteList myRouteList = User.getInstance().getRouteList();
-                        //Route hideRoute = myRouteList.getRoute(route_position);
                         User.getInstance().removeRouteFromRouteList(position);
                         populateRouteList();
-                        //myRouteList.addRoute(hideRoute);
                         editDialog.cancel();
                     }
                 });
