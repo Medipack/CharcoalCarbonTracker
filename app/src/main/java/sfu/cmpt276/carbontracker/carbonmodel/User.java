@@ -2,6 +2,8 @@ package sfu.cmpt276.carbontracker.carbonmodel;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /*Singleton class holding list of known cars, list of known routes, and list of known journeys*/
@@ -18,6 +20,7 @@ public class User {
     private CarDirectory mainDirectory;
     private UtilityList utilityList;
     private Journey currentJourney;
+    private List<String> tips;
 
     private User(){
         carList = new ArrayList<>();
@@ -25,6 +28,7 @@ public class User {
         currentJourney = new Journey();
         journeyList = new ArrayList<Journey>();
         utilityList = new UtilityList();
+        tips = new ArrayList<String>();
     }
 
     private static User instance = new User();
@@ -200,5 +204,54 @@ public class User {
             throw new ExceptionInInitializerError("No one is listening to car list");
     }
 
+    // *** Tips *** //
+    public double topVehicleEmmissions(){
+        double vehicleEmissions = 0;
+        for (int i = 0; i< journeyList.size(); i++){
+            double carbonEmitted = journeyList.get(i).getCarbonEmitted();
+            if (carbonEmitted > vehicleEmissions){
+                vehicleEmissions = carbonEmitted;
+            }
+        }
+        return vehicleEmissions;
+    }
+
+    public double topUtilityEmissions(){
+        double utilityEmissions = 0;
+        for (int i = 0; i< journeyList.size(); i++) {
+            double carbonEmitted = utilityList.getUtility(i).getPerPersonEmission();
+            if (carbonEmitted > utilityEmissions) {
+                utilityEmissions = carbonEmitted;
+            }
+        }
+        return utilityEmissions;
+    }
+
+    public void compareEmissions(List vehicleTips, List utilityTips){
+        double vehicleEmissions = topVehicleEmmissions();
+        double utilityEmissions = topUtilityEmissions();
+        if(vehicleEmissions>utilityEmissions){
+            shuffleTips(vehicleTips, utilityTips);
+            vehiclesFirst(vehicleTips, utilityTips);
+        }else if(utilityEmissions>vehicleEmissions){
+            shuffleTips(vehicleTips, utilityTips);
+            utilitiesFirst(vehicleTips, utilityTips);
+        }
+    }
+
+    private void utilitiesFirst(List vehicleTips, List utilityTips) {
+        tips.addAll(utilityTips);
+        tips.addAll(vehicleTips);
+    }
+
+    private void vehiclesFirst(List vehicleTips, List utilityTips) {
+        tips.addAll(vehicleTips);
+        tips.addAll(utilityTips);
+    }
+
+    private void shuffleTips(List vehicleTips, List utilityTips) {
+        Collections.shuffle(vehicleTips);
+        Collections.shuffle(utilityTips);
+    }
 
 }
