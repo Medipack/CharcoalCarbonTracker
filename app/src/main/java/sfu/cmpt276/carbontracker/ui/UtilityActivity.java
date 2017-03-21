@@ -76,7 +76,6 @@ public class UtilityActivity extends AppCompatActivity {
 
     }
 
-
     private void registerClickCallback() {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
