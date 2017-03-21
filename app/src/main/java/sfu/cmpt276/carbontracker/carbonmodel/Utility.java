@@ -13,7 +13,6 @@ public class Utility {
     public static final String ELECTRICITY_NAME = "electricity";
     public static final String GAS_NAME = "gas";
 
-
     private String utility_type;
     private Date startDate;
     private Date endDate;

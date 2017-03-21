@@ -37,9 +37,13 @@ public class BillActivity extends AppCompatActivity {
     int year_y, month_y, day_y;
     static final int DIALOG_ID = 0;
     static final int TO_DIALOG_ID = 1;
+
     Date startDate;
     Date endDate;
     int tempMode;
+
+    int start_year_edit, start_month_edit, start_day_edit;
+    int end_year_edit, end_month_edit, end_day_edit;
 
     private EditText amountInput;
     private EditText peopleInput;
@@ -48,9 +52,11 @@ public class BillActivity extends AppCompatActivity {
     private RadioButton gasRb;
     private RadioButton electricityRb;
 
-
     String str_startDate;
     String str_endDate;
+
+    TextView startDateText;
+    TextView endDateText;
 
     String tempPeriod;
     int position;
@@ -131,8 +137,9 @@ public class BillActivity extends AppCompatActivity {
                 newUtility.setEndDate(endDate);
                 newUtility.setDaysInPeriod(Integer.parseInt(tempPeriod));
                 Intent intent = getIntent();
-                tempMode = intent.getIntExtra("mode", 0); //edit mode
-                //User.getInstance().EditUtilityIntoUtilityList(position, );
+
+                tempMode = intent.getIntExtra("mode", 0);
+                //edit mode
                 if(tempMode == 10){
                     User.getInstance().EditUtilityIntoUtilityList(position, newUtility);
                 }
@@ -199,8 +206,8 @@ public class BillActivity extends AppCompatActivity {
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             str_startDate = df.format(startDate);
 
-            TextView startDate = (TextView) findViewById(R.id.startDateText);
-            startDate.setText(day_x + "/" + month_x + "/" + year_x);
+            startDateText = (TextView) findViewById(R.id.startDateText);
+            startDateText.setText(day_x + "/" + month_x + "/" + year_x);
         }
     };
     private  DatePickerDialog.OnDateSetListener endDatePickerListener = new DatePickerDialog.OnDateSetListener() {
@@ -227,43 +234,15 @@ public class BillActivity extends AppCompatActivity {
                 Toast.makeText(BillActivity.this, "End date cannot be future", Toast.LENGTH_SHORT).show();
             }
             else {
-                TextView endDate = (TextView) findViewById(R.id.endDateText);
-                endDate.setText(day_y + "/" + month_y  + "/" + year_y);
+                endDateText = (TextView) findViewById(R.id.endDateText);
+                endDateText.setText(day_y + "/" + month_y  + "/" + year_y);
+
+                start_year_edit = year_x;
+                start_month_edit = month_x;
+                start_day_edit = day_x;
             }
         }
     };
-
-    public static String getTypeName(Intent intent){
-        return intent.getStringExtra("type of utility");
-    }
-
-    public static String getStartDate(Intent intent){
-        return intent.getStringExtra("start date");
-    }
-
-    public static String getEndDate(Intent intent){
-        return intent.getStringExtra("end date");
-    }
-
-    public static String getUsed(Intent intent){
-        return intent.getStringExtra("amount");
-    }
-
-    public static String getPeople(Intent intent){
-        return intent.getStringExtra("people");
-    }
-
-    public static String getPeriod(Intent intent){
-        return intent.getStringExtra("period");
-    }
-
-    public static String getCurrentAvg(Intent intent){
-        return intent.getStringExtra("current avg");
-    }
-
-    public static String getPreviousAvg(Intent intent){
-        return intent.getStringExtra("previous avg");
-    }
 
     public static Intent makeIntent(Context context){
         return new Intent(context, BillActivity.class);
@@ -278,14 +257,7 @@ public class BillActivity extends AppCompatActivity {
         currentAvgInput = (EditText) findViewById(R.id.currentAvgInput);
         previousAvgInput = (EditText) findViewById(R.id.previousAvgInput);
 
-        Date startDateEdit = new Date();
-        startDateEdit = startDate;
-
-        Date endDateEdit = new Date();
-        endDateEdit = endDate;
-
-
-
+        
         peopleInput.setText(String.valueOf(utility.getNumberOfPeople()));
         if(utility.getUtility_type().equals(Utility.GAS_NAME))
         {

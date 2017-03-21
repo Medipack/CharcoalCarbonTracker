@@ -29,23 +29,9 @@ import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 import sfu.cmpt276.carbontracker.carbonmodel.UtilityList;
 
 public class UtilityActivity extends AppCompatActivity {
-    String tempType;
-    Date startDate;
-    Date endDate;
-    double amount;
-    int people;
-    int period;
-    double currentAvg;
-    double previousAvg;
     ListView list;
     int edit_position;
     int mode;
-
-    Date date1 = new Date(2017 - 1900, 2 - 1, 8);
-    Date date2 = new Date(2017 - 1900, 2 - 1, 28);
-    Date date3 = new Date(2017 - 1900, 1 - 1, 1);
-    Date date4 = new Date(2017 - 1900, 1 - 1, 19);
-
 
     private UtilityList myUtility = User.getInstance().getUtilityList();
 
@@ -54,9 +40,6 @@ public class UtilityActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_utility);
-
-        //myUtility.addUtility(new Utility("gas", date1, date2, 189.23, 4, 20, 450.76, 190.34));
-        //myUtility.addUtility(new Utility("electricity", date3, date4, 89.31, 3, 18, 1265.8, 1180.19));
 
         populateListView();
         setupAddBtn();
@@ -97,24 +80,8 @@ public class UtilityActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case 10:
-                if (resultCode == Activity.RESULT_OK) {
-                    Utility utility = new Utility(tempType, startDate, endDate, amount, people, period, currentAvg, previousAvg);
-                    myUtility.addUtility(utility);
-                    populateListView();
-                    break;
-                }
             case 200:
-                if (resultCode == Activity.RESULT_OK) {
-
-                    Utility editUtility = new Utility(tempType, startDate, endDate, amount, people, period, currentAvg, previousAvg);
-                    //myUtility.editUtility(editUtility, edit_position);
-                    User.getInstance().EditUtilityIntoUtilityList(edit_position, editUtility);
-                    populateListView();
-                    break;
-                }
-
-                else if (resultCode == Activity.RESULT_FIRST_USER) {
+               if (resultCode == Activity.RESULT_FIRST_USER) {
                     myUtility.removeUtility(edit_position);
                     populateListView();
                     break;
@@ -122,6 +89,7 @@ public class UtilityActivity extends AppCompatActivity {
 
         }
     }
+
 
     private void registerClickCallback() {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -132,9 +100,8 @@ public class UtilityActivity extends AppCompatActivity {
                 Intent intent = BillActivity.makeIntent(UtilityActivity.this);
                 intent.putExtra("pos", edit_position);
                 intent.putExtra("mode", mode);
-                //startActivityForResult(intent, 200);
-                startActivity(intent);
-                Toast.makeText(UtilityActivity.this, "" + edit_position, Toast.LENGTH_SHORT).show();
+                startActivityForResult(intent, 200);
+                //startActivity(intent);
 
                 return true;
             }
