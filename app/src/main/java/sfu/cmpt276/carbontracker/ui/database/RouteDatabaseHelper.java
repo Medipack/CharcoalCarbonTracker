@@ -15,17 +15,19 @@ class RouteDatabaseHelper extends SQLiteOpenHelper {
     static final String TABLE_ROUTES = "routes";
 
     static final String COLUMN_ID = "_id";
+    static final String COLUMN_ISACTIVE = "isactive";
     static final String COLUMN_NICKNAME = "nickname";
     static final String COLUMN_CITY_DISTANCE = "city_distance";
     static final String COLUMN_HWY_DISTANCE = "hwy_distance";
 
     private static final String DATABASE_NAME = "routes.db";
-    private static final int DATABASE_VERSION = 1; // update if Route class is ever changed
+    private static final int DATABASE_VERSION = 3; // update if Route class is ever changed
 
     // SQL command to create the database
     private static final String DATABASE_CREATE = "create table " +
             TABLE_ROUTES + "( " +
             COLUMN_ID + " integer primary key autoincrement, " +
+            COLUMN_ISACTIVE + " integer not null, " +
             COLUMN_NICKNAME + " text not null, " +
             COLUMN_CITY_DISTANCE + " double not null, " +
             COLUMN_HWY_DISTANCE + " double not null);";

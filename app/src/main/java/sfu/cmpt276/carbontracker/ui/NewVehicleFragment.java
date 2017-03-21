@@ -120,7 +120,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 car.setNickname(String.valueOf(nickname.getText()).trim());
 
                 // Set current Journey to use the selected car
-                User.getInstance().setCurrentJourneyCar(car);
+                useNewCar(car);
 
                 Intent intent = new Intent(getActivity(), RouteActivity.class);
                 startActivityForResult(intent, 0);
@@ -306,17 +306,18 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     // *** Database related methods *** //
     // *** Add / Edit / Delete helper functions *** //
 
-    private void deleteCar(int deleteCarPosition) {
-        Log.i(TAG, "Delete button clicked");
-
-        Car carToDelete = User.getInstance().getCarFromCarList(deleteCarPosition);
+    private void deleteCar(int editCarPosition) {
+        Car car = User.getInstance().getCarList().get(editCarPosition);
+        Log.i(TAG, "Delete button clicked, hiding " + car);
+        car.setActive(false);
 
         CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
         db.open();
-        db.deleteCar(carToDelete);
+        db.updateCar(car);
         db.close();
 
-        User.getInstance().removeCarFromCarList(carToDelete);
+        User.getInstance().removeCarFromCarList(car);
+
     }
 
     private void editExistingCar(int editCarPosition, Car car) {
@@ -324,6 +325,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         // Pass old car id to the new car
         int oldCarId = User.getInstance().getCarList().get(editCarPosition).getId();
         car.setId(oldCarId);
+        car.setActive(true);
 
         CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
         db.open();
@@ -335,13 +337,24 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
     private void addNewCar(Car car) {
         Log.i(TAG, "Add button clicked");
+        car.setActive(true);
+        car = addCarToDatabase(car);
+        User.getInstance().addCarToCarList(car);
+    }
 
+    private void useNewCar(Car car) {
+        Log.i(TAG, "Use button clicked");
+        car.setActive(false);
+        car = addCarToDatabase(car);
+        User.getInstance().setCurrentJourneyCar(car);
+    }
+
+    private Car addCarToDatabase(Car car) {
         CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
         db.open();
         Car newCar = db.insertCar(car);
         db.close();
-
-        User.getInstance().addCarToCarList(newCar);
+        return newCar;
     }
 
     // *** end of database related methods *** //

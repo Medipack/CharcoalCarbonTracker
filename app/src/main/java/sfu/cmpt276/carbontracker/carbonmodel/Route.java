@@ -2,22 +2,26 @@ package sfu.cmpt276.carbontracker.carbonmodel;
 
 public class Route {
     private int id = -1;
+    private boolean isActive;
     private String routeName;
     private double routeDistanceCity;
     private double routeDistanceHighway;
 
     public Route() {
+        isActive = false;
         routeName = "";
         routeDistanceCity = 0;
         routeDistanceHighway = 0;
     }
 
     public Route(double distanceC, double distanceH) {
+        isActive = false;
         routeDistanceCity = distanceC;
         routeDistanceHighway = distanceH;
     }
 
     public Route(String name, double distanceC, double distanceH) {
+        isActive = false;
         routeName = name;
         routeDistanceCity = distanceC;
         routeDistanceHighway = distanceH;
@@ -75,5 +79,13 @@ public class Route {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

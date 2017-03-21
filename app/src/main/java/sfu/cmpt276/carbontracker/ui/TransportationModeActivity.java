@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
@@ -163,8 +165,32 @@ public class TransportationModeActivity extends AppCompatActivity {
 
     private class CarListAdapter extends ArrayAdapter<Car> implements CarListener {
 
+        private List<Car> carList;
+        private List<Integer> hiddenItemIndicies = new ArrayList<>();
+
         CarListAdapter(Context context) {
             super(context, R.layout.car_listview_item, User.getInstance().getCarList());
+            carList = User.getInstance().getCarList();
+            carListWasEdited();
+        }
+
+        private int skipHiddenItemPositions(int position) {
+            for(Integer hiddenItem : hiddenItemIndicies) {
+                if(hiddenItem <= position) {
+                    position++;
+                }
+            }
+            return position;
+        }
+
+        private void updateHiddenItemIndicies() {
+            for(int i = 0; i < carList.size(); i++) {
+                if(!carList.get(i).getActive()) {
+                    // Make sure index is in hiddenItemIndices
+                    if(!hiddenItemIndicies.contains(i))
+                        hiddenItemIndicies.add(i);
+                }
+            }
         }
 
         @NonNull
@@ -176,18 +202,33 @@ public class TransportationModeActivity extends AppCompatActivity {
                 itemView = LayoutInflater.from(getContext()).inflate(R.layout.car_listview_item, parent, false);
             }
 
-            User user = User.getInstance();
-            // Get the current car
-            Car car = user.getCarList().get(position);
+            // Thanks https://vshivam.wordpress.com/2015/01/07/hiding-a-list-item-from-an-android-listview-without-removing-it-from-the-data-source/
+            position = skipHiddenItemPositions(position);
+
+            Car car = carList.get(position);
+
             // Fill the TextView
             TextView description = (TextView) itemView.findViewById(R.id.car_description);
             description.setText(car.getShortDecription());
             return itemView;
         }
 
+        @Nullable
+        @Override
+        public Car getItem(int position) {
+            position = skipHiddenItemPositions(position);
+            return super.getItem(position);
+        }
+
+        @Override
+        public int getCount() {
+            return carList.size() - hiddenItemIndicies.size();
+        }
+
         @Override
         public void carListWasEdited() {
             Log.i(TAG, "Car List changed, updating listview");
+            updateHiddenItemIndicies();
             notifyDataSetChanged();
         }
     }
@@ -199,7 +240,8 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // User has selected a vehicle
-                Car car = User.getInstance().getCarList().get(i);
+                Car car = (Car) adapterView.getAdapter().getItem(i);
+                //Car car = User.getInstance().getCarList().get(i);
                 Log.i(TAG, "User selected vehicle " + car.getShortDecription());
 
                 // Set current Journey to use the selected car
@@ -214,10 +256,12 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // User has long pressed to edit a vehicle
-                Car car = User.getInstance().getCarList().get(i);
+                Car car = (Car) adapterView.getAdapter().getItem(i);
                 Log.i(TAG, "User long pressed on " + car.getShortDecription());
 
-                launchNewVehicleDialog(i);
+                int index = User.getInstance().getCarList().indexOf(car);
+
+                launchNewVehicleDialog(index);
 
                 return true;
             }

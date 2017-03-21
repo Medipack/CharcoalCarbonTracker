@@ -146,6 +146,7 @@ public class User {
     }
 
     public void removeRouteFromRouteList(int index){
+        /*
         Route route = routeList.getRoute(index);
         for(Journey journey : journeyList){
             if(journey.getRoute() == route){
@@ -160,6 +161,7 @@ public class User {
             }
         }
         routeList.removeRoute(index);
+        */
         notifyListenerRouteWasEdited();
     }
 

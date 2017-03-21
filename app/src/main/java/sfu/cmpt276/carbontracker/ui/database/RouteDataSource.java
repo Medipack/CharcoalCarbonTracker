@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.carbonmodel.Route;
+import sfu.cmpt276.carbontracker.carbonmodel.User;
 
 /**
  * A data source from the Route Database
@@ -22,6 +23,7 @@ public class RouteDataSource {
 
     private String[] columns = {
             RouteDatabaseHelper.COLUMN_ID,
+            RouteDatabaseHelper.COLUMN_ISACTIVE,
             RouteDatabaseHelper.COLUMN_NICKNAME,
             RouteDatabaseHelper.COLUMN_CITY_DISTANCE,
             RouteDatabaseHelper.COLUMN_HWY_DISTANCE
@@ -44,6 +46,7 @@ public class RouteDataSource {
 
         if(includeId)
             values.put(RouteDatabaseHelper.COLUMN_ID, route.getId());
+        values.put(RouteDatabaseHelper.COLUMN_ISACTIVE, User.booleanToInt(route.isActive()));
         values.put(RouteDatabaseHelper.COLUMN_NICKNAME, route.getRouteName());
         values.put(RouteDatabaseHelper.COLUMN_CITY_DISTANCE, route.getRouteDistanceCity());
         values.put(RouteDatabaseHelper.COLUMN_HWY_DISTANCE, route.getRouteDistanceHighway());
@@ -96,9 +99,10 @@ public class RouteDataSource {
         Route route = new Route();
 
         route.setId(cursor.getInt(0));
-        route.setRouteName(cursor.getString(1));
-        route.setRouteDistanceCity(cursor.getDouble(2));
-        route.setRouteDistanceHighway(cursor.getDouble(3));
+        route.setActive(User.intToBoolean(cursor.getInt(1)));
+        route.setRouteName(cursor.getString(2));
+        route.setRouteDistanceCity(cursor.getDouble(3));
+        route.setRouteDistanceHighway(cursor.getDouble(4));
 
         return route;
     }

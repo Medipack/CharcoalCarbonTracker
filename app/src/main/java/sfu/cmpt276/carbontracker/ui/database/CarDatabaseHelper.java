@@ -28,7 +28,7 @@ class CarDatabaseHelper extends SQLiteOpenHelper {
     static final String COLUMN_ENGINEDISPL = "enginedispl";
 
     private static final String DATABASE_NAME = "cars.db";
-    private static final int DATABASE_VERSION = 5; // update if Car class is ever changed
+    private static final int DATABASE_VERSION = 6; // update if Car class is ever changed
 
     // SQL command to create the database
     private static final String DATABASE_CREATE = "create table " +

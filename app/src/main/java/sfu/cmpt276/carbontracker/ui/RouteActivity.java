@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
@@ -56,8 +58,32 @@ public class RouteActivity extends AppCompatActivity {
 
     private class RouteListAdapter extends ArrayAdapter<Route> implements RouteListener {
 
+        private List<Route> routeList;
+        private List<Integer> hiddenItemIndicies = new ArrayList<>();
+
         RouteListAdapter(Context context) {
             super(context, R.layout.route_item, User.getInstance().getRouteList().getRoutes());
+            routeList = User.getInstance().getRouteList().getRoutes();
+            routeListWasEdited();
+        }
+
+        private int skipHiddenItemPositions(int position) {
+            for(Integer hiddenItem : hiddenItemIndicies) {
+                if(hiddenItem <= position) {
+                    position++;
+                }
+            }
+            return position;
+        }
+
+        private void updateHiddenItemIndicies() {
+            for(int i = 0; i < routeList.size(); i++) {
+                if(!routeList.get(i).isActive()) {
+                    // Make sure index is in hiddenItemIndices
+                    if(!hiddenItemIndicies.contains(i))
+                        hiddenItemIndicies.add(i);
+                }
+            }
         }
 
         @NonNull
@@ -68,9 +94,11 @@ public class RouteActivity extends AppCompatActivity {
             if(itemView == null) {
                 itemView = LayoutInflater.from(getContext()).inflate(R.layout.route_item, parent, false);
             }
-            User user = User.getInstance();
-            // Get the current car
-            Route route = user.getRouteList().getRoute(position);
+
+            // Thanks https://vshivam.wordpress.com/2015/01/07/hiding-a-list-item-from-an-android-listview-without-removing-it-from-the-data-source/
+            position = skipHiddenItemPositions(position);
+
+            Route route = routeList.get(position);
 
             // Fill the TextView
             TextView description = (TextView) itemView.findViewById(R.id.routeDescription);
@@ -79,9 +107,22 @@ public class RouteActivity extends AppCompatActivity {
             return itemView;
         }
 
+        @Nullable
+        @Override
+        public Route getItem(int position) {
+            position = skipHiddenItemPositions(position);
+            return super.getItem(position);
+        }
+
+        @Override
+        public int getCount() {
+            return routeList.size() - hiddenItemIndicies.size();
+        }
+
         @Override
         public void routeListWasEdited() {
             Log.i(TAG, "Route List changed, updating listview");
+            updateHiddenItemIndicies();
             notifyDataSetChanged();
         }
     }
@@ -195,20 +236,7 @@ public class RouteActivity extends AppCompatActivity {
                             }
                             else {
                                 newRoute = new Route(nameSaved, citySaved, highwaySaved);
-                                User.getInstance().setCurrentJourneyRoute(newRoute);
-
-                                Log.i(TAG, "User selected route \"" + newRoute.getRouteName() + "\"");
-
-                                // Set current Journey to use the selected route
-                                User.getInstance().setCurrentJourneyRoute(newRoute);
-
-                                Journey journey = User.getInstance().getCurrentJourney();
-                                journey.setTotalDistance(citySaved + highwaySaved);
-                                //double emission = journey.calculateCarbonEmission();
-                                //journey.setCarbonEmitted(emission);
-                                User.getInstance().resetCurrentJourneyEmission();
-
-                                User.getInstance().addJourney(User.getInstance().getCurrentJourney());
+                                useNewRoute(newRoute);
 
                                 Intent intent = new Intent(RouteActivity.this, JourneyEmissionActivity.class);
                                 startActivityForResult(intent,0);
@@ -230,7 +258,8 @@ public class RouteActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 use_position = i;
                 // User has selected a route
-                Route route = User.getInstance().getRouteList().getRoute(i);
+                Route route = (Route) adapterView.getAdapter().getItem(i);
+                //Route route = User.getInstance().getRouteList().getRoute(i);
 
                 selectRouteAndAddToJourneyList(route);
 
@@ -256,7 +285,9 @@ public class RouteActivity extends AppCompatActivity {
                 Button editDelete = (Button) editDialog.findViewById(R.id.editDelete);
                 Button editCancel = (Button) editDialog.findViewById(R.id.editCancel);
 
-                Route editRoute = User.getInstance().getRouteList().getRoute(position);
+                //Route editRoute = User.getInstance().getRouteList().getRoute(position);
+                Route editRoute = (Route) parent.getAdapter().getItem(position);
+
                 editName.setText(editRoute.getRouteName());
                 editCity.setText(Double.toString(editRoute.getRouteDistanceCity()));
                 editHighway.setText(Double.toString(editRoute.getRouteDistanceHighway()));
@@ -369,13 +400,13 @@ public class RouteActivity extends AppCompatActivity {
     // *** Add / Edit / Delete helper methods *** //
 
     private void deleteRoute(int deleteRoutePosition) {
+        Route route = User.getInstance().getRouteList().getRoute(deleteRoutePosition);
         Log.i(TAG, "Delete button clicked");
-
-        Route routeToDelete = User.getInstance().getRouteList().getRoute(deleteRoutePosition);
+        route.setActive(false);
 
         RouteDataSource db = new RouteDataSource(this);
         db.open();
-        db.deleteRoute(routeToDelete);
+        db.updateRoute(route);
         db.close();
 
         User.getInstance().removeRouteFromRouteList(deleteRoutePosition);
@@ -386,6 +417,7 @@ public class RouteActivity extends AppCompatActivity {
         // Pass old route id to the new route
         int oldRouteId = User.getInstance().getRouteList().getRoute(editRoutePosition).getId();
         route.setId(oldRouteId);
+        route.setActive(true);
 
         RouteDataSource db = new RouteDataSource(this);
         db.open();
@@ -397,13 +429,24 @@ public class RouteActivity extends AppCompatActivity {
 
     private void addNewRoute(Route route) {
         Log.i(TAG, "Add button clicked");
+        route.setActive(true);
+        route = addRouteToDatabase(route);
+        User.getInstance().getRouteList().addRoute(route);
+    }
 
+    private void useNewRoute(Route route) {
+        Log.i(TAG, "Use button clicked");
+        route.setActive(false);
+        route = addRouteToDatabase(route);
+        selectRouteAndAddToJourneyList(route);
+    }
+
+    private Route addRouteToDatabase(Route route) {
         RouteDataSource db = new RouteDataSource(this);
         db.open();
         Route newRoute = db.insertRoute(route);
         db.close();
-
-        User.getInstance().getRouteList().addRoute(newRoute);
+        return newRoute;
     }
 
     // *** end of database related methods *** //
