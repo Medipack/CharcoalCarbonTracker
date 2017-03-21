@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="sfu.cmpt276.carbontracker.ui.BillActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:text="@string/bill"
+        android:textSize="24sp" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/utilityGroup">
+
+    </RadioGroup>
+
+    <Button
+        android:text="@string/from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="150dp"
+        android:id="@+id/startBtn" />
+
+    <TextView
+        android:text="xx/xx/xxxx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/startBtn"
+        android:layout_toEndOf="@+id/startBtn"
+        android:layout_marginBottom="12dp"
+        android:id="@+id/startDateText" />
+
+    <Button
+        android:text="@string/to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/startBtn"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginStart="0dp"
+        android:id="@+id/endBtn" />
+
+    <TextView
+        android:text="xx/xx/xxxx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/startDateText"
+        android:layout_toEndOf="@+id/endBtn"
+        android:layout_marginStart="13dp"
+        android:id="@+id/endDateText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned|numberDecimal"
+        android:ems="10"
+        android:layout_below="@+id/startDateText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp"
+        android:id="@+id/amountInput"
+        android:hint="@string/amount_used" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:ems="10"
+        android:layout_below="@+id/amountInput"
+        android:layout_alignStart="@+id/amountInput"
+        android:layout_marginTop="10dp"
+        android:id="@+id/peopleInput"
+        android:hint="@string/people" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:layout_below="@+id/peopleInput"
+        android:layout_alignStart="@+id/peopleInput"
+        android:layout_marginTop="7dp"
+        android:id="@+id/currentAvgInput"
+        android:hint="@string/current_average" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:layout_below="@+id/currentAvgInput"
+        android:layout_alignStart="@+id/currentAvgInput"
+        android:layout_marginTop="8dp"
+        android:id="@+id/previousAvgInput"
+        android:hint="@string/previous_average" />
+
+    <Button
+        android:text="@string/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="200dp"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/utilitySaveBtn" />
+
+</RelativeLayout>

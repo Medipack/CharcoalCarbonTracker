@@ -28,6 +28,7 @@ public class MenuActivity extends AppCompatActivity {
         setupCarbonTotalsBtn();
 
         setupCarbon();
+        setupUtility();
     }
 
     private void setupCarbon() {
@@ -64,6 +65,17 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MenuActivity.this, JourneyActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setupUtility() {
+        Button utilityBtn = (Button)findViewById(R.id.createUtilityBtn);
+        utilityBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MenuActivity.this, UtilityActivity.class);
                 startActivity(intent);
             }
         });

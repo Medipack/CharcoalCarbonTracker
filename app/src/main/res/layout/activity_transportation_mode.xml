@@ -55,7 +55,7 @@
         android:id="@+id/addSkytrainButton" />
 
     <TextView
-        android:text="Select Transportation Mode:"
+        android:text="@string/select_transportation_mode"
         android:textSize="18sp"
         android:textColor="#0c742d"
         android:layout_width="wrap_content"

@@ -16,7 +16,7 @@ public class User {
     private RouteList routeList;
     private List<Journey> journeyList;
     private CarDirectory mainDirectory;
-
+    private UtilityList utilityList;
     private Journey currentJourney;
 
     private User(){
@@ -24,7 +24,7 @@ public class User {
         routeList = new RouteList();
         currentJourney = new Journey();
         journeyList = new ArrayList<Journey>();
-
+        utilityList = new UtilityList();
     }
 
     private static User instance = new User();
@@ -51,10 +51,19 @@ public class User {
         return mainDirectory;
     }
 
+    public UtilityList getUtilityList() {
+        return utilityList;
+    }
+
+
     // *** Current Journey *** //
 
     public void createNewCurrentJourney(){
         currentJourney = new Journey();
+    }
+
+    public void setCurrentJourney(Journey currentJourney){
+        this.currentJourney = currentJourney;
     }
 
     public void setCurrentJourneyCar(Car car){
@@ -68,11 +77,9 @@ public class User {
         currentJourney.resetCarbonEmitted();
     }
 
-
     public Journey getCurrentJourney(){
         return currentJourney;
     }
-
 
     // *** Modify lists *** //
 
@@ -155,6 +162,10 @@ public class User {
         journeyList.add(journey);
     }
 
+    public Journey getJourney(int position){
+        return journeyList.get(position);
+    }
+
     // *** Directory *** //
 
     public void setUpDirectory(InputStream input){
@@ -188,4 +199,6 @@ public class User {
         else
             throw new ExceptionInInitializerError("No one is listening to car list");
     }
+
+
 }
