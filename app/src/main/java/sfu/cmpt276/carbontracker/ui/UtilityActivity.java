@@ -53,7 +53,7 @@ public class UtilityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = BillActivity.makeIntent(UtilityActivity.this);
-                startActivityForResult(intent, 10);
+                startActivity(intent);
             }
         });
     }
@@ -77,20 +77,6 @@ public class UtilityActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case 200:
-               if (resultCode == Activity.RESULT_FIRST_USER) {
-                    myUtility.removeUtility(edit_position);
-                    populateListView();
-                    break;
-                }
-
-        }
-    }
-
-
     private void registerClickCallback() {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -100,9 +86,7 @@ public class UtilityActivity extends AppCompatActivity {
                 Intent intent = BillActivity.makeIntent(UtilityActivity.this);
                 intent.putExtra("pos", edit_position);
                 intent.putExtra("mode", mode);
-                startActivityForResult(intent, 200);
-                //startActivity(intent);
-
+                startActivity(intent);
                 return true;
             }
         });

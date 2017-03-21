@@ -158,9 +158,9 @@ public class BillActivity extends AppCompatActivity {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                User.getInstance().getUtilityList().removeUtility(position);
                 Intent intent = new Intent(BillActivity.this, UtilityActivity.class);
-                setResult(Activity.RESULT_FIRST_USER, intent);
-                finish();
+                startActivity(intent);
             }
         });
     }
