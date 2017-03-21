@@ -37,11 +37,9 @@ public class JourneyActivity extends AppCompatActivity {
         TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
         lp.setMargins(0, 0, 0, 0);
 
-        // *** TESTING JOURNEY DATABASE *** //
-
         JourneyDataSource db = new JourneyDataSource(this);
         db.open();
-        //for (Journey journey : User.getInstance().getJourneyList()) {
+
         for (Journey journey : db.getAllJourneys(this)) {
 
             Log.i("TABLETEST", journey.getRouteName());
