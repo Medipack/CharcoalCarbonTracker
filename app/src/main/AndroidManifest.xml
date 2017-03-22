@@ -28,8 +28,11 @@
         <activity android:name=".ui.JourneyActivity" />
         <activity android:name=".ui.PieGraphActivity" />
         <activity android:name=".ui.SelectTransportationActivity" />
+        <activity android:name=".ui.EditJourneyActivity" />
+        <activity android:name=".ui.SelectTransportationActivity" />
         <activity android:name=".ui.BillActivity" />
-        <activity android:name=".ui.UtilityActivity"></activity>
+        <activity android:name=".ui.UtilityActivity" />
+        <activity android:name=".ui.PickDateActivity"></activity>
     </application>
 
 </manifest>

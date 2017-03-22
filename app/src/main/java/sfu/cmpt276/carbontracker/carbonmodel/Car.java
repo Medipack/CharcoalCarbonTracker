@@ -41,9 +41,25 @@ public class Car implements Cloneable, Serializable{
         model = DEFAULT_DESCRIPTION;
         make = DEFAULT_DESCRIPTION;
         transmission = DEFAULT_DESCRIPTION;
+        fuelType = DEFAULT_DESCRIPTION;
         year = 0;
         cityCO2 = 0;
         hwyCO2 = 0;
+        engineDispl = 0;
+        transport_mode = CAR;
+    }
+
+    //Constructor for public modes of transportation
+    public Car(String nickname, double cityCO2, double hwyCO2){
+        isActive = false;
+        this.nickname = nickname;
+        model = DEFAULT_DESCRIPTION;
+        make = DEFAULT_DESCRIPTION;
+        transmission = DEFAULT_DESCRIPTION;
+        fuelType = DEFAULT_DESCRIPTION;
+        year = 0;
+        this.cityCO2 = cityCO2;
+        this.hwyCO2 = hwyCO2;
         engineDispl = 0;
         transport_mode = CAR;
     }
@@ -54,6 +70,7 @@ public class Car implements Cloneable, Serializable{
         this.make = make;
         this.model = model;
         this.year = year;
+        transport_mode = CAR;
     }
 
     public Car(String nickname, String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
@@ -67,6 +84,7 @@ public class Car implements Cloneable, Serializable{
         setCityCO2(cityCO2);
         setHwyCO2(hwyCO2);
         setEngineDispl(engineDispl);
+        transport_mode = CAR;
     }
 
     public Car(String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
@@ -80,6 +98,7 @@ public class Car implements Cloneable, Serializable{
         setCityCO2(cityCO2);
         setHwyCO2(hwyCO2);
         setEngineDispl(engineDispl);
+        transport_mode = CAR;
     }
 
     //Getter
