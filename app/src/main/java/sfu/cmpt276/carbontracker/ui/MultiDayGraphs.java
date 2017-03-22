@@ -10,6 +10,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -63,6 +64,7 @@ public class MultiDayGraphs extends AppCompatActivity {
             }
 
             BarDataSet set = new BarDataSet(entries, "BarDataSet");
+            set.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
             BarData data = new BarData(set);
             //data.setBarWidth(0.9f); // set custom bar width
