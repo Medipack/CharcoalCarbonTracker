@@ -28,7 +28,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Car;
 import sfu.cmpt276.carbontracker.carbonmodel.CarListener;
 
-/*Displays list of vehicles, allows for adding, editing, deleting cars*/
+/* Displays list of vehicles, allows for adding, editing, deleting cars */
 public class TransportationModeActivity extends AppCompatActivity {
 
     private final String TAG = "TransportationActivity";
