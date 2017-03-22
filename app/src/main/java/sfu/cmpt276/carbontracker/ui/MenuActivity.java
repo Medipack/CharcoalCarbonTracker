@@ -28,13 +28,6 @@ public class MenuActivity extends AppCompatActivity {
         setupNewJourneyBtn();
         setupCarbonTotalsBtn();
 
-        Button tip = (Button) findViewById(R.id.tipButton);
-        tip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         setupCarbon();
         setupUtility();
     }
