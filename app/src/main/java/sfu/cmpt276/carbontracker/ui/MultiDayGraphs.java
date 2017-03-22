@@ -55,7 +55,7 @@ public class MultiDayGraphs extends AppCompatActivity {
         if(days == DAYS_IN_4_WEEKS)
         {
             BarChart chart = (BarChart) findViewById(R.id.barChart);
-            BarDataSet busSet, skytrainSet, walk_bikeSet, electricSet, utilitySet, carSet;
+            BarDataSet busSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet, carSet;
 
             List<BarEntry> busEntries = new ArrayList<>();
             List<BarEntry> skytrainEntries = new ArrayList<>();
