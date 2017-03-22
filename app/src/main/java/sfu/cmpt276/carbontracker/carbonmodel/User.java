@@ -19,6 +19,10 @@ public class User {
     private UtilityList utilityList;
     private Journey currentJourney;
 
+    private boolean carListPopulatedFromDatabase = false;
+    private boolean routeListPopulatedFromDatabase = false;
+    private boolean utilityListPopulatedFromDatabase = false;
+
     private User(){
         carList = new ArrayList<>();
         routeList = new RouteList();
@@ -81,6 +85,11 @@ public class User {
         return currentJourney;
     }
 
+
+    public Car getCarFromCarList(int index) {
+        return carList.get(index);
+    }
+
     // *** Modify lists *** //
 
     public void addCarToCarList(Car car){
@@ -100,8 +109,8 @@ public class User {
         notifyListenerCarWasEdited();
     }
 
-    public void removeCarFromCarList(int index){
-        Car car = carList.get(index);
+    public void removeCarFromCarList(Car car){
+        /*
         for(Journey journey : journeyList){
             if(journey.getCar() == car){
                 Car newCar = new Car();
@@ -114,7 +123,8 @@ public class User {
                 journey.resetCarbonEmitted();
             }
         }
-        carList.remove(index);
+        carList.remove(car);
+        */
         notifyListenerCarWasEdited();
     }
 
@@ -137,6 +147,7 @@ public class User {
     }
 
     public void removeRouteFromRouteList(int index){
+        /*
         Route route = routeList.getRoute(index);
         for(Journey journey : journeyList){
             if(journey.getRoute() == route){
@@ -151,6 +162,7 @@ public class User {
             }
         }
         routeList.removeRoute(index);
+        */
         notifyListenerRouteWasEdited();
     }
 
@@ -162,6 +174,11 @@ public class User {
 
 
     }
+
+    public void addUtilityToUtilityList(Utility utility) {
+        utilityList.addUtility(utility);
+    }
+
 
     public void addJourney(Car car, Route route){
         journeyList.add(new Journey(car, route));
@@ -209,5 +226,37 @@ public class User {
             throw new ExceptionInInitializerError("No one is listening to car list");
     }
 
+    // *** Database *** //
 
+    public boolean isCarListPopulatedFromDatabase() {
+        return carListPopulatedFromDatabase;
+    }
+
+    public void setCarListPopulatedFromDatabase() {
+        carListPopulatedFromDatabase = true;
+    }
+
+    public boolean isRouteListPopulatedFromDatabase() {
+        return routeListPopulatedFromDatabase;
+    }
+
+    public void setRouteListPopulatedFromDatabase() {
+        routeListPopulatedFromDatabase = true;
+    }
+
+    public boolean isUtilityListPopulatedFromDatabase() {
+        return utilityListPopulatedFromDatabase;
+    }
+
+    public void setUtilityListPopulatedFromDatabase() {
+        utilityListPopulatedFromDatabase = true;
+    }
+
+    public static int booleanToInt(boolean value) {
+        return (value) ? 1 : 0;
+    }
+
+    public static boolean intToBoolean(int value) {
+        return value > 0;
+    }
 }
