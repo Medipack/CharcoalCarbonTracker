@@ -255,8 +255,6 @@ public class BillActivity extends AppCompatActivity {
 
         startDateText = (TextView) findViewById(R.id.startDateText);
         endDateText = (TextView) findViewById(R.id.endDateText);
-        //Date editStartDate = utility.getStartDate();
-        //Date editEndDate = utility.getEndDate();
 
         long startTimeInMillis = utility.getStartDate().getTime();
         Calendar calendar = Calendar.getInstance();
@@ -266,9 +264,12 @@ public class BillActivity extends AppCompatActivity {
         editStartDay = calendar.get(Calendar.DAY_OF_MONTH);
         startDateText.setText(editStartDay + "/" + editStartMonth  + "/" + editStartYear);
 
-        editEndYear = calendar.get(Calendar.YEAR);
-        editEndMonth = calendar.get(Calendar.MONTH) + 1;
-        editEndDay = calendar.get(Calendar.DAY_OF_MONTH);
+        long endTimeInMillis = utility.getStartDate().getTime();
+        Calendar calendar_end = Calendar.getInstance();
+        calendar.setTimeInMillis (endTimeInMillis);
+        editEndYear = calendar_end.get(Calendar.YEAR);
+        editEndMonth = calendar_end.get(Calendar.MONTH) + 1;
+        editEndDay = calendar_end.get(Calendar.DAY_OF_MONTH);
         endDateText.setText(editEndDay + "/" + editEndMonth  + "/" + editEndYear);
 
 

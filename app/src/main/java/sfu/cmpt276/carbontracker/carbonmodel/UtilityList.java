@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import sfu.cmpt276.carbontracker.ui.BillActivity;
 
 /**
  * Created by apple on 2017-03-17.
