@@ -281,7 +281,7 @@ public class BillActivity extends AppCompatActivity {
             previousAvgInput.setText(String.valueOf(utility.getAverageGJPrevious()));
 
         }
-        if(utility.getUtility_type().equals(Utility.ELECTRICITY_NAME))
+        else if(utility.getUtility_type().equals(Utility.ELECTRICITY_NAME))
         {
             electricityRb.setChecked(true);
             amountInput.setText(String.valueOf(utility.getElectricUsed()));

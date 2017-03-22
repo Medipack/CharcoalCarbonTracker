@@ -21,38 +21,30 @@ import java.util.List;
 import java.util.Objects;
 
 import sfu.cmpt276.carbontracker.R;
+import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 
 public class SingleDayActivity extends AppCompatActivity {
     List journeyList = User.getInstance().getJourneyList();
-
     String str_date;
     Date singleDate;
     Date startDate;
     Date endDate;
-
     Date compareStartDate;
     Date compareEndDate;
-
     Double emissionShare;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_day);
-
         setupSingleDayPieGraph();
     }
-
     private void setupSingleDayPieGraph() {
         Intent intent = getIntent();
         str_date = intent.getStringExtra("date string");
-
         //pie graph list
         List<PieEntry> pieEntries = new ArrayList<>();
-
-
         try {
             DateFormat formatter;
             formatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -60,9 +52,6 @@ public class SingleDayActivity extends AppCompatActivity {
         } catch (Exception e) {
         }
         Toast.makeText(this, "" + singleDate.getTime(), Toast.LENGTH_SHORT).show();
-
-
-
         int size = User.getInstance().getUtilityList().countUtility();
         for (int i = 0; i < size; i++) {
             Utility utility = User.getInstance().getUtilityList().getUtility(i); //get the bill in list
@@ -77,29 +66,22 @@ public class SingleDayActivity extends AppCompatActivity {
                     String str_singleEmission = String.valueOf(emissionShare);
                     float temp = Float.valueOf(str_singleEmission);
                     pieEntries.add(new PieEntry(temp, Utility.GAS_NAME));
-
                     Toast.makeText(this, "" + emissionShare, Toast.LENGTH_SHORT).show();
                 }
-
                 //selected date not in the period
                 else {
                     //selected date later than the end date of bill
                     //e.g. choose: Mar3, bill[i]: Feb8-Feb28
                     if (singleDate.getTime() > endDate.getTime()) {
                         compareEndDate = endDate;
-
                     }
-
                     //selected date earlier than the start date of bill
                     //e.g. choose: Mar3, bill[i]: Mar8-Mar29
                     else if (singleDate.getTime() < startDate.getTime()) {
                         compareStartDate = startDate;
                     }
-
                 }
-
             }
-
             //electricity
             else {
                 //selected date in the period of one date
@@ -109,10 +91,8 @@ public class SingleDayActivity extends AppCompatActivity {
                     String str_singleEmission = String.valueOf(emissionShare);
                     float temp = Float.valueOf(str_singleEmission);
                     pieEntries.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
-
                     Toast.makeText(this, "" + emissionShare, Toast.LENGTH_SHORT).show();
                 }
-
                 //selected date not in the period
                 else {
                     //selected date later than the end date of bill
@@ -120,22 +100,18 @@ public class SingleDayActivity extends AppCompatActivity {
                     if (singleDate.getTime() > endDate.getTime()) {
                         compareEndDate = endDate;
                     }
-
                     //selected date earlier than the start date of bill
                     //e.g. choose: Mar3, bill[i]: Mar8-Mar29
                     else if (singleDate.getTime() < startDate.getTime()) {
                         compareStartDate = startDate;
                     }
-
                 }
             }
-
         /*
         //journey part
         String emission[] = new String[journeyList.size()];
         for(int i=0; i<journeyList.size();i++){
             String car = User.getInstance().getJourneyList().get(i).getVehicleName();
-
             double emissionTemp = User.getInstance().getJourneyList().get(i).getCarbonEmitted();
             String str_emissionTemp = String.valueOf(emissionTemp);
             emission[i] = str_emissionTemp;
@@ -143,20 +119,33 @@ public class SingleDayActivity extends AppCompatActivity {
             pieEntries.add(new PieEntry(temp, car));
         }
         */
-
-
-            PieDataSet dataSet = new PieDataSet(pieEntries, "emission");
-            dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-            PieData data = new PieData(dataSet);
-
-            //get the chart:
-            PieChart chart = (PieChart) findViewById(R.id.singleDayChart);
-            chart.setData(data);
-            chart.animateY(1000);
-            chart.invalidate();
-
             //first check the date: if selected date between startDate and endDate of a bill
             //use the avg data, if not, use nearest data, then check journey part
         }
+
+        //journey part
+
+        String emission[] = new String[journeyList.size()];
+        for(int k=0; k<journeyList.size();k++){
+            Journey journey = User.getInstance().getJourneyList().get(k);
+            if(journey.getDate().getTime() == singleDate.getTime()) {
+                String car = User.getInstance().getJourneyList().get(k).getVehicleName();
+                double emissionTemp = User.getInstance().getJourneyList().get(k).getCarbonEmitted();
+                String str_emissionTemp = String.valueOf(emissionTemp);
+                emission[k] = str_emissionTemp;
+                float temp = Float.valueOf(emission[k]);
+                pieEntries.add(new PieEntry(temp, car));
+            }
+        }
+
+        PieDataSet dataSet = new PieDataSet(pieEntries, "emission");
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        PieData data = new PieData(dataSet);
+        //get the chart:
+        PieChart chart = (PieChart) findViewById(R.id.singleDayChart);
+        chart.setData(data);
+        chart.animateY(1000);
+        chart.invalidate();
+
     }
 }

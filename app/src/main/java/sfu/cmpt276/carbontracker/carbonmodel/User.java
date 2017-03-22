@@ -131,7 +131,6 @@ public class User {
         notifyListenerRouteWasEdited();
     }
 
-
     public void addRouteToRouteList(Route route){
         routeList.addRoute(route);
         notifyListenerRouteWasEdited();
