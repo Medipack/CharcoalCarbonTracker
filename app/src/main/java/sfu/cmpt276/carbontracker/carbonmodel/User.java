@@ -166,6 +166,15 @@ public class User {
         notifyListenerRouteWasEdited();
     }
 
+
+    ////////
+    public void EditUtilityIntoUtilityList(int index, Utility newUtility){
+        //Utility oldUtility = utilityList.getUtility(index);
+        utilityList.editUtility(newUtility, index);
+
+
+    }
+
     public void addUtilityToUtilityList(Utility utility) {
         utilityList.addUtility(utility);
     }

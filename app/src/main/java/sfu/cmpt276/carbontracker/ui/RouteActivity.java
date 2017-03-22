@@ -226,7 +226,7 @@ public class RouteActivity extends AppCompatActivity {
 
                 selectRouteAndAddToJourneyList(route);
 
-                Intent intent = new Intent(RouteActivity.this, JourneyEmissionActivity.class);
+                Intent intent = new Intent(RouteActivity.this, PickDateActivity.class);
                 startActivityForResult(intent,0);
             }
         });
@@ -289,7 +289,6 @@ public class RouteActivity extends AppCompatActivity {
                                 Toast.makeText(RouteActivity.this, "Please enter an positive highway distance", Toast.LENGTH_SHORT).show();
                             }
                             else {
-
                                 Route editRoute = new Route(editNameSaved, editCitySaved, editHighwaySaved);
                                 editExistingRoute(position, editRoute);
                                 setUpRouteListView();
