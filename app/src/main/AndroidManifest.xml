@@ -33,7 +33,8 @@
         <activity android:name=".ui.BillActivity" />
         <activity android:name=".ui.UtilityActivity" />
         <activity android:name=".ui.GraphActivity" />
-        <activity android:name=".ui.SingleDayActivity"></activity>
+        <activity android:name=".ui.SingleDayActivity" />
+        <activity android:name=".ui.MultiDayGraphs"></activity>
     </application>
 
 </manifest>
