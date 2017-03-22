@@ -13,5 +13,7 @@
 
     <color name="TrainColor">#a7ba5c</color>
     <color name="Walk_bikeColor">#c87dd6</color>
+    <color name="ElectricColor">#eef442</color>
+    <color name="NaturalGasColor">#f4a641</color>
 
 </resources>
