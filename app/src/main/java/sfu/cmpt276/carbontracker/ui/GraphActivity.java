@@ -49,6 +49,7 @@ public class GraphActivity extends AppCompatActivity {
         year_default = cal.get(Calendar.YEAR);
         month_default = cal.get(Calendar.MONTH);
         day_default = cal.get(Calendar.DAY_OF_MONTH);
+
     }
 
     private void createGraphRadioBtn() {

@@ -33,9 +33,9 @@ public class PickDateActivity extends AppCompatActivity {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         date.init(year, month, day, new DatePicker.OnDateChangedListener() {
             @Override
-            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            public void onDateChanged(DatePicker view, int year, int month, int dayOfMonth) {
                 calendar.set(calendar.YEAR, year);
-                calendar.set(calendar.MONTH, monthOfYear);
+                calendar.set(calendar.MONTH, month);
                 calendar.set(calendar.DAY_OF_MONTH, dayOfMonth);
             }
         });
@@ -50,6 +50,7 @@ public class PickDateActivity extends AppCompatActivity {
                     Toast.makeText(PickDateActivity.this, msg, Toast.LENGTH_SHORT).show();
                 }else {
                     User.getInstance().getCurrentJourney().setDate(newDate);
+                    Toast.makeText(PickDateActivity.this, "" + newDate.getTime(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(PickDateActivity.this, JourneyEmissionActivity.class);
                     startActivityForResult(intent, 0);
                 }

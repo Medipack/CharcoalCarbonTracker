@@ -170,13 +170,13 @@ public class Utility {
             return NATURAL_GAS * naturalGasUsed/numberOfPeople;                 //kg per GJ per person
         }
     }
-
+    //emission per person per day
     public double getPerDayUsage(){
         if(utility_type.equals(ELECTRICITY_NAME)){
-            return ELECTRICITY  * electricUsed / daysInPeriod;   // kg per kwh per day
+            return ELECTRICITY  * electricUsed / daysInPeriod / numberOfPeople;   // kg per kwh per day
         }
         else{
-            return NATURAL_GAS * naturalGasUsed / daysInPeriod;                 //kg per GJ per day
+            return NATURAL_GAS * naturalGasUsed / daysInPeriod / numberOfPeople;                 //kg per GJ per day
         }
     }
 }

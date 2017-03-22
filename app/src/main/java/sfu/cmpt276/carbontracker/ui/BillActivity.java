@@ -225,7 +225,7 @@ public class BillActivity extends AppCompatActivity {
             period = temp/oneDay + 1;
             tempPeriod = Long.toString(period);
             if(startDate.getTime() >= endDate.getTime()){
-                Toast.makeText(BillActivity.this, "End date cannot before the start date", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BillActivity.this, "End date cannot be before the start date", Toast.LENGTH_SHORT).show();
             }
             else if(System.currentTimeMillis() <= startDate.getTime()){
                 Toast.makeText(BillActivity.this, "Start date cannot be today or future", Toast.LENGTH_SHORT).show();
