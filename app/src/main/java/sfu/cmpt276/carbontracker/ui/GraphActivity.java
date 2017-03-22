@@ -126,7 +126,9 @@ public class GraphActivity extends AppCompatActivity {
                 }
                 else if(last28Days.isChecked()){
                     Toast.makeText(GraphActivity.this, "28", Toast.LENGTH_SHORT).show();
-
+                    Intent intent = new Intent(GraphActivity.this, MultiDayGraphs.class);
+                    intent.putExtra("days", 28);
+                    startActivity(intent);
                 }
                 else if(last365Days.isChecked()){
                     Toast.makeText(GraphActivity.this, "365", Toast.LENGTH_SHORT).show();
