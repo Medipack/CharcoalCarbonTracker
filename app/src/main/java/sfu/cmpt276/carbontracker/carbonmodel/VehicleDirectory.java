@@ -13,20 +13,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import sfu.cmpt276.carbontracker.carbonmodel.Car;
-
 /**
  * Class to keep a record of all the car data read from the CSV
  */
 
-public class CarDirectory{
+public class VehicleDirectory {
 
     //Hashmap that separates EPA car data by make, model and year
     //Stores an undelimited string
     private HashMap<String, HashMap<String, HashMap<String, List<String>>>> mainList;
 
     //Constructor
-    CarDirectory(InputStream input){
+    VehicleDirectory(InputStream input){
         mainList = new HashMap<>();
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(input, Charset.forName("UTF-8"))
@@ -72,7 +70,7 @@ public class CarDirectory{
     }
 
     //Creates a profile based on data read from line
-    public Car makeProfile(String data){
+    public Vehicle makeProfile(String data){
         String[] token = getTokens(data);
         String make = token[0];
         String model = token[1];
@@ -87,17 +85,17 @@ public class CarDirectory{
         } catch (ArrayIndexOutOfBoundsException e) {
             Log.i("MakeProfile", make + " " + model + " does not have engine displacement. Defaulting to 0");
         }
-        //make new Car class
-        Car temp = new Car(make, model, year, fuelType, transmission, cityCO2, hwyCO2, enginedisp);
+        //make new Vehicle class
+        Vehicle temp = new Vehicle(make, model, year, fuelType, transmission, cityCO2, hwyCO2, enginedisp);
         return temp;
     }
 
     //gives a list of cars objects
     //Accepts a csv string that has at least a Make, Model and Year
-    public List<Car> carList(String data){
+    public List<Vehicle> carList(String data){
         String[] tokens = getTokens(data);
         List<String> dataList = getDataList(tokens);
-        List<Car> list = new ArrayList<Car>();
+        List<Vehicle> list = new ArrayList<Vehicle>();
         for (int i = 0; i<dataList.size(); i++){
             list.add(makeProfile(dataList.get(i)));
         }

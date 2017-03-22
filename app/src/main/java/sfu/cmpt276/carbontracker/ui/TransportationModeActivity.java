@@ -17,16 +17,13 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.io.InputStream;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
-import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
-import sfu.cmpt276.carbontracker.carbonmodel.Car;
-import sfu.cmpt276.carbontracker.carbonmodel.CarListener;
+import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
+import sfu.cmpt276.carbontracker.carbonmodel.VehicleListener;
 
 /*Displays list of vehicles, allows for adding, editing, deleting cars*/
 public class TransportationModeActivity extends AppCompatActivity {
@@ -54,8 +51,8 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User user = User.getInstance();
-                 Car bike = new Car();
-                bike.setTransport_mode(Car.WALK_BIKE);
+                 Vehicle bike = new Vehicle();
+                bike.setTransport_mode(Vehicle.WALK_BIKE);
                 bike.setNickname("Bike");
                 user.setCurrentJourneyCar(bike);
                 Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
@@ -70,8 +67,8 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User user = User.getInstance();
-                Car skytrain = new Car();
-                skytrain.setTransport_mode(Car.SKYTRAIN);
+                Vehicle skytrain = new Vehicle();
+                skytrain.setTransport_mode(Vehicle.SKYTRAIN);
                 skytrain.setNickname("Skytrain");
                 user.setCurrentJourneyCar(skytrain);
                 Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
@@ -86,8 +83,8 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User user = User.getInstance();
-                Car bus = new Car("Bus", 89, 89);
-                bus.setTransport_mode(Car.BUS);
+                Vehicle bus = new Vehicle("Bus", 89, 89);
+                bus.setTransport_mode(Vehicle.BUS);
                 user.setCurrentJourneyCar(bus);
                 Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
                 startActivityForResult(intent, 0);
@@ -106,11 +103,11 @@ public class TransportationModeActivity extends AppCompatActivity {
     private void addTestVehicleToArray() {
         User user = User.getInstance();
 
-        List<Car> carArrayList = user.getCarList();
+        List<Vehicle> vehicleArrayList = user.getVehicleList();
 
-        carArrayList.add(new Car("My fav car", "Lamborghini", "Diablo", 1999));
-        carArrayList.add(new Car("The fun car", "Porsche", "911", 2017));
-        carArrayList.add(new Car("The Ancient One", "Honda", "Civic", 1985));
+        vehicleArrayList.add(new Vehicle("My fav car", "Lamborghini", "Diablo", 1999));
+        vehicleArrayList.add(new Vehicle("The fun car", "Porsche", "911", 2017));
+        vehicleArrayList.add(new Vehicle("The Ancient One", "Honda", "Civic", 1985));
     }
 
     private void setupSelectModeTxt() {
@@ -132,16 +129,16 @@ public class TransportationModeActivity extends AppCompatActivity {
     }
 
     private void setUpCarListView() {
-        ArrayAdapter<Car> carListAdapter = new CarListAdapter(TransportationModeActivity.this);
-        User.getInstance().setCarListener((CarListener) carListAdapter);
+        ArrayAdapter<Vehicle> carListAdapter = new VehicleListAdapter(TransportationModeActivity.this);
+        User.getInstance().setVehicleListener((VehicleListener) carListAdapter);
         ListView carList = (ListView) findViewById(R.id.carListView);
         carList.setAdapter(carListAdapter);
     }
 
-    private class CarListAdapter extends ArrayAdapter<Car> implements CarListener {
+    private class VehicleListAdapter extends ArrayAdapter<Vehicle> implements VehicleListener {
 
-        CarListAdapter(Context context) {
-            super(context, R.layout.car_listview_item, User.getInstance().getCarList());
+        VehicleListAdapter(Context context) {
+            super(context, R.layout.car_listview_item, User.getInstance().getVehicleList());
         }
         @NonNull
         @Override
@@ -153,17 +150,17 @@ public class TransportationModeActivity extends AppCompatActivity {
             }
 
             User user = User.getInstance();
-            // Get the current car
-            Car car = user.getCarList().get(position);
+            // Get the current vehicle
+            Vehicle vehicle = user.getVehicleList().get(position);
             // Fill the TextView
             TextView description = (TextView) itemView.findViewById(R.id.car_description);
-            description.setText(car.getShortDecription());
+            description.setText(vehicle.getShortDecription());
             return itemView;
         }
 
         @Override
         public void carListWasEdited() {
-            Log.i(TAG, "Car List changed, updating listview");
+            Log.i(TAG, "Vehicle List changed, updating listview");
             notifyDataSetChanged();
         }
     }
@@ -175,11 +172,11 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // User has selected a vehicle
-                Car car = User.getInstance().getCarList().get(i);
-                Log.i(TAG, "User selected vehicle " + car.getShortDecription());
+                Vehicle vehicle = User.getInstance().getVehicleList().get(i);
+                Log.i(TAG, "User selected vehicle " + vehicle.getShortDecription());
 
-                // Set current Journey to use the selected car
-                User.getInstance().setCurrentJourneyCar(car);
+                // Set current Journey to use the selected vehicle
+                User.getInstance().setCurrentJourneyCar(vehicle);
 
                 Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
                 startActivityForResult(intent, 0);
@@ -190,8 +187,8 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // User has long pressed to edit a vehicle
-                Car car = User.getInstance().getCarList().get(i);
-                Log.i(TAG, "User long pressed on " + car.getShortDecription());
+                Vehicle vehicle = User.getInstance().getVehicleList().get(i);
+                Log.i(TAG, "User long pressed on " + vehicle.getShortDecription());
 
                 launchNewVehicleDialog(i);
 

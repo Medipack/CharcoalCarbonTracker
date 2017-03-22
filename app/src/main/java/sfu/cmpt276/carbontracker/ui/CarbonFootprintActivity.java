@@ -44,7 +44,7 @@ public class CarbonFootprintActivity extends AppCompatActivity {
 
         String debug = "Selected Journey: "
                 + "\n- Route \"" + selectedJourney.getRouteName() + "\""
-                + "\n- Car \"" + selectedJourney.getCar().getShortDecription() + "\"" + selectedJourney.getTotalDistance()
+                + "\n- Vehicle \"" + selectedJourney.getVehicle().getShortDecription() + "\"" + selectedJourney.getTotalDistance()
                 + " " + selectedJourney.getCarbonEmitted();
 
         TextView textView = (TextView) findViewById(R.id.selectedJourney);

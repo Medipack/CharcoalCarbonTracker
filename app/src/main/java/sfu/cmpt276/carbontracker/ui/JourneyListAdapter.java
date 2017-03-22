@@ -44,7 +44,7 @@ class JourneyListAdapter extends ArrayAdapter<Journey> {
         String str_date = sdf.format(thisJourney.getDate());
         date.setText(str_date);
         //Nickname
-        String nickname = thisJourney.getCar().getNickname();
+        String nickname = thisJourney.getVehicle().getNickname();
         vehicle.setText(nickname);
         //Route
         String routeName = thisJourney.getRoute().getRouteName();
