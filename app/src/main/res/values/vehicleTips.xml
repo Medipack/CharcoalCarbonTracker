@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="vehicle_tips">
-        <item>Check tire inflation by checking tires weekly (can save 400-700 pounds of co2/year).</item>
+        <item>Check tire inflation by checking tires weekly (can save 400-700 pounds of CO2/year).</item>
         <item>Drive below 90km/hr to maximize fuel efficiency.</item>
         <item>Accelerate slowly and smoothly.</item>
         <item>Drive at the speed limit.</item>
         <item>Maintain a steady speed.</item>
         <item>If your destination is less than 1.5km, consider walking or biking there  </item>
         <item>Combine trips to reduce your carbon footprint contribution.</item>
-        <item>Carpooling just once a week saves 20%% of your total carbon emissions.</item>
+        <item>Carpooling just once a week saves 20% of your total carbon emissions.</item>
         <item>Purchase alternative fuel or electric vehicles, which could save 2-6 tonnes of CO2 emissions</item>
-        <item>Taking the bus would have used %d kg CO2, consider this instead</item>
+        <item>Taking the bus would have used %1$,.2f kg CO2, consider this instead</item>
     </string-array>
 </resources>

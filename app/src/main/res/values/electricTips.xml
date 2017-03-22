@@ -3,11 +3,11 @@
     <string-array
         name="electric_tips">
         <item>Hanging laundry outside instead of using a tumble dryer can save ~153kg CO2 a year.</item>
-        <item>Turning down heating by 1 degree Celsius can reduce energy consumption by 8%%.</item>
-        <item>Use energy saving light bulbs; LEDs can save 90%% of lighting costs and compact fluorescent lights use 75 to 80%% less electricity.</item>
-        <item>Take shorter showers; 15%% of a typical energy bill is spent heating water.</item>
+        <item>Turning down heating by 1 degree Celsius can reduce energy consumption by 8%.</item>
+        <item>Use energy saving light bulbs; LEDs can save 90%% of lighting costs and compact fluorescent lights use 75 to 80% less electricity.</item>
+        <item>Take shorter showers; 15% of a typical energy bill is spent heating water.</item>
         <item>Buy a programmable thermostat.</item>
         <item>Look for an Energy Star logo when replacing electrical appliances.</item>
-        <item>You have emitted %dkg of CO2 with your electricity usage alone, consider switching to natural gas.</item>
+        <item>You have emitted %1$,.2f kg of CO2 with your electricity usage alone, consider switching to natural gas.</item>
     </string-array>
 </resources>

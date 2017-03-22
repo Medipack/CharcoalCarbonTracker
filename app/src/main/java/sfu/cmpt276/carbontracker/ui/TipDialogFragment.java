@@ -21,6 +21,8 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 public class TipDialogFragment extends AppCompatDialogFragment {
 
     User user = User.getInstance();
+    TextView tipsCount;
+    TextView tipsText;
     int index = 0;
 
     @Override
@@ -31,6 +33,8 @@ public class TipDialogFragment extends AppCompatDialogFragment {
         //create view to show
         View tipView = LayoutInflater.from(getActivity())
                 .inflate(R.layout.tips_popup_layout, null);
+        tipsCount = (TextView) tipView.findViewById(R.id.tips_tip_count);
+        tipsText = (TextView) tipView.findViewById(R.id.tips_tipLocation);
         //create button listeners
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
@@ -38,8 +42,8 @@ public class TipDialogFragment extends AppCompatDialogFragment {
                 Log.i("APP", "clicked the dialog!");
             }
         };
-        setTips(tipView);
-        setTipPage(tipView);
+        setTips();
+        setTipPage();
 
         Button back = (Button) tipView.findViewById(R.id.tips_back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -47,8 +51,8 @@ public class TipDialogFragment extends AppCompatDialogFragment {
             public void onClick(View v) {
                 if (index>0) {
                     index--;
-                    setTipPage(v);
-                    setTips(v);
+                    setTipPage();
+                    setTips();
                 }
             }
         });
@@ -59,31 +63,59 @@ public class TipDialogFragment extends AppCompatDialogFragment {
             public void onClick(View v) {
                 if (index<user.getTips().size()) {
                     index++;
-                    setTipPage(v);
-                    setTips(v);
+                    setTipPage();
+                    setTips();
                 }
             }
         });
 
+
+
+//        DialogInterface.OnClickListener back = new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                if (index > 0) {
+////                    index--;
+////                    setTipPage();
+////                    setTips();
+//                }
+//            }
+//        };
+//
+//        DialogInterface.OnClickListener forward = new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                if (index<user.getTips().size()) {
+//                    index++;
+//                    setTipPage();
+//                    setTips();
+//                }
+//            }
+//        };
+
         //build the alert dialog
-        return new AlertDialog.Builder(getActivity()).setTitle(getString(R.string.some_environmentally_conscious_tips)).setView(tipView).setPositiveButton(android.R.string.ok, listener).create();
+        return new AlertDialog.Builder(getActivity())
+                .setTitle(getString(R.string.some_environmentally_conscious_tips))
+                .setView(tipView)
+//                .setPositiveButton(R.string.forward, forward)
+//                .setNegativeButton(R.string.back, back)
+                .setNeutralButton(android.R.string.ok, listener)
+                .create();
     }
 
-    private void setTipPage(View tipView) {
+    private void setTipPage() {
         int i = index;
         i++;
-        TextView tipsCount = (TextView) tipView.findViewById(R.id.tips_tip_count);
         String tipPage = getString(R.string.d_1_of_d_2);
         String tipPageFormat = String.format(tipPage, i, user.getTips().size());
         tipsCount.setText(tipPageFormat);
     }
 
-    private void setTips(View tipView) {
-        TextView tipsText = (TextView) tipView.findViewById(R.id.tips_tipLocation);
+    private void setTips() {
         boolean isVehicle = user.vehicleMostEmissions();
         String tip = user.getTips().get(index);
         String formatTip = "";
-        if (tip.contains("%d")) {
+        if (tip.contains("%1$,.2f")) {
             if (!isVehicle) {
                 formatTip = String.format(tip, user.topUtilityEmissions());
                 tipsText.setText(formatTip);
