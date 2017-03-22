@@ -37,21 +37,30 @@ public class BillActivity extends AppCompatActivity {
     int year_y, month_y, day_y;
     static final int DIALOG_ID = 0;
     static final int TO_DIALOG_ID = 1;
-    int utilityChosen;
+
     Date startDate;
     Date endDate;
+    int tempMode;
+
+    int editStartYear, editStartMonth, editStartDay;
+    int editEndYear, editEndMonth, editEndDay;
+
 
     private EditText amountInput;
     private EditText peopleInput;
     private EditText currentAvgInput;
     private EditText previousAvgInput;
+    private RadioButton gasRb;
+    private RadioButton electricityRb;
 
     String str_startDate;
     String str_endDate;
 
-    String tempChosen;
+    TextView startDateText;
+    TextView endDateText;
+
     String tempPeriod;
-    String tempType;
+    int position;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -62,9 +71,9 @@ public class BillActivity extends AppCompatActivity {
         showFromDialog();
         showToDialog();
 
-
         createRadioButton();
         setupSaveButton();
+        setupDeleteButton();
 
         final Calendar cal = Calendar.getInstance();
         year_x = cal.get(Calendar.YEAR);
@@ -73,36 +82,27 @@ public class BillActivity extends AppCompatActivity {
         year_y = cal.get(Calendar.YEAR);
         month_y = cal.get(Calendar.MONTH);
         day_y = cal.get(Calendar.DAY_OF_MONTH);
-    }
-
-
-    private void createRadioButton() {
-        RadioGroup group = (RadioGroup)findViewById(R.id.utilityGroup);
-        final String[] choice = getResources().getStringArray(R.array.choose_utility);
-
-        for(int i = 0; i < choice.length; i++){
-            final String utility1 = choice[i];
-
-            RadioButton button = new RadioButton(this);
-            button.setText(utility1 + "");
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(utility1.equals(choice[0])){
-                        utilityChosen = 0; //user choose natural gas
-                        tempChosen = Integer.toString(utilityChosen);
-                    }
-                    else{
-                        utilityChosen = 1; //user choose electricity
-                        tempChosen = Integer.toString(utilityChosen);
-                    }
-                }
-            });
-            group.addView(button);
+        Intent intent = getIntent();
+        if(intent.getExtras() != null) {
+            position = intent.getIntExtra("pos", 0);
+            populateBill(position);
         }
     }
 
+    private void createRadioButton() {
+        gasRb = new RadioButton(this);
+        electricityRb = new RadioButton(this);
 
+        RadioGroup group = (RadioGroup)findViewById(R.id.utilityGroup);
+        final String[] choice = getResources().getStringArray(R.array.choose_utility);
+
+        gasRb.setText(choice[0]);
+        electricityRb.setText(choice[1]);
+
+        group.addView(gasRb);
+        group.addView(electricityRb);
+
+    }
 
     private void setupSaveButton() {
         Button save = (Button)findViewById(R.id.utilitySaveBtn);
@@ -120,13 +120,13 @@ public class BillActivity extends AppCompatActivity {
                 String str_currentAvg = currentAvgInput.getText().toString();
                 String str_previousAvg = previousAvgInput.getText().toString();
 
-                if(utilityChosen == 0){
+                if(gasRb.isChecked()){
                     newUtility.setUtility_type(Utility.GAS_NAME);
                     newUtility.setNaturalGasUsed(Double.parseDouble(str_amount));
                     newUtility.setAverageGJCurrent(Double.parseDouble(str_currentAvg));
                     newUtility.setAverageGJPrevious(Double.parseDouble(str_previousAvg));
                 }
-                else{
+                else if(electricityRb.isChecked()){
                     newUtility.setUtility_type(Utility.ELECTRICITY_NAME);
                     newUtility.setElectricUsed(Double.parseDouble(str_amount));
                     newUtility.setAverageKWhCurrent(Double.parseDouble(str_currentAvg));
@@ -137,16 +137,33 @@ public class BillActivity extends AppCompatActivity {
                 newUtility.setStartDate(startDate);
                 newUtility.setEndDate(endDate);
                 newUtility.setDaysInPeriod(Integer.parseInt(tempPeriod));
-                UtilityList tempList = User.getInstance().getUtilityList();
-                tempList.addUtility(newUtility);
+                Intent intent = getIntent();
+
+                tempMode = intent.getIntExtra("mode", 0);
+                //edit mode
+                if(tempMode == 10){
+                    User.getInstance().EditUtilityIntoUtilityList(position, newUtility);
+                }
+                else {
+                    UtilityList tempList = User.getInstance().getUtilityList();
+                    tempList.addUtility(newUtility);
+                }
 
                 finish();
-
             }
         });
     }
 
-
+    private void setupDeleteButton() {
+        Button deleteBtn = (Button) findViewById(R.id.deleteBtn);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User.getInstance().getUtilityList().removeUtility(position);
+                finish();
+            }
+        });
+    }
 
     private void showFromDialog() {
         Button fromBtn = (Button) findViewById(R.id.startBtn);
@@ -189,8 +206,8 @@ public class BillActivity extends AppCompatActivity {
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             str_startDate = df.format(startDate);
 
-            TextView startDate = (TextView) findViewById(R.id.startDateText);
-            startDate.setText(day_x + "/" + month_x + "/" + year_x);
+            startDateText = (TextView) findViewById(R.id.startDateText);
+            startDateText.setText(day_x + "/" + month_x + "/" + year_x);
         }
     };
     private  DatePickerDialog.OnDateSetListener endDatePickerListener = new DatePickerDialog.OnDateSetListener() {
@@ -217,46 +234,59 @@ public class BillActivity extends AppCompatActivity {
                 Toast.makeText(BillActivity.this, "End date cannot be future", Toast.LENGTH_SHORT).show();
             }
             else {
-                TextView endDate = (TextView) findViewById(R.id.endDateText);
-                endDate.setText(day_y + "/" + month_y  + "/" + year_y);
+                endDateText = (TextView) findViewById(R.id.endDateText);
+                endDateText.setText(day_y + "/" + month_y  + "/" + year_y);
             }
         }
     };
 
-
-    public static String getTypeName(Intent intent){
-        return intent.getStringExtra("type of utility");
-    }
-
-    public static String getStartDate(Intent intent){
-        return intent.getStringExtra("start date");
-    }
-
-    public static String getEndDate(Intent intent){
-        return intent.getStringExtra("end date");
-    }
-
-    public static String getUsed(Intent intent){
-        return intent.getStringExtra("amount");
-    }
-
-    public static String getPeople(Intent intent){
-        return intent.getStringExtra("people");
-    }
-
-    public static String getPeriod(Intent intent){
-        return intent.getStringExtra("period");
-    }
-
-    public static String getCurrentAvg(Intent intent){
-        return intent.getStringExtra("current avg");
-    }
-
-    public static String getPreviousAvg(Intent intent){
-        return intent.getStringExtra("previous avg");
-    }
-
     public static Intent makeIntent(Context context){
         return new Intent(context, BillActivity.class);
+    }
+
+
+    public void populateBill(int position)
+    {
+        Utility utility = User.getInstance().getUtilityList().getUtility(position);
+        amountInput = (EditText) findViewById(R.id.amountInput);
+        peopleInput = (EditText) findViewById(R.id.peopleInput);
+        currentAvgInput = (EditText) findViewById(R.id.currentAvgInput);
+        previousAvgInput = (EditText) findViewById(R.id.previousAvgInput);
+
+        startDateText = (TextView) findViewById(R.id.startDateText);
+        endDateText = (TextView) findViewById(R.id.endDateText);
+        //Date editStartDate = utility.getStartDate();
+        //Date editEndDate = utility.getEndDate();
+
+        long startTimeInMillis = utility.getStartDate().getTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis (startTimeInMillis);
+        editStartYear = calendar.get(Calendar.YEAR);
+        editStartMonth = calendar.get(Calendar.MONTH) + 1;
+        editStartDay = calendar.get(Calendar.DAY_OF_MONTH);
+        startDateText.setText(editStartDay + "/" + editStartMonth  + "/" + editStartYear);
+
+        editEndYear = calendar.get(Calendar.YEAR);
+        editEndMonth = calendar.get(Calendar.MONTH) + 1;
+        editEndDay = calendar.get(Calendar.DAY_OF_MONTH);
+        endDateText.setText(editEndDay + "/" + editEndMonth  + "/" + editEndYear);
+
+
+        peopleInput.setText(String.valueOf(utility.getNumberOfPeople()));
+        if(utility.getUtility_type().equals(Utility.GAS_NAME))
+        {
+            gasRb.setChecked(true);
+            amountInput.setText(String.valueOf(utility.getNaturalGasUsed()));
+            currentAvgInput.setText(String.valueOf(utility.getAverageGJCurrent()));
+            previousAvgInput.setText(String.valueOf(utility.getAverageGJPrevious()));
+
+        }
+        if(utility.getUtility_type().equals(Utility.ELECTRICITY_NAME))
+        {
+            electricityRb.setChecked(true);
+            amountInput.setText(String.valueOf(utility.getElectricUsed()));
+            currentAvgInput.setText(String.valueOf(utility.getAverageKWhCurrent()));
+            previousAvgInput.setText(String.valueOf(utility.getAverageKWhPrevious()));
+        }
     }
 }

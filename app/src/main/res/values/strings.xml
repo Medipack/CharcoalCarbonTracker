@@ -49,4 +49,6 @@
     <string name="to">To</string>
     <string name="from">From</string>
     <string name="select_transportation_mode">Select Transportation Mode:</string>
+    <string name="choose_a_date">choose_a_date</string>
+    <string name="choose_a_date_to_check_data">choose_a_date_to_check_data</string>
 </resources>

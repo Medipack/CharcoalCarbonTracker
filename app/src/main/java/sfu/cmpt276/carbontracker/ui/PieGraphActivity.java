@@ -2,6 +2,7 @@ package sfu.cmpt276.carbontracker.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -31,7 +32,6 @@ public class PieGraphActivity extends AppCompatActivity {
     private void setupPieChart() {
         String emission[] = new String[journeyList.size()];
         List<PieEntry> pieEntries = new ArrayList<>();
-
 
         for(int i=0; i<journeyList.size();i++){
             String car = User.getInstance().getJourneyList().get(i).getVehicleName();

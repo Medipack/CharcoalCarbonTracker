@@ -116,4 +116,12 @@
         android:layout_marginBottom="20dp"
         android:id="@+id/utilitySaveBtn" />
 
+    <Button
+        android:text="Delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/utilitySaveBtn"
+        android:layout_toEndOf="@+id/utilityGroup"
+        android:id="@+id/deleteBtn" />
+
 </RelativeLayout>

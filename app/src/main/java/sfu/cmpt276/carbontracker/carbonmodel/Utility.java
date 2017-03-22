@@ -8,12 +8,10 @@ import java.util.Date;
 
 public class Utility {
 
-    //public static final double ELECTRICITY = 9000; //kg of CO2 per GWh
     public static final double ELECTRICITY = 0.009; //kg of CO2 per KWh
     public static final double NATURAL_GAS = 56.1; //kg of CO2 per GJ
     public static final String ELECTRICITY_NAME = "electricity";
     public static final String GAS_NAME = "gas";
-
 
     private String utility_type;
     private Date startDate;
@@ -64,17 +62,6 @@ public class Utility {
         }
 
     }
-
-    public Utility(String utility_type, double utilityUsed, int numberOfPeople, int daysInPeriod, double averageCurrent, double averagePrevious){
-        this.utility_type = utility_type;
-        this.numberOfPeople = numberOfPeople;
-        this.daysInPeriod = daysInPeriod;
-        this.naturalGasUsed = utilityUsed;
-        this.averageKWhCurrent = averageCurrent;
-        this.averageKWhPrevious = averagePrevious;
-
-    }
-
 
 
     public Date getStartDate() {

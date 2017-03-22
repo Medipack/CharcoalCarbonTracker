@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_utility"
+    android:id="@+id/activity_graph"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="sfu.cmpt276.carbontracker.ui.UtilityActivity">
+    tools:context="sfu.cmpt276.carbontracker.ui.GraphActivity">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:id="@+id/utilityList"/>
+        android:id="@+id/graphRB"/>
 
     <Button
-        android:text="Add"
+        android:text="Show Graph"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/addBillList" />
+        android:id="@+id/showGraphBtn" />
 
     <Button
-        android:text="View"
+        android:text="Choose the Single Date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/showDate" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/chooseTheDate" />
+
+    <TextView
+        android:text="xx/xx/xxxx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chooseTheDate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:id="@+id/chosenDate" />
 </RelativeLayout>

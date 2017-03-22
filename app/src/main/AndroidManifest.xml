@@ -32,7 +32,8 @@
         <activity android:name=".ui.SelectTransportationActivity" />
         <activity android:name=".ui.BillActivity" />
         <activity android:name=".ui.UtilityActivity" />
-        <activity android:name=".ui.PickDateActivity"></activity>
+        <activity android:name=".ui.GraphActivity" />
+        <activity android:name=".ui.SingleDayActivity"></activity>
     </application>
 
 </manifest>
