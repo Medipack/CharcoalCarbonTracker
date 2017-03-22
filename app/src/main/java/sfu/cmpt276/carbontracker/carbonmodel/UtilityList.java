@@ -73,7 +73,42 @@ public class UtilityList {
         }
     }
 
+//Graph helper methods//
+/*
 
+
+    public int getDaysOfUtilityInPeriod(int daysInPeriod)
+    {
+        Date periodStartDate = getPeriodStartDate(daysInPeriod); //period start is current date - daysinPeriod, e.g. today - 28 days
+        Date periodEndDate = new Date(); //current date
+
+
+    }
+
+    public double getTotalElectricEmissions(int daysInPeriod)
+    {
+        double co2ElectricityTotal = 0;
+        for(Utility utility : utilities)
+        {
+            if(utility.getUtility_type().equals(Utility.ELECTRICITY_NAME )) {
+                co2ElectricityTotal += utility.getPerPersonEmission();
+            }
+        }
+        return co2ElectricityTotal;
+    }
+
+    public double getTotalGasEmissions(int daysInPeriod)
+    {
+        double co2GasTotal = 0;
+
+        for(Utility utility : utilities)
+        {
+            if(utility.getUtility_type().equals(Utility.GAS_NAME)) {
+                co2GasTotal += utility.getPerPersonEmission();
+            }
+        }
+        return co2GasTotal;
+    }*/
 
 }
 
