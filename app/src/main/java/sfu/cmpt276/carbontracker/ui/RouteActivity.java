@@ -57,9 +57,7 @@ public class RouteActivity extends AppCompatActivity {
     }
 
     private class RouteListAdapter extends ArrayAdapter<Route> implements RouteListener {
-
         private List<Route> routeList;
-        private List<Integer> hiddenItemIndicies = new ArrayList<>();
 
         RouteListAdapter(Context context) {
             super(context, R.layout.route_item, User.getInstance().getRouteList().getRoutes());
@@ -67,62 +65,27 @@ public class RouteActivity extends AppCompatActivity {
             routeListWasEdited();
         }
 
-        private int skipHiddenItemPositions(int position) {
-            for(Integer hiddenItem : hiddenItemIndicies) {
-                if(hiddenItem <= position) {
-                    position++;
-                }
-            }
-            return position;
-        }
-
-        private void updateHiddenItemIndicies() {
-            for(int i = 0; i < routeList.size(); i++) {
-                if(!routeList.get(i).isActive()) {
-                    // Make sure index is in hiddenItemIndices
-                    if(!hiddenItemIndicies.contains(i))
-                        hiddenItemIndicies.add(i);
-                }
-            }
-        }
-
         @NonNull
         @Override
         public View getView(int position, View convertView, @NonNull ViewGroup parent){
-            // Ensure we have a view (could have been passed a null)
-            View itemView = convertView;
-            if(itemView == null) {
+            View itemView;
+            Route route = routeList.get(position);
+            if (route.isActive()) {
                 itemView = LayoutInflater.from(getContext()).inflate(R.layout.route_item, parent, false);
+            } else {
+                itemView = LayoutInflater.from(getContext()).inflate(R.layout.listview_item_null, parent, false);
             }
 
-            // Thanks https://vshivam.wordpress.com/2015/01/07/hiding-a-list-item-from-an-android-listview-without-removing-it-from-the-data-source/
-            position = skipHiddenItemPositions(position);
-
-            Route route = routeList.get(position);
-
-            // Fill the TextView
             TextView description = (TextView) itemView.findViewById(R.id.routeDescription);
-            description.setText(route.getRouteName());
+            if(description != null)
+                description.setText(route.getRouteName());
 
             return itemView;
-        }
-
-        @Nullable
-        @Override
-        public Route getItem(int position) {
-            position = skipHiddenItemPositions(position);
-            return super.getItem(position);
-        }
-
-        @Override
-        public int getCount() {
-            return routeList.size() - hiddenItemIndicies.size();
         }
 
         @Override
         public void routeListWasEdited() {
             Log.i(TAG, "Route List changed, updating listview");
-            updateHiddenItemIndicies();
             notifyDataSetChanged();
         }
     }
