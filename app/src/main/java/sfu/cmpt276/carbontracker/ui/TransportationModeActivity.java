@@ -23,11 +23,12 @@ import java.io.InputStream;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
+import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Car;
 import sfu.cmpt276.carbontracker.carbonmodel.CarListener;
 
-/* Displays list of vehicles, allows for adding, editing, deleting cars */
+/*Displays list of vehicles, allows for adding, editing, deleting cars*/
 public class TransportationModeActivity extends AppCompatActivity {
 
     private final String TAG = "TransportationActivity";
@@ -36,20 +37,62 @@ public class TransportationModeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transportation_mode);
+        setupCarDirectory();
+        //addTestVehicleToArray();
+        setupSelectModeTxt();
         setUpAddVehicleButton();
+        setUpBikeButton();
+        setUpSkytrainButton();
+        setUpBusButton();
         setUpCarListView();
         registerListViewClickCallback();
-
-        //addTestVehicleToArray();
-        setupCarDirectory();
-        
-        setupSelectModeTxt();
     }
 
-    private void setupSelectModeTxt() {
-        TextView selectTxt = (TextView) findViewById(R.id.selectMode);
-        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/Peter.ttf");
-        selectTxt.setTypeface(face);
+    private void setUpBikeButton() {
+        Button bikeButton = (Button) findViewById(R.id.addBikeButton);
+        bikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User user = User.getInstance();
+                 Car bike = new Car();
+                bike.setTransport_mode(Car.WALK_BIKE);
+                bike.setNickname("Bike");
+                user.setCurrentJourneyCar(bike);
+                Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
+    }
+
+    private void setUpSkytrainButton() {
+        Button SkytrainButton = (Button) findViewById(R.id.addSkytrainButton);
+        SkytrainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User user = User.getInstance();
+                Car skytrain = new Car();
+                skytrain.setTransport_mode(Car.SKYTRAIN);
+                skytrain.setNickname("Skytrain");
+                user.setCurrentJourneyCar(skytrain);
+                Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
+    }
+
+    private void setUpBusButton() {
+        Button BusButton = (Button) findViewById(R.id.addBusButton);
+        BusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User user = User.getInstance();
+                Car bus = new Car("Bus", 89, 89);
+                bus.setTransport_mode(Car.BUS);
+                user.setCurrentJourneyCar(bus);
+                Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
     }
 
     private void setupCarDirectory() {
@@ -70,60 +113,10 @@ public class TransportationModeActivity extends AppCompatActivity {
         carArrayList.add(new Car("The Ancient One", "Honda", "Civic", 1985));
     }
 
-    private class CarListAdapter extends ArrayAdapter<Car> implements CarListener {
-
-        CarListAdapter(Context context) {
-            super(context, R.layout.car_listview_item, User.getInstance().getCarList());
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, View convertView, @NonNull ViewGroup parent){
-            // Ensure we have a view (could have been passed a null)
-            View itemView = convertView;
-            if(itemView == null) {
-                itemView = LayoutInflater.from(getContext()).inflate(R.layout.car_listview_item, parent, false);
-            }
-
-
-            User user = User.getInstance();
-            // Get the current car
-            Car car = user.getCarList().get(position);
-
-            // Fill the TextView
-            TextView description = (TextView) itemView.findViewById(R.id.car_description);
-            description.setText(car.getShortDecription());
-
-            return itemView;
-        }
-
-        @Override
-        public void carListWasEdited() {
-            Log.i(TAG, "Car List changed, updating listview");
-            notifyDataSetChanged();
-        }
-    }
-
-    private void setUpCarListView() {
-        ArrayAdapter<Car> carListAdapter = new CarListAdapter(TransportationModeActivity.this);
-        User.getInstance().setCarListener((CarListener) carListAdapter);
-        ListView carList = (ListView) findViewById(R.id.carListView);
-        carList.setAdapter(carListAdapter);
-    }
-
-    private void launchNewVehicleDialog(){
-        FragmentManager manager = getSupportFragmentManager();
-        NewVehicleFragment dialog = new NewVehicleFragment();
-        dialog.show(manager, "NewVehicleDialog");
-    }
-
-    private void launchNewVehicleDialog(int carPosition){
-        FragmentManager manager = getSupportFragmentManager();
-        NewVehicleFragment dialog = new NewVehicleFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("car", carPosition);
-        dialog.setArguments(bundle);
-        dialog.show(manager, "NewVehicleDialog");
+    private void setupSelectModeTxt() {
+        TextView selectTxt = (TextView) findViewById(R.id.selectMode);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/Peter.ttf");
+        selectTxt.setTypeface(face);
     }
 
     private void setUpAddVehicleButton() {
@@ -136,6 +129,43 @@ public class TransportationModeActivity extends AppCompatActivity {
                 launchNewVehicleDialog();
             }
         });
+    }
+
+    private void setUpCarListView() {
+        ArrayAdapter<Car> carListAdapter = new CarListAdapter(TransportationModeActivity.this);
+        User.getInstance().setCarListener((CarListener) carListAdapter);
+        ListView carList = (ListView) findViewById(R.id.carListView);
+        carList.setAdapter(carListAdapter);
+    }
+
+    private class CarListAdapter extends ArrayAdapter<Car> implements CarListener {
+
+        CarListAdapter(Context context) {
+            super(context, R.layout.car_listview_item, User.getInstance().getCarList());
+        }
+        @NonNull
+        @Override
+        public View getView(int position, View convertView, @NonNull ViewGroup parent){
+            // Ensure we have a view (could have been passed a null)
+            View itemView = convertView;
+            if(itemView == null) {
+                itemView = LayoutInflater.from(getContext()).inflate(R.layout.car_listview_item, parent, false);
+            }
+
+            User user = User.getInstance();
+            // Get the current car
+            Car car = user.getCarList().get(position);
+            // Fill the TextView
+            TextView description = (TextView) itemView.findViewById(R.id.car_description);
+            description.setText(car.getShortDecription());
+            return itemView;
+        }
+
+        @Override
+        public void carListWasEdited() {
+            Log.i(TAG, "Car List changed, updating listview");
+            notifyDataSetChanged();
+        }
     }
 
     private void registerListViewClickCallback() {
@@ -169,6 +199,22 @@ public class TransportationModeActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void launchNewVehicleDialog(){
+        FragmentManager manager = getSupportFragmentManager();
+        NewVehicleFragment dialog = new NewVehicleFragment();
+        dialog.show(manager, "NewVehicleDialog");
+    }
+
+    private void launchNewVehicleDialog(int carPosition){
+        FragmentManager manager = getSupportFragmentManager();
+        NewVehicleFragment dialog = new NewVehicleFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("car", carPosition);
+        dialog.setArguments(bundle);
+        dialog.show(manager, "NewVehicleDialog");
+    }
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {
