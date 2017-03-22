@@ -19,6 +19,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -112,62 +114,64 @@ public class BillActivity extends AppCompatActivity {
                 Utility newUtility = new Utility();
                 amountInput = (EditText) findViewById(R.id.amountInput);
                 peopleInput = (EditText) findViewById(R.id.peopleInput);
+
                 //input check
-                if(amountInput.length() == 0){
-                    Toast.makeText(BillActivity.this, "Please enter the amount", Toast.LENGTH_SHORT).show();
-                }
-
-                else if(peopleInput.length() == 0){
-                    Toast.makeText(BillActivity.this, "Please enter the number of people in the house", Toast.LENGTH_SHORT).show();
-                }
-
-                else if(peopleInput.length() == 0){
-                    Toast.makeText(BillActivity.this, "Please enter the number of people in the house", Toast.LENGTH_SHORT).show();
+                String startCheck = startDateText.getText().toString();
+                String endCheck = endDateText.getText().toString();
+                if(startCheck.startsWith("x") || endCheck.startsWith("x")){
+                    Toast.makeText(BillActivity.this, "Please choose the date", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    str_amount = amountInput.getText().toString();
-                    str_people = peopleInput.getText().toString();
+                    if (amountInput.length() == 0) {
+                        Toast.makeText(BillActivity.this, "Please enter the amount", Toast.LENGTH_SHORT).show();
+                    } else if (peopleInput.length() == 0) {
+                        Toast.makeText(BillActivity.this, "Please enter the number of people in the house", Toast.LENGTH_SHORT).show();
+                    } else if (peopleInput.length() == 0) {
+                        Toast.makeText(BillActivity.this, "Please enter the number of people in the house", Toast.LENGTH_SHORT).show();
+                    } else {
+                        str_amount = amountInput.getText().toString();
+                        str_people = peopleInput.getText().toString();
 
-                    if (gasRb.isChecked()) {
-                        newUtility.setUtility_type(Utility.GAS_NAME);
-                        newUtility.setNaturalGasUsed(Double.parseDouble(str_amount));
-                        newUtility.setNumberOfPeople(Integer.parseInt(str_people));
-                        newUtility.setStartDate(startDate);
-                        newUtility.setEndDate(endDate);
-                        newUtility.setDaysInPeriod(Integer.parseInt(tempPeriod));
-                        Intent intent = getIntent();
-                        tempMode = intent.getIntExtra("mode", 0);
-                        //edit mode
-                        if (tempMode == 10) {
-                            User.getInstance().EditUtilityIntoUtilityList(position, newUtility);
+                        if (gasRb.isChecked()) {
+                            newUtility.setUtility_type(Utility.GAS_NAME);
+                            newUtility.setNaturalGasUsed(Double.parseDouble(str_amount));
+                            newUtility.setNumberOfPeople(Integer.parseInt(str_people));
+                            newUtility.setStartDate(startDate);
+                            newUtility.setEndDate(endDate);
+                            newUtility.setDaysInPeriod(Integer.parseInt(tempPeriod));
+                            Intent intent = getIntent();
+                            tempMode = intent.getIntExtra("mode", 0);
+                            //edit mode
+                            if (tempMode == 10) {
+                                User.getInstance().EditUtilityIntoUtilityList(position, newUtility);
+                            } else {
+                                UtilityList tempList = User.getInstance().getUtilityList();
+                                tempList.addUtility(newUtility);
+                            }
+                            finish();
+                        } else if (electricityRb.isChecked()) {
+                            newUtility.setUtility_type(Utility.ELECTRICITY_NAME);
+                            newUtility.setElectricUsed(Double.parseDouble(str_amount));
+
+                            newUtility.setNumberOfPeople(Integer.parseInt(str_people));
+                            newUtility.setStartDate(startDate);
+                            newUtility.setEndDate(endDate);
+                            newUtility.setDaysInPeriod(Integer.parseInt(tempPeriod));
+                            Intent intent = getIntent();
+                            tempMode = intent.getIntExtra("mode", 0);
+                            //edit mode
+                            if (tempMode == 10) {
+                                User.getInstance().EditUtilityIntoUtilityList(position, newUtility);
+                            } else {
+                                UtilityList tempList = User.getInstance().getUtilityList();
+                                tempList.addUtility(newUtility);
+                            }
+                            finish();
                         } else {
-                            UtilityList tempList = User.getInstance().getUtilityList();
-                            tempList.addUtility(newUtility);
+                            Toast.makeText(BillActivity.this, "Please choose the utility type", Toast.LENGTH_SHORT).show();
                         }
-                        finish();
-                    } else if (electricityRb.isChecked()) {
-                        newUtility.setUtility_type(Utility.ELECTRICITY_NAME);
-                        newUtility.setElectricUsed(Double.parseDouble(str_amount));
 
-                        newUtility.setNumberOfPeople(Integer.parseInt(str_people));
-                        newUtility.setStartDate(startDate);
-                        newUtility.setEndDate(endDate);
-                        newUtility.setDaysInPeriod(Integer.parseInt(tempPeriod));
-                        Intent intent = getIntent();
-                        tempMode = intent.getIntExtra("mode", 0);
-                        //edit mode
-                        if (tempMode == 10) {
-                            User.getInstance().EditUtilityIntoUtilityList(position, newUtility);
-                        } else {
-                            UtilityList tempList = User.getInstance().getUtilityList();
-                            tempList.addUtility(newUtility);
-                        }
-                        finish();
                     }
-                    else{
-                        Toast.makeText(BillActivity.this, "Please choose the utility type", Toast.LENGTH_SHORT).show();
-                    }
-
                 }
             }
         });
