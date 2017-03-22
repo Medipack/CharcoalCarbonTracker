@@ -13,6 +13,8 @@ public class Utility {
     public static final String ELECTRICITY_NAME = "electricity";
     public static final String GAS_NAME = "gas";
 
+    private int id = -1;
+    private boolean isActive = true;
     private String utility_type;
     private Date startDate;
     private Date endDate;
@@ -178,5 +180,21 @@ public class Utility {
         else{
             return NATURAL_GAS * naturalGasUsed / daysInPeriod;                 //kg per GJ per day
         }
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
