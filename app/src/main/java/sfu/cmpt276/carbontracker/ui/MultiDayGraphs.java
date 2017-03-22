@@ -18,7 +18,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Car;
@@ -55,10 +57,24 @@ public class MultiDayGraphs extends AppCompatActivity {
             float c = 0;
             for(int i = dateList.size()-1; i >= 0; i--)
             {
-                float[] yvalues = {(float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.CAR),
-                        (float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.BUS),
-                        (float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.SKYTRAIN),
-                        (float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.WALK_BIKE)};
+                List<Float> temp_yValues = new ArrayList<>();
+                temp_yValues.add((float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.BUS));
+                temp_yValues.add((float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.SKYTRAIN));
+                temp_yValues.add((float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.WALK_BIKE));
+
+                Map<Car, Float> carMap = getCarEmissionTotalsFromJourneys(getJourneysForTransportModeOnDate(dateList.get(i), Car.CAR));
+                carMap.size();
+                for(Map.Entry<Car, Float> entry : carMap.entrySet()) {
+                    Car car = entry.getKey();
+                    Float emissionTotal = entry.getValue();
+                    temp_yValues.add(emissionTotal);
+                }
+                float[] yvalues = new float[temp_yValues.size()];
+                for(int u = 0; u < temp_yValues.size(); u++)
+                {
+                    yvalues[u] = temp_yValues.get(u);
+                }
+
                 entries.add(new BarEntry(c, yvalues));
                 c++;
             }
@@ -70,6 +86,8 @@ public class MultiDayGraphs extends AppCompatActivity {
             //data.setBarWidth(0.9f); // set custom bar width
             chart.setData(data);
             chart.setFitBars(true); // make the x-axis fit exactly all bars
+            chart.setDrawGridBackground(false);
+            chart.setDrawValueAboveBar(false);
             chart.invalidate(); // refresh
         }
     }
@@ -78,26 +96,9 @@ public class MultiDayGraphs extends AppCompatActivity {
     private double getTotalEmissionsForTransportModeOnDate(Date dateWanted, String transportModeWanted) //
     {
         double totalEmissions = 0;
-        for(Journey journey: User.getInstance().getJourneyList())
+        for(Journey journey: getJourneysForTransportModeOnDate(dateWanted, transportModeWanted))
         {
-            Car car = journey.getCar();
-            Date journeyDateWithoutTime = new Date();
-            Date dateWantedWithoutTime = new Date();
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                 journeyDateWithoutTime = sdf.parse(sdf.format(journey.getDate()));
-                 dateWantedWithoutTime = sdf.parse(sdf.format(dateWanted));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            boolean isWantedTransportMode = car.getTransport_mode().equals(transportModeWanted);
-            boolean isInDate = journeyDateWithoutTime.equals(dateWantedWithoutTime);
-            if(isWantedTransportMode && isInDate)
-            {
                 totalEmissions += journey.getCarbonEmitted();
-            }
         }
 
         return totalEmissions;
@@ -114,5 +115,51 @@ public class MultiDayGraphs extends AppCompatActivity {
         return dateList;
     }
 
+    private List<Journey> getJourneysForTransportModeOnDate(Date dateWanted, String transportModeWanted) //
+    {
+        List<Journey> journeyList = new ArrayList<>();
+        for(Journey journey: User.getInstance().getJourneyList())
+        {
+            Car car = journey.getCar();
+            Date journeyDateWithoutTime = new Date();
+            Date dateWantedWithoutTime = new Date();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                journeyDateWithoutTime = sdf.parse(sdf.format(journey.getDate()));
+                dateWantedWithoutTime = sdf.parse(sdf.format(dateWanted));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            boolean isWantedTransportMode = car.getTransport_mode().equals(transportModeWanted);
+            boolean isInDate = journeyDateWithoutTime.equals(dateWantedWithoutTime);
+            if(isWantedTransportMode && isInDate)
+            {
+                journeyList.add(journey);
+            }
+        }
+
+        return journeyList;
+    }
+
+    private Map<Car, Float> getCarEmissionTotalsFromJourneys(List<Journey> journeyList)
+    {
+        Map<Car, Float> map = new HashMap<>();
+        for(Journey journey: journeyList)
+        {
+            if(!map.containsKey(journey.getCar()))
+            {
+                map.put(journey.getCar(), (float)journey.getCarbonEmitted());
+            }
+            else
+            {
+                float temp = map.get(journey.getCar());
+                temp += journey.getCarbonEmitted();
+                map.put(journey.getCar(), temp);
+            }
+        }
+        return map;
+    }
 
 }
