@@ -42,6 +42,8 @@ public class SingleDayActivity extends AppCompatActivity {
     long tempDiff_gas;
     long min_gas;
 
+    long min = 5;       //check overlap
+
     long tempDiff_elec;
     long min_elec;
 
@@ -75,13 +77,15 @@ public class SingleDayActivity extends AppCompatActivity {
                 if (Objects.equals(utility.getUtility_type(), Utility.GAS_NAME)) {
                     //selected date in the period of one date
                     if (singleDate.getTime() >= startDate.getTime() && singleDate.getTime() <= endDate.getTime()) {
-                        //dateIndex = i;
+                        min = 0;    //already in one period
                         emissionShare =utility.getPerDayUsage();
                         String str_singleEmission = String.valueOf(emissionShare);
                         float temp = Float.valueOf(str_singleEmission);
-                        pieEntries.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
+                        pieEntries.add(new PieEntry(temp, Utility.GAS_NAME));
                         Toast.makeText(this, "" + emissionShare, Toast.LENGTH_SHORT).show();
+
                     }
+
                     //selected date not in the period
                     else {
                         //selected date later than the end date of bill
@@ -89,11 +93,10 @@ public class SingleDayActivity extends AppCompatActivity {
                         if (singleDate.getTime() > endDate.getTime()) {
                             min_gas = singleDate.getTime() - User.getInstance().getUtilityList().getUtility(0).getEndDate().getTime();
                             tempDiff_gas = singleDate.getTime() - endDate.getTime();
-                            if (tempDiff_gas < min_gas) {
-                                min_gas = tempDiff_gas;         //min update
-                                dateIndex = i;          //record i
-
-                            }
+                                if (tempDiff_gas < min_gas) {
+                                    min_gas = tempDiff_gas;         //min update
+                                    dateIndex = i;          //record i
+                                }
                         }
 
                         //selected date earlier than the start date of bill
@@ -107,12 +110,13 @@ public class SingleDayActivity extends AppCompatActivity {
                             }
                         }
 
-
-                        emissionShare = User.getInstance().getUtilityList().getUtility(dateIndex).getPerDayUsage();
-                        String str_singleEmission = String.valueOf(emissionShare);
-                        float temp = Float.valueOf(str_singleEmission);
-                        pieEntries.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
-                        Toast.makeText(this, "" + emissionShare, Toast.LENGTH_SHORT).show();
+                        if(min == 5){       //if two diff not equal
+                            emissionShare = User.getInstance().getUtilityList().getUtility(dateIndex).getPerDayUsage();
+                            String str_singleEmission = String.valueOf(emissionShare);
+                            float temp = Float.valueOf(str_singleEmission);
+                            pieEntries.add(new PieEntry(temp, Utility.GAS_NAME));
+                            Toast.makeText(this, "" + emissionShare, Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                 }
@@ -129,6 +133,7 @@ public class SingleDayActivity extends AppCompatActivity {
                         float temp = Float.valueOf(str_singleEmission);
                         pieEntries.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
                         Toast.makeText(this, "" + emissionShare, Toast.LENGTH_SHORT).show();
+                        min = 0;
                     }
                     //selected date not in the period
                     else {
@@ -153,22 +158,19 @@ public class SingleDayActivity extends AppCompatActivity {
                                 dateIndex = i;                    //record i
                             }
                         }
-
-                        emissionShare = User.getInstance().getUtilityList().getUtility(dateIndex).getPerDayUsage();
-                        String str_singleEmission = String.valueOf(emissionShare);
-                        float temp = Float.valueOf(str_singleEmission);
-                        pieEntries.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
-                        Toast.makeText(this, "" + emissionShare, Toast.LENGTH_SHORT).show();
+                        /*
+                        if(min == 5) {
+                            emissionShare = User.getInstance().getUtilityList().getUtility(dateIndex).getPerDayUsage();
+                            String str_singleEmission = String.valueOf(emissionShare);
+                            float temp = Float.valueOf(str_singleEmission);
+                            pieEntries.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
+                            Toast.makeText(this, "" + emissionShare, Toast.LENGTH_SHORT).show();
+                        }
+                        */
                     }
                 }
 
             }
-
-            emissionShare = User.getInstance().getUtilityList().getUtility(dateIndex).getPerDayUsage();
-            String str_singleEmission = String.valueOf(emissionShare);
-            float temp = Float.valueOf(str_singleEmission);
-            pieEntries.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
-            Toast.makeText(this, "" + emissionShare, Toast.LENGTH_SHORT).show();
 
         }
 
