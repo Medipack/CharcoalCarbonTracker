@@ -14,11 +14,13 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 import sfu.cmpt276.carbontracker.carbonmodel.UtilityList;
+import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 
 public class UtilityActivity extends AppCompatActivity {
     String tempType;
@@ -37,8 +39,26 @@ public class UtilityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_utility);
 
+        populateUtilityListFromDatabase();
+
         populateListView();
         setupAddBtn();
+    }
+
+    private void populateUtilityListFromDatabase() {
+        // Check if route list already populated from database
+        // This prevents duplicate entries from re-opening this activity
+        if(!User.getInstance().isUtilityListPopulatedFromDatabase()){
+            UtilityDataSource db = new UtilityDataSource(this);
+            db.open();
+
+            List<Utility> utilities = db.getAllUtilities();
+            User user = User.getInstance();
+            for(Utility utility : utilities) {
+                user.addUtilityToUtilityList(utility);
+            }
+            User.getInstance().setUtilityListPopulatedFromDatabase();
+        }
     }
 
     private void setupAddBtn() {

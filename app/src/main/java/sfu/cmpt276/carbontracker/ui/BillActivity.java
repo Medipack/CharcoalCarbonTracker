@@ -10,6 +10,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -23,13 +24,17 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 import sfu.cmpt276.carbontracker.carbonmodel.UtilityList;
+import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 
 public class BillActivity extends AppCompatActivity {
+
+    private final String TAG = "BillActivity";
 
     long oneDay = 1000 * 60 * 60 * 24;
     long period;
@@ -137,8 +142,8 @@ public class BillActivity extends AppCompatActivity {
                 newUtility.setStartDate(startDate);
                 newUtility.setEndDate(endDate);
                 newUtility.setDaysInPeriod(Integer.parseInt(tempPeriod));
-                UtilityList tempList = User.getInstance().getUtilityList();
-                tempList.addUtility(newUtility);
+
+                addNewUtility(newUtility);
 
                 finish();
 
@@ -146,6 +151,20 @@ public class BillActivity extends AppCompatActivity {
         });
     }
 
+    private void addNewUtility(Utility utility) {
+        Log.i(TAG, "Add button clicked");
+        utility.setActive(true);
+        utility = addUtilityToDatabase(utility);
+        User.getInstance().addUtilityToUtilityList(utility);
+    }
+
+    private Utility addUtilityToDatabase(Utility utility) {
+        UtilityDataSource db = new UtilityDataSource(this);
+        db.open();
+        Utility newUtility = db.insertUtility(utility);
+        db.close();
+        return newUtility;
+    }
 
 
     private void showFromDialog() {

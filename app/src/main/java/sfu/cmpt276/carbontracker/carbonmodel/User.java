@@ -21,6 +21,7 @@ public class User {
 
     private boolean carListPopulatedFromDatabase = false;
     private boolean routeListPopulatedFromDatabase = false;
+    private boolean utilityListPopulatedFromDatabase = false;
 
     private User(){
         carList = new ArrayList<>();
@@ -165,6 +166,11 @@ public class User {
         notifyListenerRouteWasEdited();
     }
 
+    public void addUtilityToUtilityList(Utility utility) {
+        utilityList.addUtility(utility);
+    }
+
+
     public void addJourney(Car car, Route route){
         journeyList.add(new Journey(car, route));
     }
@@ -227,6 +233,14 @@ public class User {
 
     public void setRouteListPopulatedFromDatabase() {
         routeListPopulatedFromDatabase = true;
+    }
+
+    public boolean isUtilityListPopulatedFromDatabase() {
+        return utilityListPopulatedFromDatabase;
+    }
+
+    public void setUtilityListPopulatedFromDatabase() {
+        utilityListPopulatedFromDatabase = true;
     }
 
     public static int booleanToInt(boolean value) {
