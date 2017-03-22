@@ -69,37 +69,13 @@ public class TipDialogFragment extends AppCompatDialogFragment {
             }
         });
 
-
-
-//        DialogInterface.OnClickListener back = new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                if (index > 0) {
-////                    index--;
-////                    setTipPage();
-////                    setTips();
-//                }
-//            }
-//        };
-//
-//        DialogInterface.OnClickListener forward = new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                if (index<user.getTips().size()) {
-//                    index++;
-//                    setTipPage();
-//                    setTips();
-//                }
-//            }
-//        };
-
         //build the alert dialog
         return new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.some_environmentally_conscious_tips))
                 .setView(tipView)
 //                .setPositiveButton(R.string.forward, forward)
 //                .setNegativeButton(R.string.back, back)
-                .setNeutralButton(android.R.string.ok, listener)
+                .setPositiveButton(android.R.string.ok, listener)
                 .create();
     }
 
