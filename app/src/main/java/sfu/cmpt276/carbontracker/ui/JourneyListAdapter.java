@@ -1,13 +1,16 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
@@ -17,21 +20,23 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
  * A custom array adapter for the purposes of creating a multicolumn Listview
  */
 class JourneyListAdapter extends ArrayAdapter<Journey> {
-    private JourneyActivity journeyActivity;
+    private List<Journey> journeyList;
+    private Context context;
 
-    public JourneyListAdapter(JourneyActivity journeyActivity) {
-        super(journeyActivity, R.layout.journeys, journeyActivity.JourneyList);
-        this.journeyActivity = journeyActivity;
+    public JourneyListAdapter(Context context, List<Journey> journeyList) {
+        super(context, R.layout.journeys, journeyList);
+        this.context = context;
+        this.journeyList = journeyList;
     }
 
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View journeyView = convertView;
         if (journeyView == null) {
-            journeyView = journeyActivity.getLayoutInflater().inflate(R.layout.journeys, parent, false);
+            journeyView = LayoutInflater.from(context).inflate(R.layout.journeys, parent, false);
         }
         //Find the journey
-        Journey thisJourney = User.getInstance().getJourneyList().get(position);
+        Journey thisJourney = journeyList.get(position);
         //Initialize TextViews
         TextView date = (TextView) journeyView.findViewById(R.id.viewDate);
         TextView vehicle = (TextView) journeyView.findViewById(R.id.viewVehicle);

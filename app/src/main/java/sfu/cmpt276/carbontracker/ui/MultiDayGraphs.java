@@ -9,9 +9,13 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -36,6 +40,7 @@ public class MultiDayGraphs extends AppCompatActivity {
 
 
     public static final int DAYS_IN_4_WEEKS = 28;
+    public static final int DAYS_IN_YEAR = 365;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,22 +60,33 @@ public class MultiDayGraphs extends AppCompatActivity {
         if(days == DAYS_IN_4_WEEKS)
         {
             BarChart chart = (BarChart) findViewById(R.id.barChart);
-            BarDataSet busSet, skytrainSet, walk_bikeSet, electricSet, utilitySet, carSet;
+            BarDataSet busSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet, carSet;
 
             List<BarEntry> busEntries = new ArrayList<>();
             List<BarEntry> skytrainEntries = new ArrayList<>();
             List<BarEntry> walk_bikeEntries = new ArrayList<>();
             List<BarEntry> entries = new ArrayList<>();
+            List<BarEntry> electricityEntries = new ArrayList<>();
+            List<BarEntry> naturalGasEntries = new ArrayList<>();
+
+            XAxis xAxis = chart.getXAxis();
+            String[] xAxisValues = new String[DAYS_IN_4_WEEKS];
 
             List<Date> dateList = getDateList(DAYS_IN_4_WEEKS);
             float c = 0;
             for(int i = dateList.size()-1; i >= 0; i--)
             {
                 List<Float> temp_yValues = new ArrayList<>();
-               // temp_yValues.add((float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.BUS));
-                //temp_yValues.add((float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.SKYTRAIN));
-                //temp_yValues.add((float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.WALK_BIKE));
 
+                for(Map.Entry<String, Float> entry: getDailyTotalUtilityEmissions(dateList.get(i)).entrySet())
+                {
+                    Float emissionTotal = entry.getValue();
+                    if(entry.getKey().equals(Utility.ELECTRICITY_NAME))
+                        electricityEntries.add(new BarEntry(c, emissionTotal));
+                    else
+                        naturalGasEntries.add(new BarEntry(c, emissionTotal));
+
+                }
 
                 Map<Car, Float> carMap = getCarEmissionTotalsFromJourneys(getJourneysForTransportModeOnDate(dateList.get(i), Car.CAR));
                 carMap.size();
@@ -90,27 +106,56 @@ public class MultiDayGraphs extends AppCompatActivity {
                 skytrainEntries.add(new BarEntry(c, (float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.SKYTRAIN)));
                 walk_bikeEntries.add(new BarEntry(c, (float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.WALK_BIKE)));
                 //entries.add(new BarEntry(c, yvalues));
+                Date date = dateList.get(i);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                     Date formatDate = sdf.parse(sdf.format(date));
+                     xAxisValues[i] = String.valueOf(sdf.format(formatDate));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 c++;
             }
             busSet = new BarDataSet(busEntries, "bus");
             carSet = new BarDataSet(entries, "cars");
             skytrainSet = new BarDataSet(skytrainEntries, "skytrain");
             walk_bikeSet = new BarDataSet(walk_bikeEntries, "walk/bike");
+            electricSet = new BarDataSet(electricityEntries, "electricity");
+            naturalGasSet = new BarDataSet(naturalGasEntries, "natural gas");
 
             int[] carColors = {getResources().getColor(R.color.CarColor1), getResources().getColor(R.color.CarColor2), getResources().getColor(R.color.CarColor3), getResources().getColor(R.color.CarColor4), getResources().getColor(R.color.CarColor5)};
             carSet.setColors(carColors);
             busSet.setColor(getResources().getColor(R.color.BusColor));
             skytrainSet.setColor(getResources().getColor(R.color.TrainColor));
             walk_bikeSet.setColor(getResources().getColor(R.color.Walk_bikeColor));
+            electricSet.setColor(getResources().getColor(R.color.ElectricColor));
+            naturalGasSet.setColor(getResources().getColor(R.color.NaturalGasColor));
 
+            YAxis yAxisLeft = chart.getAxisLeft();
+            yAxisLeft.setDrawAxisLine(false);
+            yAxisLeft.setDrawGridLines(false);
+            YAxis yAxisRight = chart.getAxisRight();
+            yAxisRight.setDrawAxisLine(false);
+            yAxisRight.setDrawGridLines(false);
 
-            BarData data = new BarData(busSet, carSet, skytrainSet, walk_bikeSet);
+            xAxis.setValueFormatter(new XAxisVaueFormatter(xAxisValues));
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setLabelRotationAngle(90);
+            xAxis.setDrawAxisLine(false);
+            xAxis.setDrawGridLines(false);
+            xAxis.setLabelCount(DAYS_IN_4_WEEKS);
+            BarData data = new BarData(busSet, carSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet);
             //data.setBarWidth(0.9f); // set custom bar width
             chart.setData(data);
             chart.setFitBars(true); // make the x-axis fit exactly all bars
             chart.setDrawGridBackground(false);
+
             chart.setDrawValueAboveBar(false);
             chart.invalidate(); // refresh
+        }
+        else if(days == DAYS_IN_YEAR)
+        {
+
         }
     }
 
@@ -165,6 +210,27 @@ public class MultiDayGraphs extends AppCompatActivity {
         return journeyList;
     }
 
+
+    /*private List<Journey> getJourneysForTransportationModeInMonth(Calendar calendar, String transportModeWanted) //
+    {
+        List<Journey> journeyList = new ArrayList<>();
+        for(Journey journey: User.getInstance().getJourneyList())
+        {
+            Car car = journey.getCar();
+            Calendar journeyCal = Calendar.getInstance();
+            journeyCal.setTime(journey.getDate());
+
+            boolean isWantedTransportMode = car.getTransport_mode().equals(transportModeWanted);
+            boolean isSameMonth = calendar.MONTH == journeyCal.MONTH;
+            if(isWantedTransportMode && isSameMonth)
+            {
+                journeyList.add(journey);
+            }
+        }
+
+        return journeyList;
+    }*/
+
     private Map<Car, Float> getCarEmissionTotalsFromJourneys(List<Journey> journeyList)
     {
         Map<Car, Float> map = new HashMap<>();
@@ -182,6 +248,55 @@ public class MultiDayGraphs extends AppCompatActivity {
             }
         }
         return map;
+    }
+
+    private Map<String, Float> getDailyTotalUtilityEmissions(Date dateWanted) //return total of daily averages for electric and natural gas as separate keys-value pairs in map
+    {
+        Map<String, Float> map = new HashMap<>();
+        map.put(Utility.ELECTRICITY_NAME, 0f); //set for electricity emission totals
+        map.put(Utility.GAS_NAME, 0f); //set for gas emission totals
+
+        for(Utility utility: User.getInstance().getUtilityList().getUtilities())  //each utility known
+        {
+            Date utilityStartDateWithoutTime = new Date();
+            Date utilityEndDateWithoutTime = new Date();
+            Date dateWantedWithoutTime = new Date();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                utilityStartDateWithoutTime = sdf.parse(sdf.format(utility.getStartDate()));
+                utilityEndDateWithoutTime = sdf.parse(sdf.format(utility.getEndDate()));
+                dateWantedWithoutTime = sdf.parse(sdf.format(dateWanted));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            boolean isInDate =  dateWantedWithoutTime.after(utilityStartDateWithoutTime) && dateWantedWithoutTime.before(utilityEndDateWithoutTime);
+            if(isInDate)
+            {
+                    float tempTotal = map.get(utility.getUtility_type());
+                    tempTotal += utility.getPerDayUsage();
+                    map.put(utility.getUtility_type(), tempTotal);
+            }
+        }
+
+        return map;
+    }
+
+}
+
+ class XAxisVaueFormatter implements IAxisValueFormatter {
+
+    private String[] mValues;
+
+    public XAxisVaueFormatter(String[] values) {
+        this.mValues = values;
+    }
+
+    @Override
+    public String getFormattedValue(float value, AxisBase axis) {
+        // "value" represents the position of the label on the axis (x or y)
+        return mValues[(int) value];
     }
 
 }
