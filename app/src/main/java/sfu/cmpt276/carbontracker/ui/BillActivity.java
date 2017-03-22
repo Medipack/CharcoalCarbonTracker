@@ -42,8 +42,9 @@ public class BillActivity extends AppCompatActivity {
     Date endDate;
     int tempMode;
 
-    int start_year_edit, start_month_edit, start_day_edit;
-    int end_year_edit, end_month_edit, end_day_edit;
+    int editStartYear, editStartMonth, editStartDay;
+    int editEndYear, editEndMonth, editEndDay;
+
 
     private EditText amountInput;
     private EditText peopleInput;
@@ -159,8 +160,7 @@ public class BillActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User.getInstance().getUtilityList().removeUtility(position);
-                Intent intent = new Intent(BillActivity.this, UtilityActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }
@@ -236,10 +236,6 @@ public class BillActivity extends AppCompatActivity {
             else {
                 endDateText = (TextView) findViewById(R.id.endDateText);
                 endDateText.setText(day_y + "/" + month_y  + "/" + year_y);
-
-                start_year_edit = year_x;
-                start_month_edit = month_x;
-                start_day_edit = day_x;
             }
         }
     };
@@ -257,7 +253,25 @@ public class BillActivity extends AppCompatActivity {
         currentAvgInput = (EditText) findViewById(R.id.currentAvgInput);
         previousAvgInput = (EditText) findViewById(R.id.previousAvgInput);
 
-        
+        startDateText = (TextView) findViewById(R.id.startDateText);
+        endDateText = (TextView) findViewById(R.id.endDateText);
+        //Date editStartDate = utility.getStartDate();
+        //Date editEndDate = utility.getEndDate();
+
+        long startTimeInMillis = utility.getStartDate().getTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis (startTimeInMillis);
+        editStartYear = calendar.get(Calendar.YEAR);
+        editStartMonth = calendar.get(Calendar.MONTH) + 1;
+        editStartDay = calendar.get(Calendar.DAY_OF_MONTH);
+        startDateText.setText(editStartDay + "/" + editStartMonth  + "/" + editStartYear);
+
+        editEndYear = calendar.get(Calendar.YEAR);
+        editEndMonth = calendar.get(Calendar.MONTH) + 1;
+        editEndDay = calendar.get(Calendar.DAY_OF_MONTH);
+        endDateText.setText(editEndDay + "/" + editEndMonth  + "/" + editEndYear);
+
+
         peopleInput.setText(String.valueOf(utility.getNumberOfPeople()));
         if(utility.getUtility_type().equals(Utility.GAS_NAME))
         {
@@ -274,6 +288,5 @@ public class BillActivity extends AppCompatActivity {
             currentAvgInput.setText(String.valueOf(utility.getAverageKWhCurrent()));
             previousAvgInput.setText(String.valueOf(utility.getAverageKWhPrevious()));
         }
-
     }
 }

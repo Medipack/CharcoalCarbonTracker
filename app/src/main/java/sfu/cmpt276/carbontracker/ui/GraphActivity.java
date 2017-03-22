@@ -114,14 +114,14 @@ public class GraphActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(singleDay.isChecked()){
-                    Toast.makeText(GraphActivity.this, "single", Toast.LENGTH_SHORT).show();
                     //check whether user choose the date
                     if(check == 10){
                         Intent intent = new Intent(GraphActivity.this, SingleDayActivity.class);
+                        intent.putExtra("date string", str_singleDate);
                         startActivity(intent);
                     }
                     else{
-                        Toast.makeText(GraphActivity.this, "Please choose one date", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GraphActivity.this, "Please choose the date", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else if(last28Days.isChecked()){
