@@ -1,5 +1,7 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.DateFormat;
@@ -38,29 +41,36 @@ public class MultiDayGraphs extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multi_day_graphs);
-        setupChart(DAYS_IN_4_WEEKS);
+        Intent intent = getIntent();
+        setupChart(intent.getIntExtra("days", 0));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setupChart(DAYS_IN_4_WEEKS);
+        setupChart(getIntent().getIntExtra("days", 0));
     }
 
     private void setupChart(int days) {
         if(days == DAYS_IN_4_WEEKS)
         {
             BarChart chart = (BarChart) findViewById(R.id.barChart);
+            BarDataSet busSet, skytrainSet, walk_bikeSet, electricSet, utilitySet, carSet;
 
+            List<BarEntry> busEntries = new ArrayList<>();
+            List<BarEntry> skytrainEntries = new ArrayList<>();
+            List<BarEntry> walk_bikeEntries = new ArrayList<>();
             List<BarEntry> entries = new ArrayList<>();
+
             List<Date> dateList = getDateList(DAYS_IN_4_WEEKS);
             float c = 0;
             for(int i = dateList.size()-1; i >= 0; i--)
             {
                 List<Float> temp_yValues = new ArrayList<>();
-                temp_yValues.add((float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.BUS));
-                temp_yValues.add((float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.SKYTRAIN));
-                temp_yValues.add((float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.WALK_BIKE));
+               // temp_yValues.add((float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.BUS));
+                //temp_yValues.add((float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.SKYTRAIN));
+                //temp_yValues.add((float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.WALK_BIKE));
+
 
                 Map<Car, Float> carMap = getCarEmissionTotalsFromJourneys(getJourneysForTransportModeOnDate(dateList.get(i), Car.CAR));
                 carMap.size();
@@ -73,16 +83,28 @@ public class MultiDayGraphs extends AppCompatActivity {
                 for(int u = 0; u < temp_yValues.size(); u++)
                 {
                     yvalues[u] = temp_yValues.get(u);
+                    entries.add(new BarEntry(c, temp_yValues.get(u)));
                 }
 
-                entries.add(new BarEntry(c, yvalues));
+                busEntries.add(new BarEntry(c, (float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.BUS)));
+                skytrainEntries.add(new BarEntry(c, (float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.SKYTRAIN)));
+                walk_bikeEntries.add(new BarEntry(c, (float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.WALK_BIKE)));
+                //entries.add(new BarEntry(c, yvalues));
                 c++;
             }
+            busSet = new BarDataSet(busEntries, "bus");
+            carSet = new BarDataSet(entries, "cars");
+            skytrainSet = new BarDataSet(skytrainEntries, "skytrain");
+            walk_bikeSet = new BarDataSet(walk_bikeEntries, "walk/bike");
 
-            BarDataSet set = new BarDataSet(entries, "BarDataSet");
-            set.setColors(ColorTemplate.VORDIPLOM_COLORS);
+            int[] carColors = {getResources().getColor(R.color.CarColor1), getResources().getColor(R.color.CarColor2), getResources().getColor(R.color.CarColor3), getResources().getColor(R.color.CarColor4), getResources().getColor(R.color.CarColor5)};
+            carSet.setColors(carColors);
+            busSet.setColor(getResources().getColor(R.color.BusColor));
+            skytrainSet.setColor(getResources().getColor(R.color.TrainColor));
+            walk_bikeSet.setColor(getResources().getColor(R.color.Walk_bikeColor));
 
-            BarData data = new BarData(set);
+
+            BarData data = new BarData(busSet, carSet, skytrainSet, walk_bikeSet);
             //data.setBarWidth(0.9f); // set custom bar width
             chart.setData(data);
             chart.setFitBars(true); // make the x-axis fit exactly all bars

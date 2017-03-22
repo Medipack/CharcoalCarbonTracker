@@ -23,6 +23,8 @@ import sfu.cmpt276.carbontracker.R;
 
 public class GraphActivity extends AppCompatActivity {
 
+    public static final int DAYS_IN_FOUR_WEEKS = 28;
+    public static final int DAYS_IN_YEAR = 365;
     private RadioButton singleDay;
     private RadioButton last28Days;
     private RadioButton last365Days;
@@ -127,12 +129,14 @@ public class GraphActivity extends AppCompatActivity {
                 else if(last28Days.isChecked()){
                     Toast.makeText(GraphActivity.this, "28", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(GraphActivity.this, MultiDayGraphs.class);
-                    intent.putExtra("days", 28);
+                    intent.putExtra("days", DAYS_IN_FOUR_WEEKS);
                     startActivity(intent);
                 }
                 else if(last365Days.isChecked()){
                     Toast.makeText(GraphActivity.this, "365", Toast.LENGTH_SHORT).show();
-
+                    Intent intent = new Intent(GraphActivity.this, MultiDayGraphs.class);
+                    intent.putExtra("days", DAYS_IN_YEAR);
+                    startActivity(intent);
                 }
             }
         });

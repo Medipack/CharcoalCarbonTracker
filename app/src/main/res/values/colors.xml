@@ -3,5 +3,15 @@
     <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="TerribleColor">#DDDDDD</color>
+    <color name="TerribleColor">#ff5000</color>
+    <color name="BusColor">#c36060</color>
+    <color name="CarColor1">#6c8cd2</color>
+    <color name="CarColor2">#55b3bb</color>
+    <color name="CarColor3">#4c9fa6</color>
+    <color name="CarColor4">#428b91</color>
+    <color name="CarColor5">#9fdde2</color>
+
+    <color name="TrainColor">#a7ba5c</color>
+    <color name="Walk_bikeColor">#c87dd6</color>
+
 </resources>
