@@ -1,9 +1,14 @@
 package sfu.cmpt276.carbontracker.ui;
 
 import android.app.Activity;
+import android.support.v4.app.FragmentManager;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,7 +18,9 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
@@ -39,6 +46,15 @@ public class UtilityActivity extends AppCompatActivity {
 
         populateListView();
         setupAddBtn();
+
+    }
+
+    private void tipDialogue() {
+        if (!User.getInstance().getJourneyList().isEmpty() || !User.getInstance().getUtilityList().getUtilities().isEmpty()) {
+            FragmentManager manager = getSupportFragmentManager();
+            TipDialogFragment tipDialog = new TipDialogFragment();
+            tipDialog.show(manager, "TipsDialog");
+        }
     }
 
     private void setupAddBtn() {
@@ -67,6 +83,8 @@ public class UtilityActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         populateListView();
+        User.getInstance().resetTips();
+        tipDialogue();
 
     }
 
@@ -103,6 +121,7 @@ public class UtilityActivity extends AppCompatActivity {
                     Utility utility = new Utility(tempType, startDate, endDate, amount, people, period, currentAvg, previousAvg);
                     myUtility.addUtility(utility);
                     populateListView();
+
                     break;
                 }
         }

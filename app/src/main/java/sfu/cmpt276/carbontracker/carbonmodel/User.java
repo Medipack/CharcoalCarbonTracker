@@ -206,11 +206,14 @@ public class User {
 
     // *** Tips *** //
     public double topVehicleEmmissions(){
+
         double vehicleEmissions = 0;
-        for (int i = 0; i< journeyList.size(); i++){
-            double carbonEmitted = journeyList.get(i).getCarbonEmitted();
-            if (carbonEmitted > vehicleEmissions){
-                vehicleEmissions = carbonEmitted;
+        if (!journeyList.isEmpty()) {
+            for (int i = 0; i < journeyList.size(); i++) {
+                double carbonEmitted = journeyList.get(i).getCarbonEmitted();
+                if (carbonEmitted > vehicleEmissions) {
+                    vehicleEmissions = carbonEmitted;
+                }
             }
         }
         return vehicleEmissions;
@@ -218,22 +221,42 @@ public class User {
 
     public double topUtilityEmissions(){
         double utilityEmissions = 0;
-        for (int i = 0; i< journeyList.size(); i++) {
-            double carbonEmitted = utilityList.getUtility(i).getPerPersonEmission();
-            if (carbonEmitted > utilityEmissions) {
-                utilityEmissions = carbonEmitted;
+        if (!utilityList.getUtilities().isEmpty()) {
+            for (int i = 0; i < journeyList.size(); i++) {
+                double carbonEmitted = utilityList.getUtility(i).getPerPersonEmission();
+                if (carbonEmitted > utilityEmissions) {
+                    utilityEmissions = carbonEmitted;
+                }
             }
         }
         return utilityEmissions;
     }
 
-    public void compareEmissions(List vehicleTips, List utilityTips){
+    //returns true if vehicle has themost emissions, returns false if it's utilities
+    public boolean vehicleMostEmissions(){
+        boolean vehicle = false;
         double vehicleEmissions = topVehicleEmmissions();
         double utilityEmissions = topUtilityEmissions();
         if(vehicleEmissions>utilityEmissions){
+            vehicle = true;
+        }else if(utilityEmissions>vehicleEmissions) {
+            vehicle = false;
+        }
+        return vehicle;
+    }
+
+    public void resetTips(){
+        tips.clear();
+    }
+
+    public void compareEmissions(List vehicleTips, List utilityTips){
+        if(vehicleMostEmissions()){
             shuffleTips(vehicleTips, utilityTips);
             vehiclesFirst(vehicleTips, utilityTips);
-        }else if(utilityEmissions>vehicleEmissions){
+        }else if(!vehicleMostEmissions()){
+            shuffleTips(vehicleTips, utilityTips);
+            utilitiesFirst(vehicleTips, utilityTips);
+        }else{
             shuffleTips(vehicleTips, utilityTips);
             utilitiesFirst(vehicleTips, utilityTips);
         }
@@ -252,6 +275,10 @@ public class User {
     private void shuffleTips(List vehicleTips, List utilityTips) {
         Collections.shuffle(vehicleTips);
         Collections.shuffle(utilityTips);
+    }
+
+    public List<String> getTips(){
+        return tips;
     }
 
 }
