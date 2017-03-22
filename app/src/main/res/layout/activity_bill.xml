@@ -65,7 +65,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberSigned|numberDecimal"
+        android:inputType="numberDecimal"
         android:ems="10"
         android:layout_below="@+id/startDateText"
         android:layout_centerHorizontal="true"
@@ -76,35 +76,12 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberSigned"
         android:ems="10"
         android:layout_below="@+id/amountInput"
         android:layout_alignStart="@+id/amountInput"
         android:layout_marginTop="10dp"
         android:id="@+id/peopleInput"
         android:hint="@string/people" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:layout_below="@+id/peopleInput"
-        android:layout_alignStart="@+id/peopleInput"
-        android:layout_marginTop="7dp"
-        android:id="@+id/currentAvgInput"
-        android:hint="@string/current_average" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:layout_below="@+id/currentAvgInput"
-        android:layout_alignStart="@+id/currentAvgInput"
-        android:layout_marginTop="8dp"
-        android:id="@+id/previousAvgInput"
-        android:hint="@string/previous_average" />
 
     <Button
         android:text="@string/save"
