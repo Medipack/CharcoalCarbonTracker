@@ -46,11 +46,4 @@
         android:layout_marginTop="170dp"
         android:id="@+id/createUtilityBtn" />
 
-    <Button
-        android:id="@+id/tipButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/createUtilityBtn"
-        android:layout_alignStart="@+id/viewCarbonTotalsBtn"
-        android:text="Button" />
 </RelativeLayout>
