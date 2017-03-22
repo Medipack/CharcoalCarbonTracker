@@ -73,8 +73,6 @@ public class TipDialogFragment extends AppCompatDialogFragment {
         return new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.some_environmentally_conscious_tips))
                 .setView(tipView)
-//                .setPositiveButton(R.string.forward, forward)
-//                .setNegativeButton(R.string.back, back)
                 .setPositiveButton(android.R.string.ok, listener)
                 .create();
     }
@@ -99,7 +97,8 @@ public class TipDialogFragment extends AppCompatDialogFragment {
                 formatTip = String.format(tip, user.topVehicleEmmissions());
                 tipsText.setText(formatTip);
             }
+        } else {
+            tipsText.setText(tip);
         }
-        tipsText.setText(tip);
     }
 }
