@@ -164,9 +164,7 @@ public class TransportationModeActivity extends AppCompatActivity {
     }
 
     private class CarListAdapter extends ArrayAdapter<Car> implements CarListener {
-
         private List<Car> carList;
-        private List<Integer> hiddenItemIndicies = new ArrayList<>();
 
         CarListAdapter(Context context) {
             super(context, R.layout.car_listview_item, User.getInstance().getCarList());
@@ -174,61 +172,33 @@ public class TransportationModeActivity extends AppCompatActivity {
             carListWasEdited();
         }
 
-        private int skipHiddenItemPositions(int position) {
-            for(Integer hiddenItem : hiddenItemIndicies) {
-                if(hiddenItem <= position) {
-                    position++;
-                }
-            }
-            return position;
-        }
-
-        private void updateHiddenItemIndicies() {
-            for(int i = 0; i < carList.size(); i++) {
-                if(!carList.get(i).getActive()) {
-                    // Make sure index is in hiddenItemIndices
-                    if(!hiddenItemIndicies.contains(i))
-                        hiddenItemIndicies.add(i);
-                }
-            }
-        }
-
         @NonNull
         @Override
         public View getView(int position, View convertView, @NonNull ViewGroup parent){
-            // Ensure we have a view (could have been passed a null)
-            View itemView = convertView;
-            if(itemView == null) {
+            View itemView;
+            Car car = carList.get(position);
+            if (car.getActive()) {
                 itemView = LayoutInflater.from(getContext()).inflate(R.layout.car_listview_item, parent, false);
+            } else {
+                itemView = LayoutInflater.from(getContext()).inflate(R.layout.listview_item_null, parent, false);
             }
 
-            // Thanks https://vshivam.wordpress.com/2015/01/07/hiding-a-list-item-from-an-android-listview-without-removing-it-from-the-data-source/
-            position = skipHiddenItemPositions(position);
-
-            Car car = carList.get(position);
-
-            // Fill the TextView
             TextView description = (TextView) itemView.findViewById(R.id.car_description);
-            description.setText(car.getShortDecription());
+            if(description != null)
+                description.setText(car.getShortDecription());
+
             return itemView;
         }
 
         @Nullable
         @Override
         public Car getItem(int position) {
-            position = skipHiddenItemPositions(position);
             return super.getItem(position);
-        }
-
-        @Override
-        public int getCount() {
-            return carList.size() - hiddenItemIndicies.size();
         }
 
         @Override
         public void carListWasEdited() {
             Log.i(TAG, "Car List changed, updating listview");
-            updateHiddenItemIndicies();
             notifyDataSetChanged();
         }
     }
