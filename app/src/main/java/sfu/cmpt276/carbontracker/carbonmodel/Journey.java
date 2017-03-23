@@ -32,12 +32,21 @@ public class Journey {
         return route.getRouteDistanceCity() + route.getRouteDistanceHighway();
     }
 
-    Journey(Car car, Route route) {
+   public  Journey(Car car, Route route) {
         this.car = car;
         this.route = route;
         date = new Date(); //sets date as current date
         totalDistance = route.getRouteDistanceCity() + route.getRouteDistanceHighway();
         carbonEmitted = calculateCarbonEmission();
+    }
+
+    //Copy constructor
+    public Journey(Journey journey) {
+        car = journey.getCar();
+        route = journey.getRoute();
+        date = journey.getDate();
+        totalDistance = journey.getTotalDistance();
+        carbonEmitted = journey.getTotalDistance();
     }
 
     public double calculateCarbonEmission() //returns kg of co2 for journey

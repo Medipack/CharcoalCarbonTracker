@@ -326,7 +326,7 @@ public class RouteActivity extends AppCompatActivity {
         // Set current Journey to use the selected route
         User.getInstance().setCurrentJourneyRoute(route);
 
-        Journey journey = User.getInstance().getCurrentJourney();
+        Journey journey = new Journey(User.getInstance().getCurrentJourney());
 
         journey.setTotalDistance(citySaved + highwaySaved);
         User.getInstance().resetCurrentJourneyEmission();
