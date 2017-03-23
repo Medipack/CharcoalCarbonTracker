@@ -164,8 +164,8 @@ public class SingleDayActivity extends AppCompatActivity {
 
         /*
         //journey part
-        String emission[] = new String[journeyList.size()];
-        for(int i=0; i<journeyList.size();i++){
+        String emission[] = new String[mainJourneyList.size()];
+        for(int i=0; i<mainJourneyList.size();i++){
             String car = User.getInstance().getJourneyList().get(i).getVehicleName();
 
             double emissionTemp = User.getInstance().getJourneyList().get(i).getCarbonEmitted();

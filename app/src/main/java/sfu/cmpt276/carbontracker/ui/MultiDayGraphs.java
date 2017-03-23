@@ -1,14 +1,10 @@
 package sfu.cmpt276.carbontracker.ui;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -16,25 +12,25 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Car;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
-import sfu.cmpt276.carbontracker.carbonmodel.UtilityList;
+import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
+import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 
 public class MultiDayGraphs extends AppCompatActivity {
 
@@ -43,12 +39,40 @@ public class MultiDayGraphs extends AppCompatActivity {
     public static final int DAYS_IN_YEAR = 365;
     public static final int MONTH_COUNT = 12;
 
+    List<Utility> mainUtilityList;
+    List<Journey> mainJourneyList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multi_day_graphs);
+
+        populateUtilityList();
+        populateJourneyList();
+
         Intent intent = getIntent();
         setupChart(intent.getIntExtra("days", 0));
+    }
+
+    private void populateJourneyList() {
+        mainJourneyList = new ArrayList<>();
+        JourneyDataSource db = new JourneyDataSource(this);
+        db.open();
+        mainJourneyList = db.getAllJourneys(this);
+        db.close();
+        Set<Journey> journeySet = new HashSet<Journey>();
+        for(Journey journey : mainJourneyList)
+            journeySet.add(journey);
+        mainJourneyList.clear();
+        mainJourneyList.addAll(journeySet);
+    }
+
+    private void populateUtilityList() {
+        mainUtilityList = new ArrayList<>();
+        UtilityDataSource db = new UtilityDataSource(this);
+        db.open();
+        mainUtilityList = db.getAllUtilities();
+        db.close();
     }
 
     @Override
@@ -233,7 +257,7 @@ public class MultiDayGraphs extends AppCompatActivity {
 
     private float getJourneyEmissionsForMonthForTransportType(int m, String transportModeWanted) {
         float totalEmissions = 0;
-        for(Journey journey: User.getInstance().getJourneyList())
+        for(Journey journey: mainJourneyList)
         {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(journey.getDate());
@@ -250,7 +274,7 @@ public class MultiDayGraphs extends AppCompatActivity {
     private float getUtilityEmissionsForMonthForUtilityType(String utilityType, int m)
     {
         float totalEmissions = 0;
-        for(Utility utility: User.getInstance().getUtilityList().getUtilities())
+        for(Utility utility: mainUtilityList)
         {
             List<Date> utilityDates = new ArrayList<>();
             Calendar calendar = Calendar.getInstance();
@@ -278,7 +302,7 @@ public class MultiDayGraphs extends AppCompatActivity {
     private Map<Car, Float> getCarEmissionTotalsFromJourneysInMonth(int m)
     {
         List<Journey> journeyList = new ArrayList<>();
-        for(Journey journey: User.getInstance().getJourneyList())
+        for(Journey journey: mainJourneyList)
         {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(journey.getDate());
@@ -332,7 +356,7 @@ public class MultiDayGraphs extends AppCompatActivity {
     private List<Journey> getJourneysForTransportModeOnDate(Date dateWanted, String transportModeWanted) //
     {
         List<Journey> journeyList = new ArrayList<>();
-        for(Journey journey: User.getInstance().getJourneyList())
+        for(Journey journey: mainJourneyList)
         {
             Car car = journey.getCar();
             Date journeyDateWithoutTime = new Date();
@@ -360,7 +384,7 @@ public class MultiDayGraphs extends AppCompatActivity {
 
     /*private List<Journey> getJourneysForTransportationModeInMonth(Calendar calendar, String transportModeWanted) //
     {
-        List<Journey> journeyList = new ArrayList<>();
+        List<Journey> mainJourneyList = new ArrayList<>();
         for(Journey journey: User.getInstance().getJourneyList())
         {
             Car car = journey.getCar();
@@ -371,11 +395,11 @@ public class MultiDayGraphs extends AppCompatActivity {
             boolean isSameMonth = calendar.MONTH == journeyCal.MONTH;
             if(isWantedTransportMode && isSameMonth)
             {
-                journeyList.add(journey);
+                mainJourneyList.add(journey);
             }
         }
 
-        return journeyList;
+        return mainJourneyList;
     }*/
 
     private Map<Car, Float> getCarEmissionTotalsFromJourneys(List<Journey> journeyList)
@@ -403,7 +427,7 @@ public class MultiDayGraphs extends AppCompatActivity {
         map.put(Utility.ELECTRICITY_NAME, 0f); //set for electricity emission totals
         map.put(Utility.GAS_NAME, 0f); //set for gas emission totals
 
-        for(Utility utility: User.getInstance().getUtilityList().getUtilities())  //each utility known
+        for(Utility utility: mainUtilityList)  //each utility known
         {
             Date utilityStartDateWithoutTime = new Date();
             Date utilityEndDateWithoutTime = new Date();
