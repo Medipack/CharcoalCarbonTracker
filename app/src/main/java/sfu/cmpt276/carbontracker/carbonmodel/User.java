@@ -11,9 +11,9 @@ public class User {
 
     public static final int ACTIITY_FINISHED_REQUESTCODE = 1000;
 
-    public static final Car BUS = new Car(0, "Bus", 89, 89, Car.BUS);
-    public static final Car BIKE = new Car(1, "Bike", 0, 0, Car.WALK_BIKE);
-    public static final Car SKYTRAIN = new Car(2, "Skytrain", 89, 89, Car.SKYTRAIN);
+    public static final Vehicle BUS = new Vehicle(0, "Bus", 89, 89, Vehicle.BUS);
+    public static final Vehicle BIKE = new Vehicle(1, "Bike", 0, 0, Vehicle.WALK_BIKE);
+    public static final Vehicle SKYTRAIN = new Vehicle(2, "Skytrain", 89, 89, Vehicle.SKYTRAIN);
 
     private VehicleListener vehicleListener;
     private RouteListener routeListener;
@@ -94,8 +94,8 @@ public class User {
     }
 
 
-    public Car getCarFromCarList(int index) {
-        return carList.get(index);
+    public Vehicle getCarFromCarList(int index) {
+        return vehicleList.get(index);
     }
 
     // *** Modify lists *** //
@@ -179,22 +179,18 @@ public class User {
         journeyList.add(new Journey(vehicle, route));
     }
 
+    public void addJourney(Journey journey){
+        journeyList.add(journey);
+    }
+
     public void EditUtilityIntoUtilityList(int index, Utility newUtility){
         //Utility oldUtility = utilityList.getUtility(index);
         utilityList.editUtility(newUtility, index);
     }
 
+
     public void addUtilityToUtilityList(Utility utility) {
         utilityList.addUtility(utility);
-    }
-
-
-    public void addJourney(Car car, Route route){
-        journeyList.add(new Journey(car, route));
-    }
-
-    public void addJourney(Journey journey){
-        journeyList.add(journey);
     }
 
     public Journey getJourney(int position){
