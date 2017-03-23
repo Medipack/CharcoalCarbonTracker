@@ -61,7 +61,7 @@ public class TipDialogFragment extends AppCompatDialogFragment {
         forward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (index<user.getTips().size()) {
+                if (index<user.getTips().size() -1) {
                     index++;
                     setTipPage();
                     setTips();
@@ -87,18 +87,29 @@ public class TipDialogFragment extends AppCompatDialogFragment {
 
     private void setTips() {
         boolean isVehicle = user.vehicleMostEmissions();
+        List<String> vehicleTips = Arrays.asList(getResources().getStringArray(R.array.vehicle_tips));
+        int vehicleTipCount = vehicleTips.size();
+        List<String> utilityTips = Arrays.asList(getResources().getStringArray(R.array.electric_tips));
+        int utilityTipCount = utilityTips.size();
+        double emissions;
         String tip = user.getTips().get(index);
         String formatTip = "";
-        if (tip.contains("%1$,.2f")) {
             if (!isVehicle) {
-                formatTip = String.format(tip, user.topUtilityEmissions());
+                if (index < utilityTipCount) {
+                    emissions = user.topUtilityEmissions();
+                }else {
+                    emissions = user.topUtilityEmissions();
+                }
+                formatTip = String.format(tip, emissions);
                 tipsText.setText(formatTip);
             } else {
-                formatTip = String.format(tip, user.topVehicleEmmissions());
+                if (index < vehicleTipCount) {
+                    emissions = user.topVehicleEmmissions();
+                }else {
+                    emissions = user.topUtilityEmissions();
+                }
+                formatTip = String.format(tip, emissions);
                 tipsText.setText(formatTip);
             }
-        } else {
-            tipsText.setText(tip);
         }
     }
-}

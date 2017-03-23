@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:text="@string/insert_tip_text_here"
         android:textAlignment="center"
-        android:layout_below="@+id/tips_title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
 
