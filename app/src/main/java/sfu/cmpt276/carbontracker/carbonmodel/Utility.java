@@ -36,10 +36,11 @@ public class Utility {
         naturalGasUsed = 0;
         numberOfPeople = 1;
         daysInPeriod = 0;
-
+        averageKWhCurrent = 0;
+        averageKWhPrevious = 0;
     }
-    //Utility
-    public Utility(String utility_type, Date startDate, Date endDate, double utilityUsed, int numberOfPeople, int daysInPeriod)
+
+    public Utility(String utility_type, Date startDate, Date endDate, double utilityUsed, int numberOfPeople, int daysInPeriod, double averageCurrent, double averagePrevious)
     {
         this.utility_type = utility_type;
         this.startDate = startDate;
@@ -50,11 +51,14 @@ public class Utility {
         if(utility_type.equals("electricity"))
         {
             this.electricUsed = utilityUsed;
-
+            this.averageKWhCurrent = averageCurrent;
+            this.averageKWhPrevious = averagePrevious;
         }
         else if(utility_type.equals("gas"))
         {
             this.naturalGasUsed = utilityUsed;
+            this.averageGJCurrent = averageCurrent;
+            this.averageGJPrevious = averagePrevious;
         }
 
     }
@@ -108,6 +112,38 @@ public class Utility {
         this.daysInPeriod = daysInPeriod;
     }
 
+    public double getAverageKWhCurrent() {
+        return averageKWhCurrent;
+    }
+
+    public void setAverageKWhCurrent(double averageKWhCurrent) {
+        this.averageKWhCurrent = averageKWhCurrent;
+    }
+
+    public double getAverageKWhPrevious() {
+        return averageKWhPrevious;
+    }
+
+    public void setAverageKWhPrevious(double averageKWhPrevious) {
+        this.averageKWhPrevious = averageKWhPrevious;
+    }
+
+    public double getAverageGJCurrent() {
+        return averageGJCurrent;
+    }
+
+    public void setAverageGJCurrent(double averageGJCurrent) {
+        this.averageGJCurrent = averageGJCurrent;
+    }
+
+    public double getAverageGJPrevious() {
+        return averageGJPrevious;
+    }
+
+    public void setAverageGJPrevious(double averageGJPrevious) {
+        this.averageGJPrevious = averageGJPrevious;
+    }
+
     public String getUtility_type(){
         return utility_type;
     }
@@ -116,7 +152,6 @@ public class Utility {
         this.utility_type = utility_type;
     }
 
-    //emission per people share
     public double getPeopleShare(){
         if(utility_type.equals(ELECTRICITY_NAME)) {
             return electricUsed / numberOfPeople;
@@ -126,7 +161,6 @@ public class Utility {
         }
     }
 
-    //emission per person per day
     public double getPerDayUsage(){
         if(utility_type.equals(ELECTRICITY_NAME)){
             return ELECTRICITY  * electricUsed / daysInPeriod / numberOfPeople;   // kg per kwh per day
