@@ -256,12 +256,10 @@ public class User {
 
     public double topUtilityEmissions(){
         double utilityEmissions = 0;
-        if (!utilityList.getUtilities().isEmpty()) {
-            for (int i = 0; i < journeyList.size(); i++) {
-                double carbonEmitted = utilityList.getUtility(i).getPerPersonEmission();
-                if (carbonEmitted > utilityEmissions) {
-                    utilityEmissions = carbonEmitted;
-                }
+        for(Utility utility : utilityList.getUtilities()){
+            double carbonEmitted = utility.getPerPersonEmission();
+            if (carbonEmitted > utilityEmissions) {
+                utilityEmissions = carbonEmitted;
             }
         }
         return utilityEmissions;
