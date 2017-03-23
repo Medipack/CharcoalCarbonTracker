@@ -3,6 +3,7 @@ package sfu.cmpt276.carbontracker.ui;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,9 +17,12 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
@@ -55,13 +59,20 @@ public class SingleDayActivity extends AppCompatActivity {
     }
 
     private void populateJourneyList() {
+        journeyList = new ArrayList<>();
         JourneyDataSource db = new JourneyDataSource(this);
         db.open();
         journeyList = db.getAllJourneys(this);
         db.close();
+        Set<Journey> journeySet = new HashSet<Journey>();
+        for(Journey journey : journeyList)
+            journeySet.add(journey);
+        journeyList.clear();
+        journeyList.addAll(journeySet);
     }
 
     private void populateUtilityList() {
+        utilityList = new ArrayList<>();
         UtilityDataSource db = new UtilityDataSource(this);
         db.open();
         utilityList = db.getAllUtilities();
@@ -81,6 +92,7 @@ public class SingleDayActivity extends AppCompatActivity {
             formatter = new SimpleDateFormat("MM/dd/yyyy");
             singleDate = (Date) formatter.parse(str_date);
         } catch (Exception e) {
+            finish();
         }
         Toast.makeText(this, "" + singleDate.getTime(), Toast.LENGTH_SHORT).show();
 
@@ -163,6 +175,16 @@ public class SingleDayActivity extends AppCompatActivity {
             pieEntries.add(new PieEntry(temp, car));
         }
         */
+            for(Journey journey : journeyList) {
+                if(journey.getDate().getYear() == singleDate.getYear()
+                        && journey.getDate().getMonth() == singleDate.getMonth()
+                        && journey.getDate().getDay() == singleDate.getDay()) {
+                    String name = journey.getCar().getShortDecription() + " : " + journey.getRoute().getRouteName();
+                    float value = (float) journey.getCarbonEmitted();
+                    Log.i("SingleDayActivity", "Adding " + journey.getId() + " : " + name + " with carbon output of " + value);
+                    pieEntries.add(new PieEntry(value, name));
+                }
+            }
 
 
             PieDataSet dataSet = new PieDataSet(pieEntries, "emission");
