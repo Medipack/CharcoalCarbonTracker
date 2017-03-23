@@ -26,6 +26,9 @@
             android:label="@string/select_a_route" />
         <activity android:name=".ui.JourneyActivity" />
         <activity android:name=".ui.PieGraphActivity" />
+        <activity android:name=".ui.GraphActivity" />
+        <activity android:name=".ui.SingleDayActivity" />
+        <activity android:name=".ui.MultiDayGraphs" />
         <activity android:name=".ui.SelectTransportationActivity" />
         <activity android:name=".ui.EditJourneyActivity"></activity>
         <activity android:name=".ui.BillActivity" />

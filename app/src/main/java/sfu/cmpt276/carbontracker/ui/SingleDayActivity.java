@@ -21,11 +21,14 @@ import java.util.List;
 import java.util.Objects;
 
 import sfu.cmpt276.carbontracker.R;
+import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
+import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
+import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 
 public class SingleDayActivity extends AppCompatActivity {
-    List journeyList = User.getInstance().getJourneyList();
+
 
     String str_date;
     Date singleDate;
@@ -37,12 +40,32 @@ public class SingleDayActivity extends AppCompatActivity {
 
     Double emissionShare;
 
+    List<Utility> utilityList;
+    List<Journey> journeyList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_day);
 
+        populateUtilityList();
+        populateJourneyList();
+
         setupSingleDayPieGraph();
+    }
+
+    private void populateJourneyList() {
+        JourneyDataSource db = new JourneyDataSource(this);
+        db.open();
+        journeyList = db.getAllJourneys(this);
+        db.close();
+    }
+
+    private void populateUtilityList() {
+        UtilityDataSource db = new UtilityDataSource(this);
+        db.open();
+        utilityList = db.getAllUtilities();
+        db.close();
     }
 
     private void setupSingleDayPieGraph() {
@@ -62,10 +85,7 @@ public class SingleDayActivity extends AppCompatActivity {
         Toast.makeText(this, "" + singleDate.getTime(), Toast.LENGTH_SHORT).show();
 
 
-
-        int size = User.getInstance().getUtilityList().countUtility();
-        for (int i = 0; i < size; i++) {
-            Utility utility = User.getInstance().getUtilityList().getUtility(i); //get the bill in list
+        for (Utility utility : utilityList) {
             startDate = utility.getStartDate();
             endDate = utility.getEndDate();
             //gas
