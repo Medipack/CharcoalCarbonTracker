@@ -218,11 +218,9 @@ public class MultiDayGraphs extends AppCompatActivity {
             xAxis.setDrawGridLines(false);
             xAxis.setLabelCount(MONTH_COUNT);
             BarData data = new BarData(busSet, carSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet);
-            //data.setBarWidth(0.9f); // set custom bar width
             chart.setData(data);
             chart.setFitBars(true); // make the x-axis fit exactly all bars
             chart.setDrawGridBackground(false);
-
             chart.setDrawValueAboveBar(false);
             chart.invalidate(); // refresh
         }
@@ -397,12 +395,10 @@ public class MultiDayGraphs extends AppCompatActivity {
                 map.put(utility.getUtility_type(), tempTotal);
             }
         }
-
         return map;
     }
-
 }
-
+//xAxisValueFormatter as per MP Charts Wiki
 class XAxisVaueFormatter implements IAxisValueFormatter {
 
     private String[] mValues;
