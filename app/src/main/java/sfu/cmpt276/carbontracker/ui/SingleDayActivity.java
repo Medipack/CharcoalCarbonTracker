@@ -33,21 +33,21 @@ public class SingleDayActivity extends AppCompatActivity {
     Date singleDate;
     Date startDate;
     Date endDate;
+
     Double emissionShare;
     Date journeyDate;
     Utility utility;
-    int dateIndex_gas;
-    int dateIndex_elec;
+
+    int dateIndex;
+
     long tempDiff_gas;
     long min_gas;
+
     long min = 5;       //check overlap
+
     long tempDiff_elec;
     long min_elec;
 
-    int type_gas;
-    int type_elec;
-
-    int minIndexGas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,15 +67,15 @@ public class SingleDayActivity extends AppCompatActivity {
         } catch (Exception e) {
         }
         int size = User.getInstance().getUtilityList().countUtility();
+
         if(size != 0) {
             for (int i = 0; i < size; i++) {
                 utility = User.getInstance().getUtilityList().getUtility(i); //get the bill in list
                 startDate = utility.getStartDate();
                 endDate = utility.getEndDate();
+
                 //gas
-                //selected date in the bill period
                 if (Objects.equals(utility.getUtility_type(), Utility.GAS_NAME)) {
-                    type_gas = 0;
                     //selected date in the period of one date
                     if (singleDate.getTime() >= startDate.getTime() && singleDate.getTime() <= endDate.getTime()) {
                         min = 0;    //already in one period
@@ -83,51 +83,51 @@ public class SingleDayActivity extends AppCompatActivity {
                         String str_singleEmission = String.valueOf(emissionShare);
                         float temp = Float.valueOf(str_singleEmission);
                         pieEntries.add(new PieEntry(temp, Utility.GAS_NAME));
-                        Toast.makeText(this, "" + emissionShare, Toast.LENGTH_SHORT).show();
+
                     }
+
                     //selected date not in the period
                     else {
-                        //find the nearest bill
                         //selected date later than the end date of bill
                         //e.g. choose: Mar3, bill[i]: Feb8-Feb28
                         if (singleDate.getTime() > endDate.getTime()) {
-                            while(!Objects.equals(User.getInstance().getUtilityList().getUtility(i).getUtility_type(), Utility.GAS_NAME)){
-                                minIndexGas = minIndexGas + 1;
-                            }
                             min_gas = singleDate.getTime() - User.getInstance().getUtilityList().getUtility(0).getEndDate().getTime();
                             tempDiff_gas = singleDate.getTime() - endDate.getTime();
                             if (tempDiff_gas < min_gas) {
                                 min_gas = tempDiff_gas;         //min update
-                                dateIndex_gas = i;                  //record i
-                            }
-                            else{
-                                dateIndex_gas= 0;
+                                dateIndex = i;          //record i
                             }
                         }
+
                         //selected date earlier than the start date of bill
                         //e.g. choose: Mar3, bill[i]: Mar8-Mar29
                         else if (singleDate.getTime() < startDate.getTime()) {
-                            //set initial min = [0]
                             min_gas = User.getInstance().getUtilityList().getUtility(0).getStartDate().getTime() - singleDate.getTime();
                             tempDiff_gas = startDate.getTime() - singleDate.getTime();
                             if (tempDiff_gas < min_gas) {
                                 min_gas = tempDiff_gas;         //min update
-                                dateIndex_gas = i;                  //record i
-                            }
-                            else{
-                                dateIndex_gas = 0;
+                                dateIndex = i;          //record i
                             }
                         }
 
+                        if(min == 5){       //if two diff not equal
+                            emissionShare = User.getInstance().getUtilityList().getUtility(dateIndex).getPerDayUsage();
+                            String str_singleEmission = String.valueOf(emissionShare);
+                            float temp = Float.valueOf(str_singleEmission);
+                            pieEntries.add(new PieEntry(temp, Utility.GAS_NAME));
+                        }
                     }
+
                 }
+
+
                 //electricity
                 else {
-                    type_elec = 1;
                     //selected date in the period of one date
                     if (singleDate.getTime() >= startDate.getTime() && singleDate.getTime() <= endDate.getTime()) {
                         Toast.makeText(this, "In the period", Toast.LENGTH_SHORT).show();
-                        emissionShare = utility.getPerDayUsage();
+                        //dateIndex = i;
+                        emissionShare =utility.getPerDayUsage();
                         String str_singleEmission = String.valueOf(emissionShare);
                         float temp = Float.valueOf(str_singleEmission);
                         pieEntries.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
@@ -142,12 +142,10 @@ public class SingleDayActivity extends AppCompatActivity {
                             tempDiff_elec = singleDate.getTime() - endDate.getTime();
                             if (tempDiff_elec < min_elec) {
                                 min_elec = tempDiff_elec;         //min update
-                                dateIndex_elec = i;          //record i
-                            }
-                            else{
-                                dateIndex_elec = 0;
+                                dateIndex = i;          //record i
                             }
                         }
+
                         //selected date earlier than the start date of bill
                         //e.g. choose: Mar3, bill[i]: Mar8-Mar29
                         else if (singleDate.getTime() < startDate.getTime()) {
@@ -155,38 +153,36 @@ public class SingleDayActivity extends AppCompatActivity {
                             tempDiff_elec = startDate.getTime() - singleDate.getTime();
                             if (tempDiff_elec < min_elec) {
                                 min_elec = tempDiff_elec;         //min update
-                                dateIndex_elec = i;                    //record i
-                            }
-                            else{
-                                dateIndex_elec = 0;
+                                dateIndex = i;                    //record i
                             }
                         }
+
+                        if(min == 5) {
+                            emissionShare = User.getInstance().getUtilityList().getUtility(dateIndex).getPerDayUsage();
+                            String str_singleEmission = String.valueOf(emissionShare);
+                            float temp = Float.valueOf(str_singleEmission);
+                            pieEntries.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
+                        }
+
                     }
                 }
+
             }
 
-            if(min == 5 && type_gas == 0){                           //if two diff not equal
-                emissionShare = User.getInstance().getUtilityList().getUtility(dateIndex_gas).getPerDayUsage();
-                String str_singleEmission = String.valueOf(emissionShare);
-                float temp = Float.valueOf(str_singleEmission);
-                pieEntries.add(new PieEntry(temp, Utility.GAS_NAME));
-            }
-
-            if(min == 5 && type_elec == 1){                           //if two diff not equal
-                emissionShare = User.getInstance().getUtilityList().getUtility(dateIndex_elec).getPerDayUsage();
-                String str_singleEmission = String.valueOf(emissionShare);
-                float temp = Float.valueOf(str_singleEmission);
-                pieEntries.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
-            }
         }
+
         //journey part
+
         String emission[] = new String[journeyList.size()];
         for(int k=0; k<journeyList.size();k++){
             Journey journey = User.getInstance().getJourneyList().get(k);
             journeyDate = journey.getDate();
+
             SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
             String str_single = formatter.format(singleDate);
             String str_journey = formatter.format(journeyDate);
+
+
             if(Objects.equals(str_single, str_journey)) {
                 String car = User.getInstance().getJourneyList().get(k).getVehicleName();
                 double emissionTemp = User.getInstance().getJourneyList().get(k).getCarbonEmitted();
@@ -196,9 +192,10 @@ public class SingleDayActivity extends AppCompatActivity {
                 pieEntries.add(new PieEntry(temp1, car));
             }
             else{
-                Toast.makeText(this, "!!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "selected date not equals to journey date", Toast.LENGTH_SHORT).show();
             }
         }
+
         PieDataSet dataSet = new PieDataSet(pieEntries, "emission");
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         PieData data = new PieData(dataSet);
