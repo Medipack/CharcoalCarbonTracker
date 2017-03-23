@@ -14,6 +14,7 @@ public class Journey {
     private static final double WALK_BIKE = 0; //kg of co2 per KM of travel
     private static final double SKYTRAIN = 0; //kg of co2 per KM of travel todo: verify skytrain emisisons
 
+    private int id = -1;
     private Car car;
     private Route route;
     private Date date;
@@ -27,7 +28,6 @@ public class Journey {
         totalDistance = calculateTotalDistance();
         carbonEmitted = 0;
     }
-
     private double calculateTotalDistance() {
         return route.getRouteDistanceCity() + route.getRouteDistanceHighway();
     }
@@ -123,4 +123,11 @@ public class Journey {
         carbonEmitted = calculateCarbonEmission();
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

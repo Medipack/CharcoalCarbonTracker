@@ -29,6 +29,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Car;
 import sfu.cmpt276.carbontracker.carbonmodel.CarDirectory;
 import sfu.cmpt276.carbontracker.carbonmodel.CarListener;
+import sfu.cmpt276.carbontracker.ui.database.CarDataSource;
 
 /* Fragment for adding a new car to car list when creating a journey
 * */
@@ -93,11 +94,10 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 car.setNickname(String.valueOf(nickname.getText()).trim());
 
                 if(editing) {
-                    Log.i(TAG, "Save button clicked");
-                    User.getInstance().editCarFromCarList(editCarPosition, car);
+                    editExistingCar(editCarPosition, car);
+
                 } else {
-                    Log.i(TAG, "Add button clicked");
-                    User.getInstance().addCarToCarList(car);
+                    addNewCar(car);
                 }
             }
         };
@@ -106,7 +106,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         DialogInterface.OnClickListener deleteListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                User.getInstance().removeCarFromCarList(editCarPosition);
+                deleteCar(editCarPosition);
             }
         };
 
@@ -120,7 +120,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 car.setNickname(String.valueOf(nickname.getText()).trim());
 
                 // Set current Journey to use the selected car
-                User.getInstance().setCurrentJourneyCar(car);
+                useNewCar(car);
 
                 Intent intent = new Intent(getActivity(), RouteActivity.class);
                 startActivityForResult(intent, 0);
@@ -302,4 +302,60 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             spinner.setSelection(position);
         }
     }
+
+    // *** Database related methods *** //
+    // *** Add / Edit / Delete helper functions *** //
+
+    private void deleteCar(int editCarPosition) {
+        Car car = User.getInstance().getCarList().get(editCarPosition);
+        Log.i(TAG, "Delete button clicked, hiding " + car);
+        car.setActive(false);
+
+        CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
+        db.open();
+        db.updateCar(car);
+        db.close();
+
+        User.getInstance().removeCarFromCarList(car);
+
+    }
+
+    private void editExistingCar(int editCarPosition, Car car) {
+        Log.i(TAG, "Save edit button clicked");
+        // Pass old car id to the new car
+        int oldCarId = User.getInstance().getCarList().get(editCarPosition).getId();
+        car.setId(oldCarId);
+        car.setActive(true);
+
+        CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
+        db.open();
+        db.updateCar(car);
+        db.close();
+
+        User.getInstance().editCarFromCarList(editCarPosition, car);
+    }
+
+    private void addNewCar(Car car) {
+        Log.i(TAG, "Add button clicked");
+        car.setActive(true);
+        car = addCarToDatabase(car);
+        User.getInstance().addCarToCarList(car);
+    }
+
+    private void useNewCar(Car car) {
+        Log.i(TAG, "Use button clicked");
+        car.setActive(false);
+        car = addCarToDatabase(car);
+        User.getInstance().setCurrentJourneyCar(car);
+    }
+
+    private Car addCarToDatabase(Car car) {
+        CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
+        db.open();
+        Car newCar = db.insertCar(car);
+        db.close();
+        return newCar;
+    }
+
+    // *** end of database related methods *** //
 }

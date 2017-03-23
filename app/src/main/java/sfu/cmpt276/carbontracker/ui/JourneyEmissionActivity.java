@@ -2,6 +2,7 @@ package sfu.cmpt276.carbontracker.ui;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +32,15 @@ public class JourneyEmissionActivity extends AppCompatActivity {
 
         setupShowTableButton();
         setuptxt();
+        tipsDialog();
+    }
+
+    private void tipsDialog() {
+        if (!User.getInstance().getJourneyList().isEmpty() || !User.getInstance().getUtilityList().getUtilities().isEmpty()) {
+            FragmentManager manager = getSupportFragmentManager();
+            TipDialogFragment tipDialog = new TipDialogFragment();
+            tipDialog.show(manager, "TipsDialog");
+        }
     }
 
     private void setuptxt() {
