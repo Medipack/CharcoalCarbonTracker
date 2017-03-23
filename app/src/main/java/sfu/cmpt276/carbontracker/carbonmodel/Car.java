@@ -1,5 +1,9 @@
 package sfu.cmpt276.carbontracker.carbonmodel;
 
+/**
+ * Class to hold data on car information, as per data entered by user
+ */
+
 import android.content.res.Resources;
 
 import java.io.Serializable;

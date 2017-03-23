@@ -6,8 +6,10 @@ import java.util.List;
 import sfu.cmpt276.carbontracker.ui.BillActivity;
 
 /**
- * Created by apple on 2017-03-17.
+ * /**
+ * List Class to hold data on montly utility, as per data entered by user based on fortisbc or bc hydro bill
  */
+
 
 public class UtilityList {
     private List<Utility> utilities = new ArrayList<>();

@@ -1,5 +1,9 @@
 package sfu.cmpt276.carbontracker.carbonmodel;
 
+/**
+ * Class to hold data on route list, as per data entered by user
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 
