@@ -331,6 +331,7 @@ public class RouteActivity extends AppCompatActivity {
         journey.setTotalDistance(citySaved + highwaySaved);
         User.getInstance().resetCurrentJourneyEmission();
 
+        /* // moved to PickDateActivity
         Log.i(TAG, "Saving Current Journey to Database");
 
         JourneyDataSource db = new JourneyDataSource(this);
@@ -339,6 +340,7 @@ public class RouteActivity extends AppCompatActivity {
         db.close();
 
         User.getInstance().addJourney(journey);
+        */
     }
 
     // *** Database related methods *** //

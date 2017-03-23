@@ -9,6 +9,10 @@ public class User {
 
     public static final int ACTIITY_FINISHED_REQUESTCODE = 1000;
 
+    public static final Car BUS = new Car(0, "Bus", 89, 89, Car.BUS);
+    public static final Car BIKE = new Car(1, "Bike", 0, 0, Car.WALK_BIKE);
+    public static final Car SKYTRAIN = new Car(2, "Skytrain", 89, 89, Car.SKYTRAIN);
+
     private CarListener carListener;
     private RouteListener routeListener;
 

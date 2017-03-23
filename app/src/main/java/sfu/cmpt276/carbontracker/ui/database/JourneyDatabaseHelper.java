@@ -20,7 +20,7 @@ class JourneyDatabaseHelper extends SQLiteOpenHelper {
     static final String COLUMN_DATE = "date";
 
     private static final String DATABASE_NAME = "journeys.db";
-    private static final int DATABASE_VERSION = 5; // update if Journey class is ever changed
+    private static final int DATABASE_VERSION = 9; // update if Journey class is ever changed
 
     // SQL command to create the database
     private static final String DATABASE_CREATE = "create table " +
