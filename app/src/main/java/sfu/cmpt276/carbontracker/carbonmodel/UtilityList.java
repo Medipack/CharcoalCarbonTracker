@@ -3,6 +3,7 @@ package sfu.cmpt276.carbontracker.carbonmodel;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Created by apple on 2017-03-17.
  */
@@ -14,14 +15,16 @@ public class UtilityList {
         return utilities;
     }
 
-    public void addUtility(Utility newUtility){
-        utilities.add(newUtility);
+    public void addUtility(Utility utility){
+        utilities.add(utility);
     }
 
-    public void editUtility(Utility editUtility, int index){
+    //edit the utility
+    public void editUtility(Utility utility, int index){
         validateIndexWithException(index);
+
         utilities.remove(index);
-        utilities.add(index, editUtility);
+        utilities.add(index, utility);
     }
     //remove utility
     public void removeUtility(int index){
@@ -45,7 +48,7 @@ public class UtilityList {
                 descriptions[i] = utility.getUtility_type() + ": \nfrom " + utility.getStartDate() + "\n" + "to " + utility.getEndDate()
                         + "\n" + utility.getDaysInPeriod() + " days in total\n" + utility.getNaturalGasUsed() + " used by " + utility.getNumberOfPeople()
                         + " people in home\n" + "current average is: " + utility.getAverageGJCurrent() + "GJ, previous average is: " + utility.getAverageGJPrevious()
-                        +  "GJ\npeople in home share: $" + utility.getPeopleShare() + "\nemission per person: " + utility.getPerPersonEmission()
+                        +  "GJ\npeople in home share: " + utility.getPeopleShare() + "\nemission per person: " + utility.getPerPersonEmission()
                         + "g\nemission per day: " + utility.getPerDayUsage() + "g";
             }
 
@@ -57,7 +60,6 @@ public class UtilityList {
                         + "g\nemission per day: " + utility.getPerDayUsage() + "g";
             }
         }
-
         return descriptions;
     }
 
@@ -67,6 +69,5 @@ public class UtilityList {
 
         }
     }
-
 }
 

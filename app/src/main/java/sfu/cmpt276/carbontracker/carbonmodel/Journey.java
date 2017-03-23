@@ -14,6 +14,7 @@ public class Journey {
     private static final double WALK_BIKE = 0; //kg of co2 per KM of travel
     private static final double SKYTRAIN = 0; //kg of co2 per KM of travel todo: verify skytrain emisisons
 
+    private int id = -1;
     private Car car;
     private Route route;
     private Date date;
@@ -24,11 +25,14 @@ public class Journey {
         car = new Car(); //initializes car as new car with default values
         route = new Route(); //initializes route as a new route with default values
         date = new Date(); //sets date to current date
-        totalDistance = route.getRouteDistanceCity() + route.getRouteDistanceHighway();
+        totalDistance = calculateTotalDistance();
         carbonEmitted = 0;
     }
+    private double calculateTotalDistance() {
+        return route.getRouteDistanceCity() + route.getRouteDistanceHighway();
+    }
 
-    public Journey(Car car, Route route) {
+    Journey(Car car, Route route) {
         this.car = car;
         this.route = route;
         date = new Date(); //sets date as current date
@@ -112,8 +116,18 @@ public class Journey {
         return route;
     }
 
+    //Add route and resets total distance and carbon emitted
     public void setRoute(Route route) {
         this.route = route;
+        totalDistance = calculateTotalDistance();
+        carbonEmitted = calculateCarbonEmission();
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

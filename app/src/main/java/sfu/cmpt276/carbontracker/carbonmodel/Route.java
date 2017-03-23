@@ -1,6 +1,7 @@
 package sfu.cmpt276.carbontracker.carbonmodel;
 
 public class Route {
+    private int id = -1;
     private boolean isActive;
     private String routeName;
     private double routeDistanceCity;
@@ -70,5 +71,21 @@ public class Route {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

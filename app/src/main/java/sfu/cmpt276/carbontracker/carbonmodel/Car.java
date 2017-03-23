@@ -22,11 +22,12 @@ public class Car implements Cloneable, Serializable{
 
     private static final double MPG_TO_KML = 0.425144;
     //Attributes
-    private String transport_mode;
-    private Boolean isActive;
+    private int id = -1;
+    private boolean isActive;
     private String nickname;
-    private String model;
+    private String transport_mode;
     private String make;
+    private String model;
     private String fuelType;
     private String transmission;
     private int year;
@@ -41,11 +42,28 @@ public class Car implements Cloneable, Serializable{
         model = DEFAULT_DESCRIPTION;
         make = DEFAULT_DESCRIPTION;
         transmission = DEFAULT_DESCRIPTION;
+        fuelType = DEFAULT_DESCRIPTION;
         year = 0;
         cityCO2 = 0;
         hwyCO2 = 0;
         engineDispl = 0;
         transport_mode = CAR;
+    }
+
+    //Constructor for public modes of transportation
+    public Car(int id, String nickname, double cityCO2, double hwyCO2, String transport_mode){
+        setId(id);
+        isActive = false;
+        this.nickname = nickname;
+        model = DEFAULT_DESCRIPTION;
+        make = DEFAULT_DESCRIPTION;
+        transmission = DEFAULT_DESCRIPTION;
+        fuelType = DEFAULT_DESCRIPTION;
+        year = 0;
+        this.cityCO2 = cityCO2;
+        this.hwyCO2 = hwyCO2;
+        engineDispl = 0;
+        setTransport_mode(transport_mode);
     }
 
     public Car(String nickname, String make, String model, int year){
@@ -87,8 +105,8 @@ public class Car implements Cloneable, Serializable{
 
     //Getter
 
-    public Boolean checkActive() {
-        return isActive;
+    public int getId() {
+        return id;
     }
 
     public String getShortDecription(){
@@ -149,9 +167,8 @@ public class Car implements Cloneable, Serializable{
 
     //Setter
 
-
-    public void setActive(Boolean active) {
-        isActive = active;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setNickname(String nickname) {
@@ -203,6 +220,7 @@ public class Car implements Cloneable, Serializable{
         double litres = gallons/GAL_TO_LITRES;
         return litres;
     }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
@@ -214,6 +232,19 @@ public class Car implements Cloneable, Serializable{
 
     public void setTransport_mode(String transport_mode) {
         this.transport_mode = transport_mode;
+    }
+
+    @Override
+    public String toString() {
+        return getShortDecription();
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }
 
