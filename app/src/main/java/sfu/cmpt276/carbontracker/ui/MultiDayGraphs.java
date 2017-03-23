@@ -62,7 +62,6 @@ public class MultiDayGraphs extends AppCompatActivity {
         {
             BarChart chart = (BarChart) findViewById(R.id.barChart);
             BarDataSet busSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet, carSet;
-
             List<BarEntry> busEntries = new ArrayList<>();
             List<BarEntry> skytrainEntries = new ArrayList<>();
             List<BarEntry> walk_bikeEntries = new ArrayList<>();
@@ -163,6 +162,7 @@ public class MultiDayGraphs extends AppCompatActivity {
             List<BarEntry> carEntries = new ArrayList<>();
             List<BarEntry> electricityEntries = new ArrayList<>();
             List<BarEntry> naturalGasEntries = new ArrayList<>();
+
             for(int m = 0; m < MONTH_COUNT; m++) //iterate through 12 months
             {
                 List<Float> temp_yValues = new ArrayList<>();
@@ -178,7 +178,6 @@ public class MultiDayGraphs extends AppCompatActivity {
                 Map<Car, Float> carMap = getCarEmissionTotalsFromJourneysInMonth(m);
                 carMap.size();
                 for(Map.Entry<Car, Float> entry : carMap.entrySet()) {
-                    Car car = entry.getKey();
                     Float emissionTotal = entry.getValue();
                     temp_yValues.add(emissionTotal);
                 }
