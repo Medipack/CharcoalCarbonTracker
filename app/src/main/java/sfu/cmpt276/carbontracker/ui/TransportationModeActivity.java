@@ -58,6 +58,13 @@ public class TransportationModeActivity extends AppCompatActivity {
     }
 
     private void populateCarListFromDatabase() {
+        CarDataSource dataSource = new CarDataSource(this);
+        dataSource.open();
+        dataSource.updateCar(User.BUS);
+        dataSource.updateCar(User.BIKE);
+        dataSource.updateCar(User.SKYTRAIN);
+
+        dataSource.close();
         // Check if car list already populated from database
         // This prevents duplicate entries from re-opening this activity
         if (!User.getInstance().isCarListPopulatedFromDatabase()) {
@@ -79,10 +86,10 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User user = User.getInstance();
-                 Car bike = new Car();
-                bike.setTransport_mode(Car.WALK_BIKE);
-                bike.setNickname("Bike");
-                user.setCurrentJourneyCar(bike);
+                //Car bike = new Car();
+                //bike.setTransport_mode(Car.WALK_BIKE);
+                //bike.setNickname("Bike");
+                user.setCurrentJourneyCar(User.BIKE);
                 Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
                 startActivityForResult(intent, 0);
             }
@@ -95,10 +102,10 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User user = User.getInstance();
-                Car skytrain = new Car();
-                skytrain.setTransport_mode(Car.SKYTRAIN);
-                skytrain.setNickname("Skytrain");
-                user.setCurrentJourneyCar(skytrain);
+                //Car skytrain = new Car();
+                //skytrain.setTransport_mode(Car.SKYTRAIN);
+                //skytrain.setNickname("Skytrain");
+                user.setCurrentJourneyCar(User.SKYTRAIN);
                 Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
                 startActivityForResult(intent, 0);
             }
@@ -111,9 +118,9 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User user = User.getInstance();
-                Car bus = new Car("Bus", 89, 89);
-                bus.setTransport_mode(Car.BUS);
-                user.setCurrentJourneyCar(bus);
+                //Car bus = new Car("Bus", 89, 89, Car.BUS);
+                //bus.setTransport_mode(Car.BUS);
+                user.setCurrentJourneyCar(User.BUS);
                 Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
                 startActivityForResult(intent, 0);
             }

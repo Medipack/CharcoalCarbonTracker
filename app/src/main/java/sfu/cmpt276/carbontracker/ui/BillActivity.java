@@ -1,15 +1,11 @@
 package sfu.cmpt276.carbontracker.ui;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import java.util.Calendar;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,15 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
-import sfu.cmpt276.carbontracker.carbonmodel.UtilityList;
 import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 
 public class BillActivity extends AppCompatActivity {
@@ -50,6 +44,8 @@ public class BillActivity extends AppCompatActivity {
     int editStartYear, editStartMonth, editStartDay;
     int editEndYear, editEndMonth, editEndDay;
 
+    private boolean startDateSet = false;
+    private boolean endDateSet = false;
 
     private EditText amountInput;
     private EditText peopleInput;
@@ -67,7 +63,6 @@ public class BillActivity extends AppCompatActivity {
     String tempPeriod;
     int position;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,15 +110,34 @@ public class BillActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Utility newUtility = new Utility();
-                amountInput = (EditText) findViewById(R.id.amountInput);
-                peopleInput = (EditText) findViewById(R.id.peopleInput);
-                currentAvgInput = (EditText) findViewById(R.id.currentAvgInput);
-                previousAvgInput = (EditText) findViewById(R.id.previousAvgInput);
 
+                amountInput = (EditText) findViewById(R.id.amountInput);
                 String str_amount = amountInput.getText().toString();
+                if(str_amount.length() == 0) {
+                    showErrorToast("Please enter the amount used");
+                    return;
+                }
+
+                peopleInput = (EditText) findViewById(R.id.peopleInput);
                 String str_people = peopleInput.getText().toString();
+                if(str_people.length() == 0) {
+                    showErrorToast("Please enter the number of people");
+                    return;
+                }
+
+                currentAvgInput = (EditText) findViewById(R.id.currentAvgInput);
                 String str_currentAvg = currentAvgInput.getText().toString();
+                if(str_currentAvg.length() == 0) {
+                    showErrorToast("Please enter the current average use");
+                    return;
+                }
+
+                previousAvgInput = (EditText) findViewById(R.id.previousAvgInput);
                 String str_previousAvg = previousAvgInput.getText().toString();
+                if(str_previousAvg.length() == 0) {
+                    showErrorToast("Please enter the previous average use");
+                    return;
+                }
 
                 if(gasRb.isChecked()){
                     newUtility.setUtility_type(Utility.GAS_NAME);
@@ -136,6 +150,19 @@ public class BillActivity extends AppCompatActivity {
                     newUtility.setElectricUsed(Double.parseDouble(str_amount));
                     newUtility.setAverageKWhCurrent(Double.parseDouble(str_currentAvg));
                     newUtility.setAverageKWhPrevious(Double.parseDouble(str_previousAvg));
+                } else {
+                    Toast.makeText(BillActivity.this, "Select Gas or Electricity", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(!startDateSet) {
+                    showErrorToast("Please enter a start date");
+                    return;
+                }
+
+                if(!endDateSet) {
+                    showErrorToast("Please enter an end date");
+                    return;
                 }
 
                 newUtility.setNumberOfPeople(Integer.parseInt(str_people));
@@ -150,13 +177,16 @@ public class BillActivity extends AppCompatActivity {
                     User.getInstance().EditUtilityIntoUtilityList(position, newUtility);
                 }
                 else {
-                    UtilityList tempList = User.getInstance().getUtilityList();
-                    tempList.addUtility(newUtility);
+                    addNewUtility(newUtility);
                 }
 
                 finish();
             }
         });
+    }
+
+    private void showErrorToast(String message) {
+        Toast.makeText(BillActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void addNewUtility(Utility utility) {
@@ -228,6 +258,7 @@ public class BillActivity extends AppCompatActivity {
 
             startDateText = (TextView) findViewById(R.id.startDateText);
             startDateText.setText(day_x + "/" + month_x + "/" + year_x);
+            startDateSet = true;
         }
     };
     private  DatePickerDialog.OnDateSetListener endDatePickerListener = new DatePickerDialog.OnDateSetListener() {
@@ -256,6 +287,7 @@ public class BillActivity extends AppCompatActivity {
             else {
                 endDateText = (TextView) findViewById(R.id.endDateText);
                 endDateText.setText(day_y + "/" + month_y  + "/" + year_y);
+                endDateSet = true;
             }
         }
     };
