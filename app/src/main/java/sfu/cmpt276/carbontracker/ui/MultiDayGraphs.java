@@ -188,6 +188,11 @@ public class MultiDayGraphs extends AppCompatActivity {
                     carEntries.add(new BarEntry(m, temp_yValues.get(u)));
                 }
 
+                float electricEmissions = getUtilityEmissionsForMonthForUtilityType(Utility.ELECTRICITY_NAME, m);
+                float gasEmissions = getUtilityEmissionsForMonthForUtilityType(Utility.GAS_NAME, m);
+                electricityEntries.add(new BarEntry(m, electricEmissions));
+                naturalGasEntries.add(new BarEntry(m, gasEmissions));
+
             }
             busSet = new BarDataSet(busEntries, "bus");
             carSet = new BarDataSet(carEntries, "cars");
@@ -239,9 +244,35 @@ public class MultiDayGraphs extends AppCompatActivity {
                 totalEmissions += journey.getCarbonEmitted();
             }
         }
-
         return totalEmissions;
+    }
 
+    private float getUtilityEmissionsForMonthForUtilityType(String utilityType, int m)
+    {
+        float totalEmissions = 0;
+        for(Utility utility: User.getInstance().getUtilityList().getUtilities())
+        {
+            List<Date> utilityDates = new ArrayList<>();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(utility.getStartDate());
+
+            while(calendar.getTime().before(utility.getEndDate()))
+            {
+                utilityDates.add(calendar.getTime());
+                calendar.add(Calendar.DATE, 1);
+            }
+
+            for(Date date: utilityDates) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                boolean isInMonth = cal.MONTH == m;
+                boolean isWantedUtilityType = utilityType.equals(utility.getUtility_type());
+                if (isInMonth && isWantedUtilityType) {
+                    totalEmissions += utility.getPerDayUsage();
+                }
+            }
+        }
+        return totalEmissions;
     }
 
     private Map<Car, Float> getCarEmissionTotalsFromJourneysInMonth(int m)
