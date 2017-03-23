@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.carbonmodel.Route;
-
+/*Class to hold list of all known routes*/
 
 public class RouteList {
     private List<Route> routes = new ArrayList<>();

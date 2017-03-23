@@ -25,7 +25,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
-
+/*activity to allow user to choose graph to be shown*/
 public class GraphActivity extends AppCompatActivity {
 
     public static final int DAYS_IN_FOUR_WEEKS = 28;

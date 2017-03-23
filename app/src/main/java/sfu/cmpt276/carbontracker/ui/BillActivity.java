@@ -25,7 +25,7 @@ import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
-
+/*Activity to display bills for user input*/
 public class BillActivity extends AppCompatActivity {
 
     private final String TAG = "BillActivity";
