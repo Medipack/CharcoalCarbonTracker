@@ -7,7 +7,7 @@ import java.util.List;
 
 
 /**
- * Created by apple on 2017-03-17.
+ * Class to hold list of all known utilities
  */
 
 public class UtilityList {

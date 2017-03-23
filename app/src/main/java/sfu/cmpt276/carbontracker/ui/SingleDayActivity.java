@@ -30,7 +30,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
-
+/*Activity to display graph for single day's data*/
 public class SingleDayActivity extends AppCompatActivity {
 
 

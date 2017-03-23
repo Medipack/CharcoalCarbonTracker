@@ -1,5 +1,5 @@
 package sfu.cmpt276.carbontracker.carbonmodel;
-
+/*Class to hold route data for journeys*/
 public class Route {
     private int id = -1;
     private boolean isActive;

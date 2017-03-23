@@ -19,7 +19,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.Route;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Car;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
-
+/*activity to display journey emission*/
 public class JourneyEmissionActivity extends AppCompatActivity {
 
     @Override

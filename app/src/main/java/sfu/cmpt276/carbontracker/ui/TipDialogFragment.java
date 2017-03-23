@@ -17,7 +17,7 @@ import java.util.List;
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 
-
+/*fragment to show user tips*/
 public class TipDialogFragment extends AppCompatDialogFragment {
 
     User user = User.getInstance();
