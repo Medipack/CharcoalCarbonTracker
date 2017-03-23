@@ -40,5 +40,4 @@ public class SelectTransportationActivity extends AppCompatActivity {
             }
         });
     }
-
 }

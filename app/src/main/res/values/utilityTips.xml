@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="electric_tips">
+        <item>Your total utilities CO2 emissions is %1$,.2f kg. Did you know that hanging laundry outside instead of using a tumble dryer can save ~153kg CO2 a year?</item>
+        <item>Your total utilities CO2 emissions is %1$,.2f kg. Consider turning down heating by 1 degree Celsius can reduce energy consumption by 8%%.</item>
+        <item>Your total utilities CO2 emissions is %1$,.2f kg. Consider using energy saving light bulbs; LEDs can save 90%% of lighting costs and compact fluorescent lights use 75 to 80%% less electricity.</item>
+        <item>Your total utilities CO2 emissions is %1$,.2f kg. Consider taking shorter showers; 15%% of a typical energy bill is spent heating water.</item>
+        <item>Your total utilities CO2 emissions is %1$,.2f kg. Have you considered buying a programmable thermostat?</item>
+        <item>Your total utilities CO2 emissions is %1$,.2f kg. When next you replace electrical appliances, look for an Energy Star logo </item>
+        <item>You have emitted %1$,.2f kg of CO2 with your electricity usage alone, consider switching to natural gas.</item>
+    </string-array>
+</resources>
