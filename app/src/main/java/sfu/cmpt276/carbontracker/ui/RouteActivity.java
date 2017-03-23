@@ -201,7 +201,7 @@ public class RouteActivity extends AppCompatActivity {
                                 newRoute = new Route(nameSaved, citySaved, highwaySaved);
                                 useNewRoute(newRoute);
 
-                                Intent intent = new Intent(RouteActivity.this, JourneyEmissionActivity.class);
+                                Intent intent = new Intent(RouteActivity.this, PickDateActivity.class);
                                 startActivityForResult(intent,0);
 
                                 viewDialog.cancel();

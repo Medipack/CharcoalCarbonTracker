@@ -1,14 +1,27 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.app.Activity;
+import android.support.v4.app.FragmentManager;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
@@ -51,6 +64,15 @@ public class UtilityActivity extends AppCompatActivity {
             }
             User.getInstance().setUtilityListPopulatedFromDatabase();
         }
+
+    }
+
+    private void tipDialogue() {
+        if (!User.getInstance().getJourneyList().isEmpty() || !User.getInstance().getUtilityList().getUtilities().isEmpty()) {
+            FragmentManager manager = getSupportFragmentManager();
+            TipDialogFragment tipDialog = new TipDialogFragment();
+            tipDialog.show(manager, "TipsDialog");
+        }
     }
 
     private void setupAddBtn() {
@@ -79,6 +101,8 @@ public class UtilityActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         populateListView();
+        User.getInstance().resetTips();
+        tipDialogue();
 
     }
 
