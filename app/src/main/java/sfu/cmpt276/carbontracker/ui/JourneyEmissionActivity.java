@@ -101,7 +101,7 @@ public class JourneyEmissionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        setResult(User.ACTIITY_FINISHED_REQUESTCODE);
+        setResult(User.ACTIVITY_FINISHED_REQUESTCODE);
         finish();
     }
 

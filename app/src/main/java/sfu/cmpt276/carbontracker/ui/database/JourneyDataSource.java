@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import sfu.cmpt276.carbontracker.carbonmodel.Car;
+import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.Route;
 
@@ -45,7 +45,7 @@ public class JourneyDataSource {
     public Journey insertJourney(Journey journey, Context context) {
         ContentValues values = new ContentValues();
 
-        values.put(JourneyDatabaseHelper.COLUMN_CAR_ID, journey.getCar().getId());
+        values.put(JourneyDatabaseHelper.COLUMN_CAR_ID, journey.getVehicle().getId());
         values.put(JourneyDatabaseHelper.COLUMN_ROUTE_ID, journey.getRoute().getId());
         values.put(JourneyDatabaseHelper.COLUMN_DATE, journey.getDate().getTime());
 
@@ -69,7 +69,7 @@ public class JourneyDataSource {
     public List<Journey> getAllJourneys(Context context) {
         List<Journey> journeys = new ArrayList<>();
 
-        CarDataSource car_db = new CarDataSource(context);
+        VehicleDataSource car_db = new VehicleDataSource(context);
         RouteDataSource route_db = new RouteDataSource(context);
 
         Cursor cursor = db.query(JourneyDatabaseHelper.TABLE_JOURNEYS, columns, null, null, null, null, null);
@@ -86,16 +86,16 @@ public class JourneyDataSource {
         return journeys;
     }
 
-    private Journey cursorToJourney(Cursor cursor, CarDataSource car_db, RouteDataSource route_db) {
+    private Journey cursorToJourney(Cursor cursor, VehicleDataSource vehicle_db, RouteDataSource route_db) {
         Journey journey = new Journey();
 
         journey.setId(cursor.getInt(0));
 
         // Get Car from Database
-        car_db.open();
-        Car car = car_db.getCarById(cursor.getInt(1));
-        journey.setCar(car);
-        car_db.close();
+        vehicle_db.open();
+        Vehicle car = vehicle_db.getCarById(cursor.getInt(1));
+        journey.setVehicle(car);
+        vehicle_db.close();
 
         // Get Route from Database
         route_db.open();
@@ -112,7 +112,7 @@ public class JourneyDataSource {
     }
 
     private Journey cursorToJourney(Cursor cursor, Context context) {
-        CarDataSource car_db = new CarDataSource(context);
+        VehicleDataSource car_db = new VehicleDataSource(context);
         RouteDataSource route_db = new RouteDataSource(context);
 
         return cursorToJourney(cursor, car_db, route_db);

@@ -2,14 +2,13 @@ package sfu.cmpt276.carbontracker.carbonmodel;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 /*Singleton class holding list of known cars, list of known routes, and list of known journeys*/
 public class User {
 
-    public static final int ACTIITY_FINISHED_REQUESTCODE = 1000;
+    public static final int ACTIVITY_FINISHED_REQUESTCODE = 1000;
 
     public static final Vehicle BUS = new Vehicle(0, "Bus", 89, 89, Vehicle.BUS);
     public static final Vehicle BIKE = new Vehicle(1, "Bike", 0, 0, Vehicle.WALK_BIKE);
@@ -226,7 +225,7 @@ public class User {
 
     private void notifyListenerCarWasEdited(){
         if(vehicleListener != null)
-            vehicleListener.carListWasEdited();
+            vehicleListener.vehicleListWasEdited();
         else
             throw new ExceptionInInitializerError("No one is listening to car list");
     }
@@ -250,7 +249,7 @@ public class User {
         double utilityEmissions = 0;
         if (!utilityList.getUtilities().isEmpty()) {
             for (int i = 0; i < journeyList.size(); i++) {
-                double carbonEmitted = utilityList.getUtility(i).getPerPersonEmission();
+                double carbonEmitted = utilityList.getUtility(i).getPerDayUsage();
                 if (carbonEmitted > utilityEmissions) {
                     utilityEmissions = carbonEmitted;
                 }
@@ -307,6 +306,7 @@ public class User {
     public List<String> getTips(){
         return tips;
     }
+
     // *** Database *** //
 
     public boolean isCarListPopulatedFromDatabase() {

@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +19,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
-import sfu.cmpt276.carbontracker.ui.database.CarDataSource;
+import sfu.cmpt276.carbontracker.ui.database.VehicleDataSource;
 import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
 import sfu.cmpt276.carbontracker.carbonmodel.VehicleListener;
 
@@ -56,22 +54,22 @@ public class TransportationModeActivity extends AppCompatActivity {
     }
 
     private void populateCarListFromDatabase() {
-        CarDataSource dataSource = new CarDataSource(this);
+        VehicleDataSource dataSource = new VehicleDataSource(this);
         dataSource.open();
-        dataSource.updateCar(User.BUS);
-        dataSource.updateCar(User.BIKE);
-        dataSource.updateCar(User.SKYTRAIN);
+        dataSource.updateVehicle(User.BUS);
+        dataSource.updateVehicle(User.BIKE);
+        dataSource.updateVehicle(User.SKYTRAIN);
 
         dataSource.close();
         // Check if car list already populated from database
         // This prevents duplicate entries from re-opening this activity
         if (!User.getInstance().isCarListPopulatedFromDatabase()) {
-            CarDataSource db = new CarDataSource(this);
+            VehicleDataSource db = new VehicleDataSource(this);
             db.open();
 
-            List<Car> cars = db.getAllCars();
+            List<Vehicle> cars = db.getAllCars();
             User user = User.getInstance();
-            for (Car car : cars) {
+            for (Vehicle car : cars) {
                 user.addCarToCarList(car);
             }
             User.getInstance().setCarListPopulatedFromDatabase();
@@ -201,12 +199,12 @@ public class TransportationModeActivity extends AppCompatActivity {
 
         @Nullable
         @Override
-        public Car getItem(int position) {
+        public Vehicle getItem(int position) {
             return super.getItem(position);
         }
 
         @Override
-        public void carListWasEdited() {
+        public void vehicleListWasEdited() {
             Log.i(TAG, "Vehicle List changed, updating listview");
             notifyDataSetChanged();
         }
@@ -263,7 +261,7 @@ public class TransportationModeActivity extends AppCompatActivity {
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {
+        if (resultCode == User.ACTIVITY_FINISHED_REQUESTCODE) {
             finish();
         }
     }

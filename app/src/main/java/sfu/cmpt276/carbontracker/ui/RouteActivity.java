@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +19,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
@@ -28,7 +26,6 @@ import sfu.cmpt276.carbontracker.carbonmodel.RouteListener;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.Route;
-import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 import sfu.cmpt276.carbontracker.ui.database.RouteDataSource;
 
 /*Displays know routes, allows for adding, editing, deleting routes*/
@@ -416,8 +413,8 @@ public class RouteActivity extends AppCompatActivity {
     // *** end of database related methods *** //
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {
-            setResult(User.ACTIITY_FINISHED_REQUESTCODE);
+        if (resultCode == User.ACTIVITY_FINISHED_REQUESTCODE) {
+            setResult(User.ACTIVITY_FINISHED_REQUESTCODE);
             finish();
         }
     }

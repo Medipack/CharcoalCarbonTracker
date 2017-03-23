@@ -29,7 +29,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
 import sfu.cmpt276.carbontracker.carbonmodel.VehicleDirectory;
 import sfu.cmpt276.carbontracker.carbonmodel.VehicleListener;
-import sfu.cmpt276.carbontracker.ui.database.CarDataSource;
+import sfu.cmpt276.carbontracker.ui.database.VehicleDataSource;
 
 /* Fragment for adding a new vehicle to vehicle list when creating a journey
 * */
@@ -94,10 +94,10 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 vehicle.setNickname(String.valueOf(nickname.getText()).trim());
 
                 if(editing) {
-                    editExistingCar(editCarPosition, car);
+                    editExistingCar(editCarPosition, vehicle);
 
                 } else {
-                    addNewCar(car);
+                    addNewCar(vehicle);
                 }
             }
         };
@@ -120,7 +120,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 vehicle.setNickname(String.valueOf(nickname.getText()).trim());
 
                 // Set current Journey to use the selected car
-                useNewCar(car);
+                useNewCar(vehicle);
 
                 Intent intent = new Intent(getActivity(), RouteActivity.class);
                 startActivityForResult(intent, 0);
@@ -170,7 +170,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 List<Vehicle> vehicleList = getCarList(vehicle.getMake(), vehicle.getModel(), String.valueOf(vehicle.getYear()));
                 detailedVehicleList.clear();
                 detailedVehicleList.addAll(vehicleList);
-                detailedVehicleListener.carListWasEdited();
+                detailedVehicleListener.vehicleListWasEdited();
                 //transmissionDisplacement.setEnabled(true);
             }
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -250,7 +250,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         }
 
         @Override
-        public void carListWasEdited() {
+        public void vehicleListWasEdited() {
             Log.i(TAG, "Vehicle List changed, updating listview");
             selectedIndex = 0;
             notifyDataSetChanged();
@@ -307,52 +307,52 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     // *** Add / Edit / Delete helper functions *** //
 
     private void deleteCar(int editCarPosition) {
-        Car car = User.getInstance().getCarList().get(editCarPosition);
+        Vehicle car = User.getInstance().getVehicleList().get(editCarPosition);
         Log.i(TAG, "Delete button clicked, hiding " + car);
         car.setActive(false);
 
-        CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
+        VehicleDataSource db = new VehicleDataSource(NewVehicleFragment.this.getContext());
         db.open();
-        db.updateCar(car);
+        db.updateVehicle(car);
         db.close();
 
         User.getInstance().removeCarFromCarList(car);
 
     }
 
-    private void editExistingCar(int editCarPosition, Car car) {
+    private void editExistingCar(int editCarPosition, Vehicle car) {
         Log.i(TAG, "Save edit button clicked");
         // Pass old car id to the new car
-        int oldCarId = User.getInstance().getCarList().get(editCarPosition).getId();
+        int oldCarId = User.getInstance().getVehicleList().get(editCarPosition).getId();
         car.setId(oldCarId);
         car.setActive(true);
 
-        CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
+        VehicleDataSource db = new VehicleDataSource(NewVehicleFragment.this.getContext());
         db.open();
-        db.updateCar(car);
+        db.updateVehicle(car);
         db.close();
 
         User.getInstance().editCarFromCarList(editCarPosition, car);
     }
 
-    private void addNewCar(Car car) {
+    private void addNewCar(Vehicle car) {
         Log.i(TAG, "Add button clicked");
         car.setActive(true);
         car = addCarToDatabase(car);
         User.getInstance().addCarToCarList(car);
     }
 
-    private void useNewCar(Car car) {
+    private void useNewCar(Vehicle car) {
         Log.i(TAG, "Use button clicked");
         car.setActive(false);
         car = addCarToDatabase(car);
         User.getInstance().setCurrentJourneyCar(car);
     }
 
-    private Car addCarToDatabase(Car car) {
-        CarDataSource db = new CarDataSource(NewVehicleFragment.this.getContext());
+    private Vehicle addCarToDatabase(Vehicle car) {
+        VehicleDataSource db = new VehicleDataSource(NewVehicleFragment.this.getContext());
         db.open();
-        Car newCar = db.insertCar(car);
+        Vehicle newCar = db.insertCar(car);
         db.close();
         return newCar;
     }
