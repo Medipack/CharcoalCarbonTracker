@@ -18,8 +18,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
+import sfu.cmpt276.carbontracker.carbonmodel.Journey;
+import sfu.cmpt276.carbontracker.carbonmodel.Utility;
+import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
+import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 
 public class GraphActivity extends AppCompatActivity {
 
