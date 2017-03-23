@@ -21,7 +21,7 @@ class RouteDatabaseHelper extends SQLiteOpenHelper {
     static final String COLUMN_HWY_DISTANCE = "hwy_distance";
 
     private static final String DATABASE_NAME = "routes.db";
-    private static final int DATABASE_VERSION = 4; // update if Route class is ever changed
+    private static final int DATABASE_VERSION = 10; // update if Route class is ever changed
 
     private final Context createContext;
 
