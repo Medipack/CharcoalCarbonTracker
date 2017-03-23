@@ -26,49 +26,49 @@ import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
-import sfu.cmpt276.carbontracker.carbonmodel.Car;
-import sfu.cmpt276.carbontracker.carbonmodel.CarDirectory;
-import sfu.cmpt276.carbontracker.carbonmodel.CarListener;
+import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
+import sfu.cmpt276.carbontracker.carbonmodel.VehicleDirectory;
+import sfu.cmpt276.carbontracker.carbonmodel.VehicleListener;
 import sfu.cmpt276.carbontracker.ui.database.CarDataSource;
 
-/* Fragment for adding a new car to car list when creating a journey
+/* Fragment for adding a new vehicle to vehicle list when creating a journey
 * */
 public class NewVehicleFragment extends AppCompatDialogFragment {
 
     private final int DEFAULT_EDIT_CAR_POSITION = -1;
     private final String TAG = "NewVehicleDialog";
-    private Car car;
-    private List<Car> detailedCarList;
-    private CarListener detailedCarListener;
+    private Vehicle vehicle;
+    private List<Vehicle> detailedVehicleList;
+    private VehicleListener detailedVehicleListener;
 
     private boolean editing = false;
     private int editCarPosition = DEFAULT_EDIT_CAR_POSITION;
 
-    private DetailedCarAdapter detailedCarArrayAdapter;
+    private DetailedVehicleAdapter detailedCarArrayAdapter;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        car = new Car();
+        vehicle = new Vehicle();
 
         if(getArguments() != null)
-            editCarPosition = getArguments().getInt("car", DEFAULT_EDIT_CAR_POSITION); // defaults to -1
+            editCarPosition = getArguments().getInt("vehicle", DEFAULT_EDIT_CAR_POSITION); // defaults to -1
 
         if(editCarPosition != DEFAULT_EDIT_CAR_POSITION)
         {
-            car = User.getInstance().getCarList().get(editCarPosition);
-            Log.i(TAG, "Editing car " + car.getShortDecription());
+            vehicle = User.getInstance().getVehicleList().get(editCarPosition);
+            Log.i(TAG, "Editing vehicle " + vehicle.getShortDecription());
             editing = true;
         }
 
         // Create the view
         final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
 
-        detailedCarList = new ArrayList<>();
+        detailedVehicleList = new ArrayList<>();
 
-        detailedCarArrayAdapter = new DetailedCarAdapter(getActivity());
-        detailedCarListener = (CarListener) detailedCarArrayAdapter;
+        detailedCarArrayAdapter = new DetailedVehicleAdapter(getActivity());
+        detailedVehicleListener = (VehicleListener) detailedCarArrayAdapter;
         ListView detailedCarListView = (ListView) view.findViewById(R.id.detailedCarList);
         detailedCarListView.setAdapter(detailedCarArrayAdapter);
 
@@ -76,9 +76,9 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // User has selected a vehicle
-                detailedCarList.get(i);
-                Log.i(TAG, "User selected vehicle \"" + car.getNickname()
-                        + "\" " + car.getMake() + " " + car.getModel());
+                detailedVehicleList.get(i);
+                Log.i(TAG, "User selected vehicle \"" + vehicle.getNickname()
+                        + "\" " + vehicle.getMake() + " " + vehicle.getModel());
                 detailedCarArrayAdapter.setSelectedIndex(i);
                 detailedCarArrayAdapter.notifyDataSetChanged();
             }
@@ -89,9 +89,9 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         DialogInterface.OnClickListener addListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                car = detailedCarArrayAdapter.getSelectedCar();
+                vehicle = detailedCarArrayAdapter.getSelectedCar();
                 EditText nickname = (EditText) view.findViewById(R.id.name);
-                car.setNickname(String.valueOf(nickname.getText()).trim());
+                vehicle.setNickname(String.valueOf(nickname.getText()).trim());
 
                 if(editing) {
                     editExistingCar(editCarPosition, car);
@@ -115,9 +115,9 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.i(TAG, "Use button clicked");
-                car = detailedCarArrayAdapter.getSelectedCar();
+                vehicle = detailedCarArrayAdapter.getSelectedCar();
                 EditText nickname = (EditText) view.findViewById(R.id.name);
-                car.setNickname(String.valueOf(nickname.getText()).trim());
+                vehicle.setNickname(String.valueOf(nickname.getText()).trim());
 
                 // Set current Journey to use the selected car
                 useNewCar(car);
@@ -139,15 +139,15 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         final Spinner modelSpinner = (Spinner)view.findViewById(R.id.model);
         final Spinner yearSpinner = (Spinner)view.findViewById(R.id.year);
 
-        populateSpinner(makeSpinner, getMakeList(), car.getMake());
+        populateSpinner(makeSpinner, getMakeList(), vehicle.getMake());
 
         makeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
 
-                car.setMake(parent.getItemAtPosition(position).toString());
-                populateSpinner(modelSpinner, getModelList(car.getMake()), String.valueOf(car.getModel()));
+                vehicle.setMake(parent.getItemAtPosition(position).toString());
+                populateSpinner(modelSpinner, getModelList(vehicle.getMake()), String.valueOf(vehicle.getModel()));
             }
             public void onNothingSelected(AdapterView<?> parent) {}
         });
@@ -156,8 +156,8 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                car.setModel(parent.getItemAtPosition(position).toString());
-                populateSpinner(yearSpinner, getYearList(car.getMake(), car.getModel()), String.valueOf(car.getYear()));
+                vehicle.setModel(parent.getItemAtPosition(position).toString());
+                populateSpinner(yearSpinner, getYearList(vehicle.getMake(), vehicle.getModel()), String.valueOf(vehicle.getYear()));
             }
             public void onNothingSelected(AdapterView<?> parent) {}
         });
@@ -165,12 +165,12 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                car.setYear(Integer.parseInt(parent.getItemAtPosition(position).toString()));
-                //populateSpinner(transmissionDisplacement, getCarList(car.getMake(), car.getModel(), car.getYear()));
-                List<Car> carList = getCarList(car.getMake(), car.getModel(), String.valueOf(car.getYear()));
-                detailedCarList.clear();
-                detailedCarList.addAll(carList);
-                detailedCarListener.carListWasEdited();
+                vehicle.setYear(Integer.parseInt(parent.getItemAtPosition(position).toString()));
+                //populateSpinner(transmissionDisplacement, getVehicleList(vehicle.getMake(), vehicle.getModel(), vehicle.getYear()));
+                List<Vehicle> vehicleList = getCarList(vehicle.getMake(), vehicle.getModel(), String.valueOf(vehicle.getYear()));
+                detailedVehicleList.clear();
+                detailedVehicleList.addAll(vehicleList);
+                detailedVehicleListener.carListWasEdited();
                 //transmissionDisplacement.setEnabled(true);
             }
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -179,12 +179,12 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         if(editing){
             // Build the dialog
             final String title;
-            if(car.getNickname().equals(new Car().getNickname()))
+            if(vehicle.getNickname().equals(new Vehicle().getNickname()))
                 title = "Edit Vehicle";
             else {
-                title = "Edit \"" + car.getNickname() + "\"";
+                title = "Edit \"" + vehicle.getNickname() + "\"";
                 TextView name = (TextView) view.findViewById(R.id.name);
-                name.setText(car.getNickname());
+                name.setText(vehicle.getNickname());
             }
 
             return new AlertDialog.Builder(getActivity())
@@ -206,12 +206,12 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         }
     }
 
-    private class DetailedCarAdapter extends ArrayAdapter<Car> implements CarListener{
+    private class DetailedVehicleAdapter extends ArrayAdapter<Vehicle> implements VehicleListener {
 
         private int selectedIndex = 0;
 
-        DetailedCarAdapter(Context context) {
-            super(context, R.layout.car_listview_item_dialog, detailedCarList);
+        DetailedVehicleAdapter(Context context) {
+            super(context, R.layout.car_listview_item_dialog, detailedVehicleList);
         }
 
         @NonNull
@@ -223,12 +223,12 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 itemView = LayoutInflater.from(NewVehicleFragment.this.getContext()).inflate(R.layout.car_listview_item_dialog, parent, false);
             }
 
-            // Get the current car
-            Car car = detailedCarList.get(position);
+            // Get the current vehicle
+            Vehicle vehicle = detailedVehicleList.get(position);
 
             // Fill the TextView
             final RadioButton selected = (RadioButton) itemView.findViewById(R.id.selectedRadioButton);
-            selected.setText(car.getTransmissionFuelTypeDispacementDescription());
+            selected.setText(vehicle.getTransmissionFuelTypeDispacementDescription());
 
             // Set the radiobutton
 
@@ -245,29 +245,29 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             selectedIndex = index;
         }
 
-        public Car getSelectedCar(){
-            return detailedCarList.get(selectedIndex);
+        public Vehicle getSelectedCar(){
+            return detailedVehicleList.get(selectedIndex);
         }
 
         @Override
         public void carListWasEdited() {
-            Log.i(TAG, "Car List changed, updating listview");
+            Log.i(TAG, "Vehicle List changed, updating listview");
             selectedIndex = 0;
             notifyDataSetChanged();
         }
     }
 
     @NonNull
-    private List<Car> getCarList(String make, String model, String year) {
+    private List<Vehicle> getCarList(String make, String model, String year) {
         String data = make+","+model+","+year;
-        List<Car> carList = User.getInstance().getMain().carList(data); //returns list of cars fitting the chosen make, model, year
-        return carList;
+        List<Vehicle> vehicleList = User.getInstance().getMain().carList(data); //returns list of cars fitting the chosen make, model, year
+        return vehicleList;
     }
 
     private List<String> getMakeList()
     {
         User user = User.getInstance();
-        CarDirectory directory = user.getMain();
+        VehicleDirectory directory = user.getMain();
         List<String> makeList = new ArrayList<>(directory.getMakeKeys());
         Collections.sort(makeList);
         return makeList;
@@ -276,7 +276,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     private List<String> getModelList(String make)
     {
         User user = User.getInstance();
-        CarDirectory directory = user.getMain();
+        VehicleDirectory directory = user.getMain();
         List<String> modelList = new ArrayList<>(directory.getModelKeys(make));
         Collections.sort(modelList);
         return modelList;
@@ -285,7 +285,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     private List<String> getYearList(String make, String model)
     {
         User user = User.getInstance();
-        CarDirectory directory = user.getMain();
+        VehicleDirectory directory = user.getMain();
         List<String> yearList = new ArrayList<>(directory.getYearKeys(make, model));
         Collections.sort(yearList, Collections.reverseOrder());
         return yearList;

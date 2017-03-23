@@ -8,7 +8,7 @@ import java.math.RoundingMode;
 
 import static java.security.AccessController.getContext;
 
-public class Car implements Cloneable, Serializable{
+public class Vehicle implements Cloneable, Serializable{
     //Constants
     public static final String CAR = "car";
     public static final String BUS = "bus";
@@ -36,7 +36,7 @@ public class Car implements Cloneable, Serializable{
     private double engineDispl;
 
     //Constructor
-    public Car(){
+    public Vehicle(){
         isActive = false;
         nickname = DEFAULT_NICKNAME;
         model = DEFAULT_DESCRIPTION;
@@ -51,7 +51,7 @@ public class Car implements Cloneable, Serializable{
     }
 
     //Constructor for public modes of transportation
-    public Car(int id, String nickname, double cityCO2, double hwyCO2, String transport_mode){
+    public Vehicle(int id, String nickname, double cityCO2, double hwyCO2, String transport_mode){
         setId(id);
         isActive = false;
         this.nickname = nickname;
@@ -66,7 +66,7 @@ public class Car implements Cloneable, Serializable{
         setTransport_mode(transport_mode);
     }
 
-    public Car(String nickname, String make, String model, int year){
+    public Vehicle(String nickname, String make, String model, int year){
         isActive = false;
         this.nickname = nickname;
         this.make = make;
@@ -75,7 +75,7 @@ public class Car implements Cloneable, Serializable{
         transport_mode = CAR;
     }
 
-    public Car(String nickname, String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
+    public Vehicle(String nickname, String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
         isActive = false;
         this.nickname = nickname;
         this.model = model;
@@ -89,7 +89,7 @@ public class Car implements Cloneable, Serializable{
         transport_mode = CAR;
     }
 
-    public Car(String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
+    public Vehicle(String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
         isActive = false;
         this.nickname = DEFAULT_NICKNAME;
         this.model = model;

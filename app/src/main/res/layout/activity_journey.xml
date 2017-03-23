@@ -57,11 +57,11 @@
             android:textStyle="normal|bold|italic" />
 
         <TextView
-            android:id="@+id/car"
+            android:id="@+id/vehicle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:text="@string/car"
+            android:text="@string/vehicle"
             android:textSize="14sp"
             android:textStyle="normal|bold|italic" />
 

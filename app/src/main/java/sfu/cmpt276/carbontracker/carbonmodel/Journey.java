@@ -3,7 +3,7 @@ package sfu.cmpt276.carbontracker.carbonmodel;
 import java.util.Date;
 
 /**
- * Class to hold Journey data and calculate carbon emission for journey. Journey is a combination of specific car, route, and date.
+ * Class to hold Journey data and calculate carbon emission for journey. Journey is a combination of specific vehicle, route, and date.
  */
 
 public class Journey {
@@ -15,25 +15,26 @@ public class Journey {
     private static final double SKYTRAIN = 0; //kg of co2 per KM of travel todo: verify skytrain emisisons
 
     private int id = -1;
-    private Car car;
+    private Vehicle vehicle;
     private Route route;
     private Date date;
     private double totalDistance;
     private double carbonEmitted;
 
     public Journey() {
-        car = new Car(); //initializes car as new car with default values
+        vehicle = new Vehicle(); //initializes vehicle as new vehicle with default values
         route = new Route(); //initializes route as a new route with default values
         date = new Date(); //sets date to current date
         totalDistance = calculateTotalDistance();
         carbonEmitted = 0;
     }
+
     private double calculateTotalDistance() {
         return route.getRouteDistanceCity() + route.getRouteDistanceHighway();
     }
 
-    Journey(Car car, Route route) {
-        this.car = car;
+    Journey(Vehicle vehicle, Route route) {
+        this.vehicle = vehicle;
         this.route = route;
         date = new Date(); //sets date as current date
         totalDistance = route.getRouteDistanceCity() + route.getRouteDistanceHighway();
@@ -43,23 +44,23 @@ public class Journey {
     public double calculateCarbonEmission() //returns kg of co2 for journey
     {
         double co2 = 0;
-        if(car.getTransport_mode().equals(Car.CAR)) {
-            double cityLitres = route.getRouteDistanceCity() / car.getCityCO2(); //cityCO2 is in km per litre, so divide distance by this to get litres used
-            double highwayLitres = route.getRouteDistanceHighway() / car.getHwyCO2();
-            if (car.getFuelType().contains("Gasoline")) //checks for all gasoline types
+        if(vehicle.getTransport_mode().equals(Vehicle.CAR)) {
+            double cityLitres = route.getRouteDistanceCity() / vehicle.getCityCO2(); //cityCO2 is in km per litre, so divide distance by this to get litres used
+            double highwayLitres = route.getRouteDistanceHighway() / vehicle.getHwyCO2();
+            if (vehicle.getFuelType().contains("Gasoline")) //checks for all gasoline types
                 co2 = GASOLINE;
-            else if (car.getFuelType().equals("Diesel"))
+            else if (vehicle.getFuelType().equals("Diesel"))
                 co2 = DIESEL;
             else
                 co2 = ELECTRIC;
             return Math.round(co2 * cityLitres + co2 * highwayLitres);
         }
         else {
-            if (car.getTransport_mode().equals(Car.BUS)) {
+            if (vehicle.getTransport_mode().equals(Vehicle.BUS)) {
                 co2 = BUS;
-            } else if (car.getTransport_mode().equals(Car.WALK_BIKE)) {
+            } else if (vehicle.getTransport_mode().equals(Vehicle.WALK_BIKE)) {
                 co2 = WALK_BIKE;
-            } else if (car.getTransport_mode().equals(Car.SKYTRAIN)) {
+            } else if (vehicle.getTransport_mode().equals(Vehicle.SKYTRAIN)) {
                 co2 = SKYTRAIN;
             }
             return co2 * totalDistance;
@@ -71,7 +72,7 @@ public class Journey {
     }
 
     public String getVehicleName() { //needed to populate table in total emissions screen
-        return car.getNickname();
+        return vehicle.getNickname();
     }
 
 
@@ -104,12 +105,12 @@ public class Journey {
     }
 
     //needed for editing cars/routes=>alters journeys
-    public Car getCar() {
-        return car;
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
-    public void setCar(Car car) {
-        this.car = car;
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 
     public Route getRoute() {

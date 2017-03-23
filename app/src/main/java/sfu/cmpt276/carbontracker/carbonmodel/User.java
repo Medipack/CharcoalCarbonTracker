@@ -15,13 +15,13 @@ public class User {
     public static final Car BIKE = new Car(1, "Bike", 0, 0, Car.WALK_BIKE);
     public static final Car SKYTRAIN = new Car(2, "Skytrain", 89, 89, Car.SKYTRAIN);
 
-    private CarListener carListener;
+    private VehicleListener vehicleListener;
     private RouteListener routeListener;
 
-    private List<Car> carList;
+    private List<Vehicle> vehicleList;
     private RouteList routeList;
     private List<Journey> journeyList;
-    private CarDirectory mainDirectory;
+    private VehicleDirectory mainDirectory;
     private UtilityList utilityList;
     private Journey currentJourney;
     private List<String> tips;
@@ -31,7 +31,7 @@ public class User {
     private boolean utilityListPopulatedFromDatabase = false;
 
     private User(){
-        carList = new ArrayList<>();
+        vehicleList = new ArrayList<>();
         routeList = new RouteList();
         currentJourney = new Journey();
         journeyList = new ArrayList<Journey>();
@@ -47,8 +47,8 @@ public class User {
         return instance;
     }
 
-    public List<Car> getCarList(){
-        return carList;
+    public List<Vehicle> getVehicleList(){
+        return vehicleList;
     }
 
     public RouteList getRouteList(){
@@ -59,7 +59,7 @@ public class User {
         return journeyList;
     }
 
-    public CarDirectory getMain(){
+    public VehicleDirectory getMain(){
         return mainDirectory;
     }
 
@@ -78,8 +78,8 @@ public class User {
         this.currentJourney = currentJourney;
     }
 
-    public void setCurrentJourneyCar(Car car){
-        currentJourney.setCar(car);
+    public void setCurrentJourneyCar(Vehicle vehicle){
+        currentJourney.setVehicle(vehicle);
     }
 
     public void setCurrentJourneyRoute(Route route){
@@ -100,38 +100,39 @@ public class User {
 
     // *** Modify lists *** //
 
-    public void addCarToCarList(Car car){
-        carList.add(car);
+    public void addCarToCarList(Vehicle vehicle){
+        vehicleList.add(vehicle);
         notifyListenerCarWasEdited();
     }
 
-    public void editCarFromCarList(int index, Car newCar){
-        Car oldCar = carList.get(index);
+    public void editCarFromCarList(int index, Vehicle newVehicle){
+        Vehicle oldVehicle = vehicleList.get(index);
         for(Journey journey : journeyList) {
-            if(journey.getCar() == oldCar) {
-                journey.setCar(newCar);
+            if(journey.getVehicle() == oldVehicle) {
+                journey.setVehicle(newVehicle);
                 journey.resetCarbonEmitted();
             }
         }
-        carList.set(index, newCar);
+        vehicleList.set(index, newVehicle);
         notifyListenerCarWasEdited();
     }
 
-    public void removeCarFromCarList(Car car){
+    public void removeCarFromCarList(Vehicle car){
         /*
+        Vehicle vehicle = vehicleList.get(index);
         for(Journey journey : journeyList){
-            if(journey.getCar() == car){
-                Car newCar = new Car();
+            if(journey.getVehicle() == vehicle){
+                Vehicle newVehicle = new Vehicle();
                 try{
-                    newCar = (Car) car.clone();
+                    newVehicle = (Vehicle) vehicle.clone();
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }
-                journey.setCar(newCar);
+                journey.setVehicle(newVehicle);
                 journey.resetCarbonEmitted();
             }
         }
-        carList.remove(car);
+        vehicleList.remove(car);
         */
         notifyListenerCarWasEdited();
     }
@@ -174,13 +175,13 @@ public class User {
         notifyListenerRouteWasEdited();
     }
 
+    public void addJourney(Vehicle vehicle, Route route) {
+        journeyList.add(new Journey(vehicle, route));
+    }
 
-    ////////
     public void EditUtilityIntoUtilityList(int index, Utility newUtility){
         //Utility oldUtility = utilityList.getUtility(index);
         utilityList.editUtility(newUtility, index);
-
-
     }
 
     public void addUtilityToUtilityList(Utility utility) {
@@ -203,7 +204,7 @@ public class User {
     // *** Directory *** //
 
     public void setUpDirectory(InputStream input){
-        mainDirectory = new CarDirectory(input);
+        mainDirectory = new VehicleDirectory(input);
     }
 
     public boolean directoryNotSetup(){
@@ -212,8 +213,8 @@ public class User {
 
     // *** Event Listeners *** //
 
-    public void setCarListener(CarListener listener){
-        carListener = listener;
+    public void setVehicleListener(VehicleListener listener){
+        vehicleListener = listener;
     }
 
     public void setRouteListener(RouteListener listener){
@@ -228,8 +229,8 @@ public class User {
     }
 
     private void notifyListenerCarWasEdited(){
-        if(carListener != null)
-            carListener.carListWasEdited();
+        if(vehicleListener != null)
+            vehicleListener.carListWasEdited();
         else
             throw new ExceptionInInitializerError("No one is listening to car list");
     }

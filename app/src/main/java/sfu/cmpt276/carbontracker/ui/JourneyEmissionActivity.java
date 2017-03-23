@@ -17,7 +17,7 @@ import java.math.RoundingMode;
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Route;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
-import sfu.cmpt276.carbontracker.carbonmodel.Car;
+import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 
 public class JourneyEmissionActivity extends AppCompatActivity {
@@ -66,18 +66,18 @@ public class JourneyEmissionActivity extends AppCompatActivity {
 
     private void setupTextViews(){
         Journey journey = User.getInstance().getCurrentJourney();
-        Car car = journey.getCar();
+        Vehicle vehicle = journey.getVehicle();
         Route route = journey.getRoute();
-        //todo change the grid data to include the extra car data & add params to format grid
+        //todo change the grid data to include the extra vehicle data & add params to format grid
         String[] gridData = {
                 getResources().getString(R.string.car_description), "",
-                getResources().getString(R.string.car_name), car.getNickname(),
-                getResources().getString(R.string.make),  car.getMake(),
-                getResources().getString(R.string.model), car.getModel(),
-                getResources().getString(R.string.fuel_type), car.getFuelType(),
-                getResources().getString(R.string.transmission), car.getTransmission(),
-                getResources().getString(R.string.year), String.valueOf(car.getYear()),
-                getResources().getString(R.string.displacement), String.valueOf(new BigDecimal(car.getEngineDispl()).setScale(2, RoundingMode.HALF_UP).doubleValue()),
+                getResources().getString(R.string.car_name), vehicle.getNickname(),
+                getResources().getString(R.string.make),  vehicle.getMake(),
+                getResources().getString(R.string.model), vehicle.getModel(),
+                getResources().getString(R.string.fuel_type), vehicle.getFuelType(),
+                getResources().getString(R.string.transmission), vehicle.getTransmission(),
+                getResources().getString(R.string.year), String.valueOf(vehicle.getYear()),
+                getResources().getString(R.string.displacement), String.valueOf(new BigDecimal(vehicle.getEngineDispl()).setScale(2, RoundingMode.HALF_UP).doubleValue()),
                 "", "",
                 getResources().getString(R.string.route_info), "",
                 getResources().getString(R.string.route_name), route.getRouteName(),
