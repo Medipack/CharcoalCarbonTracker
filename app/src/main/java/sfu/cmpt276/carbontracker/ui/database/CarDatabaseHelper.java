@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import sfu.cmpt276.carbontracker.carbonmodel.User;
+
 // Written with help from tutorial at http://www.vogella.com/tutorials/AndroidSQLite/article.html
 
 /**
@@ -28,7 +30,9 @@ class CarDatabaseHelper extends SQLiteOpenHelper {
     static final String COLUMN_ENGINEDISPL = "enginedispl";
 
     private static final String DATABASE_NAME = "cars.db";
-    private static final int DATABASE_VERSION = 6; // update if Car class is ever changed
+    private static final int DATABASE_VERSION = 9; // update if Car class is ever changed
+
+    private final Context createContext;
 
     // SQL command to create the database
     private static final String DATABASE_CREATE = "create table " +
@@ -48,6 +52,7 @@ class CarDatabaseHelper extends SQLiteOpenHelper {
 
     public CarDatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        createContext = context;
     }
 
     @Override
@@ -61,7 +66,9 @@ class CarDatabaseHelper extends SQLiteOpenHelper {
                 + oldVersion + " to " + newVersion + ", old data will be destroyed");
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CARS);
-        db.execSQL("DROP TABLE IF EXISTS " + JourneyDatabaseHelper.TABLE_JOURNEYS);
+
+        JourneyDatabaseHelper journey_db = new JourneyDatabaseHelper(createContext);
+        journey_db.onUpgrade(db, 0,0);
 
         onCreate(db);
     }

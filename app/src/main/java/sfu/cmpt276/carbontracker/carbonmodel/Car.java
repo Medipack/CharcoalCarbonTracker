@@ -51,7 +51,8 @@ public class Car implements Cloneable, Serializable{
     }
 
     //Constructor for public modes of transportation
-    public Car(String nickname, double cityCO2, double hwyCO2){
+    public Car(int id, String nickname, double cityCO2, double hwyCO2, String transport_mode){
+        setId(id);
         isActive = false;
         this.nickname = nickname;
         model = DEFAULT_DESCRIPTION;
@@ -62,7 +63,7 @@ public class Car implements Cloneable, Serializable{
         this.cityCO2 = cityCO2;
         this.hwyCO2 = hwyCO2;
         engineDispl = 0;
-        transport_mode = CAR;
+        setTransport_mode(transport_mode);
     }
 
     public Car(String nickname, String make, String model, int year){
