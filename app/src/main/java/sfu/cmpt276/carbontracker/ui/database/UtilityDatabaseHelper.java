@@ -30,7 +30,7 @@ class UtilityDatabaseHelper extends SQLiteOpenHelper {
 
 
     private static final String DATABASE_NAME = "utilities.db";
-    private static final int DATABASE_VERSION = 1; // update if utility class is ever changed
+    private static final int DATABASE_VERSION = 10; // update if utility class is ever changed
 
     // SQL command to create the database
     private static final String DATABASE_CREATE = "create table " +
