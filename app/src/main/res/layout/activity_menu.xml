@@ -27,7 +27,7 @@
         android:layout_marginEnd="25dp"
         android:id="@+id/viewCarbonTotalsBtn" />
     <TextView
-        android:text="Main Menu"
+        android:text="@string/main_menu"
         android:textColor="#231919"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,5 +1,6 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -133,7 +134,8 @@ public class EditJourneyActivity extends AppCompatActivity {
     private void updateDate(){
         EditText calendarDate = (EditText) findViewById(R.id.edit_journey_editable_date);
         String calendarFormat = "MM/dd/yy";
-        SimpleDateFormat sdf = new SimpleDateFormat(calendarFormat);
+        @SuppressLint
+                ("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat(calendarFormat);
         String journeyDate_str = sdf.format(calendar.getTime());
         calendarDate.setText(journeyDate_str);
     }

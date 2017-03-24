@@ -1,5 +1,6 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -253,7 +254,8 @@ public class BillActivity extends AppCompatActivity {
             day_x = dayOfMonth;
             startDate = new Date(year_x - 1900, month_x - 1, day_x);
 
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            @SuppressLint
+                    ("SimpleDateFormat") DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             str_startDate = df.format(startDate);
 
             startDateText = (TextView) findViewById(R.id.startDateText);
@@ -270,7 +272,8 @@ public class BillActivity extends AppCompatActivity {
             endDate = new Date(year_y - 1900, month_y - 1, day_y);
             long temp = endDate.getTime() - startDate.getTime();
 
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            @SuppressLint
+                    ("SimpleDateFormat") DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             str_endDate = df.format(endDate);
 
             period = temp/oneDay + 1;

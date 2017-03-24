@@ -1,5 +1,6 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ public class TipDialogFragment extends AppCompatDialogFragment {
         List<String> utilityTips = Arrays.asList(getResources().getStringArray(R.array.electric_tips));
         User.getInstance().compareEmissions(vehicleTips, utilityTips);
         //create view to show
-        View tipView = LayoutInflater.from(getActivity())
+        @SuppressLint("InflateParams") View tipView = LayoutInflater.from(getActivity())
                 .inflate(R.layout.tips_popup_layout, null);
         tipsCount = (TextView) tipView.findViewById(R.id.tips_tip_count);
         tipsText = (TextView) tipView.findViewById(R.id.tips_tipLocation);

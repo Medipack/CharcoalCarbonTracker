@@ -22,7 +22,8 @@
         android:textSize="24sp"
         android:layout_alignParentStart="true"
         android:layout_marginStart="10dp"
-        android:textStyle="normal|italic" />
+        android:textStyle="normal|italic"
+        tools:ignore="RelativeOverlap" />
 
     <Button
         android:id="@+id/journeyBtn"
@@ -31,7 +32,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="2dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
 
         android:layout_centerHorizontal="true"
         android:background="@mipmap/co2"

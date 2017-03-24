@@ -9,7 +9,7 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/editName"
-        android:hint="Name" />
+        android:hint="@string/name" />
 
     <EditText
         android:layout_width="match_parent"
@@ -17,29 +17,29 @@
         android:inputType="numberDecimal|numberSigned"
         android:ems="10"
         android:id="@+id/editCity"
-        android:hint="City Distance" />
+        android:hint="@string/city_distance" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/editHighway"
-        android:hint="Highway Distance"
+        android:hint="@string/highway_distance"
         android:inputType="numberDecimal|numberSigned" />
     <Button
-        android:text="SAVE EDIT"
+        android:text="@string/save_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editSave" />
 
     <Button
-        android:text="DELETE"
+        android:text="@string/delete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editDelete" />
 
     <Button
-        android:text="CANCEL"
+        android:text="@string/cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editCancel" />

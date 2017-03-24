@@ -1,5 +1,6 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,7 +46,8 @@ class JourneyListAdapter extends ArrayAdapter<Journey> {
         TextView emission = (TextView) journeyView.findViewById(R.id.viewEmission);
         //Fill the view
         //Date
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+        @SuppressLint
+                ("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
         String str_date = sdf.format(thisJourney.getDate());
         date.setText(str_date);
         //Nickname

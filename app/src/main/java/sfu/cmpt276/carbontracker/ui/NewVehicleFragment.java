@@ -1,5 +1,6 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -63,7 +64,8 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         }
 
         // Create the view
-        final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
+        @SuppressLint
+                ("InflateParams") final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
 
         detailedVehicleList = new ArrayList<>();
 
@@ -166,12 +168,10 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
                 vehicle.setYear(Integer.parseInt(parent.getItemAtPosition(position).toString()));
-                //populateSpinner(transmissionDisplacement, getVehicleList(vehicle.getMake(), vehicle.getModel(), vehicle.getYear()));
                 List<Vehicle> vehicleList = getCarList(vehicle.getMake(), vehicle.getModel(), String.valueOf(vehicle.getYear()));
                 detailedVehicleList.clear();
                 detailedVehicleList.addAll(vehicleList);
                 detailedVehicleListener.vehicleListWasEdited();
-                //transmissionDisplacement.setEnabled(true);
             }
             public void onNothingSelected(AdapterView<?> parent) {}
         });

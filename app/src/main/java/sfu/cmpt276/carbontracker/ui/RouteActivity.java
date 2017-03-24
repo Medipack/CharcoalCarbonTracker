@@ -249,8 +249,8 @@ public class RouteActivity extends AppCompatActivity {
                 Route editRoute = (Route) parent.getAdapter().getItem(position);
 
                 editName.setText(editRoute.getRouteName());
-                editCity.setText(Double.toString(editRoute.getRouteDistanceCity()));
-                editHighway.setText(Double.toString(editRoute.getRouteDistanceHighway()));
+                editCity.setText(String.format(Double.toString(editRoute.getRouteDistanceCity())));
+                editHighway.setText(String.format(Double.toString(editRoute.getRouteDistanceHighway())));
 
                 //edit route
                 editSave.setOnClickListener(new View.OnClickListener() {

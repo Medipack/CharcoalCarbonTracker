@@ -21,15 +21,16 @@
         android:id="@+id/utilityList"/>
 
     <Button
-        android:text="Add"
+        android:text="@string/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/addBillList" />
+        android:id="@+id/addBillList"
+        tools:ignore="RelativeOverlap" />
 
     <Button
-        android:text="View"
+        android:text="@string/view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -11,7 +11,7 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/routeName"
-        android:hint="Name" />
+        android:hint="@string/name" />
 
     <EditText
         android:layout_width="match_parent"
@@ -19,30 +19,30 @@
         android:inputType="numberDecimal|numberSigned"
         android:ems="10"
         android:id="@+id/routeCity"
-        android:hint="City Distance" />
+        android:hint="@string/city_distance" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/routeHighway"
-        android:hint="Highway Distance"
+        android:hint="@string/highway_distance"
         android:inputType="numberDecimal|numberSigned" />
 
     <Button
-        android:text="Save"
+        android:text="@string/save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/saveRoute" />
 
     <Button
-        android:text="USE"
+        android:text="@string/use"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/useRoute" />
 
     <Button
-        android:text="CANCEL"
+        android:text="@string/cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cancelRoute" />
