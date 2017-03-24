@@ -30,7 +30,9 @@ public class MenuActivity extends AppCompatActivity {
 
         setupCarbon();
         setupUtility();
+        setupGraph();
     }
+
 
     private void setupCarbon() {
         TextView carbon = (TextView) findViewById(R.id.carbon);
@@ -80,6 +82,18 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void setupGraph() {
+        Button showGraphBtn = (Button) findViewById(R.id.showGraphBtn);
+        showGraphBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MenuActivity.this, GraphActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 }

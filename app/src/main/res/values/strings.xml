@@ -54,4 +54,6 @@
     <string name="back">back</string>
     <string name="d_1_of_d_2">%1$d of %2$d</string>
     <string name="forward">forward</string>
+    <string name="choose_a_date">choose_a_date</string>
+    <string name="choose_a_date_to_check_data">choose_a_date_to_check_data</string>
 </resources>

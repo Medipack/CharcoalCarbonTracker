@@ -30,7 +30,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.Route;
 import sfu.cmpt276.carbontracker.carbonmodel.RouteList;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
-
+/* Activity to allow user to edit journey*/
 public class EditJourneyActivity extends AppCompatActivity {
 
     public static final int EDIT_CODE = 1000;

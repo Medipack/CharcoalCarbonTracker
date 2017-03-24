@@ -12,7 +12,7 @@ import org.w3c.dom.Text;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
-
+/*Activity for user to choose a tranposrtation mode for journey*/
 public class SelectTransportationActivity extends AppCompatActivity {
 
     @Override
