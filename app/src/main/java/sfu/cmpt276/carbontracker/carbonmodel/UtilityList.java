@@ -1,8 +1,6 @@
 package sfu.cmpt276.carbontracker.carbonmodel;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 
@@ -33,7 +31,7 @@ public class UtilityList {
         utilities.remove(index);
     }
     //count size of the utility
-    public int countUtility(){
+    private int countUtility(){
         return utilities.size();
     }
     //get utility in the utility list

@@ -34,9 +34,9 @@ public class User {
         vehicleList = new ArrayList<>();
         routeList = new RouteList();
         currentJourney = new Journey();
-        journeyList = new ArrayList<Journey>();
+        journeyList = new ArrayList<>();
         utilityList = new UtilityList();
-        tips = new ArrayList<String>();
+        tips = new ArrayList<>();
     }
 
     private static User instance = new User();
@@ -175,10 +175,6 @@ public class User {
         notifyListenerRouteWasEdited();
     }
 
-    public void addJourney(Vehicle vehicle, Route route) {
-        journeyList.add(new Journey(vehicle, route));
-    }
-
     public void addJourney(Journey journey){
         journeyList.add(journey);
     }
@@ -283,7 +279,7 @@ public class User {
         tips.clear();
     }
 
-    public void compareEmissions(List vehicleTips, List utilityTips){
+    public void compareEmissions(List<String> vehicleTips, List<String> utilityTips){
         if(vehicleMostEmissions()){
             shuffleTips(vehicleTips, utilityTips);
             vehiclesFirst(vehicleTips, utilityTips);
@@ -296,12 +292,12 @@ public class User {
         }
     }
 
-    private void utilitiesFirst(List vehicleTips, List utilityTips) {
+    private void utilitiesFirst(List<String> vehicleTips, List<String> utilityTips) {
         tips.addAll(utilityTips);
         tips.addAll(vehicleTips);
     }
 
-    private void vehiclesFirst(List vehicleTips, List utilityTips) {
+    private void vehiclesFirst(List<String> vehicleTips, List<String> utilityTips) {
         tips.addAll(vehicleTips);
         tips.addAll(utilityTips);
     }

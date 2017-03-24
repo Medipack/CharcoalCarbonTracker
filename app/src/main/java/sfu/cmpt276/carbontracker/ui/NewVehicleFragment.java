@@ -70,7 +70,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         detailedVehicleList = new ArrayList<>();
 
         detailedCarArrayAdapter = new DetailedVehicleAdapter(getActivity());
-        detailedVehicleListener = (VehicleListener) detailedCarArrayAdapter;
+        detailedVehicleListener = detailedCarArrayAdapter;
         ListView detailedCarListView = (ListView) view.findViewById(R.id.detailedCarList);
         detailedCarListView.setAdapter(detailedCarArrayAdapter);
 
@@ -260,8 +260,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     @NonNull
     private List<Vehicle> getCarList(String make, String model, String year) {
         String data = make+","+model+","+year;
-        List<Vehicle> vehicleList = User.getInstance().getMain().carList(data); //returns list of cars fitting the chosen make, model, year
-        return vehicleList;
+        return User.getInstance().getMain().carList(data);
     }
 
     private List<String> getMakeList()
@@ -293,10 +292,10 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
     private void populateSpinner(Spinner spinner, List<String> list, String compareValue) {
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item, list);
         spinner.setAdapter(adapter);
-        if(!compareValue.equals(null))
+        if(compareValue != null)
         {
             int position = adapter.getPosition(compareValue);
             spinner.setSelection(position);

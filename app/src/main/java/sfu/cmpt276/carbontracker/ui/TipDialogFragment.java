@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.util.Log;
@@ -21,11 +22,12 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 /*fragment to show user tips*/
 public class TipDialogFragment extends AppCompatDialogFragment {
 
-    User user = User.getInstance();
-    TextView tipsCount;
-    TextView tipsText;
-    int index = 0;
+    private User user = User.getInstance();
+    private TextView tipsCount;
+    private TextView tipsText;
+    private int index = 0;
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         List<String> vehicleTips = Arrays.asList(getResources().getStringArray(R.array.vehicle_tips));
@@ -94,7 +96,7 @@ public class TipDialogFragment extends AppCompatDialogFragment {
         int utilityTipCount = utilityTips.size();
         double emissions;
         String tip = user.getTips().get(index);
-        String formatTip = "";
+        String formatTip;
             if (!isVehicle) {
                 if (index < utilityTipCount) {
                     emissions = user.topUtilityEmissions();

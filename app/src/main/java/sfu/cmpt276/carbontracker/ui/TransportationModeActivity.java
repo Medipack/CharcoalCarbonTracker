@@ -131,15 +131,17 @@ public class TransportationModeActivity extends AppCompatActivity {
         user.setUpDirectory(inputStream);
     }
 
-    private void addTestVehicleToArray() {
-        User user = User.getInstance();
-
-        List<Vehicle> vehicleArrayList = user.getVehicleList();
-
-        vehicleArrayList.add(new Vehicle("My fav car", "Lamborghini", "Diablo", 1999));
-        vehicleArrayList.add(new Vehicle("The fun car", "Porsche", "911", 2017));
-        vehicleArrayList.add(new Vehicle("The Ancient One", "Honda", "Civic", 1985));
-    }
+// --Commented out by Inspection START (2017-03-23 6:39 PM):
+//    private void addTestVehicleToArray() {
+//        User user = User.getInstance();
+//
+//        List<Vehicle> vehicleArrayList = user.getVehicleList();
+//
+//        vehicleArrayList.add(new Vehicle("My fav car", "Lamborghini", "Diablo", 1999));
+//        vehicleArrayList.add(new Vehicle("The fun car", "Porsche", "911", 2017));
+//        vehicleArrayList.add(new Vehicle("The Ancient One", "Honda", "Civic", 1985));
+//    }
+// --Commented out by Inspection STOP (2017-03-23 6:39 PM)
 
     private void setupSelectModeTxt() {
         TextView selectTxt = (TextView) findViewById(R.id.selectMode);

@@ -92,7 +92,7 @@ public class JourneyEmissionActivity extends AppCompatActivity {
 
         GridView journeyGrid = (GridView) findViewById(R.id.journeyGRid);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, gridData);
         journeyGrid.setHorizontalSpacing(0);
         journeyGrid.setAdapter(adapter);

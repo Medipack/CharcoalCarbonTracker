@@ -33,13 +33,10 @@ import sfu.cmpt276.carbontracker.ui.database.RouteDataSource;
 public class RouteActivity extends AppCompatActivity {
 
     private final String TAG = "RouteActivity";
-    private int use_position;
 
     private String nameSaved;
     private double citySaved;
     private double highwaySaved;
-
-    private int route_position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,7 +213,6 @@ public class RouteActivity extends AppCompatActivity {
         listRoute.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                use_position = i;
                 // User has selected a route
                 Route route = (Route) adapterView.getAdapter().getItem(i);
                 //Route route = User.getInstance().getRouteList().getRoute(i);
@@ -232,7 +228,6 @@ public class RouteActivity extends AppCompatActivity {
         listRoute.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                route_position = position;
                 final Dialog editDialog = new Dialog(RouteActivity.this);
                 editDialog.setContentView(R.layout.route_edit_delete_layout);
                 editDialog.show();
@@ -249,8 +244,8 @@ public class RouteActivity extends AppCompatActivity {
                 Route editRoute = (Route) parent.getAdapter().getItem(position);
 
                 editName.setText(editRoute.getRouteName());
-                editCity.setText(String.format(Double.toString(editRoute.getRouteDistanceCity())));
-                editHighway.setText(String.format(Double.toString(editRoute.getRouteDistanceHighway())));
+                editCity.setText(Double.toString(editRoute.getRouteDistanceCity()));
+                editHighway.setText(Double.toString(editRoute.getRouteDistanceHighway()));
 
                 //edit route
                 editSave.setOnClickListener(new View.OnClickListener() {

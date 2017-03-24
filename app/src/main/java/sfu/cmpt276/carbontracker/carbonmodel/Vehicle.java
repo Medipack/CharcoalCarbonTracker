@@ -1,12 +1,8 @@
 package sfu.cmpt276.carbontracker.carbonmodel;
 
-import android.content.res.Resources;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
-import static java.security.AccessController.getContext;
 
 public class Vehicle implements Cloneable, Serializable{
     //Constants
@@ -196,13 +192,11 @@ public class Vehicle implements Cloneable, Serializable{
     }
 
     public void setCityCO2(int cityCO2) {
-        double CO2 = toLitres(toKM(cityCO2));
-        this.cityCO2 = CO2;
+        this.cityCO2 = toLitres(toKM(cityCO2));
     }
 
     public void setHwyCO2(int hwyCO2) {
-        double CO2 = toLitres(toKM(hwyCO2));
-        this.hwyCO2 = CO2;
+        this.hwyCO2 = toLitres(toKM(hwyCO2));
     }
 
     public void setEngineDispl(double engineDispl) {
@@ -211,14 +205,12 @@ public class Vehicle implements Cloneable, Serializable{
     }
 
     //Helper functions
-    double toKM(int miles){
-        double meters = miles * MILES_TO_KM;
-        return meters;
+    private double toKM(int miles){
+        return miles * MILES_TO_KM;
     }
 
-    double toLitres(double gallons){
-        double litres = gallons/GAL_TO_LITRES;
-        return litres;
+    private double toLitres(double gallons){
+        return gallons/GAL_TO_LITRES;
     }
 
     @Override

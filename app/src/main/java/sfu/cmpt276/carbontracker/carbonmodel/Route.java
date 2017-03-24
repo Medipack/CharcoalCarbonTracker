@@ -14,12 +14,6 @@ public class Route {
         routeDistanceHighway = 0;
     }
 
-    public Route(double distanceC, double distanceH) {
-        isActive = false;
-        routeDistanceCity = distanceC;
-        routeDistanceHighway = distanceH;
-    }
-
     public Route(String name, double distanceC, double distanceH) {
         isActive = false;
         routeName = name;

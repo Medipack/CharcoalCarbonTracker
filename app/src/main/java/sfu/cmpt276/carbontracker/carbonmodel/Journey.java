@@ -56,12 +56,16 @@ public class Journey {
             return Math.round(co2 * cityLitres + co2 * highwayLitres);
         }
         else {
-            if (vehicle.getTransport_mode().equals(Vehicle.BUS)) {
-                co2 = BUS;
-            } else if (vehicle.getTransport_mode().equals(Vehicle.WALK_BIKE)) {
-                co2 = WALK_BIKE;
-            } else if (vehicle.getTransport_mode().equals(Vehicle.SKYTRAIN)) {
-                co2 = SKYTRAIN;
+            switch (vehicle.getTransport_mode()) {
+                case Vehicle.BUS:
+                    co2 = BUS;
+                    break;
+                case Vehicle.WALK_BIKE:
+                    co2 = WALK_BIKE;
+                    break;
+                case Vehicle.SKYTRAIN:
+                    co2 = SKYTRAIN;
+                    break;
             }
             return co2 * totalDistance;
         }

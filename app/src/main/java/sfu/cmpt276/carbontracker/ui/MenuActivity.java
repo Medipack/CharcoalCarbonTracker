@@ -3,13 +3,10 @@ package sfu.cmpt276.carbontracker.ui;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.io.InputStream;
 

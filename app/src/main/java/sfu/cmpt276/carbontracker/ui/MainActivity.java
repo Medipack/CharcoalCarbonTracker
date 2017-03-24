@@ -14,7 +14,6 @@ import sfu.cmpt276.carbontracker.R;
 Main activity splash screen, displays welcome image and proceeds to main menu
  */
 public class MainActivity extends AppCompatActivity {
-    private static int welcomeTime = 6000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setupCar();
 
         setupWelcome();
+        int welcomeTime = 6000;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -1,11 +1,11 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.method.CharacterPickerDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -18,30 +18,25 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
-import sfu.cmpt276.carbontracker.carbonmodel.Journey;
-import sfu.cmpt276.carbontracker.carbonmodel.Utility;
-import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
-import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
+
 /*activity to allow user to choose graph to be shown*/
 public class GraphActivity extends AppCompatActivity {
 
-    public static final int DAYS_IN_FOUR_WEEKS = 28;
-    public static final int DAYS_IN_YEAR = 365;
+    private static final int DAYS_IN_FOUR_WEEKS = 28;
+    private static final int DAYS_IN_YEAR = 365;
     private RadioButton singleDay;
     private RadioButton last28Days;
     private RadioButton last365Days;
-    int year_default, month_default, day_default;
-    static final int DIALOG_ID = 0;
+    private int year_default;
+    private int month_default;
+    private int day_default;
+    private static final int DIALOG_ID = 0;
 
-    int check;
+    private int check;
 
-    Date singleDate;
-    String str_singleDate;
-
-    TextView singleDateText;
+    private String str_singleDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,9 +93,9 @@ public class GraphActivity extends AppCompatActivity {
             year_default = year;
             month_default = month + 1;
             day_default = dayOfMonth;
-            singleDate = new Date(year_default - 1900, month_default - 1, day_default);
+            Date singleDate = new Date(year_default - 1900, month_default - 1, day_default);
 
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             str_singleDate = df.format(singleDate);
 
             if(System.currentTimeMillis() < singleDate.getTime()){
@@ -108,7 +103,7 @@ public class GraphActivity extends AppCompatActivity {
             }
 
             else {
-                singleDateText = (TextView) findViewById(R.id.chosenDate);
+                TextView singleDateText = (TextView) findViewById(R.id.chosenDate);
                 singleDateText.setText(day_default + "/" + month_default + "/" + year_default);
                 check = 10;
             }

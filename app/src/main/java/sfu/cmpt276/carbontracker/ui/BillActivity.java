@@ -29,21 +29,18 @@ import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 /*Activity to display bills for user input*/
 public class BillActivity extends AppCompatActivity {
 
-    private final String TAG = "BillActivity";
+    private int year_x;
+    private int month_x;
+    private int day_x;
+    private int year_y;
+    private int month_y;
+    private int day_y;
+    private static final int DIALOG_ID = 0;
+    private static final int TO_DIALOG_ID = 1;
 
-    long oneDay = 1000 * 60 * 60 * 24;
-    long period;
-    int year_x, month_x, day_x;
-    int year_y, month_y, day_y;
-    static final int DIALOG_ID = 0;
-    static final int TO_DIALOG_ID = 1;
-
-    Date startDate;
-    Date endDate;
-    int tempMode;
-
-    int editStartYear, editStartMonth, editStartDay;
-    int editEndYear, editEndMonth, editEndDay;
+    private Date startDate;
+    private Date endDate;
+    private int tempMode;
 
     private boolean startDateSet = false;
     private boolean endDateSet = false;
@@ -55,14 +52,11 @@ public class BillActivity extends AppCompatActivity {
     private RadioButton gasRb;
     private RadioButton electricityRb;
 
-    String str_startDate;
-    String str_endDate;
+    private TextView startDateText;
+    private TextView endDateText;
 
-    TextView startDateText;
-    TextView endDateText;
-
-    String tempPeriod;
-    int position;
+    private String tempPeriod;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,6 +185,7 @@ public class BillActivity extends AppCompatActivity {
     }
 
     private void addNewUtility(Utility utility) {
+        String TAG = "BillActivity";
         Log.i(TAG, "Add button clicked");
         utility.setActive(true);
         utility = addUtilityToDatabase(utility);
@@ -256,7 +251,7 @@ public class BillActivity extends AppCompatActivity {
 
             @SuppressLint
                     ("SimpleDateFormat") DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-            str_startDate = df.format(startDate);
+            String str_startDate = df.format(startDate);
 
             startDateText = (TextView) findViewById(R.id.startDateText);
             startDateText.setText(day_x + "/" + month_x + "/" + year_x);
@@ -274,9 +269,10 @@ public class BillActivity extends AppCompatActivity {
 
             @SuppressLint
                     ("SimpleDateFormat") DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-            str_endDate = df.format(endDate);
+            String str_endDate = df.format(endDate);
 
-            period = temp/oneDay + 1;
+            long oneDay = 1000 * 60 * 60 * 24;
+            long period = temp / oneDay + 1;
             tempPeriod = Long.toString(period);
             if(startDate.getTime() >= endDate.getTime()){
                 Toast.makeText(BillActivity.this, "End date cannot before the start date", Toast.LENGTH_SHORT).show();
@@ -300,7 +296,7 @@ public class BillActivity extends AppCompatActivity {
     }
 
 
-    public void populateBill(int position)
+    private void populateBill(int position)
     {
         Utility utility = User.getInstance().getUtilityList().getUtility(position);
         amountInput = (EditText) findViewById(R.id.amountInput);
@@ -314,18 +310,18 @@ public class BillActivity extends AppCompatActivity {
         long startTimeInMillis = utility.getStartDate().getTime();
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis (startTimeInMillis);
-        editStartYear = calendar.get(Calendar.YEAR);
-        editStartMonth = calendar.get(Calendar.MONTH) + 1;
-        editStartDay = calendar.get(Calendar.DAY_OF_MONTH);
-        startDateText.setText(editStartDay + "/" + editStartMonth  + "/" + editStartYear);
+        int editStartYear = calendar.get(Calendar.YEAR);
+        int editStartMonth = calendar.get(Calendar.MONTH) + 1;
+        int editStartDay = calendar.get(Calendar.DAY_OF_MONTH);
+        startDateText.setText(editStartDay + "/" + editStartMonth + "/" + editStartYear);
 
         long endTimeInMillis = utility.getStartDate().getTime();
         Calendar calendar_end = Calendar.getInstance();
         calendar.setTimeInMillis (endTimeInMillis);
-        editEndYear = calendar_end.get(Calendar.YEAR);
-        editEndMonth = calendar_end.get(Calendar.MONTH) + 1;
-        editEndDay = calendar_end.get(Calendar.DAY_OF_MONTH);
-        endDateText.setText(editEndDay + "/" + editEndMonth  + "/" + editEndYear);
+        int editEndYear = calendar_end.get(Calendar.YEAR);
+        int editEndMonth = calendar_end.get(Calendar.MONTH) + 1;
+        int editEndDay = calendar_end.get(Calendar.DAY_OF_MONTH);
+        endDateText.setText(editEndDay + "/" + editEndMonth + "/" + editEndYear);
 
 
         peopleInput.setText(String.valueOf(utility.getNumberOfPeople()));

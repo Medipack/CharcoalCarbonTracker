@@ -1,10 +1,10 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -14,10 +14,9 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +25,6 @@ import java.util.Set;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
-import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
@@ -34,18 +32,10 @@ import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 public class SingleDayActivity extends AppCompatActivity {
 
 
-    String str_date;
-    Date singleDate;
-    Date startDate;
-    Date endDate;
+    private Date singleDate;
 
-    Date compareStartDate;
-    Date compareEndDate;
-
-    Double emissionShare;
-
-    List<Utility> utilityList;
-    List<Journey> journeyList;
+    private List<Utility> utilityList;
+    private List<Journey> journeyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +54,7 @@ public class SingleDayActivity extends AppCompatActivity {
         db.open();
         journeyList = db.getAllJourneys(this);
         db.close();
-        Set<Journey> journeySet = new HashSet<Journey>();
+        Set<Journey> journeySet = new HashSet<>();
         for(Journey journey : journeyList)
             journeySet.add(journey);
         journeyList.clear();
@@ -79,9 +69,10 @@ public class SingleDayActivity extends AppCompatActivity {
         db.close();
     }
 
+    @SuppressLint("SimpleDateFormat")
     private void setupSingleDayPieGraph() {
         Intent intent = getIntent();
-        str_date = intent.getStringExtra("date string");
+        String str_date = intent.getStringExtra("date string");
 
         //pie graph list
         List<PieEntry> pieEntries = new ArrayList<>();
@@ -90,7 +81,7 @@ public class SingleDayActivity extends AppCompatActivity {
         try {
             DateFormat formatter;
             formatter = new SimpleDateFormat("MM/dd/yyyy");
-            singleDate = (Date) formatter.parse(str_date);
+            singleDate = formatter.parse(str_date);
         } catch (Exception e) {
             finish();
         }
@@ -98,9 +89,10 @@ public class SingleDayActivity extends AppCompatActivity {
 
 
         for (Utility utility : utilityList) {
-            startDate = utility.getStartDate();
-            endDate = utility.getEndDate();
+            Date startDate = utility.getStartDate();
+            Date endDate = utility.getEndDate();
             //gas
+            Double emissionShare;
             if (Objects.equals(utility.getUtility_type(), Utility.GAS_NAME)) {
                 //selected date in the period of one date
                 if (singleDate.getTime() >= startDate.getTime() && singleDate.getTime() <= endDate.getTime()) {
@@ -118,14 +110,12 @@ public class SingleDayActivity extends AppCompatActivity {
                     //selected date later than the end date of bill
                     //e.g. choose: Mar3, bill[i]: Feb8-Feb28
                     if (singleDate.getTime() > endDate.getTime()) {
-                        compareEndDate = endDate;
 
                     }
 
                     //selected date earlier than the start date of bill
                     //e.g. choose: Mar3, bill[i]: Mar8-Mar29
                     else if (singleDate.getTime() < startDate.getTime()) {
-                        compareStartDate = startDate;
                     }
 
                 }
@@ -150,13 +140,11 @@ public class SingleDayActivity extends AppCompatActivity {
                     //selected date later than the end date of bill
                     //e.g. choose: Mar3, bill[i]: Feb8-Feb28
                     if (singleDate.getTime() > endDate.getTime()) {
-                        compareEndDate = endDate;
                     }
 
                     //selected date earlier than the start date of bill
                     //e.g. choose: Mar3, bill[i]: Mar8-Mar29
                     else if (singleDate.getTime() < startDate.getTime()) {
-                        compareStartDate = startDate;
                     }
 
                 }
@@ -176,12 +164,18 @@ public class SingleDayActivity extends AppCompatActivity {
         }
         */
             for(Journey journey : journeyList) {
-                if(journey.getDate().getYear() == singleDate.getYear()
-                        && journey.getDate().getMonth() == singleDate.getMonth()
-                        && journey.getDate().getDay() == singleDate.getDay()) {
-                    String name = journey.getCar().getShortDecription() + " : " + journey.getRoute().getRouteName();
+                Calendar journeyDate = Calendar.getInstance();
+                journeyDate.setTime(journey.getDate());
+                Calendar singleDate_cal = Calendar.getInstance();
+                singleDate_cal.setTime(singleDate);
+                if(journeyDate.YEAR == singleDate_cal.YEAR
+                        && journeyDate.MONTH == singleDate_cal.MONTH
+                        && journeyDate.MONTH == singleDate_cal.MONTH) {
+                    String name = journey.getVehicle()
+                            .getShortDecription() + " : " + journey.getRoute().getRouteName();
                     float value = (float) journey.getCarbonEmitted();
-                    Log.i("SingleDayActivity", "Adding " + journey.getId() + " : " + name + " with carbon output of " + value);
+                    Log.i("SingleDayActivity",
+                            "Adding " + journey.getId() + " : " + name + " with carbon output of " + value);
                     pieEntries.add(new PieEntry(value, name));
                 }
             }

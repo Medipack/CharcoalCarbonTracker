@@ -15,7 +15,6 @@ import android.widget.ListView;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
-import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 /* Activity that displays carbon footprint in form of table of journeys or pie graph*/
@@ -23,7 +22,7 @@ import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 public class JourneyActivity extends AppCompatActivity {
     private static final String TAG = "JourneyActivity";
 
-    public static final int EDIT_CODE = 1000;
+    private static final int EDIT_CODE = 1000;
 
     private JourneyDataSource db;
     private List<Journey> journeyList;

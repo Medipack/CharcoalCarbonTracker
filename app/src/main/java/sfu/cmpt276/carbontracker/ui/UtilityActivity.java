@@ -1,27 +1,16 @@
 package sfu.cmpt276.carbontracker.ui;
 
-import android.app.Activity;
 import android.support.v4.app.FragmentManager;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
@@ -31,9 +20,9 @@ import sfu.cmpt276.carbontracker.carbonmodel.UtilityList;
 import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 /*Main utility activity to show utilities and allow use to add new ones*/
 public class UtilityActivity extends AppCompatActivity {
-    ListView list;
-    int edit_position;
-    int mode;
+    private ListView list;
+    private int edit_position;
+    private int mode;
 
     private UtilityList myUtility = User.getInstance().getUtilityList();
 

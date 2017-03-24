@@ -5,8 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import sfu.cmpt276.carbontracker.carbonmodel.User;
-
 // Written with help from tutorial at http://www.vogella.com/tutorials/AndroidSQLite/article.html
 
 /**

@@ -19,9 +19,7 @@ import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 /*Activity to allow user to pick date for journeys*/
 public class PickDateActivity extends AppCompatActivity {
 
-    private final String TAG = "PickDateActivity";
-
-    Calendar calendar;
+    private Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +60,12 @@ public class PickDateActivity extends AppCompatActivity {
         });
     }
 
-        public void setJourneyDate(Date date) {
+        private void setJourneyDate(Date date) {
             User.getInstance().getCurrentJourney().setDate(date);
         }
 
         private void saveCurrentJourneyToDatabase() {
+            String TAG = "PickDateActivity";
             Log.i(TAG, "Saving Current Journey to Database");
 
             Journey journey = User.getInstance().getCurrentJourney();

@@ -15,7 +15,6 @@ import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
-import sfu.cmpt276.carbontracker.carbonmodel.User;
 
 /**
  * A custom array adapter for the purposes of creating a multicolumn Listview
@@ -30,6 +29,7 @@ class JourneyListAdapter extends ArrayAdapter<Journey> {
         this.journeyList = journeyList;
     }
 
+    @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View journeyView = convertView;

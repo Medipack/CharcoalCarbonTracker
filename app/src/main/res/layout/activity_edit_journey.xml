@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/backk6"
     tools:context="sfu.cmpt276.carbontracker.ui.EditJourneyActivity">
 
     <RelativeLayout
@@ -63,7 +61,6 @@
         android:layout_alignParentStart="true" />
 
     <RelativeLayout
-        android:id="@+id/editDateLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/editRouteLayout"
@@ -82,6 +79,7 @@
 
         <EditText
             android:id="@+id/edit_journey_editable_date"
+            android:hint="@string/date"
             android:labelFor="@id/edit_journey_editable_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,7 +88,7 @@
             android:layout_marginStart="34dp"
             android:layout_toEndOf="@+id/edit_journey_date"
             android:ems="10"
-            android:inputType="none" />
+            android:inputType="date" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -109,7 +107,6 @@
             android:background="@mipmap/routee2" />
 
         <RelativeLayout
-            android:id="@+id/routeListLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -127,7 +124,6 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/edit_journey_route"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -140,7 +136,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/editCarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"

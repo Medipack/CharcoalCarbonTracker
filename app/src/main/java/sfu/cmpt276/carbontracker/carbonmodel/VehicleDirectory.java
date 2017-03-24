@@ -50,27 +50,24 @@ public class VehicleDirectory {
     }
 
     public Set<String> getModelKeys(String Make){
-        Set<String> keys = mainList.get(Make).keySet();
-        return keys;
+        return mainList.get(Make).keySet();
     }
 
     public Set<String> getYearKeys(String make, String model){
-        Set<String> keys = mainList.get(make).get(model).keySet();
-        return keys;
+        return mainList.get(make).get(model).keySet();
     }
 
     //Creates a list of each line read into program
     //Takes at LEAST three tokens: Make, Model and Year
-    public List<String> getDataList(String[] token){
+    private List<String> getDataList(String[] token){
         String make = token[0];
         String model = token[1];
         String year = token[2];
-        List<String> stringList = mainList.get(make).get(model).get(year);
-        return stringList;
+        return mainList.get(make).get(model).get(year);
     }
 
     //Creates a profile based on data read from line
-    public Vehicle makeProfile(String data){
+    private Vehicle makeProfile(String data){
         String[] token = getTokens(data);
         String make = token[0];
         String model = token[1];
@@ -86,8 +83,7 @@ public class VehicleDirectory {
             Log.i("MakeProfile", make + " " + model + " does not have engine displacement. Defaulting to 0");
         }
         //make new Vehicle class
-        Vehicle temp = new Vehicle(make, model, year, fuelType, transmission, cityCO2, hwyCO2, enginedisp);
-        return temp;
+        return new Vehicle(make, model, year, fuelType, transmission, cityCO2, hwyCO2, enginedisp);
     }
 
     //gives a list of cars objects
@@ -95,7 +91,7 @@ public class VehicleDirectory {
     public List<Vehicle> carList(String data){
         String[] tokens = getTokens(data);
         List<String> dataList = getDataList(tokens);
-        List<Vehicle> list = new ArrayList<Vehicle>();
+        List<Vehicle> list = new ArrayList<>();
         for (int i = 0; i<dataList.size(); i++){
             list.add(makeProfile(dataList.get(i)));
         }

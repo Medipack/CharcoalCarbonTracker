@@ -1,5 +1,6 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,10 +26,9 @@ import java.util.Map;
 import java.util.Set;
 
 import sfu.cmpt276.carbontracker.R;
-import sfu.cmpt276.carbontracker.carbonmodel.Car;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
-import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
+import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
 import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 
@@ -36,12 +36,12 @@ import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 
 public class MultiDayGraphs extends AppCompatActivity {
 
-    public static final int DAYS_IN_4_WEEKS = 28;
-    public static final int DAYS_IN_YEAR = 365;
-    public static final int MONTH_COUNT = 12;
+    private static final int DAYS_IN_4_WEEKS = 28;
+    private static final int DAYS_IN_YEAR = 365;
+    private static final int MONTH_COUNT = 12;
 
-    List<Utility> mainUtilityList;
-    List<Journey> mainJourneyList;
+    private List<Utility> mainUtilityList;
+    private List<Journey> mainJourneyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class MultiDayGraphs extends AppCompatActivity {
         db.open();
         mainJourneyList = db.getAllJourneys(this);
         db.close();
-        Set<Journey> journeySet = new HashSet<Journey>();
+        Set<Journey> journeySet = new HashSet<>();
         for(Journey journey : mainJourneyList)
             journeySet.add(journey);
         mainJourneyList.clear();
@@ -111,17 +111,17 @@ public class MultiDayGraphs extends AppCompatActivity {
         {
             List<Float> temp_yValues = new ArrayList<>();
 
-            float busEmissions = getJourneyEmissionsForMonthForTransportType(m, Car.BUS);
-            float skytrainEmissions = getJourneyEmissionsForMonthForTransportType(m, Car.SKYTRAIN);
-            float walk_bikeEmissions = getJourneyEmissionsForMonthForTransportType(m, Car.WALK_BIKE);
+            float busEmissions = getJourneyEmissionsForMonthForTransportType(m, Vehicle.BUS);
+            float skytrainEmissions = getJourneyEmissionsForMonthForTransportType(m, Vehicle.SKYTRAIN);
+            float walk_bikeEmissions = getJourneyEmissionsForMonthForTransportType(m, Vehicle.WALK_BIKE);
 
             busEntries.add(new BarEntry(m, busEmissions));
             skytrainEntries.add(new BarEntry(m, skytrainEmissions));
             walk_bikeEntries.add(new BarEntry(m, walk_bikeEmissions));
 
-            Map<Car, Float> carMap = getCarEmissionTotalsFromJourneysInMonth(m);
+            Map<Vehicle, Float> carMap = getVehicleEmissionTotalsFromJourneysInMonth(m);
             carMap.size();
-            for(Map.Entry<Car, Float> entry : carMap.entrySet()) {
+            for(Map.Entry<Vehicle, Float> entry : carMap.entrySet()) {
                 Float emissionTotal = entry.getValue();
                 temp_yValues.add(emissionTotal);
             }
@@ -201,10 +201,10 @@ public class MultiDayGraphs extends AppCompatActivity {
             }
 
             List<Float> temp_yValues = new ArrayList<>();
-            List<Journey> journeys = getJourneysForTransportModeOnDate(dateList.get(i), Car.CAR);
-            Map<Car, Float> carMap = getCarEmissionTotalsFromJourneys(journeys);
+            List<Journey> journeys = getJourneysForTransportModeOnDate(dateList.get(i), Vehicle.CAR);
+            Map<Vehicle, Float> carMap = getCarEmissionTotalsFromJourneys(journeys);
             carMap.size();
-            for(Map.Entry<Car, Float> entry : carMap.entrySet()) {
+            for(Map.Entry<Vehicle, Float> entry : carMap.entrySet()) {
                 Float emissionTotal = entry.getValue();
                 temp_yValues.add(emissionTotal);
             }
@@ -215,11 +215,11 @@ public class MultiDayGraphs extends AppCompatActivity {
                 entries.add(new BarEntry(c, temp_yValues.get(u)));
             }
 
-            busEntries.add(new BarEntry(c, (float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.BUS)));
-            skytrainEntries.add(new BarEntry(c, (float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.SKYTRAIN)));
-            walk_bikeEntries.add(new BarEntry(c, (float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Car.WALK_BIKE)));
+            busEntries.add(new BarEntry(c, (float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Vehicle.BUS)));
+            skytrainEntries.add(new BarEntry(c, (float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Vehicle.SKYTRAIN)));
+            walk_bikeEntries.add(new BarEntry(c, (float)getTotalEmissionsForTransportModeOnDate(dateList.get(i), Vehicle.WALK_BIKE)));
             Date date = dateList.get(i);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 Date formatDate = sdf.parse(sdf.format(date));
                 xAxisValues[i] = String.valueOf(sdf.format(formatDate));
@@ -271,7 +271,7 @@ public class MultiDayGraphs extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(journey.getDate());
             boolean isInMonth = calendar.MONTH == m;
-            boolean isWantedTransportMode = journey.getCar().getTransport_mode().equals(transportModeWanted);
+            boolean isWantedTransportMode = journey.getVehicle().getTransport_mode().equals(transportModeWanted);
             if(isInMonth && isWantedTransportMode)
             {
                 totalEmissions += journey.getCarbonEmitted();
@@ -308,32 +308,33 @@ public class MultiDayGraphs extends AppCompatActivity {
         return totalEmissions;
     }
 
-    private Map<Car, Float> getCarEmissionTotalsFromJourneysInMonth(int m)
+    private Map<Vehicle, Float> getVehicleEmissionTotalsFromJourneysInMonth(int month)
     {
         List<Journey> journeyList = new ArrayList<>();
         for(Journey journey: mainJourneyList)
         {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(journey.getDate());
-            boolean isInMonth = calendar.MONTH == m;
-            boolean isCar = journey.getCar().getTransport_mode().equals(Car.CAR);
+            boolean isInMonth = calendar.MONTH == month;
+            boolean isCar = journey.getVehicle().getTransport_mode().equals(Vehicle.CAR);
             if(isInMonth && isCar)
             {
                 journeyList.add(journey);
             }
         }
-        Map<Car, Float> map = new HashMap<>();
+        Map<Vehicle, Float> map = new HashMap<>();
         for(Journey journey: journeyList)
         {
-            if(!map.containsKey(journey.getCar()))
+            Vehicle vehicle = journey.getVehicle();
+            if(!map.containsKey(vehicle))
             {
-                map.put(journey.getCar(), (float)journey.getCarbonEmitted());
+                map.put(vehicle, (float)journey.getCarbonEmitted());
             }
             else
             {
-                float temp = map.get(journey.getCar());
+                float temp = map.get(vehicle);
                 temp += journey.getCarbonEmitted();
-                map.put(journey.getCar(), temp);
+                map.put(vehicle, temp);
             }
         }
         return map;
@@ -351,7 +352,7 @@ public class MultiDayGraphs extends AppCompatActivity {
         return totalEmissions;
     }
 
-    public List<Date> getDateList(int daysInPeriod) //gets dates in period
+    private List<Date> getDateList(int daysInPeriod) //gets dates in period
     {
         List<Date> dateList = new ArrayList<>(daysInPeriod);
         for (int i=0; i < daysInPeriod; i++) {
@@ -367,11 +368,11 @@ public class MultiDayGraphs extends AppCompatActivity {
         List<Journey> journeyList = new ArrayList<>();
         for(Journey journey: mainJourneyList)
         {
-            Car car = journey.getCar();
+            Vehicle car = journey.getVehicle();
             Date journeyDateWithoutTime = new Date();
             Date dateWantedWithoutTime = new Date();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 journeyDateWithoutTime = sdf.parse(sdf.format(journey.getDate()));
                 dateWantedWithoutTime = sdf.parse(sdf.format(dateWanted));
@@ -411,20 +412,20 @@ public class MultiDayGraphs extends AppCompatActivity {
         return mainJourneyList;
     }*/
 
-    private Map<Car, Float> getCarEmissionTotalsFromJourneys(List<Journey> journeyList)
+    private Map<Vehicle, Float> getCarEmissionTotalsFromJourneys(List<Journey> journeyList)
     {
-        Map<Car, Float> map = new HashMap<>();
+        Map<Vehicle, Float> map = new HashMap<>();
         for(Journey journey: journeyList)
         {
-            if(!map.containsKey(journey.getCar()))
+            if(!map.containsKey(journey.getVehicle()))
             {
-                map.put(journey.getCar(), (float)journey.getCarbonEmitted());
+                map.put(journey.getVehicle(), (float)journey.getCarbonEmitted());
             }
             else
             {
-                float temp = map.get(journey.getCar());
+                float temp = map.get(journey.getVehicle());
                 temp += journey.getCarbonEmitted();
-                map.put(journey.getCar(), temp);
+                map.put(journey.getVehicle(), temp);
             }
         }
         return map;
@@ -442,7 +443,7 @@ public class MultiDayGraphs extends AppCompatActivity {
             Date utilityEndDateWithoutTime = new Date();
             Date dateWantedWithoutTime = new Date();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 utilityStartDateWithoutTime = sdf.parse(sdf.format(utility.getStartDate()));
                 utilityEndDateWithoutTime = sdf.parse(sdf.format(utility.getEndDate()));
