@@ -127,31 +127,14 @@ public class BillActivity extends AppCompatActivity {
                     return;
                 }
 
-                currentAvgInput = (EditText) findViewById(R.id.currentAvgInput);
-                String str_currentAvg = currentAvgInput.getText().toString();
-                if(str_currentAvg.length() == 0) {
-                    showErrorToast("Please enter the current average use");
-                    return;
-                }
-
-                previousAvgInput = (EditText) findViewById(R.id.previousAvgInput);
-                String str_previousAvg = previousAvgInput.getText().toString();
-                if(str_previousAvg.length() == 0) {
-                    showErrorToast("Please enter the previous average use");
-                    return;
-                }
 
                 if(gasRb.isChecked()){
                     newUtility.setUtility_type(Utility.GAS_NAME);
                     newUtility.setNaturalGasUsed(Double.parseDouble(str_amount));
-                    newUtility.setAverageGJCurrent(Double.parseDouble(str_currentAvg));
-                    newUtility.setAverageGJPrevious(Double.parseDouble(str_previousAvg));
                 }
                 else if(electricityRb.isChecked()){
                     newUtility.setUtility_type(Utility.ELECTRICITY_NAME);
                     newUtility.setElectricUsed(Double.parseDouble(str_amount));
-                    newUtility.setAverageKWhCurrent(Double.parseDouble(str_currentAvg));
-                    newUtility.setAverageKWhPrevious(Double.parseDouble(str_previousAvg));
                 } else {
                     Toast.makeText(BillActivity.this, "Select Gas or Electricity", Toast.LENGTH_SHORT).show();
                     return;

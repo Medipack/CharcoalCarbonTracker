@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /*Singleton class holding list of known cars, list of known routes, and list of known journeys*/
@@ -252,11 +253,12 @@ public class User {
         return vehicleEmissions;
     }
 
+
     public double topUtilityEmissions(){
         double utilityEmissions = 0;
         if (!utilityList.getUtilities().isEmpty()) {
             for (int i = 0; i < journeyList.size(); i++) {
-                double carbonEmitted = utilityList.getUtility(i).getPerPersonEmission();
+                double carbonEmitted = utilityList.getUtility(i).getPerDayUsage();
                 if (carbonEmitted > utilityEmissions) {
                     utilityEmissions = carbonEmitted;
                 }

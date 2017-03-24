@@ -63,10 +63,6 @@ public class UtilityDataSource {
         values.put(UtilityDatabaseHelper.COLUMN_NATURALGAS_USED, utility.getNaturalGasUsed());
         values.put(UtilityDatabaseHelper.COLUMN_NUMBER_OF_PEOPLE, utility.getNumberOfPeople());
         values.put(UtilityDatabaseHelper.COLUMN_DAYS_IN_PERIOD, utility.getDaysInPeriod());
-        values.put(UtilityDatabaseHelper.COLUMN_AVG_KWH_CURRENT, utility.getAverageKWhCurrent());
-        values.put(UtilityDatabaseHelper.COLUMN_AVG_KWH_PREV, utility.getAverageKWhPrevious());
-        values.put(UtilityDatabaseHelper.COLUMN_AVG_GJ_CURRENT, utility.getAverageGJCurrent());
-        values.put(UtilityDatabaseHelper.COLUMN_AVG_GJ_PREV, utility.getAverageGJPrevious());
 
         return values;
     }
@@ -133,10 +129,7 @@ public class UtilityDataSource {
         utility.setNaturalGasUsed(cursor.getDouble(6));
         utility.setNumberOfPeople(cursor.getInt(7));
         utility.setDaysInPeriod(cursor.getInt(8));
-        utility.setAverageKWhCurrent(cursor.getDouble(9));
-        utility.setAverageKWhPrevious(cursor.getDouble(10));
-        utility.setAverageGJCurrent(cursor.getDouble(11));
-        utility.setAverageGJPrevious(cursor.getDouble(12));
+
 
         return utility;
     }
