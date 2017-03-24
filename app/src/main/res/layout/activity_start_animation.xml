@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:background="@mipmap/back"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="sfu.cmpt276.carbontracker.ui.MainActivity">
+    tools:context="sfu.cmpt276.carbontracker.ui.StartAnimationActivity">
 
     <ImageView
         android:layout_width="150dp"

@@ -15,12 +15,12 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 
 /*  Menu Activity displays main menu
 * */
-public class MenuActivity extends AppCompatActivity {
+public class MainMenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.activity_main_menu);
         setupMainDirectory();
         setupNewJourneyBtn();
         setupCarbonTotalsBtn();
@@ -52,7 +52,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User.getInstance().createNewCurrentJourney();
-                Intent intent = new Intent(MenuActivity.this, TransportationModeActivity.class);
+                Intent intent = new Intent(MainMenuActivity.this, TransportationModeActivity.class);
                 startActivity(intent);
             }
         });
@@ -64,7 +64,7 @@ public class MenuActivity extends AppCompatActivity {
         carbonTotalsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuActivity.this, JourneyActivity.class);
+                Intent intent = new Intent(MainMenuActivity.this, JourneyActivity.class);
                 startActivity(intent);
             }
         });
@@ -75,7 +75,7 @@ public class MenuActivity extends AppCompatActivity {
         utilityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuActivity.this, UtilityActivity.class);
+                Intent intent = new Intent(MainMenuActivity.this, UtilityActivity.class);
                 startActivity(intent);
             }
         });
@@ -86,7 +86,7 @@ public class MenuActivity extends AppCompatActivity {
         showGraphBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuActivity.this, GraphActivity.class);
+                Intent intent = new Intent(MainMenuActivity.this, GraphActivity.class);
                 startActivity(intent);
             }
         });

@@ -13,11 +13,11 @@ import sfu.cmpt276.carbontracker.R;
 /*
 Main activity splash screen, displays welcome image and proceeds to main menu
  */
-public class MainActivity extends AppCompatActivity {
+public class StartAnimationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_start_animation);
         setupCar();
 
         setupWelcome();
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+                Intent intent = new Intent(StartAnimationActivity.this, MainMenuActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish();
