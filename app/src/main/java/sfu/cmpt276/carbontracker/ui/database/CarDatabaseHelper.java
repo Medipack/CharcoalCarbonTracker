@@ -30,7 +30,7 @@ class CarDatabaseHelper extends SQLiteOpenHelper {
     static final String COLUMN_ENGINEDISPL = "enginedispl";
 
     private static final String DATABASE_NAME = "cars.db";
-    private static final int DATABASE_VERSION = 9; // update if Car class is ever changed
+    private static final int DATABASE_VERSION = 10; // update if Car class is ever changed
 
     private final Context createContext;
 

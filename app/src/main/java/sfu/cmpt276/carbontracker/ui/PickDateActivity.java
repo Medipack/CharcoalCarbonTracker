@@ -16,7 +16,7 @@ import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
-
+/*Activity to allow user to pick date for journeys*/
 public class PickDateActivity extends AppCompatActivity {
 
     private final String TAG = "PickDateActivity";

@@ -2,6 +2,7 @@ package sfu.cmpt276.carbontracker.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -13,34 +14,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
+import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
+import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 
 /*  Displays Pie chart of journey emissions
 * */
 public class PieGraphActivity extends AppCompatActivity {
-    List journeyList = User.getInstance().getJourneyList();
+    List<Journey> journeyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pie_graph);
 
+        populateJourneyList();
+
         setupPieChart();
     }
 
+    private void populateJourneyList() {
+        JourneyDataSource db = new JourneyDataSource(this);
+        db.open();
+        journeyList = db.getAllJourneys(this);
+        db.close();
+    }
+
     private void setupPieChart() {
-        String emission[] = new String[journeyList.size()];
         List<PieEntry> pieEntries = new ArrayList<>();
 
+        for(Journey journey : journeyList){
+            String car = journey.getCar().getShortDecription();
 
-        for(int i=0; i<journeyList.size();i++){
-            String car = User.getInstance().getJourneyList().get(i).getVehicleName();
+            float emission = (float) journey.getCarbonEmitted();
 
-            double emissionTemp = User.getInstance().getJourneyList().get(i).getCarbonEmitted();
-            String str_emissionTemp = String.valueOf(emissionTemp);
-            emission[i] = str_emissionTemp;
-            float temp = Float.valueOf(emission[i]);
-            pieEntries.add(new PieEntry(temp, car));
+            pieEntries.add(new PieEntry(emission, car));
         }
 
         PieDataSet dataSet = new PieDataSet(pieEntries, "emission");

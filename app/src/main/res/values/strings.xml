@@ -63,4 +63,6 @@
     <string name="cancel">CANCEL</string>
     <string name="use">USE</string>
     <string name="save_edit">SAVE EDIT</string>
+    <string name="choose_a_date">choose_a_date</string>
+    <string name="choose_a_date_to_check_data">choose_a_date_to_check_data</string>
 </resources>

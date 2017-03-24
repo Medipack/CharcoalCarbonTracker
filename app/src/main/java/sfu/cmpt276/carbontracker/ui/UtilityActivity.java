@@ -29,7 +29,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 import sfu.cmpt276.carbontracker.carbonmodel.UtilityList;
 import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
-
+/*Main utility activity to show utilities and allow use to add new ones*/
 public class UtilityActivity extends AppCompatActivity {
     ListView list;
     int edit_position;
@@ -105,7 +105,6 @@ public class UtilityActivity extends AppCompatActivity {
         tipDialogue();
 
     }
-
 
     private void registerClickCallback() {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

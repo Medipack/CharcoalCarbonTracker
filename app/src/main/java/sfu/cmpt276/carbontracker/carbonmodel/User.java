@@ -3,6 +3,7 @@ package sfu.cmpt276.carbontracker.carbonmodel;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /*Singleton class holding list of known cars, list of known routes, and list of known journeys*/
@@ -182,9 +183,18 @@ public class User {
         journeyList.add(journey);
     }
 
+    //edit utility list
     public void EditUtilityIntoUtilityList(int index, Utility newUtility){
-        //Utility oldUtility = utilityList.getUtility(index);
         utilityList.editUtility(newUtility, index);
+    }
+
+    //get utility date
+    public Date UtilityStartDate(int index){
+        return utilityList.getUtility(index).getStartDate();
+    }
+
+    public Date UtilityEndDate(int index){
+        return utilityList.getUtility(index).getEndDate();
     }
 
 
@@ -247,12 +257,10 @@ public class User {
 
     public double topUtilityEmissions(){
         double utilityEmissions = 0;
-        if (!utilityList.getUtilities().isEmpty()) {
-            for (int i = 0; i < journeyList.size(); i++) {
-                double carbonEmitted = utilityList.getUtility(i).getPerDayUsage();
-                if (carbonEmitted > utilityEmissions) {
-                    utilityEmissions = carbonEmitted;
-                }
+        for(Utility utility : utilityList.getUtilities()){
+            double carbonEmitted = utility.getPerPersonEmission();
+            if (carbonEmitted > utilityEmissions) {
+                utilityEmissions = carbonEmitted;
             }
         }
         return utilityEmissions;
