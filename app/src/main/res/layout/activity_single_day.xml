@@ -13,9 +13,19 @@
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/singleDayChart"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="150dp"
         android:layout_height="400dp"
         android:layout_width="match_parent"
         />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="#6fd78922"
+        android:entries="@array/spinner_item"
+        android:id="@+id/graphSpinner" />
 
 </RelativeLayout>

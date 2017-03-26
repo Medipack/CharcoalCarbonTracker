@@ -51,4 +51,10 @@
     <string name="select_transportation_mode">Select Transportation Mode:</string>
     <string name="choose_a_date">choose_a_date</string>
     <string name="choose_a_date_to_check_data">choose_a_date_to_check_data</string>
+
+    <string-array name="spinner_item">
+        <item>Single Day</item>
+        <item>Last 28 Days</item>
+        <item>Last 376 Days</item>
+    </string-array>
 </resources>
