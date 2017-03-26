@@ -2,6 +2,7 @@ package sfu.cmpt276.carbontracker.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -114,13 +115,13 @@ public class MultiDayGraphs extends AppCompatActivity {
         electricSet = new BarDataSet(electricityEntries, "electricity");
         naturalGasSet = new BarDataSet(naturalGasEntries, "natural gas");
 
-        int[] carColors = {getResources().getColor(R.color.CarColor1), getResources().getColor(R.color.CarColor2), getResources().getColor(R.color.CarColor3), getResources().getColor(R.color.CarColor4), getResources().getColor(R.color.CarColor5)};
+        int[] carColors = getApplicationContext().getResources().getIntArray(R.array.carColors);
         carSet.setColors(carColors);
-        busSet.setColor(getResources().getColor(R.color.BusColor));
-        skytrainSet.setColor(getResources().getColor(R.color.TrainColor));
-        walk_bikeSet.setColor(getResources().getColor(R.color.Walk_bikeColor));
-        electricSet.setColor(getResources().getColor(R.color.ElectricColor));
-        naturalGasSet.setColor(getResources().getColor(R.color.NaturalGasColor));
+        busSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.BusColor));
+        skytrainSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.TrainColor));
+        walk_bikeSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.Walk_bikeColor));
+        electricSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.ElectricColor));
+        naturalGasSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.NaturalGasColor));
 
         YAxis yAxisLeft = chart.getAxisLeft();
         yAxisLeft.setDrawAxisLine(false);
@@ -201,13 +202,13 @@ public class MultiDayGraphs extends AppCompatActivity {
         electricSet = new BarDataSet(electricityEntries, "electricity");
         naturalGasSet = new BarDataSet(naturalGasEntries, "natural gas");
 
-        int[] carColors = {getResources().getColor(R.color.CarColor1), getResources().getColor(R.color.CarColor2), getResources().getColor(R.color.CarColor3), getResources().getColor(R.color.CarColor4), getResources().getColor(R.color.CarColor5)};
+        int[] carColors = getApplicationContext().getResources().getIntArray(R.array.carColors);
         carSet.setColors(carColors);
-        busSet.setColor(getResources().getColor(R.color.BusColor));
-        skytrainSet.setColor(getResources().getColor(R.color.TrainColor));
-        walk_bikeSet.setColor(getResources().getColor(R.color.Walk_bikeColor));
-        electricSet.setColor(getResources().getColor(R.color.ElectricColor));
-        naturalGasSet.setColor(getResources().getColor(R.color.NaturalGasColor));
+        busSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.BusColor));
+        skytrainSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.TrainColor));
+        walk_bikeSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.Walk_bikeColor));
+        electricSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.ElectricColor));
+        naturalGasSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.NaturalGasColor));
 
         YAxis yAxisLeft = chart.getAxisLeft();
         yAxisLeft.setDrawAxisLine(false);
