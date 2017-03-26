@@ -78,10 +78,8 @@ public class MultiDayGraphs extends AppCompatActivity {
         List<BarEntry> electricityEntries = new ArrayList<>();
         List<BarEntry> naturalGasEntries = new ArrayList<>();
 
-        for (int m = 0; m < MONTH_COUNT; m++) //iterate through 12 months
+        for (int m = 0; m < MONTH_COUNT; m++) //iterate through 12 months, from 0 to 11
         {
-            List<Float> temp_yValues = new ArrayList<>();
-
             float busEmissions = GraphHelper.getJourneyEmissionsForMonthForTransportType(m, Vehicle.BUS);
             float skytrainEmissions = GraphHelper.getJourneyEmissionsForMonthForTransportType(m, Vehicle.SKYTRAIN);
             float walk_bikeEmissions = GraphHelper.getJourneyEmissionsForMonthForTransportType(m, Vehicle.WALK_BIKE);
@@ -90,6 +88,7 @@ public class MultiDayGraphs extends AppCompatActivity {
             skytrainEntries.add(new BarEntry(m, skytrainEmissions));
             walk_bikeEntries.add(new BarEntry(m, walk_bikeEmissions));
 
+            List<Float> temp_yValues = new ArrayList<>();
             Map<Vehicle, Float> carMap = GraphHelper.getVehicleEmissionTotalsFromJourneysInMonth(m);
             carMap.size();
             for (Map.Entry<Vehicle, Float> entry : carMap.entrySet()) {
@@ -99,8 +98,8 @@ public class MultiDayGraphs extends AppCompatActivity {
             float[] yvalues = new float[temp_yValues.size()];
             for (int u = 0; u < temp_yValues.size(); u++) {
                 yvalues[u] = temp_yValues.get(u);
-                carEntries.add(new BarEntry(m, temp_yValues.get(u)));
             }
+            carEntries.add(new BarEntry(m, yvalues));
 
             float electricEmissions = GraphHelper.getUtilityEmissionsForMonthForUtilityType(Utility.ELECTRICITY_NAME, m);
             float gasEmissions = GraphHelper.getUtilityEmissionsForMonthForUtilityType(Utility.GAS_NAME, m);
