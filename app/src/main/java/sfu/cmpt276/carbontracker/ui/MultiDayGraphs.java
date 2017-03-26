@@ -171,7 +171,7 @@ public class MultiDayGraphs extends AppCompatActivity {
             List<Float> temp_yValues = new ArrayList<>();
             List<Journey> journeys = GraphHelper.getJourneysForTransportModeOnDate(dateList.get(i), Vehicle.CAR);
             Map<Vehicle, Float> carMap = GraphHelper.getCarEmissionTotalsFromJourneys(journeys);
-            carMap.size();
+           // carMap.size();
             for (Map.Entry<Vehicle, Float> entry : carMap.entrySet()) {
                 Float emissionTotal = entry.getValue();
                 temp_yValues.add(emissionTotal);
@@ -179,8 +179,8 @@ public class MultiDayGraphs extends AppCompatActivity {
             float[] yvalues = new float[temp_yValues.size()];
             for (int u = 0; u < temp_yValues.size(); u++) {
                 yvalues[u] = temp_yValues.get(u);
-                entries.add(new BarEntry(c, temp_yValues.get(u)));
             }
+            entries.add(new BarEntry(c, yvalues));
 
             busEntries.add(new BarEntry(c, (float) GraphHelper.getTotalEmissionsForTransportModeOnDate(dateList.get(i), Vehicle.BUS)));
             skytrainEntries.add(new BarEntry(c, (float) GraphHelper.getTotalEmissionsForTransportModeOnDate(dateList.get(i), Vehicle.SKYTRAIN)));
