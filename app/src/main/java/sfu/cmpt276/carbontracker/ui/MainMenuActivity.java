@@ -3,34 +3,37 @@ package sfu.cmpt276.carbontracker.ui;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.io.InputStream;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
+import sfu.cmpt276.carbontracker.ui.database.Database;
 
 /*  Menu Activity displays main menu
 * */
-public class MenuActivity extends AppCompatActivity {
+public class MainMenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.activity_main_menu);
+
+        Database.getDB().initializeDatabase(this);
+
         setupMainDirectory();
         setupNewJourneyBtn();
         setupCarbonTotalsBtn();
 
         setupCarbon();
         setupUtility();
+        setupGraph();
     }
+
 
     private void setupCarbon() {
         TextView carbon = (TextView) findViewById(R.id.carbon);
@@ -53,7 +56,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User.getInstance().createNewCurrentJourney();
-                Intent intent = new Intent(MenuActivity.this, TransportationModeActivity.class);
+                Intent intent = new Intent(MainMenuActivity.this, TransportationModeActivity.class);
                 startActivity(intent);
             }
         });
@@ -65,7 +68,7 @@ public class MenuActivity extends AppCompatActivity {
         carbonTotalsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuActivity.this, JourneyActivity.class);
+                Intent intent = new Intent(MainMenuActivity.this, JourneyActivity.class);
                 startActivity(intent);
             }
         });
@@ -76,10 +79,22 @@ public class MenuActivity extends AppCompatActivity {
         utilityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuActivity.this, UtilityActivity.class);
+                Intent intent = new Intent(MainMenuActivity.this, UtilityActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    private void setupGraph() {
+        Button showGraphBtn = (Button) findViewById(R.id.showGraphBtn);
+        showGraphBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainMenuActivity.this, GraphActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 }

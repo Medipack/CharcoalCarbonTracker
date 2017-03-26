@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +19,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
@@ -28,7 +26,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.RouteListener;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.Route;
-import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
+import sfu.cmpt276.carbontracker.ui.database.Database;
 import sfu.cmpt276.carbontracker.ui.database.RouteDataSource;
 
 /*Displays know routes, allows for adding, editing, deleting routes*/
@@ -36,13 +34,10 @@ import sfu.cmpt276.carbontracker.ui.database.RouteDataSource;
 public class RouteActivity extends AppCompatActivity {
 
     private final String TAG = "RouteActivity";
-    private int use_position;
 
     private String nameSaved;
     private double citySaved;
     private double highwaySaved;
-
-    private int route_position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +47,6 @@ public class RouteActivity extends AppCompatActivity {
         setupAddRoute();
         setUpRouteListView();
         registerClickCallback();
-
-        populateRouteListFromDatabase();
     }
 
     private class RouteListAdapter extends ArrayAdapter<Route> implements RouteListener {
@@ -219,7 +212,6 @@ public class RouteActivity extends AppCompatActivity {
         listRoute.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                use_position = i;
                 // User has selected a route
                 Route route = (Route) adapterView.getAdapter().getItem(i);
                 //Route route = User.getInstance().getRouteList().getRoute(i);
@@ -235,7 +227,6 @@ public class RouteActivity extends AppCompatActivity {
         listRoute.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                route_position = position;
                 final Dialog editDialog = new Dialog(RouteActivity.this);
                 editDialog.setContentView(R.layout.route_edit_delete_layout);
                 editDialog.show();
@@ -302,7 +293,7 @@ public class RouteActivity extends AppCompatActivity {
                 editDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        deleteRoute(position);
+                        hideRoute(position);
                         setUpRouteListView();
                         //myRouteList.addRoute(hideRoute);
                         editDialog.cancel();
@@ -345,35 +336,16 @@ public class RouteActivity extends AppCompatActivity {
 
     // *** Database related methods *** //
 
-    private void populateRouteListFromDatabase() {
-        // Check if route list already populated from database
-        // This prevents duplicate entries from re-opening this activity
-        if(!User.getInstance().isRouteListPopulatedFromDatabase()){
-            RouteDataSource db = new RouteDataSource(this);
-            db.open();
-
-            List<Route> routes = db.getAllRoutes();
-            User user = User.getInstance();
-            for(Route route : routes) {
-                user.addRouteToRouteList(route);
-            }
-            User.getInstance().setRouteListPopulatedFromDatabase();
-        }
-    }
-
     // *** Add / Edit / Delete helper methods *** //
 
-    private void deleteRoute(int deleteRoutePosition) {
+    private void hideRoute(int deleteRoutePosition) {
         Route route = User.getInstance().getRouteList().getRoute(deleteRoutePosition);
         Log.i(TAG, "Delete button clicked");
         route.setActive(false);
 
-        RouteDataSource db = new RouteDataSource(this);
-        db.open();
-        db.updateRoute(route);
-        db.close();
+        Database.getDB().updateRoute(route);
 
-        User.getInstance().removeRouteFromRouteList(deleteRoutePosition);
+        //User.getInstance().removeRouteFromRouteList(deleteRoutePosition);
     }
 
     private void editExistingRoute(int editRoutePosition, Route route) {
@@ -383,10 +355,7 @@ public class RouteActivity extends AppCompatActivity {
         route.setId(oldRouteId);
         route.setActive(true);
 
-        RouteDataSource db = new RouteDataSource(this);
-        db.open();
-        db.updateRoute(route);
-        db.close();
+        Database.getDB().updateRoute(route);
 
         User.getInstance().editRouteFromRouteList(editRoutePosition, route);
     }
@@ -394,30 +363,23 @@ public class RouteActivity extends AppCompatActivity {
     private void addNewRoute(Route route) {
         Log.i(TAG, "Add button clicked");
         route.setActive(true);
-        route = addRouteToDatabase(route);
-        User.getInstance().getRouteList().addRoute(route);
+
+        Database.getDB().addRoute(route);
     }
 
     private void useNewRoute(Route route) {
         Log.i(TAG, "Use button clicked");
         route.setActive(false);
-        route = addRouteToDatabase(route);
-        selectRouteAndAddToJourneyList(route);
-    }
 
-    private Route addRouteToDatabase(Route route) {
-        RouteDataSource db = new RouteDataSource(this);
-        db.open();
-        Route newRoute = db.insertRoute(route);
-        db.close();
-        return newRoute;
+        route = Database.getDB().addRoute(route);
+        selectRouteAndAddToJourneyList(route);
     }
 
     // *** end of database related methods *** //
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {
-            setResult(User.ACTIITY_FINISHED_REQUESTCODE);
+        if (resultCode == User.ACTIVITY_FINISHED_REQUESTCODE) {
+            setResult(User.ACTIVITY_FINISHED_REQUESTCODE);
             finish();
         }
     }

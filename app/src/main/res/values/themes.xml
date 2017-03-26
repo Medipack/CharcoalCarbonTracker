@@ -3,4 +3,33 @@
     <style name="ListViewLightTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="colorAccent">@color/TerribleColor</item>
     </style>
+
+    <style name="backk6" parent="Theme.AppCompat.Light">
+        <item name="android:background">@mipmap/backk6</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="background" parent="Theme.AppCompat.Light">
+        <item name="android:background">@mipmap/background</item>
+
+    </style>
+
+    <style name="backk9" parent="Theme.AppCompat.Light">
+        <item name="android:background">@mipmap/backk9</item>
+
+    </style>
+
+    <style name="back" parent="Theme.AppCompat.Light">
+        <item name="android:background">@mipmap/back</item>
+
+    </style>
+
+    <style name="backk7" parent="Theme.AppCompat.Light">
+        <item name="android:background">@mipmap/backk7</item>
+    </style>
+
+    <style name="backk1" parent="Theme.AppCompat">
+        <item name="android:background">@mipmap/backk1</item>
+    </style>
 </resources>

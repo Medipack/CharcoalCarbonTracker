@@ -1,5 +1,5 @@
 package sfu.cmpt276.carbontracker.carbonmodel;
-
+/*Class to hold route data for journeys*/
 public class Route {
     private int id = -1;
     private boolean isActive;
@@ -12,12 +12,6 @@ public class Route {
         routeName = "";
         routeDistanceCity = 0;
         routeDistanceHighway = 0;
-    }
-
-    public Route(double distanceC, double distanceH) {
-        isActive = false;
-        routeDistanceCity = distanceC;
-        routeDistanceHighway = distanceH;
     }
 
     public Route(String name, double distanceC, double distanceH) {

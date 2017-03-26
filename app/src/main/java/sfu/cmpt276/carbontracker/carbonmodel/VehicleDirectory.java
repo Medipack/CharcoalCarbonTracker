@@ -13,20 +13,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import sfu.cmpt276.carbontracker.carbonmodel.Car;
-
 /**
  * Class to keep a record of all the car data read from the CSV
  */
 
-public class CarDirectory{
+public class VehicleDirectory {
 
     //Hashmap that separates EPA car data by make, model and year
     //Stores an undelimited string
     private HashMap<String, HashMap<String, HashMap<String, List<String>>>> mainList;
 
     //Constructor
-    CarDirectory(InputStream input){
+    VehicleDirectory(InputStream input){
         mainList = new HashMap<>();
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(input, Charset.forName("UTF-8"))
@@ -52,27 +50,24 @@ public class CarDirectory{
     }
 
     public Set<String> getModelKeys(String Make){
-        Set<String> keys = mainList.get(Make).keySet();
-        return keys;
+        return mainList.get(Make).keySet();
     }
 
     public Set<String> getYearKeys(String make, String model){
-        Set<String> keys = mainList.get(make).get(model).keySet();
-        return keys;
+        return mainList.get(make).get(model).keySet();
     }
 
     //Creates a list of each line read into program
     //Takes at LEAST three tokens: Make, Model and Year
-    public List<String> getDataList(String[] token){
+    private List<String> getDataList(String[] token){
         String make = token[0];
         String model = token[1];
         String year = token[2];
-        List<String> stringList = mainList.get(make).get(model).get(year);
-        return stringList;
+        return mainList.get(make).get(model).get(year);
     }
 
     //Creates a profile based on data read from line
-    public Car makeProfile(String data){
+    private Vehicle makeProfile(String data){
         String[] token = getTokens(data);
         String make = token[0];
         String model = token[1];
@@ -87,17 +82,16 @@ public class CarDirectory{
         } catch (ArrayIndexOutOfBoundsException e) {
             Log.i("MakeProfile", make + " " + model + " does not have engine displacement. Defaulting to 0");
         }
-        //make new Car class
-        Car temp = new Car(make, model, year, fuelType, transmission, cityCO2, hwyCO2, enginedisp);
-        return temp;
+        //make new Vehicle class
+        return new Vehicle(make, model, year, fuelType, transmission, cityCO2, hwyCO2, enginedisp);
     }
 
     //gives a list of cars objects
     //Accepts a csv string that has at least a Make, Model and Year
-    public List<Car> carList(String data){
+    public List<Vehicle> carList(String data){
         String[] tokens = getTokens(data);
         List<String> dataList = getDataList(tokens);
-        List<Car> list = new ArrayList<Car>();
+        List<Vehicle> list = new ArrayList<>();
         for (int i = 0; i<dataList.size(); i++){
             list.add(makeProfile(dataList.get(i)));
         }

@@ -7,31 +7,38 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="sfu.cmpt276.carbontracker.ui.UtilityActivity">
+    tools:context="sfu.cmpt276.carbontracker.ui.GraphActivity">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:id="@+id/utilityList"/>
+        android:id="@+id/graphRB"/>
 
     <Button
-        android:text="@string/add"
+        android:text="@string/show_graph"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/addBillList"
-        tools:ignore="RelativeOverlap" />
+        android:id="@+id/showGraphBtn" />
 
     <Button
-        android:text="@string/view"
+        android:text="@string/choose_the_single_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/chooseTheDate" />
+
+    <TextView
+        android:id="@+id/chosenDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chooseTheDate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:text="@string/xx_xx_xxxx" />
 </RelativeLayout>

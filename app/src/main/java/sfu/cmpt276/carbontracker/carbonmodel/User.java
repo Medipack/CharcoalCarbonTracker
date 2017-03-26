@@ -2,41 +2,37 @@ package sfu.cmpt276.carbontracker.carbonmodel;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /*Singleton class holding list of known cars, list of known routes, and list of known journeys*/
 public class User {
 
-    public static final int ACTIITY_FINISHED_REQUESTCODE = 1000;
+    public static final int ACTIVITY_FINISHED_REQUESTCODE = 1000;
 
-    public static final Car BUS = new Car(0, "Bus", 89, 89, Car.BUS);
-    public static final Car BIKE = new Car(1, "Bike", 0, 0, Car.WALK_BIKE);
-    public static final Car SKYTRAIN = new Car(2, "Skytrain", 89, 89, Car.SKYTRAIN);
+    public static final Vehicle BUS = new Vehicle(0, "Bus", 89, 89, Vehicle.BUS);
+    public static final Vehicle BIKE = new Vehicle(1, "Bike", 0, 0, Vehicle.WALK_BIKE);
+    public static final Vehicle SKYTRAIN = new Vehicle(2, "Skytrain", 89, 89, Vehicle.SKYTRAIN);
 
-    private CarListener carListener;
+    private VehicleListener vehicleListener;
     private RouteListener routeListener;
 
-    private List<Car> carList;
+    private List<Vehicle> vehicleList;
     private RouteList routeList;
     private List<Journey> journeyList;
-    private CarDirectory mainDirectory;
+    private VehicleDirectory mainDirectory;
     private UtilityList utilityList;
     private Journey currentJourney;
     private List<String> tips;
 
-    private boolean carListPopulatedFromDatabase = false;
-    private boolean routeListPopulatedFromDatabase = false;
-    private boolean utilityListPopulatedFromDatabase = false;
-
     private User(){
-        carList = new ArrayList<>();
+        vehicleList = new ArrayList<>();
         routeList = new RouteList();
         currentJourney = new Journey();
-        journeyList = new ArrayList<Journey>();
+        journeyList = new ArrayList<>();
         utilityList = new UtilityList();
-        tips = new ArrayList<String>();
+        tips = new ArrayList<>();
     }
 
     private static User instance = new User();
@@ -47,8 +43,8 @@ public class User {
         return instance;
     }
 
-    public List<Car> getCarList(){
-        return carList;
+    public List<Vehicle> getVehicleList(){
+        return Collections.unmodifiableList(vehicleList);
     }
 
     public RouteList getRouteList(){
@@ -56,10 +52,10 @@ public class User {
     }
 
     public List<Journey> getJourneyList() {
-        return journeyList;
+        return Collections.unmodifiableList(journeyList);
     }
 
-    public CarDirectory getMain(){
+    public VehicleDirectory getMain(){
         return mainDirectory;
     }
 
@@ -78,8 +74,8 @@ public class User {
         this.currentJourney = currentJourney;
     }
 
-    public void setCurrentJourneyCar(Car car){
-        currentJourney.setCar(car);
+    public void setCurrentJourneyCar(Vehicle vehicle){
+        currentJourney.setVehicle(vehicle);
     }
 
     public void setCurrentJourneyRoute(Route route){
@@ -94,47 +90,70 @@ public class User {
     }
 
 
-    public Car getCarFromCarList(int index) {
-        return carList.get(index);
+    public Vehicle getCarFromCarList(int index) {
+        return vehicleList.get(index);
     }
 
     // *** Modify lists *** //
 
-    public void addCarToCarList(Car car){
-        carList.add(car);
+    public void clearVehicleList() {
+        vehicleList.clear();
+    }
+
+    public void clearRouteList() {
+        routeList.clearRoutes();
+    }
+
+    public void clearJourneyList() {
+        journeyList.clear();
+    }
+
+    public void clearUtilityList() {
+        utilityList.clearUtilities();
+    }
+
+    public void addCarToCarList(Vehicle vehicle){
+        vehicleList.add(vehicle);
         notifyListenerCarWasEdited();
     }
 
-    public void editCarFromCarList(int index, Car newCar){
-        Car oldCar = carList.get(index);
+
+    public void editCarFromCarList(int index, Vehicle newVehicle){
+        Vehicle oldVehicle = vehicleList.get(index);
         for(Journey journey : journeyList) {
-            if(journey.getCar() == oldCar) {
-                journey.setCar(newCar);
+            if(journey.getVehicle() == oldVehicle) {
+                journey.setVehicle(newVehicle);
                 journey.resetCarbonEmitted();
             }
         }
-        carList.set(index, newCar);
+        vehicleList.set(index, newVehicle);
         notifyListenerCarWasEdited();
     }
 
-    public void removeCarFromCarList(Car car){
-        /*
+
+    /*
+
+    public void removeCarFromCarList(Vehicle car){
+
+        Vehicle vehicle = vehicleList.get(index);
         for(Journey journey : journeyList){
-            if(journey.getCar() == car){
-                Car newCar = new Car();
+            if(journey.getVehicle() == vehicle){
+                Vehicle newVehicle = new Vehicle();
                 try{
-                    newCar = (Car) car.clone();
+                    newVehicle = (Vehicle) vehicle.clone();
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }
-                journey.setCar(newCar);
+                journey.setVehicle(newVehicle);
                 journey.resetCarbonEmitted();
             }
         }
-        carList.remove(car);
-        */
+        vehicleList.remove(car);
+
         notifyListenerCarWasEdited();
     }
+    */
+
 
     public void editRouteFromRouteList(int index, Route newRoute){
         Route oldRoute = routeList.getRoute(index);
@@ -174,26 +193,27 @@ public class User {
         notifyListenerRouteWasEdited();
     }
 
-
-    ////////
-    public void EditUtilityIntoUtilityList(int index, Utility newUtility){
-        //Utility oldUtility = utilityList.getUtility(index);
-        utilityList.editUtility(newUtility, index);
-
-
+    public void addJourney(Journey journey){
+        journeyList.add(journey);
     }
+
+    //edit utility list
+    public void EditUtilityIntoUtilityList(int index, Utility newUtility){
+        utilityList.editUtility(newUtility, index);
+    }
+
+    //get utility date
+    public Date UtilityStartDate(int index){
+        return utilityList.getUtility(index).getStartDate();
+    }
+
+    public Date UtilityEndDate(int index){
+        return utilityList.getUtility(index).getEndDate();
+    }
+
 
     public void addUtilityToUtilityList(Utility utility) {
         utilityList.addUtility(utility);
-    }
-
-
-    public void addJourney(Car car, Route route){
-        journeyList.add(new Journey(car, route));
-    }
-
-    public void addJourney(Journey journey){
-        journeyList.add(journey);
     }
 
     public Journey getJourney(int position){
@@ -203,7 +223,7 @@ public class User {
     // *** Directory *** //
 
     public void setUpDirectory(InputStream input){
-        mainDirectory = new CarDirectory(input);
+        mainDirectory = new VehicleDirectory(input);
     }
 
     public boolean directoryNotSetup(){
@@ -212,26 +232,22 @@ public class User {
 
     // *** Event Listeners *** //
 
-    public void setCarListener(CarListener listener){
-        carListener = listener;
+    public void setVehicleListener(VehicleListener listener){
+        vehicleListener = listener;
     }
 
     public void setRouteListener(RouteListener listener){
         routeListener = listener;
     }
 
-    private void notifyListenerRouteWasEdited(){
+    public void notifyListenerRouteWasEdited(){
         if(routeListener != null)
             routeListener.routeListWasEdited();
-        else
-            throw new ExceptionInInitializerError("No one is listening to route list");
     }
 
-    private void notifyListenerCarWasEdited(){
-        if(carListener != null)
-            carListener.carListWasEdited();
-        else
-            throw new ExceptionInInitializerError("No one is listening to car list");
+    public void notifyListenerCarWasEdited(){
+        if(vehicleListener != null)
+            vehicleListener.vehicleListWasEdited();
     }
 
     // *** Tips *** //
@@ -251,12 +267,10 @@ public class User {
 
     public double topUtilityEmissions(){
         double utilityEmissions = 0;
-        if (!utilityList.getUtilities().isEmpty()) {
-            for (int i = 0; i < journeyList.size(); i++) {
-                double carbonEmitted = utilityList.getUtility(i).getPerPersonEmission();
-                if (carbonEmitted > utilityEmissions) {
-                    utilityEmissions = carbonEmitted;
-                }
+        for(Utility utility : utilityList.getUtilities()){
+            double carbonEmitted = utility.getPerPersonEmission();
+            if (carbonEmitted > utilityEmissions) {
+                utilityEmissions = carbonEmitted;
             }
         }
         return utilityEmissions;
@@ -279,7 +293,7 @@ public class User {
         tips.clear();
     }
 
-    public void compareEmissions(List vehicleTips, List utilityTips){
+    public void compareEmissions(List<String> vehicleTips, List<String> utilityTips){
         if(vehicleMostEmissions()){
             shuffleTips(vehicleTips, utilityTips);
             vehiclesFirst(vehicleTips, utilityTips);
@@ -292,12 +306,12 @@ public class User {
         }
     }
 
-    private void utilitiesFirst(List vehicleTips, List utilityTips) {
+    private void utilitiesFirst(List<String> vehicleTips, List<String> utilityTips) {
         tips.addAll(utilityTips);
         tips.addAll(vehicleTips);
     }
 
-    private void vehiclesFirst(List vehicleTips, List utilityTips) {
+    private void vehiclesFirst(List<String> vehicleTips, List<String> utilityTips) {
         tips.addAll(vehicleTips);
         tips.addAll(utilityTips);
     }
@@ -310,31 +324,7 @@ public class User {
     public List<String> getTips(){
         return tips;
     }
-    // *** Database *** //
 
-    public boolean isCarListPopulatedFromDatabase() {
-        return carListPopulatedFromDatabase;
-    }
-
-    public void setCarListPopulatedFromDatabase() {
-        carListPopulatedFromDatabase = true;
-    }
-
-    public boolean isRouteListPopulatedFromDatabase() {
-        return routeListPopulatedFromDatabase;
-    }
-
-    public void setRouteListPopulatedFromDatabase() {
-        routeListPopulatedFromDatabase = true;
-    }
-
-    public boolean isUtilityListPopulatedFromDatabase() {
-        return utilityListPopulatedFromDatabase;
-    }
-
-    public void setUtilityListPopulatedFromDatabase() {
-        utilityListPopulatedFromDatabase = true;
-    }
 
     public static int booleanToInt(boolean value) {
         return (value) ? 1 : 0;

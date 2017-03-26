@@ -13,12 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
+import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
+import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 
 /*  Displays Pie chart of journey emissions
 * */
 public class PieGraphActivity extends AppCompatActivity {
-    List journeyList = User.getInstance().getJourneyList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +30,14 @@ public class PieGraphActivity extends AppCompatActivity {
     }
 
     private void setupPieChart() {
-        String emission[] = new String[journeyList.size()];
         List<PieEntry> pieEntries = new ArrayList<>();
 
+        for(Journey journey : User.getInstance().getJourneyList()){
+            String car = journey.getVehicle().getShortDecription();
 
-        for(int i=0; i<journeyList.size();i++){
-            String car = User.getInstance().getJourneyList().get(i).getVehicleName();
+            float emission = (float) journey.getCarbonEmitted();
 
-            double emissionTemp = User.getInstance().getJourneyList().get(i).getCarbonEmitted();
-            String str_emissionTemp = String.valueOf(emissionTemp);
-            emission[i] = str_emissionTemp;
-            float temp = Float.valueOf(emission[i]);
-            pieEntries.add(new PieEntry(temp, car));
+            pieEntries.add(new PieEntry(emission, car));
         }
 
         PieDataSet dataSet = new PieDataSet(pieEntries, "emission");

@@ -8,8 +8,8 @@ import java.util.Date;
 
 public class Utility {
 
-    public static final double ELECTRICITY = 0.009; //kg of CO2 per KWh
-    public static final double NATURAL_GAS = 56.1; //kg of CO2 per GJ
+    private static final double ELECTRICITY = 0.009; //kg of CO2 per KWh
+    private static final double NATURAL_GAS = 56.1; //kg of CO2 per GJ
     public static final String ELECTRICITY_NAME = "electricity";
     public static final String GAS_NAME = "gas";
 

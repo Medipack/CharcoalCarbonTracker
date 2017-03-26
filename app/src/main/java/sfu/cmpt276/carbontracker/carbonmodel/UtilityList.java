@@ -1,18 +1,19 @@
 package sfu.cmpt276.carbontracker.carbonmodel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
 /**
- * Created by apple on 2017-03-17.
+ * Class to hold list of all known utilities
  */
 
 public class UtilityList {
     private List<Utility> utilities = new ArrayList<>();
 
     public List<Utility> getUtilities(){
-        return utilities;
+        return Collections.unmodifiableList(utilities);
     }
 
     public void addUtility(Utility utility){
@@ -31,7 +32,7 @@ public class UtilityList {
         utilities.remove(index);
     }
     //count size of the utility
-    public int countUtility(){
+    private int countUtility(){
         return utilities.size();
     }
     //get utility in the utility list
@@ -69,5 +70,47 @@ public class UtilityList {
 
         }
     }
+
+    public void clearUtilities() {
+        utilities.clear();
+    }
+
+//Graph helper methods//
+/*
+
+
+    public int getDaysOfUtilityInPeriod(int daysInPeriod)
+    {
+        Date periodStartDate = getPeriodStartDate(daysInPeriod); //period start is current date - daysinPeriod, e.g. today - 28 days
+        Date periodEndDate = new Date(); //current date
+
+
+    }
+
+    public double getTotalElectricEmissions(int daysInPeriod)
+    {
+        double co2ElectricityTotal = 0;
+        for(Utility utility : utilities)
+        {
+            if(utility.getUtility_type().equals(Utility.ELECTRICITY_NAME )) {
+                co2ElectricityTotal += utility.getPerPersonEmission();
+            }
+        }
+        return co2ElectricityTotal;
+    }
+
+    public double getTotalGasEmissions(int daysInPeriod)
+    {
+        double co2GasTotal = 0;
+
+        for(Utility utility : utilities)
+        {
+            if(utility.getUtility_type().equals(Utility.GAS_NAME)) {
+                co2GasTotal += utility.getPerPersonEmission();
+            }
+        }
+        return co2GasTotal;
+    }*/
+
 }
 

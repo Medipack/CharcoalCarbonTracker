@@ -1,5 +1,6 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -25,30 +26,30 @@ import java.util.Date;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
-import sfu.cmpt276.carbontracker.carbonmodel.Car;
+import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.Route;
 import sfu.cmpt276.carbontracker.carbonmodel.RouteList;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
+import sfu.cmpt276.carbontracker.ui.database.Database;
 
+/* Activity to allow user to edit journey*/
 public class EditJourneyActivity extends AppCompatActivity {
 
-    public static final int EDIT_CODE = 1000;
-    Calendar calendar = Calendar.getInstance();
-    String nameSaved;
-    double citySaved;
-    double highwaySaved;
+    private static final int EDIT_CODE = 1000;
+    private Calendar calendar = Calendar.getInstance();
+    private String nameSaved;
+    private double citySaved;
+    private double highwaySaved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_journey);
 
-        User user = User.getInstance();
         setupSelectModeTxt();
         Intent intent = getIntent();
         int index = intent.getIntExtra("index", -1);
-        Journey currentJourney = user.getJourney(index);
         setUpCalendar(index);
         setUpRouteSpinner(index);
         setUpAddRouteButton(index);
@@ -65,7 +66,7 @@ public class EditJourneyActivity extends AppCompatActivity {
         bikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setJourneyEdits(index, Car.WALK_BIKE);
+                setJourneyEdits(index, Vehicle.WALK_BIKE);
                 Log.i("MyApp", "clicked");
                 setResult(EDIT_CODE);
                 finish();
@@ -78,7 +79,7 @@ public class EditJourneyActivity extends AppCompatActivity {
         skytrainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setJourneyEdits(index, Car.SKYTRAIN);
+                setJourneyEdits(index, Vehicle.SKYTRAIN);
                 Log.i("MyApp", "clicked");
                 setResult(EDIT_CODE);
                 finish();
@@ -122,7 +123,7 @@ public class EditJourneyActivity extends AppCompatActivity {
         busButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setJourneyEdits(index, Car.BUS);
+                setJourneyEdits(index, Vehicle.BUS);
                 Log.i("MyApp", "clicked");
                 setResult(EDIT_CODE);
                 finish();
@@ -133,7 +134,8 @@ public class EditJourneyActivity extends AppCompatActivity {
     private void updateDate(){
         EditText calendarDate = (EditText) findViewById(R.id.edit_journey_editable_date);
         String calendarFormat = "MM/dd/yy";
-        SimpleDateFormat sdf = new SimpleDateFormat(calendarFormat);
+        @SuppressLint
+                ("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat(calendarFormat);
         String journeyDate_str = sdf.format(calendar.getTime());
         calendarDate.setText(journeyDate_str);
     }
@@ -143,7 +145,7 @@ public class EditJourneyActivity extends AppCompatActivity {
         RouteList routeList = User.getInstance().getRouteList();
         List<String> list = getRouteNames(routeList);
         Spinner routeSpin = (Spinner) findViewById(R.id.routeList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
         routeSpin.setAdapter(adapter);
         if (index >= 0) {
             Route originalRoute = User.getInstance().getJourney(index).getRoute();
@@ -197,7 +199,7 @@ public class EditJourneyActivity extends AppCompatActivity {
                                 Toast.makeText(EditJourneyActivity.this, "Please enter an positive highway distance", Toast.LENGTH_SHORT).show();
                             } else {
                                 Route newRoute = new Route(nameSaved, citySaved, highwaySaved);
-                                User.getInstance().getRouteList().addRoute(newRoute);
+                                Database.getDB().addRoute(newRoute);
                                 setUpRouteSpinner(index);
                                 viewDialog.cancel();
                             }
@@ -257,7 +259,7 @@ public class EditJourneyActivity extends AppCompatActivity {
                                 //journey.setCarbonEmitted(emission);
                                 User.getInstance().resetCurrentJourneyEmission();
 
-                                User.getInstance().addJourney(User.getInstance().getCurrentJourney());
+                                Database.getDB().addJourney(User.getInstance().getCurrentJourney());
 
                                 Intent intent = new Intent(EditJourneyActivity.this, JourneyEmissionActivity.class);
                                 startActivityForResult(intent, 0);
@@ -273,15 +275,15 @@ public class EditJourneyActivity extends AppCompatActivity {
 
     private void setUpCarSpinner(int index) {
         //Create a String list
-        List<Car> carList = User.getInstance().getCarList();
-        List<String> list = getCarNames(carList);
+        List<Vehicle> vehicleList = User.getInstance().getVehicleList();
+        List<String> list = getCarNames(vehicleList);
         Spinner routeSpin = (Spinner) findViewById(R.id.edit_journey_car_spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
         adapter.notifyDataSetChanged();
         routeSpin.setAdapter(adapter);
         if (index >= 0) {
-            Route originalRoute = User.getInstance().getJourney(index).getRoute();
-            int routeIndex = carList.indexOf(originalRoute);
+            Vehicle originalCar = User.getInstance().getJourney(index).getVehicle();
+            int routeIndex = vehicleList.indexOf(originalCar);
             routeSpin.setSelection(routeIndex);
         }
     }
@@ -302,7 +304,7 @@ public class EditJourneyActivity extends AppCompatActivity {
         changeVehicle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setJourneyEdits(index, Car.CAR);
+                setJourneyEdits(index, Vehicle.CAR);
                 Log.i("MyApp", "clicked");
                 setResult(EDIT_CODE);
                 finish();
@@ -315,44 +317,43 @@ public class EditJourneyActivity extends AppCompatActivity {
         Date selectedDate = getSelectedDate();
         Route selectedRoute = getSelectedRoute();
         Journey editedJourney = user.getJourneyList().get(index);
-        if (transportationMode == Car.CAR){
-            Car selectedCar = getCarSelection();
-            editedJourney.setCar(selectedCar);
+        if (transportationMode.equals(Vehicle.CAR)){
+            Vehicle selectedVehicle = getCarSelection();
+            editedJourney.setVehicle(selectedVehicle);
         }else{
-            Car vehicle = new Car();
+            Vehicle vehicle = new Vehicle();
             vehicle.setTransport_mode(transportationMode);
             vehicle.setNickname(transportationMode);
-            editedJourney.setCar(vehicle);
+            editedJourney.setVehicle(vehicle);
         }
         editedJourney.setCarbonEmitted(editedJourney.calculateCarbonEmission());
         editedJourney.setDate(selectedDate);
         editedJourney.setRoute(selectedRoute);
+
+        Database.getDB().updateJourney(editedJourney);
     }
 
     private Date getSelectedDate() {
-        Date selectedDate = calendar.getTime();
-        return selectedDate;
+        return calendar.getTime();
     }
 
-    private Car getCarSelection() {
+    private Vehicle getCarSelection() {
         User user = User.getInstance();
         Spinner carSpin = (Spinner) findViewById(R.id.edit_journey_car_spinner);
-        List<Car> carList = user.getCarList();
-        Car selectedCar = carList.get(carSpin.getSelectedItemPosition());
-        return selectedCar;
+        List<Vehicle> vehicleList = user.getVehicleList();
+        return vehicleList.get(carSpin.getSelectedItemPosition());
     }
 
     private Route getSelectedRoute() {
         User user = User.getInstance();
         Spinner routeSpin = (Spinner) findViewById(R.id.routeList);
         RouteList routeList = user.getRouteList();
-        Route selectedRoute = routeList.getRoute(routeSpin.getSelectedItemPosition());
-       return selectedRoute;
+        return routeList.getRoute(routeSpin.getSelectedItemPosition());
     }
 
     @NonNull
     private List<String> getRouteNames(RouteList routeList) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         for (int i = 0; i < routeList.countRoutes(); i++) {
             list.add(i, routeList.getRoute(i).getRouteName());
         }
@@ -360,10 +361,10 @@ public class EditJourneyActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private List<String> getCarNames(List<Car> Cars) {
-        List<String> list = new ArrayList<String>();
-        for (int i = 0; i < Cars.size(); i++) {
-            list.add(i, Cars.get(i).getNickname());
+    private List<String> getCarNames(List<Vehicle> vehicles) {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < vehicles.size(); i++) {
+            list.add(i, vehicles.get(i).getNickname());
         }
         return list;
     }

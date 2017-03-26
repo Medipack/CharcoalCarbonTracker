@@ -8,11 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import sfu.cmpt276.carbontracker.R;
-import sfu.cmpt276.carbontracker.carbonmodel.User;
 
+/*Activity for user to choose a tranposrtation mode for journey*/
 public class SelectTransportationActivity extends AppCompatActivity {
 
     @Override

@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,20 +19,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
-import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
-import sfu.cmpt276.carbontracker.carbonmodel.Car;
-import sfu.cmpt276.carbontracker.carbonmodel.CarListener;
-import sfu.cmpt276.carbontracker.carbonmodel.User;
-import sfu.cmpt276.carbontracker.ui.database.CarDataSource;
+import sfu.cmpt276.carbontracker.ui.database.Database;
+import sfu.cmpt276.carbontracker.ui.database.VehicleDataSource;
+import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
+import sfu.cmpt276.carbontracker.carbonmodel.VehicleListener;
 
-/* Displays list of vehicles, allows for adding, editing, deleting cars */
+/*Displays list of vehicles, allows for adding, editing, deleting cars*/
 public class TransportationModeActivity extends AppCompatActivity {
 
+    public static final String EDIT_VEHICLE_REQUEST = "EDIT_VEHICLE";
     private final String TAG = "TransportationActivity";
 
     @Override
@@ -53,31 +51,6 @@ public class TransportationModeActivity extends AppCompatActivity {
         setupCarDirectory();
 
         setupSelectModeTxt();
-
-        populateCarListFromDatabase();
-    }
-
-    private void populateCarListFromDatabase() {
-        CarDataSource dataSource = new CarDataSource(this);
-        dataSource.open();
-        dataSource.updateCar(User.BUS);
-        dataSource.updateCar(User.BIKE);
-        dataSource.updateCar(User.SKYTRAIN);
-
-        dataSource.close();
-        // Check if car list already populated from database
-        // This prevents duplicate entries from re-opening this activity
-        if (!User.getInstance().isCarListPopulatedFromDatabase()) {
-            CarDataSource db = new CarDataSource(this);
-            db.open();
-
-            List<Car> cars = db.getAllCars();
-            User user = User.getInstance();
-            for (Car car : cars) {
-                user.addCarToCarList(car);
-            }
-            User.getInstance().setCarListPopulatedFromDatabase();
-        }
     }
 
     private void setUpBikeButton() {
@@ -135,15 +108,17 @@ public class TransportationModeActivity extends AppCompatActivity {
         user.setUpDirectory(inputStream);
     }
 
-    private void addTestVehicleToArray() {
-        User user = User.getInstance();
-
-        List<Car> carArrayList = user.getCarList();
-
-        carArrayList.add(new Car("My fav car", "Lamborghini", "Diablo", 1999));
-        carArrayList.add(new Car("The fun car", "Porsche", "911", 2017));
-        carArrayList.add(new Car("The Ancient One", "Honda", "Civic", 1985));
-    }
+// --Commented out by Inspection START (2017-03-23 6:39 PM):
+//    private void addTestVehicleToArray() {
+//        User user = User.getInstance();
+//
+//        List<Vehicle> vehicleArrayList = user.getVehicleList();
+//
+//        vehicleArrayList.add(new Vehicle("My fav car", "Lamborghini", "Diablo", 1999));
+//        vehicleArrayList.add(new Vehicle("The fun car", "Porsche", "911", 2017));
+//        vehicleArrayList.add(new Vehicle("The Ancient One", "Honda", "Civic", 1985));
+//    }
+// --Commented out by Inspection STOP (2017-03-23 6:39 PM)
 
     private void setupSelectModeTxt() {
         TextView selectTxt = (TextView) findViewById(R.id.selectMode);
@@ -164,48 +139,52 @@ public class TransportationModeActivity extends AppCompatActivity {
     }
 
     private void setUpCarListView() {
-        ArrayAdapter<Car> carListAdapter = new CarListAdapter(TransportationModeActivity.this);
-        User.getInstance().setCarListener((CarListener) carListAdapter);
+        ArrayAdapter<Vehicle> carListAdapter = new VehicleListAdapter(TransportationModeActivity.this);
+        User.getInstance().setVehicleListener((VehicleListener) carListAdapter);
         ListView carList = (ListView) findViewById(R.id.carListView);
         carList.setAdapter(carListAdapter);
     }
 
-    private class CarListAdapter extends ArrayAdapter<Car> implements CarListener {
-        private List<Car> carList;
+    private class VehicleListAdapter extends ArrayAdapter<Vehicle> implements VehicleListener {
+        private List<Vehicle> vehicleList;
 
-        CarListAdapter(Context context) {
-            super(context, R.layout.car_listview_item, User.getInstance().getCarList());
-            carList = User.getInstance().getCarList();
-            carListWasEdited();
+        VehicleListAdapter(Context context) {
+            super(context, R.layout.car_listview_item, User.getInstance().getVehicleList());
+            vehicleList = User.getInstance().getVehicleList();
+            vehicleListWasEdited();
         }
 
         @NonNull
         @Override
         public View getView(int position, View convertView, @NonNull ViewGroup parent){
             View itemView;
-            Car car = carList.get(position);
+            Vehicle car = vehicleList.get(position);
             if (car.getActive()) {
                 itemView = LayoutInflater.from(getContext()).inflate(R.layout.car_listview_item, parent, false);
             } else {
                 itemView = LayoutInflater.from(getContext()).inflate(R.layout.listview_item_null, parent, false);
             }
 
+            User user = User.getInstance();
+            // Get the current vehicle
+            Vehicle vehicle = user.getVehicleList().get(position);
+            // Fill the TextView
             TextView description = (TextView) itemView.findViewById(R.id.car_description);
             if(description != null)
-                description.setText(car.getShortDecription());
+                description.setText(vehicle.getShortDecription());
 
             return itemView;
         }
 
         @Nullable
         @Override
-        public Car getItem(int position) {
+        public Vehicle getItem(int position) {
             return super.getItem(position);
         }
 
         @Override
-        public void carListWasEdited() {
-            Log.i(TAG, "Car List changed, updating listview");
+        public void vehicleListWasEdited() {
+            Log.i(TAG, "Vehicle List changed, updating listview");
             notifyDataSetChanged();
         }
     }
@@ -217,12 +196,11 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // User has selected a vehicle
-                Car car = (Car) adapterView.getAdapter().getItem(i);
-                //Car car = User.getInstance().getCarList().get(i);
-                Log.i(TAG, "User selected vehicle " + car.getShortDecription());
+                Vehicle vehicle = User.getInstance().getVehicleList().get(i);
+                Log.i(TAG, "User selected vehicle " + vehicle.getShortDecription());
 
-                // Set current Journey to use the selected car
-                User.getInstance().setCurrentJourneyCar(car);
+                // Set current Journey to use the selected vehicle
+                User.getInstance().setCurrentJourneyCar(vehicle);
 
                 Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
                 startActivityForResult(intent, 0);
@@ -233,10 +211,10 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // User has long pressed to edit a vehicle
-                Car car = (Car) adapterView.getAdapter().getItem(i);
-                Log.i(TAG, "User long pressed on " + car.getShortDecription());
+                Vehicle vehicle = User.getInstance().getVehicleList().get(i);
+                Log.i(TAG, "User long pressed on " + vehicle.getShortDecription());
 
-                int index = User.getInstance().getCarList().indexOf(car);
+                int index = User.getInstance().getVehicleList().indexOf(vehicle);
 
                 launchNewVehicleDialog(index);
 
@@ -255,14 +233,14 @@ public class TransportationModeActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         NewVehicleFragment dialog = new NewVehicleFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("car", carPosition);
+        bundle.putInt(EDIT_VEHICLE_REQUEST, carPosition);
         dialog.setArguments(bundle);
         dialog.show(manager, "NewVehicleDialog");
     }
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {
+        if (resultCode == User.ACTIVITY_FINISHED_REQUESTCODE) {
             finish();
         }
     }

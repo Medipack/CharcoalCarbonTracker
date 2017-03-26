@@ -1,5 +1,6 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +15,6 @@ import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
-import sfu.cmpt276.carbontracker.carbonmodel.User;
 
 /**
  * A custom array adapter for the purposes of creating a multicolumn Listview
@@ -29,6 +29,7 @@ class JourneyListAdapter extends ArrayAdapter<Journey> {
         this.journeyList = journeyList;
     }
 
+    @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View journeyView = convertView;
@@ -45,11 +46,12 @@ class JourneyListAdapter extends ArrayAdapter<Journey> {
         TextView emission = (TextView) journeyView.findViewById(R.id.viewEmission);
         //Fill the view
         //Date
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+        @SuppressLint
+                ("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
         String str_date = sdf.format(thisJourney.getDate());
         date.setText(str_date);
         //Nickname
-        String nickname = thisJourney.getCar().getNickname();
+        String nickname = thisJourney.getVehicle().getNickname();
         vehicle.setText(nickname);
         //Route
         String routeName = thisJourney.getRoute().getRouteName();

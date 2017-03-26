@@ -1,6 +1,5 @@
 package sfu.cmpt276.carbontracker.ui;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,13 +15,12 @@ import java.util.Date;
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
+import sfu.cmpt276.carbontracker.ui.database.Database;
 import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
-
+/*Activity to allow user to pick date for journeys*/
 public class PickDateActivity extends AppCompatActivity {
 
-    private final String TAG = "PickDateActivity";
-
-    Calendar calendar;
+    private Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,26 +61,22 @@ public class PickDateActivity extends AppCompatActivity {
         });
     }
 
-        public void setJourneyDate(Date date) {
+        private void setJourneyDate(Date date) {
             User.getInstance().getCurrentJourney().setDate(date);
         }
 
         private void saveCurrentJourneyToDatabase() {
+            String TAG = "PickDateActivity";
             Log.i(TAG, "Saving Current Journey to Database");
 
             Journey journey = User.getInstance().getCurrentJourney();
 
-            JourneyDataSource db = new JourneyDataSource(this);
-            db.open();
-            journey = db.insertJourney(journey, this);
-            db.close();
-
-            User.getInstance().addJourney(journey);
+            Database.getDB().addJourney(journey);
         }
 
         protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if (resultCode == User.ACTIITY_FINISHED_REQUESTCODE) {
-                setResult(User.ACTIITY_FINISHED_REQUESTCODE);
+            if (resultCode == User.ACTIVITY_FINISHED_REQUESTCODE) {
+                setResult(User.ACTIVITY_FINISHED_REQUESTCODE);
                 finish();
             }
         }

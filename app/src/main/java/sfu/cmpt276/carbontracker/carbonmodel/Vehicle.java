@@ -1,14 +1,10 @@
 package sfu.cmpt276.carbontracker.carbonmodel;
 
-import android.content.res.Resources;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import static java.security.AccessController.getContext;
-
-public class Car implements Cloneable, Serializable{
+public class Vehicle implements Cloneable, Serializable{
     //Constants
     public static final String CAR = "car";
     public static final String BUS = "bus";
@@ -36,7 +32,7 @@ public class Car implements Cloneable, Serializable{
     private double engineDispl;
 
     //Constructor
-    public Car(){
+    public Vehicle(){
         isActive = false;
         nickname = DEFAULT_NICKNAME;
         model = DEFAULT_DESCRIPTION;
@@ -51,7 +47,7 @@ public class Car implements Cloneable, Serializable{
     }
 
     //Constructor for public modes of transportation
-    public Car(int id, String nickname, double cityCO2, double hwyCO2, String transport_mode){
+    public Vehicle(int id, String nickname, double cityCO2, double hwyCO2, String transport_mode){
         setId(id);
         isActive = false;
         this.nickname = nickname;
@@ -66,7 +62,7 @@ public class Car implements Cloneable, Serializable{
         setTransport_mode(transport_mode);
     }
 
-    public Car(String nickname, String make, String model, int year){
+    public Vehicle(String nickname, String make, String model, int year){
         isActive = false;
         this.nickname = nickname;
         this.make = make;
@@ -75,7 +71,7 @@ public class Car implements Cloneable, Serializable{
         transport_mode = CAR;
     }
 
-    public Car(String nickname, String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
+    public Vehicle(String nickname, String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
         isActive = false;
         this.nickname = nickname;
         this.model = model;
@@ -89,7 +85,7 @@ public class Car implements Cloneable, Serializable{
         transport_mode = CAR;
     }
 
-    public Car(String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
+    public Vehicle(String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
         isActive = false;
         this.nickname = DEFAULT_NICKNAME;
         this.model = model;
@@ -196,13 +192,11 @@ public class Car implements Cloneable, Serializable{
     }
 
     public void setCityCO2(int cityCO2) {
-        double CO2 = toLitres(toKM(cityCO2));
-        this.cityCO2 = CO2;
+        this.cityCO2 = toLitres(toKM(cityCO2));
     }
 
     public void setHwyCO2(int hwyCO2) {
-        double CO2 = toLitres(toKM(hwyCO2));
-        this.hwyCO2 = CO2;
+        this.hwyCO2 = toLitres(toKM(hwyCO2));
     }
 
     public void setEngineDispl(double engineDispl) {
@@ -211,14 +205,12 @@ public class Car implements Cloneable, Serializable{
     }
 
     //Helper functions
-    double toKM(int miles){
-        double meters = miles * MILES_TO_KM;
-        return meters;
+    private double toKM(int miles){
+        return miles * MILES_TO_KM;
     }
 
-    double toLitres(double gallons){
-        double litres = gallons/GAL_TO_LITRES;
-        return litres;
+    private double toLitres(double gallons){
+        return gallons/GAL_TO_LITRES;
     }
 
     @Override
