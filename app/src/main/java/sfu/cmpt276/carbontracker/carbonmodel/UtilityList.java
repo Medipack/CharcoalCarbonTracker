@@ -1,6 +1,7 @@
 package sfu.cmpt276.carbontracker.carbonmodel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -12,7 +13,7 @@ public class UtilityList {
     private List<Utility> utilities = new ArrayList<>();
 
     public List<Utility> getUtilities(){
-        return utilities;
+        return Collections.unmodifiableList(utilities);
     }
 
     public void addUtility(Utility utility){
@@ -68,6 +69,10 @@ public class UtilityList {
             throw new IllegalArgumentException();
 
         }
+    }
+
+    public void clearUtilities() {
+        utilities.clear();
     }
 
 //Graph helper methods//

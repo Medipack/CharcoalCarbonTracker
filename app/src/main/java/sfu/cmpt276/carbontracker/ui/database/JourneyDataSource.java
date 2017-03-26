@@ -42,12 +42,25 @@ public class JourneyDataSource {
         dbHelper.close();
     }
 
-    public Journey insertJourney(Journey journey, Context context) {
+    private ContentValues journeyToContentValues(Journey journey, boolean includeId) {
         ContentValues values = new ContentValues();
 
+        if(includeId)
+            values.put(JourneyDatabaseHelper.COLUMN_ID, journey.getId());
         values.put(JourneyDatabaseHelper.COLUMN_CAR_ID, journey.getVehicle().getId());
         values.put(JourneyDatabaseHelper.COLUMN_ROUTE_ID, journey.getRoute().getId());
         values.put(JourneyDatabaseHelper.COLUMN_DATE, journey.getDate().getTime());
+
+        return values;
+    }
+
+    public void updateJourney(Journey journey) {
+        ContentValues values = journeyToContentValues(journey, true);
+        db.replace(JourneyDatabaseHelper.TABLE_JOURNEYS, null, values);
+    }
+
+    public Journey insertJourney(Journey journey, Context context) {
+        ContentValues values = journeyToContentValues(journey, false);
 
         long insertId = db.insert(JourneyDatabaseHelper.TABLE_JOURNEYS, null, values);
 

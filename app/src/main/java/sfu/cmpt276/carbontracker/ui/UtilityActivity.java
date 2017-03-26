@@ -24,35 +24,14 @@ public class UtilityActivity extends AppCompatActivity {
     private int edit_position;
     private int mode;
 
-    private UtilityList myUtility = User.getInstance().getUtilityList();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_utility);
 
-        populateUtilityListFromDatabase();
-
         populateListView();
         setupAddBtn();
         registerClickCallback();
-
-    }
-
-    private void populateUtilityListFromDatabase() {
-        // Check if route list already populated from database
-        // This prevents duplicate entries from re-opening this activity
-        if(!User.getInstance().isUtilityListPopulatedFromDatabase()){
-            UtilityDataSource db = new UtilityDataSource(this);
-            db.open();
-
-            List<Utility> utilities = db.getAllUtilities();
-            User user = User.getInstance();
-            for(Utility utility : utilities) {
-                user.addUtilityToUtilityList(utility);
-            }
-            User.getInstance().setUtilityListPopulatedFromDatabase();
-        }
 
     }
 
@@ -79,7 +58,7 @@ public class UtilityActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,                       // Context for the activity
                 R.layout.bill_item,          // Layout to use (create)
-                myUtility.getUtilityDescription());            // Items to be displayed
+                User.getInstance().getUtilityList().getUtilityDescription());            // Items to be displayed
 
         // Configure the list view
         list = (ListView) findViewById(R.id.utilityList);

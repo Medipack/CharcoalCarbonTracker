@@ -15,6 +15,7 @@ import java.util.Date;
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
+import sfu.cmpt276.carbontracker.ui.database.Database;
 import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 /*Activity to allow user to pick date for journeys*/
 public class PickDateActivity extends AppCompatActivity {
@@ -70,12 +71,7 @@ public class PickDateActivity extends AppCompatActivity {
 
             Journey journey = User.getInstance().getCurrentJourney();
 
-            JourneyDataSource db = new JourneyDataSource(this);
-            db.open();
-            journey = db.insertJourney(journey, this);
-            db.close();
-
-            User.getInstance().addJourney(journey);
+            Database.getDB().addJourney(journey);
         }
 
         protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -14,34 +14,25 @@ import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
+import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 
 /*  Displays Pie chart of journey emissions
 * */
 public class PieGraphActivity extends AppCompatActivity {
-    private List<Journey> journeyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pie_graph);
 
-        populateJourneyList();
-
         setupPieChart();
-    }
-
-    private void populateJourneyList() {
-        JourneyDataSource db = new JourneyDataSource(this);
-        db.open();
-        journeyList = db.getAllJourneys(this);
-        db.close();
     }
 
     private void setupPieChart() {
         List<PieEntry> pieEntries = new ArrayList<>();
 
-        for(Journey journey : journeyList){
+        for(Journey journey : User.getInstance().getJourneyList()){
             String car = journey.getVehicle().getShortDecription();
 
             float emission = (float) journey.getCarbonEmitted();

@@ -16,6 +16,7 @@ import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
+import sfu.cmpt276.carbontracker.ui.database.Database;
 import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 /* Activity that displays carbon footprint in form of table of journeys or pie graph*/
 
@@ -106,9 +107,7 @@ public class JourneyActivity extends AppCompatActivity {
     }
 
     private void deleteJourney(Journey journey) {
-        db.open();
-        db.deleteJourney(journey);
-        db.close();
+        Database.getDB().deleteJourney(journey);
         populateJourneyList();
         populateListView();
     }

@@ -1,6 +1,7 @@
 package sfu.cmpt276.carbontracker.carbonmodel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.carbonmodel.Route;
@@ -10,7 +11,7 @@ public class RouteList {
     private List<Route> routes = new ArrayList<>();
 
     public List<Route> getRoutes(){
-        return routes;
+        return Collections.unmodifiableList(routes);
     }
 
     public void addRoute(Route newRoute){
@@ -30,6 +31,9 @@ public class RouteList {
         return routes.size();
     }
 
+    public void clearRoutes() {
+        routes.clear();
+    }
 
     public Route getRoute(int index){
         validateIndexWithException(index);

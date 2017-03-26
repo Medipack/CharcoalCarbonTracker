@@ -25,48 +25,21 @@ import java.util.Set;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
+import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 /*Activity to display graph for single day's data*/
 public class SingleDayActivity extends AppCompatActivity {
 
-
     private Date singleDate;
-
-    private List<Utility> utilityList;
-    private List<Journey> journeyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_day);
 
-        populateUtilityList();
-        populateJourneyList();
-
         setupSingleDayPieGraph();
-    }
-
-    private void populateJourneyList() {
-        journeyList = new ArrayList<>();
-        JourneyDataSource db = new JourneyDataSource(this);
-        db.open();
-        journeyList = db.getAllJourneys(this);
-        db.close();
-        Set<Journey> journeySet = new HashSet<>();
-        for(Journey journey : journeyList)
-            journeySet.add(journey);
-        journeyList.clear();
-        journeyList.addAll(journeySet);
-    }
-
-    private void populateUtilityList() {
-        utilityList = new ArrayList<>();
-        UtilityDataSource db = new UtilityDataSource(this);
-        db.open();
-        utilityList = db.getAllUtilities();
-        db.close();
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -88,7 +61,7 @@ public class SingleDayActivity extends AppCompatActivity {
         Toast.makeText(this, "" + singleDate.getTime(), Toast.LENGTH_SHORT).show();
 
 
-        for (Utility utility : utilityList) {
+        for (Utility utility : User.getInstance().getUtilityList().getUtilities()) {
             Date startDate = utility.getStartDate();
             Date endDate = utility.getEndDate();
             //gas
@@ -163,7 +136,7 @@ public class SingleDayActivity extends AppCompatActivity {
             pieEntries.add(new PieEntry(temp, car));
         }
         */
-            for(Journey journey : journeyList) {
+            for(Journey journey : User.getInstance().getJourneyList()) {
                 Calendar journeyDate = Calendar.getInstance();
                 journeyDate.setTime(journey.getDate());
                 Calendar singleDate_cal = Calendar.getInstance();

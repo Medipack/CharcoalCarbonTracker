@@ -19,24 +19,24 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 public class VehicleDataSource {
 
     private SQLiteDatabase db;
-    private CarDatabaseHelper dbHelper;
+    private VehicleDatabaseHelper dbHelper;
 
     private String[] columns = {
-            CarDatabaseHelper.COLUMN_ID,
-            CarDatabaseHelper.COLUMN_ISACTIVE,
-            CarDatabaseHelper.COLUMN_NICKNAME,
-            CarDatabaseHelper.COLUMN_TRANSPORTMODE,
-            CarDatabaseHelper.COLUMN_MAKE,
-            CarDatabaseHelper.COLUMN_MODEL,
-            CarDatabaseHelper.COLUMN_FUELTYPE,
-            CarDatabaseHelper.COLUMN_TRANSMISSION,
-            CarDatabaseHelper.COLUMN_YEAR,
-            CarDatabaseHelper.COLUMN_CITYCO2,
-            CarDatabaseHelper.COLUMN_HWYCO2,
-            CarDatabaseHelper.COLUMN_ENGINEDISPL};
+            VehicleDatabaseHelper.COLUMN_ID,
+            VehicleDatabaseHelper.COLUMN_ISACTIVE,
+            VehicleDatabaseHelper.COLUMN_NICKNAME,
+            VehicleDatabaseHelper.COLUMN_TRANSPORTMODE,
+            VehicleDatabaseHelper.COLUMN_MAKE,
+            VehicleDatabaseHelper.COLUMN_MODEL,
+            VehicleDatabaseHelper.COLUMN_FUELTYPE,
+            VehicleDatabaseHelper.COLUMN_TRANSMISSION,
+            VehicleDatabaseHelper.COLUMN_YEAR,
+            VehicleDatabaseHelper.COLUMN_CITYCO2,
+            VehicleDatabaseHelper.COLUMN_HWYCO2,
+            VehicleDatabaseHelper.COLUMN_ENGINEDISPL};
 
     public VehicleDataSource(Context context) {
-        dbHelper = new CarDatabaseHelper(context);
+        dbHelper = new VehicleDatabaseHelper(context);
     }
 
     public void open() throws SQLException {
@@ -50,34 +50,34 @@ public class VehicleDataSource {
     private ContentValues vehicleToContentValues(Vehicle vehicle, boolean includeId) {
         ContentValues values = new ContentValues();
         if(includeId) {
-            values.put(CarDatabaseHelper.COLUMN_ID, vehicle.getId());
+            values.put(VehicleDatabaseHelper.COLUMN_ID, vehicle.getId());
         }
-        values.put(CarDatabaseHelper.COLUMN_ISACTIVE, User.booleanToInt(vehicle.getActive()));
-        values.put(CarDatabaseHelper.COLUMN_NICKNAME, vehicle.getNickname());
-        values.put(CarDatabaseHelper.COLUMN_TRANSPORTMODE, vehicle.getTransport_mode());
-        values.put(CarDatabaseHelper.COLUMN_MAKE, vehicle.getMake());
-        values.put(CarDatabaseHelper.COLUMN_MODEL, vehicle.getModel());
-        values.put(CarDatabaseHelper.COLUMN_FUELTYPE, vehicle.getFuelType());
-        values.put(CarDatabaseHelper.COLUMN_TRANSMISSION, vehicle.getTransmission());
-        values.put(CarDatabaseHelper.COLUMN_YEAR, vehicle.getYear());
-        values.put(CarDatabaseHelper.COLUMN_CITYCO2, vehicle.getCityCO2());
-        values.put(CarDatabaseHelper.COLUMN_HWYCO2, vehicle.getHwyCO2());
-        values.put(CarDatabaseHelper.COLUMN_ENGINEDISPL, vehicle.getEngineDispl());
+        values.put(VehicleDatabaseHelper.COLUMN_ISACTIVE, User.booleanToInt(vehicle.getActive()));
+        values.put(VehicleDatabaseHelper.COLUMN_NICKNAME, vehicle.getNickname());
+        values.put(VehicleDatabaseHelper.COLUMN_TRANSPORTMODE, vehicle.getTransport_mode());
+        values.put(VehicleDatabaseHelper.COLUMN_MAKE, vehicle.getMake());
+        values.put(VehicleDatabaseHelper.COLUMN_MODEL, vehicle.getModel());
+        values.put(VehicleDatabaseHelper.COLUMN_FUELTYPE, vehicle.getFuelType());
+        values.put(VehicleDatabaseHelper.COLUMN_TRANSMISSION, vehicle.getTransmission());
+        values.put(VehicleDatabaseHelper.COLUMN_YEAR, vehicle.getYear());
+        values.put(VehicleDatabaseHelper.COLUMN_CITYCO2, vehicle.getCityCO2());
+        values.put(VehicleDatabaseHelper.COLUMN_HWYCO2, vehicle.getHwyCO2());
+        values.put(VehicleDatabaseHelper.COLUMN_ENGINEDISPL, vehicle.getEngineDispl());
         return values;
     }
 
     public void updateVehicle(Vehicle vehicle) {
         ContentValues values = vehicleToContentValues(vehicle, true);
-        db.replace(CarDatabaseHelper.TABLE_CARS, null, values);
+        db.replace(VehicleDatabaseHelper.TABLE_VEHICLES, null, values);
     }
 
     public Vehicle insertCar(Vehicle vehicle) {
         ContentValues values = vehicleToContentValues(vehicle, false);
 
-        long insertId = db.insert(CarDatabaseHelper.TABLE_CARS, null, values);
+        long insertId = db.insert(VehicleDatabaseHelper.TABLE_VEHICLES, null, values);
 
-        Cursor cursor = db.query(CarDatabaseHelper.TABLE_CARS, columns,
-                CarDatabaseHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
+        Cursor cursor = db.query(VehicleDatabaseHelper.TABLE_VEHICLES, columns,
+                VehicleDatabaseHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
 
         cursor.moveToFirst();
         Vehicle newCar = cursorToVehicle(cursor);
@@ -88,13 +88,13 @@ public class VehicleDataSource {
     public void deleteCar(Vehicle car) {
         long id = car.getId();
         Log.i(VehicleDataSource.class.getName(), "Car id " + id + " \"" + car.toString() + "\" deleted from Car database");
-        db.delete(CarDatabaseHelper.TABLE_CARS, CarDatabaseHelper.COLUMN_ID + " = " + id, null);
+        db.delete(VehicleDatabaseHelper.TABLE_VEHICLES, VehicleDatabaseHelper.COLUMN_ID + " = " + id, null);
     }
 
     public List<Vehicle> getAllCars() {
         List<Vehicle> cars = new ArrayList<>();
 
-        Cursor cursor = db.query(CarDatabaseHelper.TABLE_CARS, columns, null, null, null, null, null);
+        Cursor cursor = db.query(VehicleDatabaseHelper.TABLE_VEHICLES, columns, null, null, null, null, null);
 
         cursor.moveToFirst();
         while(!cursor.isAfterLast()) {
@@ -130,8 +130,8 @@ public class VehicleDataSource {
         Vehicle car = null;
 
         try (Cursor cursor = db.rawQuery("SELECT * FROM "
-                + CarDatabaseHelper.TABLE_CARS + " WHERE "
-                + CarDatabaseHelper.COLUMN_ID + " = ?", new String[]{"" + id})) {
+                + VehicleDatabaseHelper.TABLE_VEHICLES + " WHERE "
+                + VehicleDatabaseHelper.COLUMN_ID + " = ?", new String[]{"" + id})) {
             if (cursor.moveToFirst()) {
                 car = cursorToVehicle(cursor);
             }

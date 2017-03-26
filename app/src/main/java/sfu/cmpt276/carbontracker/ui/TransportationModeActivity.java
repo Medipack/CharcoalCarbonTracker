@@ -23,6 +23,7 @@ import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
+import sfu.cmpt276.carbontracker.ui.database.Database;
 import sfu.cmpt276.carbontracker.ui.database.VehicleDataSource;
 import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
 import sfu.cmpt276.carbontracker.carbonmodel.VehicleListener;
@@ -30,6 +31,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.VehicleListener;
 /*Displays list of vehicles, allows for adding, editing, deleting cars*/
 public class TransportationModeActivity extends AppCompatActivity {
 
+    public static final String EDIT_VEHICLE_REQUEST = "EDIT_VEHICLE";
     private final String TAG = "TransportationActivity";
 
     @Override
@@ -49,31 +51,6 @@ public class TransportationModeActivity extends AppCompatActivity {
         setupCarDirectory();
 
         setupSelectModeTxt();
-
-        populateCarListFromDatabase();
-    }
-
-    private void populateCarListFromDatabase() {
-        VehicleDataSource dataSource = new VehicleDataSource(this);
-        dataSource.open();
-        dataSource.updateVehicle(User.BUS);
-        dataSource.updateVehicle(User.BIKE);
-        dataSource.updateVehicle(User.SKYTRAIN);
-
-        dataSource.close();
-        // Check if car list already populated from database
-        // This prevents duplicate entries from re-opening this activity
-        if (!User.getInstance().isCarListPopulatedFromDatabase()) {
-            VehicleDataSource db = new VehicleDataSource(this);
-            db.open();
-
-            List<Vehicle> cars = db.getAllCars();
-            User user = User.getInstance();
-            for (Vehicle car : cars) {
-                user.addCarToCarList(car);
-            }
-            User.getInstance().setCarListPopulatedFromDatabase();
-        }
     }
 
     private void setUpBikeButton() {
@@ -256,7 +233,7 @@ public class TransportationModeActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         NewVehicleFragment dialog = new NewVehicleFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("car", carPosition);
+        bundle.putInt(EDIT_VEHICLE_REQUEST, carPosition);
         dialog.setArguments(bundle);
         dialog.show(manager, "NewVehicleDialog");
     }

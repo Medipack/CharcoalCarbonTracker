@@ -25,6 +25,7 @@ import java.util.Date;
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
+import sfu.cmpt276.carbontracker.ui.database.Database;
 import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 /*Activity to display bills for user input*/
 public class BillActivity extends AppCompatActivity {
@@ -188,16 +189,7 @@ public class BillActivity extends AppCompatActivity {
         String TAG = "BillActivity";
         Log.i(TAG, "Add button clicked");
         utility.setActive(true);
-        utility = addUtilityToDatabase(utility);
-        User.getInstance().addUtilityToUtilityList(utility);
-    }
-
-    private Utility addUtilityToDatabase(Utility utility) {
-        UtilityDataSource db = new UtilityDataSource(this);
-        db.open();
-        Utility newUtility = db.insertUtility(utility);
-        db.close();
-        return newUtility;
+        Database.getDB().addUtility(utility);
     }
 
     private void setupDeleteButton() {
@@ -205,7 +197,8 @@ public class BillActivity extends AppCompatActivity {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User.getInstance().getUtilityList().removeUtility(position);
+                Utility utility = User.getInstance().getUtilityList().getUtility(position);
+                Database.getDB().deleteUtility(utility);
                 finish();
             }
         });

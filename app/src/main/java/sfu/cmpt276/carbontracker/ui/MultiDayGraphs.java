@@ -27,6 +27,7 @@ import java.util.Set;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
+import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
 import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
@@ -40,40 +41,13 @@ public class MultiDayGraphs extends AppCompatActivity {
     private static final int DAYS_IN_YEAR = 365;
     private static final int MONTH_COUNT = 12;
 
-    private List<Utility> mainUtilityList;
-    private List<Journey> mainJourneyList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multi_day_graphs);
 
-        populateUtilityList();
-        populateJourneyList();
-
         Intent intent = getIntent();
         setupChart(intent.getIntExtra("days", 0));
-    }
-
-    private void populateJourneyList() {
-        mainJourneyList = new ArrayList<>();
-        JourneyDataSource db = new JourneyDataSource(this);
-        db.open();
-        mainJourneyList = db.getAllJourneys(this);
-        db.close();
-        Set<Journey> journeySet = new HashSet<>();
-        for(Journey journey : mainJourneyList)
-            journeySet.add(journey);
-        mainJourneyList.clear();
-        mainJourneyList.addAll(journeySet);
-    }
-
-    private void populateUtilityList() {
-        mainUtilityList = new ArrayList<>();
-        UtilityDataSource db = new UtilityDataSource(this);
-        db.open();
-        mainUtilityList = db.getAllUtilities();
-        db.close();
     }
 
     @Override
@@ -266,7 +240,7 @@ public class MultiDayGraphs extends AppCompatActivity {
 
     private float getJourneyEmissionsForMonthForTransportType(int m, String transportModeWanted) {
         float totalEmissions = 0;
-        for(Journey journey: mainJourneyList)
+        for(Journey journey: User.getInstance().getJourneyList())
         {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(journey.getDate());
@@ -283,7 +257,7 @@ public class MultiDayGraphs extends AppCompatActivity {
     private float getUtilityEmissionsForMonthForUtilityType(String utilityType, int m)
     {
         float totalEmissions = 0;
-        for(Utility utility: mainUtilityList)
+        for(Utility utility: User.getInstance().getUtilityList().getUtilities())
         {
             List<Date> utilityDates = new ArrayList<>();
             Calendar calendar = Calendar.getInstance();
@@ -311,7 +285,7 @@ public class MultiDayGraphs extends AppCompatActivity {
     private Map<Vehicle, Float> getVehicleEmissionTotalsFromJourneysInMonth(int month)
     {
         List<Journey> journeyList = new ArrayList<>();
-        for(Journey journey: mainJourneyList)
+        for(Journey journey: User.getInstance().getJourneyList())
         {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(journey.getDate());
@@ -366,7 +340,7 @@ public class MultiDayGraphs extends AppCompatActivity {
     private List<Journey> getJourneysForTransportModeOnDate(Date dateWanted, String transportModeWanted) //
     {
         List<Journey> journeyList = new ArrayList<>();
-        for(Journey journey: mainJourneyList)
+        for(Journey journey: User.getInstance().getJourneyList())
         {
             Vehicle car = journey.getVehicle();
             Date journeyDateWithoutTime = new Date();
@@ -437,7 +411,7 @@ public class MultiDayGraphs extends AppCompatActivity {
         map.put(Utility.ELECTRICITY_NAME, 0f); //set for electricity emission totals
         map.put(Utility.GAS_NAME, 0f); //set for gas emission totals
 
-        for(Utility utility: mainUtilityList)  //each utility known
+        for(Utility utility: User.getInstance().getUtilityList().getUtilities())  //each utility known
         {
             Date utilityStartDateWithoutTime = new Date();
             Date utilityEndDateWithoutTime = new Date();

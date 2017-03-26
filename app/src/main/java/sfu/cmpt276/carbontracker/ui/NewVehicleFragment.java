@@ -30,7 +30,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
 import sfu.cmpt276.carbontracker.carbonmodel.VehicleDirectory;
 import sfu.cmpt276.carbontracker.carbonmodel.VehicleListener;
-import sfu.cmpt276.carbontracker.ui.database.VehicleDataSource;
+import sfu.cmpt276.carbontracker.ui.database.Database;
 
 /* Fragment for adding a new vehicle to vehicle list when creating a journey
 * */
@@ -54,7 +54,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         vehicle = new Vehicle();
 
         if(getArguments() != null)
-            editCarPosition = getArguments().getInt("vehicle", DEFAULT_EDIT_CAR_POSITION); // defaults to -1
+            editCarPosition = getArguments().getInt(TransportationModeActivity.EDIT_VEHICLE_REQUEST, DEFAULT_EDIT_CAR_POSITION); // defaults to -1
 
         if(editCarPosition != DEFAULT_EDIT_CAR_POSITION)
         {
@@ -108,7 +108,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         DialogInterface.OnClickListener deleteListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                deleteCar(editCarPosition);
+                hideCar(editCarPosition);
             }
         };
 
@@ -305,18 +305,12 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     // *** Database related methods *** //
     // *** Add / Edit / Delete helper functions *** //
 
-    private void deleteCar(int editCarPosition) {
+    private void hideCar(int editCarPosition) {
         Vehicle car = User.getInstance().getVehicleList().get(editCarPosition);
         Log.i(TAG, "Delete button clicked, hiding " + car);
         car.setActive(false);
 
-        VehicleDataSource db = new VehicleDataSource(NewVehicleFragment.this.getContext());
-        db.open();
-        db.updateVehicle(car);
-        db.close();
-
-        User.getInstance().removeCarFromCarList(car);
-
+        Database.getDB().updateVehicle(car);
     }
 
     private void editExistingCar(int editCarPosition, Vehicle car) {
@@ -326,10 +320,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         car.setId(oldCarId);
         car.setActive(true);
 
-        VehicleDataSource db = new VehicleDataSource(NewVehicleFragment.this.getContext());
-        db.open();
-        db.updateVehicle(car);
-        db.close();
+        Database.getDB().updateVehicle(car);
 
         User.getInstance().editCarFromCarList(editCarPosition, car);
     }
@@ -337,23 +328,16 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     private void addNewCar(Vehicle car) {
         Log.i(TAG, "Add button clicked");
         car.setActive(true);
-        car = addCarToDatabase(car);
-        User.getInstance().addCarToCarList(car);
+
+        Database.getDB().addVehicle(car);
     }
 
     private void useNewCar(Vehicle car) {
         Log.i(TAG, "Use button clicked");
         car.setActive(false);
-        car = addCarToDatabase(car);
-        User.getInstance().setCurrentJourneyCar(car);
-    }
 
-    private Vehicle addCarToDatabase(Vehicle car) {
-        VehicleDataSource db = new VehicleDataSource(NewVehicleFragment.this.getContext());
-        db.open();
-        Vehicle newCar = db.insertCar(car);
-        db.close();
-        return newCar;
+        car = Database.getDB().addVehicle(car);
+        User.getInstance().setCurrentJourneyCar(car);
     }
 
     // *** end of database related methods *** //

@@ -26,6 +26,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.RouteListener;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.Route;
+import sfu.cmpt276.carbontracker.ui.database.Database;
 import sfu.cmpt276.carbontracker.ui.database.RouteDataSource;
 
 /*Displays know routes, allows for adding, editing, deleting routes*/
@@ -46,8 +47,6 @@ public class RouteActivity extends AppCompatActivity {
         setupAddRoute();
         setUpRouteListView();
         registerClickCallback();
-
-        populateRouteListFromDatabase();
     }
 
     private class RouteListAdapter extends ArrayAdapter<Route> implements RouteListener {
@@ -294,7 +293,7 @@ public class RouteActivity extends AppCompatActivity {
                 editDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        deleteRoute(position);
+                        hideRoute(position);
                         setUpRouteListView();
                         //myRouteList.addRoute(hideRoute);
                         editDialog.cancel();
@@ -337,35 +336,16 @@ public class RouteActivity extends AppCompatActivity {
 
     // *** Database related methods *** //
 
-    private void populateRouteListFromDatabase() {
-        // Check if route list already populated from database
-        // This prevents duplicate entries from re-opening this activity
-        if(!User.getInstance().isRouteListPopulatedFromDatabase()){
-            RouteDataSource db = new RouteDataSource(this);
-            db.open();
-
-            List<Route> routes = db.getAllRoutes();
-            User user = User.getInstance();
-            for(Route route : routes) {
-                user.addRouteToRouteList(route);
-            }
-            User.getInstance().setRouteListPopulatedFromDatabase();
-        }
-    }
-
     // *** Add / Edit / Delete helper methods *** //
 
-    private void deleteRoute(int deleteRoutePosition) {
+    private void hideRoute(int deleteRoutePosition) {
         Route route = User.getInstance().getRouteList().getRoute(deleteRoutePosition);
         Log.i(TAG, "Delete button clicked");
         route.setActive(false);
 
-        RouteDataSource db = new RouteDataSource(this);
-        db.open();
-        db.updateRoute(route);
-        db.close();
+        Database.getDB().updateRoute(route);
 
-        User.getInstance().removeRouteFromRouteList(deleteRoutePosition);
+        //User.getInstance().removeRouteFromRouteList(deleteRoutePosition);
     }
 
     private void editExistingRoute(int editRoutePosition, Route route) {
@@ -375,10 +355,7 @@ public class RouteActivity extends AppCompatActivity {
         route.setId(oldRouteId);
         route.setActive(true);
 
-        RouteDataSource db = new RouteDataSource(this);
-        db.open();
-        db.updateRoute(route);
-        db.close();
+        Database.getDB().updateRoute(route);
 
         User.getInstance().editRouteFromRouteList(editRoutePosition, route);
     }
@@ -386,23 +363,16 @@ public class RouteActivity extends AppCompatActivity {
     private void addNewRoute(Route route) {
         Log.i(TAG, "Add button clicked");
         route.setActive(true);
-        route = addRouteToDatabase(route);
-        User.getInstance().getRouteList().addRoute(route);
+
+        Database.getDB().addRoute(route);
     }
 
     private void useNewRoute(Route route) {
         Log.i(TAG, "Use button clicked");
         route.setActive(false);
-        route = addRouteToDatabase(route);
-        selectRouteAndAddToJourneyList(route);
-    }
 
-    private Route addRouteToDatabase(Route route) {
-        RouteDataSource db = new RouteDataSource(this);
-        db.open();
-        Route newRoute = db.insertRoute(route);
-        db.close();
-        return newRoute;
+        route = Database.getDB().addRoute(route);
+        selectRouteAndAddToJourneyList(route);
     }
 
     // *** end of database related methods *** //

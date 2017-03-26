@@ -10,9 +10,9 @@ import android.util.Log;
 /**
  * Database Helper for Car class
  */
-class CarDatabaseHelper extends SQLiteOpenHelper {
+class VehicleDatabaseHelper extends SQLiteOpenHelper {
 
-    static final String TABLE_CARS = "cars";
+    static final String TABLE_VEHICLES = "vehicles";
 
     static final String COLUMN_ID = "_id";
     static final String COLUMN_ISACTIVE = "isactive";
@@ -27,14 +27,14 @@ class CarDatabaseHelper extends SQLiteOpenHelper {
     static final String COLUMN_HWYCO2 = "hwyco2";
     static final String COLUMN_ENGINEDISPL = "enginedispl";
 
-    private static final String DATABASE_NAME = "cars.db";
-    private static final int DATABASE_VERSION = 10; // update if Car class is ever changed
+    private static final String DATABASE_NAME = "vehicles.db";
+    private static final int DATABASE_VERSION = Database.DATABASE_VERSION; // update if Car class is ever changed
 
     private final Context createContext;
 
     // SQL command to create the database
     private static final String DATABASE_CREATE = "create table " +
-            TABLE_CARS + "( " +
+            TABLE_VEHICLES + "( " +
             COLUMN_ID + " integer primary key autoincrement, " +
             COLUMN_ISACTIVE + " integer not null, " +
             COLUMN_NICKNAME + " text not null, " +
@@ -48,7 +48,7 @@ class CarDatabaseHelper extends SQLiteOpenHelper {
             COLUMN_HWYCO2 + " integer not null, " +
             COLUMN_ENGINEDISPL + " double not null);";
 
-    public CarDatabaseHelper(Context context){
+    public VehicleDatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         createContext = context;
     }
@@ -60,10 +60,10 @@ class CarDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(CarDatabaseHelper.class.getName(), "Upgrading + " + DATABASE_NAME + " database from version "
+        Log.w(VehicleDatabaseHelper.class.getName(), "Upgrading + " + DATABASE_NAME + " database from version "
                 + oldVersion + " to " + newVersion + ", old data will be destroyed");
 
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CARS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_VEHICLES);
 
         JourneyDatabaseHelper journey_db = new JourneyDatabaseHelper(createContext);
         journey_db.onUpgrade(db, 0,0);

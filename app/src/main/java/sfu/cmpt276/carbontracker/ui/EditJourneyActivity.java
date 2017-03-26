@@ -31,6 +31,8 @@ import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.Route;
 import sfu.cmpt276.carbontracker.carbonmodel.RouteList;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
+import sfu.cmpt276.carbontracker.ui.database.Database;
+
 /* Activity to allow user to edit journey*/
 public class EditJourneyActivity extends AppCompatActivity {
 
@@ -197,7 +199,7 @@ public class EditJourneyActivity extends AppCompatActivity {
                                 Toast.makeText(EditJourneyActivity.this, "Please enter an positive highway distance", Toast.LENGTH_SHORT).show();
                             } else {
                                 Route newRoute = new Route(nameSaved, citySaved, highwaySaved);
-                                User.getInstance().getRouteList().addRoute(newRoute);
+                                Database.getDB().addRoute(newRoute);
                                 setUpRouteSpinner(index);
                                 viewDialog.cancel();
                             }
@@ -257,7 +259,7 @@ public class EditJourneyActivity extends AppCompatActivity {
                                 //journey.setCarbonEmitted(emission);
                                 User.getInstance().resetCurrentJourneyEmission();
 
-                                User.getInstance().addJourney(User.getInstance().getCurrentJourney());
+                                Database.getDB().addJourney(User.getInstance().getCurrentJourney());
 
                                 Intent intent = new Intent(EditJourneyActivity.this, JourneyEmissionActivity.class);
                                 startActivityForResult(intent, 0);
@@ -327,6 +329,8 @@ public class EditJourneyActivity extends AppCompatActivity {
         editedJourney.setCarbonEmitted(editedJourney.calculateCarbonEmission());
         editedJourney.setDate(selectedDate);
         editedJourney.setRoute(selectedRoute);
+
+        Database.getDB().updateJourney(editedJourney);
     }
 
     private Date getSelectedDate() {

@@ -12,6 +12,7 @@ import java.io.InputStream;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
+import sfu.cmpt276.carbontracker.ui.database.Database;
 
 /*  Menu Activity displays main menu
 * */
@@ -21,6 +22,9 @@ public class MainMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        Database.getDB().initializeDatabase(this);
+
         setupMainDirectory();
         setupNewJourneyBtn();
         setupCarbonTotalsBtn();
