@@ -7,12 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.text.ParseException;
@@ -62,7 +64,7 @@ public class MultiDayGraphs extends AppCompatActivity {
     private void create365DayGraph() {
 
         //create bar chart, sets, entries, and x-axis labels
-        BarChart chart = (BarChart) findViewById(R.id.barChart);
+        CombinedChart chart = (CombinedChart) findViewById(R.id.barChart);
         BarDataSet busSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet, carSet;
 
         XAxis xAxis = chart.getXAxis();
@@ -144,8 +146,11 @@ public class MultiDayGraphs extends AppCompatActivity {
         xAxis.setLabelCount(MONTH_COUNT);
         //set the barData for the barChart and format
         BarData barData = new BarData(busSet, carSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet);
-        chart.setData(barData);
-        chart.setFitBars(true); // make the x-axis fit exactly all bars
+
+        CombinedData data = new CombinedData();
+        data.setData(barData);
+        chart.setData(data);
+        //chart.setFitBars(true); // make the x-axis fit exactly all bars
         chart.setDrawGridBackground(false);
         chart.setDrawValueAboveBar(false);
         chart.invalidate(); // refresh
@@ -153,7 +158,7 @@ public class MultiDayGraphs extends AppCompatActivity {
 
     private void create28DayGraph() {
         //create bar chart, sets, entries, and x-axis labels
-        BarChart chart = (BarChart) findViewById(R.id.barChart);
+        CombinedChart chart = (CombinedChart) findViewById(R.id.barChart);
         BarDataSet busSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet, carSet;
         List<BarEntry> busEntries = new ArrayList<>();
         List<BarEntry> skytrainEntries = new ArrayList<>();
@@ -189,7 +194,7 @@ public class MultiDayGraphs extends AppCompatActivity {
             for (int u = 0; u < temp_yValues.size(); u++) {
                 yvalues[u] = temp_yValues.get(u);
             }
-            entries.add(new BarEntry(c, yvalues)); //enter car data for particular date to entries
+            entries.add(new BarEntry(c, yvalues)); //enter car barData for particular date to entries
 
             //add bus, skytrain, walk/bike emissions to their appropriate entry lists for particular date
             busEntries.add(new BarEntry(c, (float) GraphHelper.getTotalEmissionsForTransportModeOnDate(dateList.get(i), Vehicle.BUS)));
@@ -241,10 +246,13 @@ public class MultiDayGraphs extends AppCompatActivity {
         xAxis.setDrawGridLines(false);
         xAxis.setLabelCount(DAYS_IN_4_WEEKS);
 
-        //set bar chart data and format chart
-        BarData data = new BarData(busSet, carSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet);
+        //set bar chart barData and format chart
+        BarData barData = new BarData(busSet, carSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet);
+
+        CombinedData data = new CombinedData();
+        data.setData(barData);
         chart.setData(data);
-        chart.setFitBars(true); // make the x-axis fit exactly all bars
+        //chart.setFitBars(true); // make the x-axis fit exactly all bars
         chart.setDrawGridBackground(false);
         chart.setDrawValueAboveBar(false);
         chart.invalidate(); // refresh
