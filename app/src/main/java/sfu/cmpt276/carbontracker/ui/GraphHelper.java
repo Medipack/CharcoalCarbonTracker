@@ -66,7 +66,7 @@ public class GraphHelper {
         return totalEmissions;
     }
 
-    public static Map<Vehicle, Float> getVehicleEmissionTotalsFromJourneysInMonth(int month)
+    public static Map<Vehicle, Float> getCarEmissionTotalsFromJourneysInMonth(int month)
     {
         List<Journey> journeyList = new ArrayList<>();
         for(Journey journey: User.getInstance().getJourneyList())

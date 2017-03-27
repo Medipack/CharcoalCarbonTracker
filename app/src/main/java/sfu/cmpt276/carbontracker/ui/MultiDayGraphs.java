@@ -18,21 +18,14 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
-import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
-import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
-import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 
 /* Activity to display 28 day bar graph and 365 day bar graph*/
 
@@ -90,7 +83,7 @@ public class MultiDayGraphs extends AppCompatActivity {
             walk_bikeEntries.add(new BarEntry(m, walk_bikeEmissions));
 
             List<Float> temp_yValues = new ArrayList<>();
-            Map<Vehicle, Float> carMap = GraphHelper.getVehicleEmissionTotalsFromJourneysInMonth(m);
+            Map<Vehicle, Float> carMap = GraphHelper.getCarEmissionTotalsFromJourneysInMonth(m);
             carMap.size();
             for (Map.Entry<Vehicle, Float> entry : carMap.entrySet()) {
                 Float emissionTotal = entry.getValue();
