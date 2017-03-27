@@ -39,6 +39,8 @@ public class MultiDayGraphs extends AppCompatActivity {
     private static final int DAYS_IN_YEAR = 365;
     private static final int MONTH_COUNT = 12;
     private static final float DAILY_EMISSIONS_PER_CAPITA = 40.5479452055f; //14800kg / 365days
+    private static final float MONTHLY_EMISSIONS_PER_CAPITA = 1233.33333333f; //14800kg / 12 months
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -278,12 +280,16 @@ public class MultiDayGraphs extends AppCompatActivity {
 
     private LineData generateLineData(int numberOfxValues)
     {
+        float emissionsAverage =0;
+        if(numberOfxValues == DAYS_IN_4_WEEKS)
+            emissionsAverage = DAILY_EMISSIONS_PER_CAPITA;
+        else if(numberOfxValues == MONTH_COUNT)
+            emissionsAverage = MONTHLY_EMISSIONS_PER_CAPITA;
+
         LineData lineData = new LineData();
-
         ArrayList<Entry> entries = new ArrayList<Entry>();
-
         for (int index = 0; index < numberOfxValues; index++)
-            entries.add(new Entry(index, DAILY_EMISSIONS_PER_CAPITA));
+            entries.add(new Entry(index, emissionsAverage));
 
         LineDataSet set = new LineDataSet(entries, "Kg Co2 per capita");
         set.setColor(ContextCompat.getColor(getApplicationContext(), R.color.TerribleColor));
