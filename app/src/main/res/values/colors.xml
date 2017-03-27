@@ -15,5 +15,12 @@
     <color name="Walk_bikeColor">#c87dd6</color>
     <color name="ElectricColor">#eef442</color>
     <color name="NaturalGasColor">#f4a641</color>
+<array name="carColors">
+    <item>@color/CarColor1</item>
+    <item>@color/CarColor2</item>
+    <item>@color/CarColor3</item>
+    <item>@color/CarColor4</item>
+    <item>@color/CarColor5</item>
 
+</array>
 </resources>
