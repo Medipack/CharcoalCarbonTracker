@@ -189,7 +189,7 @@ public class MultiDayGraphs extends AppCompatActivity {
             @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 Date formatDate = sdf.parse(sdf.format(date));
-                xAxisValues[i] = String.valueOf(sdf.format(formatDate));
+                xAxisValues[(int)c] = String.valueOf(sdf.format(formatDate));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
