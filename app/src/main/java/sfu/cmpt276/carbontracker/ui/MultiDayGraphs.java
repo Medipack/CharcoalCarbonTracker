@@ -40,7 +40,9 @@ public class MultiDayGraphs extends AppCompatActivity {
     private static final int MONTH_COUNT = 12;
     private static final float DAILY_EMISSIONS_PER_CAPITA = 40.5479452055f; //14800kg / 365days
     private static final float MONTHLY_EMISSIONS_PER_CAPITA = 1233.33333333f; //14800kg / 12 months
-
+    private static final float YEARLY_PER_CAPITA_EMMISSION_TARGET = 15377.83005f; // 523000000000 kg / 34.01 million people
+    private static final float MONTHLY_PER_CAPITA_EMISSION_TARGET = YEARLY_PER_CAPITA_EMMISSION_TARGET/12;
+    private static final float DAILY_PER_CAPITA_EMMISSION_TARGET = YEARLY_PER_CAPITA_EMMISSION_TARGET/365;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,9 @@ public class MultiDayGraphs extends AppCompatActivity {
     private void setupChart(int days) {
         CombinedChart chart = (CombinedChart) findViewById(R.id.barChart);
         CombinedData data = new CombinedData();
+        chart.setDrawOrder(new CombinedChart.DrawOrder[]{
+                CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE, CombinedChart.DrawOrder.LINE
+        });
 
         XAxis xAxis = chart.getXAxis();
         if(days == DAYS_IN_YEAR) {
@@ -68,7 +73,7 @@ public class MultiDayGraphs extends AppCompatActivity {
             xAxis.setLabelCount(MONTH_COUNT);
 
             data.setData(generateStackedBarData_365Days());
-            data.setData(generateLineData(MONTH_COUNT, MONTHLY_EMISSIONS_PER_CAPITA));
+            data.setData(generateLineData(MONTH_COUNT, MONTHLY_EMISSIONS_PER_CAPITA, MONTHLY_PER_CAPITA_EMISSION_TARGET));
         }
         else if(days == DAYS_IN_4_WEEKS)
         {
@@ -91,7 +96,7 @@ public class MultiDayGraphs extends AppCompatActivity {
             xAxis.setLabelCount(DAYS_IN_4_WEEKS);
 
             data.setData(generateStackedBarData_28days());
-            data.setData(generateLineData(DAYS_IN_4_WEEKS, DAILY_EMISSIONS_PER_CAPITA));
+            data.setData(generateLineData(DAYS_IN_4_WEEKS, DAILY_EMISSIONS_PER_CAPITA, DAILY_PER_CAPITA_EMMISSION_TARGET));
         }
 
         //format the y axis
@@ -252,23 +257,38 @@ public class MultiDayGraphs extends AppCompatActivity {
         return barData;
     }
 
-    private LineData generateLineData(int numberOfxValues, float emissionsAverage)
+    private LineData generateLineData(int numberOfxValues, float perCapitaEmissionsAverage, float targetEmissions)
     {
         LineData lineData = new LineData();
-        ArrayList<Entry> entries = new ArrayList<Entry>();
+        ArrayList<Entry> perCapitaEntries = new ArrayList<Entry>();
         for (int index = 0; index < numberOfxValues; index++)
-            entries.add(new Entry(index, emissionsAverage));
+            perCapitaEntries.add(new Entry(index, perCapitaEmissionsAverage));
 
-        LineDataSet set = new LineDataSet(entries, "Kg Co2 per capita");
-        set.setColor(ContextCompat.getColor(getApplicationContext(), R.color.TerribleColor));
-        set.setFillColor(ContextCompat.getColor(getApplicationContext(), R.color.TerribleColor));
-        set.setCircleColor(ContextCompat.getColor(getApplicationContext(), R.color.TerribleColor));
+        ArrayList<Entry> targetEntries = new ArrayList<Entry>();
+        for (int index = 0; index < numberOfxValues; index++)
+            targetEntries.add(new Entry(index, targetEmissions));
 
-        set.setLineWidth(3.5f);
-        set.setCircleRadius(2f);
+        int color = ContextCompat.getColor(getApplicationContext(), R.color.averageColor);
 
-        set.setAxisDependency(YAxis.AxisDependency.LEFT);
-        lineData.addDataSet(set);
+        LineDataSet perCapitaSet = new LineDataSet(perCapitaEntries, "Kg Co2 per capita");
+        perCapitaSet.setColor(color);
+        perCapitaSet.setFillColor(color);
+        perCapitaSet.setCircleColor(color);
+        perCapitaSet.setLineWidth(3.5f);
+        perCapitaSet.setCircleRadius(2f);
+        perCapitaSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        color = ContextCompat.getColor(getApplicationContext(), R.color.targetColor);
+        LineDataSet targetSet = new LineDataSet(targetEntries, "Kg Co2/capita Target");
+        targetSet.setColor(color);
+        targetSet.setFillColor(color);
+        targetSet.setCircleColor(color);
+        targetSet.setLineWidth(3.5f);
+        targetSet.setCircleRadius(2f);
+        targetSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        lineData.addDataSet(perCapitaSet);
+        lineData.addDataSet(targetSet);
 
         return lineData;
     }

@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="TerribleColor">#ff5000</color>
+    <color name="targetColor">#63ff00</color>
+    <color name="averageColor">#ff0000</color>
     <color name="BusColor">#c36060</color>
     <color name="CarColor1">#6c8cd2</color>
     <color name="CarColor2">#55b3bb</color>
