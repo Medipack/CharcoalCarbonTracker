@@ -1,6 +1,7 @@
 package sfu.cmpt276.carbontracker.ui;
 
 import android.content.Intent;
+import android.icu.text.UnicodeSet;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -60,14 +61,30 @@ public class SingleDayActivity extends AppCompatActivity {
     int month_365;
     int day_365;
 
-    double emissionTemp;
-    double emissionTotal_28;
+    double emissionCar;
+    double emissionBus;
+    double emissionBike;
+    double emissionSkytrain;
+
+    float tempCar;
+    float tempBus;
+
+    String vehicleCar;
+    String vehicleBus;
+    String vehicleSkytrain;
+    String vehicleBike;
+
+    int car_exist;
+    int bus_exist;
+    int skytrain_exist;
+    int bike_exist;
 
 
 
     Double emissionShare;
     Date journeyDate;
     Utility utility;
+    Utility utility_28;
 
     int dateIndex;
 
@@ -85,10 +102,6 @@ public class SingleDayActivity extends AppCompatActivity {
     PieChart chart_single;
     PieChart chart_28;
     PieChart chart_365;
-
-    String vehicle_name;
-    float temp1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,7 +196,6 @@ public class SingleDayActivity extends AppCompatActivity {
                                 String str_singleEmission = String.valueOf(emissionShare);
                                 float temp = Float.valueOf(str_singleEmission);
                                 pieEntries.add(new PieEntry(temp, Utility.GAS_NAME));
-                                Toast.makeText(this, "" + emissionShare, Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -194,13 +206,11 @@ public class SingleDayActivity extends AppCompatActivity {
                     else {
                         //selected date in the period of one date
                         if (singleDate.getTime() >= startDate.getTime() && singleDate.getTime() <= endDate.getTime()) {
-                            Toast.makeText(this, "In the period", Toast.LENGTH_SHORT).show();
                             //dateIndex = i;
                             emissionShare =utility.getPerDayUsage();
                             String str_singleEmission = String.valueOf(emissionShare);
                             float temp = Float.valueOf(str_singleEmission);
                             pieEntries.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
-                            Toast.makeText(this, "" + emissionShare, Toast.LENGTH_SHORT).show();
                             min = 0;
                         }
                         //selected date not in the period
@@ -232,7 +242,6 @@ public class SingleDayActivity extends AppCompatActivity {
                                 String str_singleEmission = String.valueOf(emissionShare);
                                 float temp = Float.valueOf(str_singleEmission);
                                 pieEntries.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
-                                Toast.makeText(this, "" + emissionShare, Toast.LENGTH_SHORT).show();
                             }
 
                         }
@@ -272,6 +281,9 @@ public class SingleDayActivity extends AppCompatActivity {
             chart_single.invalidate();
             //chart_single.setVisibility(View.VISIBLE);
         }
+
+
+        //28 pie graph
         else if(chart_position == 1){
             //chart_single.setVisibility(View.INVISIBLE);
             List<PieEntry> pieEntries = new ArrayList<>();
@@ -280,45 +292,102 @@ public class SingleDayActivity extends AppCompatActivity {
             curr_month = cal_current.get(Calendar.MONTH);
             curr_day = cal_current.get(Calendar.DAY_OF_MONTH);
             currentDate = new Date(curr_year, curr_month, curr_day);
-
-            for(int i=28;i>0;i--){
-                before_28 = new Date(currentDate.getTime() - (28 - i) * oneDay);
-                String emission[] = new String[journeyList.size()];
-                for(int k=0;k<journeyList.size();k++) {
-                    Journey journey = User.getInstance().getJourneyList().get(k);
-                    journeyDate = journey.getDate();
-
-                    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-                    String str_28 = formatter.format(before_28);
-                    String str_journey = formatter.format(journeyDate);
+            before_28 = new Date(currentDate.getTime() - 28 * oneDay);      //before 28 is the 28 days ago
 
 
-                    if(Objects.equals(str_28, str_journey)) {
-                        vehicle_name = User.getInstance().getJourneyList().get(k).getVehicleName();
-                        emissionTotal_28 = emissionTotal_28 + User.getInstance().getJourneyList().get(k).getCarbonEmitted();
-                        String str_emissionTotal = String.valueOf(emissionTotal_28);
-                        emission[k] = str_emissionTotal;
-                        temp1 = Float.valueOf(emission[k]);
-                        pieEntries.add(new PieEntry(temp1, vehicle_name));
+            //28 pie graph - journey part
+            for(int k=0;k<journeyList.size();k++){
+                Journey journey = User.getInstance().getJourneyList().get(k);
+                journeyDate = journey.getDate();
+
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                String str_before = formatter.format(before_28);
+                String str_journey = formatter.format(journeyDate);
+                String str_current = formatter.format(currentDate);
+
+                if(Objects.equals(str_before, str_journey) || Objects.equals(str_current, str_journey) ||
+                        journeyDate.getTime() >= before_28.getTime() || journeyDate.getTime() <= currentDate.getTime()){
+                    String vehicle = journey.getVehicleName();
+                    Toast.makeText(this, "" + vehicle, Toast.LENGTH_SHORT).show();
+                    if(vehicle.equals("Car")){
+                        car_exist = 1;
+                        vehicleCar = vehicle;
+                        emissionCar = emissionCar + journey.getCarbonEmitted();
+
+                        String str_emissionCar = String.valueOf(emissionCar);
+                        tempCar = Float.valueOf(str_emissionCar);
                     }
+
+                    else if(vehicle.equals("Bus")){
+                        bus_exist = 1;
+                        vehicleBus = vehicle;
+                        emissionBus = emissionBus + journey.getCarbonEmitted();
+
+                        String str_emissionBus = String.valueOf(emissionBus);
+                        tempBus = Float.valueOf(str_emissionBus);
+                    }
+
+                    else if(vehicle.equals("Skytrain")){
+                        bus_exist = 1;
+                        vehicleSkytrain = vehicle;
+                        emissionSkytrain = emissionSkytrain + journey.getCarbonEmitted();
+
+                        String str_emissionSkytrain = String.valueOf(emissionSkytrain);
+                        tempBus = Float.valueOf(str_emissionSkytrain);
+                    }
+
+                    else if(vehicle.equals("Bike")){
+                        bus_exist = 1;
+                        vehicleBike = vehicle;
+                        emissionBike = emissionBike + journey.getCarbonEmitted();
+
+                        String str_emissionBike = String.valueOf(emissionBike);
+                        tempBus = Float.valueOf(str_emissionBike);
+                    }
+
+                }
+            }
+
+            if(car_exist == 1){
+                pieEntries.add(new PieEntry(tempCar, vehicleCar));
+            }
+            if(bus_exist == 1){
+                pieEntries.add(new PieEntry(tempBus, vehicleBus));
+            }
+            if(skytrain_exist == 1){
+                pieEntries.add(new PieEntry(tempBus, vehicleSkytrain));
+            }
+            if(bike_exist == 1){
+                pieEntries.add(new PieEntry(tempBus, vehicleBike));
+            }
+
+
+            //28 pie graph - utility part
+            //natural gas
+            for(int n=0;n<User.getInstance().getUtilityList().countUtility();n++){
+                utility_28 = User.getInstance().getUtilityList().getUtility(n);
+                startDate = utility_28.getStartDate();
+                endDate = utility_28.getEndDate();
+
+                //the period of bill in the last 28 days
+                if(startDate.getTime() >= before_28.getTime() && endDate.getTime() <= before_28.getTime()){
+                    //get total gas used
+                    emissionShare = User.getInstance().getUtilityList().getUtility(n).getNaturalGasUsed();
+                    String str_singleEmission = String.valueOf(emissionShare);
+                    float temp = Float.valueOf(str_singleEmission);
+                    pieEntries.add(new PieEntry(temp, Utility.GAS_NAME));
                 }
 
-                /*
-                pieEntries.add(new PieEntry(temp1, vehicle_name));
-                Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
+                //startDate - 28 days - endDate - current
+                else if(startDate.getTime() < before_28.getTime() && endDate.getTime() <= before_28.getTime()){
 
-                PieDataSet dataSet = new PieDataSet(pieEntries, "emission");
-                dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-                PieData data = new PieData(dataSet);
-
-                chart_28 = (PieChart) findViewById(R.id.singleDayChart);
-                chart_28.setData(data);
-                chart_28.animateY(1000);
-                chart_28.invalidate();
-                //chart_28.setVisibility(View.VISIBLE);
-                */
-
+                }
             }
+
+
+
+
+            
             PieDataSet dataSet = new PieDataSet(pieEntries, "emission");
             dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
             PieData data = new PieData(dataSet);
@@ -327,7 +396,6 @@ public class SingleDayActivity extends AppCompatActivity {
             chart_28.setData(data);
             chart_28.animateY(1000);
             chart_28.invalidate();
-
 
         }
     }
