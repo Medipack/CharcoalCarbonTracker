@@ -85,6 +85,7 @@ public class MultiDayGraphs extends AppCompatActivity {
 
         CombinedData data = new CombinedData();
         data.setData(generateStackedBarData_365Days());
+        data.setData(generateLineData(MONTH_COUNT));
         chart.setData(data);
         //chart.setFitBars(true); // make the x-axis fit exactly all bars
         chart.setDrawGridBackground(false);
