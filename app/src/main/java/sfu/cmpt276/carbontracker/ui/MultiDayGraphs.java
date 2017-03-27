@@ -14,6 +14,9 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.CombinedData;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.text.ParseException;
@@ -82,6 +85,52 @@ public class MultiDayGraphs extends AppCompatActivity {
 
         CombinedData data = new CombinedData();
         data.setData(generateStackedBarData_365Days());
+        chart.setData(data);
+        //chart.setFitBars(true); // make the x-axis fit exactly all bars
+        chart.setDrawGridBackground(false);
+        chart.setDrawValueAboveBar(false);
+        chart.invalidate(); // refresh
+    }
+
+    private void create28DayGraph() {
+        //create bar chart, sets, entries, and x-axis labels
+        CombinedChart chart = (CombinedChart) findViewById(R.id.barChart);
+
+        XAxis xAxis = chart.getXAxis();
+        String[] xAxisValues = new String[DAYS_IN_4_WEEKS];
+        List<Date> dateList = GraphHelper.getDateList(DAYS_IN_4_WEEKS);
+        float c = 0;
+        for(int i = dateList.size() -1; i >=0 ; i --) {
+            //format each of the 28 days and add to xaxis-values list to be used as labels
+            Date date = dateList.get(i);
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date formatDate = sdf.parse(sdf.format(date));
+                xAxisValues[(int) c] = String.valueOf(sdf.format(formatDate));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            c++;
+        }
+        //format y axis
+        YAxis yAxisLeft = chart.getAxisLeft();
+        yAxisLeft.setDrawAxisLine(false);
+        yAxisLeft.setDrawGridLines(false);
+        YAxis yAxisRight = chart.getAxisRight();
+        yAxisRight.setDrawAxisLine(false);
+        yAxisRight.setDrawGridLines(false);
+
+        //format x axis
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setLabelRotationAngle(90);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(new XAxisVaueFormatter(xAxisValues));
+        xAxis.setLabelCount(DAYS_IN_4_WEEKS);
+
+        CombinedData data = new CombinedData();
+        data.setData(generateStackedBarData_28days());
+        data.setData(generateLineData(DAYS_IN_4_WEEKS));
         chart.setData(data);
         //chart.setFitBars(true); // make the x-axis fit exactly all bars
         chart.setDrawGridBackground(false);
@@ -158,51 +207,6 @@ public class MultiDayGraphs extends AppCompatActivity {
         return barData;
     }
 
-    private void create28DayGraph() {
-        //create bar chart, sets, entries, and x-axis labels
-        CombinedChart chart = (CombinedChart) findViewById(R.id.barChart);
-
-        XAxis xAxis = chart.getXAxis();
-        String[] xAxisValues = new String[DAYS_IN_4_WEEKS];
-        List<Date> dateList = GraphHelper.getDateList(DAYS_IN_4_WEEKS);
-        float c = 0;
-        for(int i = dateList.size() -1; i >=0 ; i --) {
-            //format each of the 28 days and add to xaxis-values list to be used as labels
-            Date date = dateList.get(i);
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                Date formatDate = sdf.parse(sdf.format(date));
-                xAxisValues[(int) c] = String.valueOf(sdf.format(formatDate));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            c++;
-        }
-        //format y axis
-        YAxis yAxisLeft = chart.getAxisLeft();
-        yAxisLeft.setDrawAxisLine(false);
-        yAxisLeft.setDrawGridLines(false);
-        YAxis yAxisRight = chart.getAxisRight();
-        yAxisRight.setDrawAxisLine(false);
-        yAxisRight.setDrawGridLines(false);
-
-        //format x axis
-        xAxis.setValueFormatter(new XAxisVaueFormatter(xAxisValues));
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelRotationAngle(90);
-        xAxis.setDrawAxisLine(false);
-        xAxis.setDrawGridLines(false);
-        xAxis.setLabelCount(DAYS_IN_4_WEEKS);
-
-        CombinedData data = new CombinedData();
-        data.setData(generateStackedBarData_28days());
-        chart.setData(data);
-        //chart.setFitBars(true); // make the x-axis fit exactly all bars
-        chart.setDrawGridBackground(false);
-        chart.setDrawValueAboveBar(false);
-        chart.invalidate(); // refresh
-    }
-
     private BarData generateStackedBarData_28days()
     {
         BarDataSet busSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet, carSet;
@@ -265,12 +269,33 @@ public class MultiDayGraphs extends AppCompatActivity {
         electricSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.ElectricColor));
         naturalGasSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.NaturalGasColor));
 
-
-
         //set bar chart barData and format chart
         BarData barData = new BarData(busSet, carSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet);
 
         return barData;
+    }
+
+    private LineData generateLineData(int numberOfxValues)
+    {
+        LineData lineData = new LineData();
+
+        ArrayList<Entry> entries = new ArrayList<Entry>();
+
+        for (int index = 0; index < numberOfxValues; index++)
+            entries.add(new Entry(index, DAILY_EMISSIONS_PER_CAPITA));
+
+        LineDataSet set = new LineDataSet(entries, "Kg Co2 per capita");
+        set.setColor(ContextCompat.getColor(getApplicationContext(), R.color.TerribleColor));
+        set.setFillColor(ContextCompat.getColor(getApplicationContext(), R.color.TerribleColor));
+        set.setCircleColor(ContextCompat.getColor(getApplicationContext(), R.color.TerribleColor));
+
+        set.setLineWidth(3.5f);
+        set.setCircleRadius(2f);
+
+        set.setAxisDependency(YAxis.AxisDependency.LEFT);
+        lineData.addDataSet(set);
+
+        return lineData;
     }
 }
 //xAxisValueFormatter as per MP Charts Wiki
