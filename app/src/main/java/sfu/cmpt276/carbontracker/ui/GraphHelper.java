@@ -30,7 +30,7 @@ public class GraphHelper {
         {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(journey.getDate());
-            boolean isInMonth = calendar.MONTH == m; //if the journey is in the desired month
+            boolean isInMonth = calendar.get(Calendar.MONTH) == m; //if the journey is in the desired month
             boolean isWantedTransportMode = journey.getVehicle().getTransport_mode().equals(transportModeWanted); //if journey is desired transport mode
             if(isInMonth && isWantedTransportMode)
             {
@@ -51,7 +51,7 @@ public class GraphHelper {
 
             while(calendar.getTime().before(utility.getEndDate())) //for each date from start to end of utility
             {
-                boolean isInMonth = calendar.get(calendar.MONTH) == m;
+                boolean isInMonth = calendar.get(Calendar.MONTH) == m;
                 boolean isWantedUtilityType = utilityType.equals(utility.getUtility_type());
                 if (isInMonth && isWantedUtilityType) { //if utility is during the particular month, and of the particular type
                     totalEmissions += utility.getPerDayUsage(); //add to total emissions
@@ -71,7 +71,7 @@ public class GraphHelper {
         {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(journey.getDate());
-            boolean isInMonth = calendar.MONTH == month;
+            boolean isInMonth = calendar.get(Calendar.MONTH) == month;
             boolean isCar = journey.getVehicle().getTransport_mode().equals(Vehicle.CAR);
             if(isInMonth && isCar)
             {
