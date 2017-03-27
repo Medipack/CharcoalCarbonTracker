@@ -34,6 +34,7 @@ public class MultiDayGraphs extends AppCompatActivity {
     private static final int DAYS_IN_4_WEEKS = 28;
     private static final int DAYS_IN_YEAR = 365;
     private static final int MONTH_COUNT = 12;
+    private static final float DAILY_EMISSIONS_PER_CAPITA = 40.5479452055f; //14800kg / 365days
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public class MultiDayGraphs extends AppCompatActivity {
             float busEmissions = GraphHelper.getJourneyEmissionsForMonthForTransportType(m, Vehicle.BUS);
             float skytrainEmissions = GraphHelper.getJourneyEmissionsForMonthForTransportType(m, Vehicle.SKYTRAIN);
             float walk_bikeEmissions = GraphHelper.getJourneyEmissionsForMonthForTransportType(m, Vehicle.WALK_BIKE);
-            //add this months bus, skytrain, walk/bike data to graph as new barEntry
+            //add this months bus, skytrain, walk/bike barData to graph as new barEntry
             busEntries.add(new BarEntry(m, busEmissions));
             skytrainEntries.add(new BarEntry(m, skytrainEmissions));
             walk_bikeEntries.add(new BarEntry(m, walk_bikeEmissions));
@@ -109,7 +110,7 @@ public class MultiDayGraphs extends AppCompatActivity {
 
         }
 
-        //set all data sets to include entries from all months and name sets
+        //set all barData sets to include entries from all months and name sets
         busSet = new BarDataSet(busEntries, "bus");
         carSet = new BarDataSet(carEntries, "cars");
         skytrainSet = new BarDataSet(skytrainEntries, "skytrain");
@@ -141,9 +142,9 @@ public class MultiDayGraphs extends AppCompatActivity {
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawGridLines(false);
         xAxis.setLabelCount(MONTH_COUNT);
-        //set the data for the barChart and format
-        BarData data = new BarData(busSet, carSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet);
-        chart.setData(data);
+        //set the barData for the barChart and format
+        BarData barData = new BarData(busSet, carSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet);
+        chart.setData(barData);
         chart.setFitBars(true); // make the x-axis fit exactly all bars
         chart.setDrawGridBackground(false);
         chart.setDrawValueAboveBar(false);
