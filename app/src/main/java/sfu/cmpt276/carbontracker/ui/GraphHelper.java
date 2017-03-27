@@ -17,51 +17,53 @@ import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
 
 /**
- * Created by Jariniya on 3/26/2017.
+ * Class containing methods to get graph data
  */
 
 public class GraphHelper {
 
+///////365 day graph methods///////
+    //Returns total emissions for a particular transport mode during a particular month
     public static float getJourneyEmissionsForMonthForTransportType(int m, String transportModeWanted) {
         float totalEmissions = 0;
-        for(Journey journey: User.getInstance().getJourneyList())
+        for(Journey journey: User.getInstance().getJourneyList()) //for each journey in the journey list
         {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(journey.getDate());
-            boolean isInMonth = calendar.MONTH == m;
-            boolean isWantedTransportMode = journey.getVehicle().getTransport_mode().equals(transportModeWanted);
+            boolean isInMonth = calendar.MONTH == m; //if the journey is in the desired month
+            boolean isWantedTransportMode = journey.getVehicle().getTransport_mode().equals(transportModeWanted); //if journey is desired transport mode
             if(isInMonth && isWantedTransportMode)
             {
-                totalEmissions += journey.getCarbonEmitted();
+                totalEmissions += journey.getCarbonEmitted(); //total up emissions for journeys of specific transport mode during specific month
             }
         }
         return totalEmissions;
     }
-
+    //returns total emissions for a particular utility type during a particular month
     public static float getUtilityEmissionsForMonthForUtilityType(String utilityType, int m)
     {
         float totalEmissions = 0;
-        for(Utility utility: User.getInstance().getUtilityList().getUtilities())
+        for(Utility utility: User.getInstance().getUtilityList().getUtilities()) //for all known utilities in utility list
         {
             List<Date> utilityDates = new ArrayList<>();
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(utility.getStartDate());
+            calendar.setTime(utility.getStartDate()); //get start date of utility
 
-            while(calendar.getTime().before(utility.getEndDate()))
+            while(calendar.getTime().before(utility.getEndDate())) //for each date from start to end of utility
             {
                 boolean isInMonth = calendar.get(calendar.MONTH) == m;
                 boolean isWantedUtilityType = utilityType.equals(utility.getUtility_type());
-                if (isInMonth && isWantedUtilityType) {
-                    totalEmissions += utility.getPerDayUsage();
+                if (isInMonth && isWantedUtilityType) { //if utility is during the particular month, and of the particular type
+                    totalEmissions += utility.getPerDayUsage(); //add to total emissions
                 }
                 utilityDates.add(calendar.getTime());
-                calendar.add(Calendar.DATE, 1);
+                calendar.add(Calendar.DATE, 1); //increment date for while loop
             }
 
         }
         return totalEmissions;
     }
-
+    //returns map of total emissions for all cars during a particular month, keys are unique cars, values are total emissions
     public static Map<Vehicle, Float> getCarEmissionTotalsFromJourneysInMonth(int month)
     {
         List<Journey> journeyList = new ArrayList<>();
@@ -94,7 +96,8 @@ public class GraphHelper {
         return map;
     }
 
-
+///////methods for 28 day graph///////
+    //returns total emissions for a given transport mode on a given date
     public static double getTotalEmissionsForTransportModeOnDate(Date dateWanted, String transportModeWanted) //
     {
         double totalEmissions = 0;
@@ -105,7 +108,7 @@ public class GraphHelper {
 
         return totalEmissions;
     }
-
+    //returns list of dates during the period we want (e.g. last 28 days)
     public static List<Date> getDateList(int daysInPeriod) //gets dates in period
     {
         List<Date> dateList = new ArrayList<>(daysInPeriod);
@@ -116,7 +119,7 @@ public class GraphHelper {
         }
         return dateList;
     }
-
+    //returns list of journeys for given transport mode on given date
     public static List<Journey> getJourneysForTransportModeOnDate(Date dateWanted, String transportModeWanted) //
     {
         List<Journey> journeyList = new ArrayList<>();
@@ -184,7 +187,7 @@ public class GraphHelper {
         }
         return map;
     }
-
+    //returns map of emissions for utilities on given date, where key is utility type and value is total emissions
     public static Map<String, Float> getDailyTotalUtilityEmissions(Date dateWanted) //return total of daily averages for electric and natural gas as separate keys-value pairs in map
     {
         Map<String, Float> map = new HashMap<>();
