@@ -58,17 +58,42 @@ public class MultiDayGraphs extends AppCompatActivity {
     }
 
     private void setupChart(int days) {
-        if (days == DAYS_IN_4_WEEKS) {
-            create28DayGraph();
-        } else if (days == DAYS_IN_YEAR) {
-            create365DayGraph();
-        }
-    }
-
-    private void create365DayGraph() {
         CombinedChart chart = (CombinedChart) findViewById(R.id.barChart);
+        CombinedData data = new CombinedData();
+
         XAxis xAxis = chart.getXAxis();
-        String[] xAxisValues = {"jan", "feb", "march", "april", "may", "june", "july", "august", "sept", "dec", "oct", "nov"};
+        if(days == DAYS_IN_YEAR) {
+            String[] xAxisValues = {"jan", "feb", "march", "april", "may", "june", "july", "august", "sept", "dec", "oct", "nov"};
+            xAxis.setValueFormatter(new XAxisVaueFormatter(xAxisValues));
+            xAxis.setLabelCount(MONTH_COUNT);
+
+            data.setData(generateStackedBarData_365Days());
+            data.setData(generateLineData(MONTH_COUNT, MONTHLY_EMISSIONS_PER_CAPITA));
+        }
+        else if(days == DAYS_IN_4_WEEKS)
+        {
+            String[] xAxisValues = new String[DAYS_IN_4_WEEKS];
+            List<Date> dateList = GraphHelper.getDateList(DAYS_IN_4_WEEKS);
+            float c = 0;
+            for(int i = dateList.size() -1; i >=0 ; i --) {
+                //format each of the 28 days and add to xaxis-values list to be used as labels
+                Date date = dateList.get(i);
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    Date formatDate = sdf.parse(sdf.format(date));
+                    xAxisValues[(int) c] = String.valueOf(sdf.format(formatDate));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                c++;
+            }
+            xAxis.setValueFormatter(new XAxisVaueFormatter(xAxisValues));
+            xAxis.setLabelCount(DAYS_IN_4_WEEKS);
+
+            data.setData(generateStackedBarData_28days());
+            data.setData(generateLineData(DAYS_IN_4_WEEKS, DAILY_EMISSIONS_PER_CAPITA));
+        }
+
         //format the y axis
         YAxis yAxisLeft = chart.getAxisLeft();
         yAxisLeft.setDrawAxisLine(false);
@@ -78,62 +103,11 @@ public class MultiDayGraphs extends AppCompatActivity {
         yAxisRight.setDrawGridLines(false);
 
         //format the x axis
-        xAxis.setValueFormatter(new XAxisVaueFormatter(xAxisValues));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelRotationAngle(90);
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawGridLines(false);
-        xAxis.setLabelCount(MONTH_COUNT);
 
-        CombinedData data = new CombinedData();
-        data.setData(generateStackedBarData_365Days());
-        data.setData(generateLineData(MONTH_COUNT));
-        chart.setData(data);
-        //chart.setFitBars(true); // make the x-axis fit exactly all bars
-        chart.setDrawGridBackground(false);
-        chart.setDrawValueAboveBar(false);
-        chart.invalidate(); // refresh
-    }
-
-    private void create28DayGraph() {
-        //create bar chart, sets, entries, and x-axis labels
-        CombinedChart chart = (CombinedChart) findViewById(R.id.barChart);
-
-        XAxis xAxis = chart.getXAxis();
-        String[] xAxisValues = new String[DAYS_IN_4_WEEKS];
-        List<Date> dateList = GraphHelper.getDateList(DAYS_IN_4_WEEKS);
-        float c = 0;
-        for(int i = dateList.size() -1; i >=0 ; i --) {
-            //format each of the 28 days and add to xaxis-values list to be used as labels
-            Date date = dateList.get(i);
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                Date formatDate = sdf.parse(sdf.format(date));
-                xAxisValues[(int) c] = String.valueOf(sdf.format(formatDate));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            c++;
-        }
-        //format y axis
-        YAxis yAxisLeft = chart.getAxisLeft();
-        yAxisLeft.setDrawAxisLine(false);
-        yAxisLeft.setDrawGridLines(false);
-        YAxis yAxisRight = chart.getAxisRight();
-        yAxisRight.setDrawAxisLine(false);
-        yAxisRight.setDrawGridLines(false);
-
-        //format x axis
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelRotationAngle(90);
-        xAxis.setDrawAxisLine(false);
-        xAxis.setDrawGridLines(false);
-        xAxis.setValueFormatter(new XAxisVaueFormatter(xAxisValues));
-        xAxis.setLabelCount(DAYS_IN_4_WEEKS);
-
-        CombinedData data = new CombinedData();
-        data.setData(generateStackedBarData_28days());
-        data.setData(generateLineData(DAYS_IN_4_WEEKS));
         chart.setData(data);
         //chart.setFitBars(true); // make the x-axis fit exactly all bars
         chart.setDrawGridBackground(false);
@@ -278,14 +252,8 @@ public class MultiDayGraphs extends AppCompatActivity {
         return barData;
     }
 
-    private LineData generateLineData(int numberOfxValues)
+    private LineData generateLineData(int numberOfxValues, float emissionsAverage)
     {
-        float emissionsAverage =0;
-        if(numberOfxValues == DAYS_IN_4_WEEKS)
-            emissionsAverage = DAILY_EMISSIONS_PER_CAPITA;
-        else if(numberOfxValues == MONTH_COUNT)
-            emissionsAverage = MONTHLY_EMISSIONS_PER_CAPITA;
-
         LineData lineData = new LineData();
         ArrayList<Entry> entries = new ArrayList<Entry>();
         for (int index = 0; index < numberOfxValues; index++)
