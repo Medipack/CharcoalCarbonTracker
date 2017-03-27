@@ -49,19 +49,15 @@ public class GraphHelper {
 
             while(calendar.getTime().before(utility.getEndDate()))
             {
-                utilityDates.add(calendar.getTime());
-                calendar.add(Calendar.DATE, 1);
-            }
-
-            for(Date date: utilityDates) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date);
-                boolean isInMonth = cal.MONTH == m;
+                boolean isInMonth = calendar.get(calendar.MONTH) == m;
                 boolean isWantedUtilityType = utilityType.equals(utility.getUtility_type());
                 if (isInMonth && isWantedUtilityType) {
                     totalEmissions += utility.getPerDayUsage();
                 }
+                utilityDates.add(calendar.getTime());
+                calendar.add(Calendar.DATE, 1);
             }
+
         }
         return totalEmissions;
     }
