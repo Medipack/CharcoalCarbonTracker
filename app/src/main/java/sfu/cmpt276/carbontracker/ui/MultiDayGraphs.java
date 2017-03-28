@@ -6,13 +6,17 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CombinedData;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.text.ParseException;
@@ -34,6 +38,11 @@ public class MultiDayGraphs extends AppCompatActivity {
     private static final int DAYS_IN_4_WEEKS = 28;
     private static final int DAYS_IN_YEAR = 365;
     private static final int MONTH_COUNT = 12;
+    private static final float DAILY_EMISSIONS_PER_CAPITA = 40.5479452055f; //14800kg / 365days
+    private static final float MONTHLY_EMISSIONS_PER_CAPITA = 1233.33333333f; //14800kg / 12 months
+    private static final float YEARLY_PER_CAPITA_EMMISSION_TARGET = 15377.83005f; // 523000000000 kg / 34.01 million people
+    private static final float MONTHLY_PER_CAPITA_EMISSION_TARGET = YEARLY_PER_CAPITA_EMMISSION_TARGET/12;
+    private static final float DAILY_PER_CAPITA_EMMISSION_TARGET = YEARLY_PER_CAPITA_EMMISSION_TARGET/365;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,21 +60,70 @@ public class MultiDayGraphs extends AppCompatActivity {
     }
 
     private void setupChart(int days) {
-        if (days == DAYS_IN_4_WEEKS) {
-            create28DayGraph();
-        } else if (days == DAYS_IN_YEAR) {
-            create365DayGraph();
-        }
-    }
-
-    private void create365DayGraph() {
-
-        //create bar chart, sets, entries, and x-axis labels
-        BarChart chart = (BarChart) findViewById(R.id.barChart);
-        BarDataSet busSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet, carSet;
+        CombinedChart chart = (CombinedChart) findViewById(R.id.barChart);
+        CombinedData data = new CombinedData();
+        chart.setDrawOrder(new CombinedChart.DrawOrder[]{
+                CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE, CombinedChart.DrawOrder.LINE
+        });
 
         XAxis xAxis = chart.getXAxis();
-        String[] xAxisValues = {"jan", "feb", "march", "april", "may", "june", "july", "august", "sept", "dec", "oct", "nov"};
+        if(days == DAYS_IN_YEAR) {
+            String[] xAxisValues = {"jan", "feb", "march", "april", "may", "june", "july", "august", "sept", "dec", "oct", "nov"};
+            xAxis.setValueFormatter(new XAxisVaueFormatter(xAxisValues));
+            xAxis.setLabelCount(MONTH_COUNT);
+
+            data.setData(generateStackedBarData_365Days());
+            data.setData(generateLineData(MONTH_COUNT, MONTHLY_EMISSIONS_PER_CAPITA, MONTHLY_PER_CAPITA_EMISSION_TARGET));
+        }
+        else if(days == DAYS_IN_4_WEEKS)
+        {
+            String[] xAxisValues = new String[DAYS_IN_4_WEEKS];
+            List<Date> dateList = GraphHelper.getDateList(DAYS_IN_4_WEEKS);
+            float c = 0;
+            for(int i = dateList.size() -1; i >=0 ; i --) {
+                //format each of the 28 days and add to xaxis-values list to be used as labels
+                Date date = dateList.get(i);
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    Date formatDate = sdf.parse(sdf.format(date));
+                    xAxisValues[(int) c] = String.valueOf(sdf.format(formatDate));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                c++;
+            }
+            xAxis.setValueFormatter(new XAxisVaueFormatter(xAxisValues));
+            xAxis.setLabelCount(DAYS_IN_4_WEEKS);
+
+            data.setData(generateStackedBarData_28days());
+            data.setData(generateLineData(DAYS_IN_4_WEEKS, DAILY_EMISSIONS_PER_CAPITA, DAILY_PER_CAPITA_EMMISSION_TARGET));
+        }
+
+        //format the y axis
+        YAxis yAxisLeft = chart.getAxisLeft();
+        yAxisLeft.setDrawAxisLine(false);
+        yAxisLeft.setDrawGridLines(false);
+        YAxis yAxisRight = chart.getAxisRight();
+        yAxisRight.setDrawAxisLine(false);
+        yAxisRight.setDrawGridLines(false);
+
+        //format the x axis
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setLabelRotationAngle(90);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawGridLines(false);
+
+        chart.setData(data);
+        //chart.setFitBars(true); // make the x-axis fit exactly all bars
+        chart.setDrawGridBackground(false);
+        chart.setDrawValueAboveBar(false);
+        chart.invalidate(); // refresh
+    }
+
+    private BarData generateStackedBarData_365Days()
+    {
+        //create bar chart, sets, entries, and x-axis labels
+        BarDataSet busSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet, carSet;
 
         List<BarEntry> busEntries = new ArrayList<>();
         List<BarEntry> skytrainEntries = new ArrayList<>();
@@ -80,7 +138,7 @@ public class MultiDayGraphs extends AppCompatActivity {
             float busEmissions = GraphHelper.getJourneyEmissionsForMonthForTransportType(m, Vehicle.BUS);
             float skytrainEmissions = GraphHelper.getJourneyEmissionsForMonthForTransportType(m, Vehicle.SKYTRAIN);
             float walk_bikeEmissions = GraphHelper.getJourneyEmissionsForMonthForTransportType(m, Vehicle.WALK_BIKE);
-            //add this months bus, skytrain, walk/bike data to graph as new barEntry
+            //add this months bus, skytrain, walk/bike barData to graph as new barEntry
             busEntries.add(new BarEntry(m, busEmissions));
             skytrainEntries.add(new BarEntry(m, skytrainEmissions));
             walk_bikeEntries.add(new BarEntry(m, walk_bikeEmissions));
@@ -109,7 +167,7 @@ public class MultiDayGraphs extends AppCompatActivity {
 
         }
 
-        //set all data sets to include entries from all months and name sets
+        //set all barData sets to include entries from all months and name sets
         busSet = new BarDataSet(busEntries, "bus");
         carSet = new BarDataSet(carEntries, "cars");
         skytrainSet = new BarDataSet(skytrainEntries, "skytrain");
@@ -126,33 +184,13 @@ public class MultiDayGraphs extends AppCompatActivity {
         electricSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.ElectricColor));
         naturalGasSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.NaturalGasColor));
 
-        //format the y axis
-        YAxis yAxisLeft = chart.getAxisLeft();
-        yAxisLeft.setDrawAxisLine(false);
-        yAxisLeft.setDrawGridLines(false);
-        YAxis yAxisRight = chart.getAxisRight();
-        yAxisRight.setDrawAxisLine(false);
-        yAxisRight.setDrawGridLines(false);
-
-        //format the x axis
-        xAxis.setValueFormatter(new XAxisVaueFormatter(xAxisValues));
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelRotationAngle(90);
-        xAxis.setDrawAxisLine(false);
-        xAxis.setDrawGridLines(false);
-        xAxis.setLabelCount(MONTH_COUNT);
-        //set the data for the barChart and format
-        BarData data = new BarData(busSet, carSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet);
-        chart.setData(data);
-        chart.setFitBars(true); // make the x-axis fit exactly all bars
-        chart.setDrawGridBackground(false);
-        chart.setDrawValueAboveBar(false);
-        chart.invalidate(); // refresh
+        //set the barData for the barChart and format
+        BarData barData = new BarData(busSet, carSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet);
+        return barData;
     }
 
-    private void create28DayGraph() {
-        //create bar chart, sets, entries, and x-axis labels
-        BarChart chart = (BarChart) findViewById(R.id.barChart);
+    private BarData generateStackedBarData_28days()
+    {
         BarDataSet busSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet, carSet;
         List<BarEntry> busEntries = new ArrayList<>();
         List<BarEntry> skytrainEntries = new ArrayList<>();
@@ -160,9 +198,6 @@ public class MultiDayGraphs extends AppCompatActivity {
         List<BarEntry> entries = new ArrayList<>();
         List<BarEntry> electricityEntries = new ArrayList<>();
         List<BarEntry> naturalGasEntries = new ArrayList<>();
-
-        XAxis xAxis = chart.getXAxis();
-        String[] xAxisValues = new String[DAYS_IN_4_WEEKS];
 
         List<Date> dateList = GraphHelper.getDateList(DAYS_IN_4_WEEKS); //gets list of dates in last 28 days
         float c = 0;
@@ -179,7 +214,7 @@ public class MultiDayGraphs extends AppCompatActivity {
             List<Float> temp_yValues = new ArrayList<>(); //needed for individual cars to be added as one to the entries
             List<Journey> journeys = GraphHelper.getJourneysForTransportModeOnDate(dateList.get(i), Vehicle.CAR); //get car journeys on date
             Map<Vehicle, Float> carMap = GraphHelper.getCarEmissionTotalsFromJourneys(journeys); //get carmap for those journeys
-           // carMap.size();
+            // carMap.size();
             for (Map.Entry<Vehicle, Float> entry : carMap.entrySet()) { //for each car, get its emissions total on date and add to temp_yvalues
                 Float emissionTotal = entry.getValue();
                 temp_yValues.add(emissionTotal);
@@ -188,22 +223,14 @@ public class MultiDayGraphs extends AppCompatActivity {
             for (int u = 0; u < temp_yValues.size(); u++) {
                 yvalues[u] = temp_yValues.get(u);
             }
-            entries.add(new BarEntry(c, yvalues)); //enter car data for particular date to entries
+            entries.add(new BarEntry(c, yvalues)); //enter car barData for particular date to entries
 
             //add bus, skytrain, walk/bike emissions to their appropriate entry lists for particular date
             busEntries.add(new BarEntry(c, (float) GraphHelper.getTotalEmissionsForTransportModeOnDate(dateList.get(i), Vehicle.BUS)));
             skytrainEntries.add(new BarEntry(c, (float) GraphHelper.getTotalEmissionsForTransportModeOnDate(dateList.get(i), Vehicle.SKYTRAIN)));
             walk_bikeEntries.add(new BarEntry(c, (float) GraphHelper.getTotalEmissionsForTransportModeOnDate(dateList.get(i), Vehicle.WALK_BIKE)));
 
-            //format each of the 28 days and add to xaxis-values list to be used as labels
-            Date date = dateList.get(i);
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                Date formatDate = sdf.parse(sdf.format(date));
-                xAxisValues[(int)c] = String.valueOf(sdf.format(formatDate));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+
             c++;
         }
 
@@ -224,29 +251,46 @@ public class MultiDayGraphs extends AppCompatActivity {
         electricSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.ElectricColor));
         naturalGasSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.NaturalGasColor));
 
-        //format y axis
-        YAxis yAxisLeft = chart.getAxisLeft();
-        yAxisLeft.setDrawAxisLine(false);
-        yAxisLeft.setDrawGridLines(false);
-        YAxis yAxisRight = chart.getAxisRight();
-        yAxisRight.setDrawAxisLine(false);
-        yAxisRight.setDrawGridLines(false);
+        //set bar chart barData and format chart
+        BarData barData = new BarData(busSet, carSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet);
 
-        //format x axis
-        xAxis.setValueFormatter(new XAxisVaueFormatter(xAxisValues));
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelRotationAngle(90);
-        xAxis.setDrawAxisLine(false);
-        xAxis.setDrawGridLines(false);
-        xAxis.setLabelCount(DAYS_IN_4_WEEKS);
+        return barData;
+    }
 
-        //set bar chart data and format chart
-        BarData data = new BarData(busSet, carSet, skytrainSet, walk_bikeSet, electricSet, naturalGasSet);
-        chart.setData(data);
-        chart.setFitBars(true); // make the x-axis fit exactly all bars
-        chart.setDrawGridBackground(false);
-        chart.setDrawValueAboveBar(false);
-        chart.invalidate(); // refresh
+    private LineData generateLineData(int numberOfxValues, float perCapitaEmissionsAverage, float targetEmissions)
+    {
+        LineData lineData = new LineData();
+        ArrayList<Entry> perCapitaEntries = new ArrayList<Entry>();
+        for (int index = 0; index < numberOfxValues; index++)
+            perCapitaEntries.add(new Entry(index, perCapitaEmissionsAverage));
+
+        ArrayList<Entry> targetEntries = new ArrayList<Entry>();
+        for (int index = 0; index < numberOfxValues; index++)
+            targetEntries.add(new Entry(index, targetEmissions));
+
+        int color = ContextCompat.getColor(getApplicationContext(), R.color.averageColor);
+
+        LineDataSet perCapitaSet = new LineDataSet(perCapitaEntries, "Kg Co2 per capita");
+        perCapitaSet.setColor(color);
+        perCapitaSet.setFillColor(color);
+        perCapitaSet.setCircleColor(color);
+        perCapitaSet.setLineWidth(3.5f);
+        perCapitaSet.setCircleRadius(2f);
+        perCapitaSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        color = ContextCompat.getColor(getApplicationContext(), R.color.targetColor);
+        LineDataSet targetSet = new LineDataSet(targetEntries, "Kg Co2/capita Target");
+        targetSet.setColor(color);
+        targetSet.setFillColor(color);
+        targetSet.setCircleColor(color);
+        targetSet.setLineWidth(3.5f);
+        targetSet.setCircleRadius(2f);
+        targetSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        lineData.addDataSet(perCapitaSet);
+        lineData.addDataSet(targetSet);
+
+        return lineData;
     }
 }
 //xAxisValueFormatter as per MP Charts Wiki
