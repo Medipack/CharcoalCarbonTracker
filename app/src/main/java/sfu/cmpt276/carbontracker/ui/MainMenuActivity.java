@@ -32,7 +32,20 @@ public class MainMenuActivity extends AppCompatActivity {
         setupCarbon();
         setupUtility();
         setupGraph();
+
+        setupAboutButton();
     }
+
+    private void setupAboutButton() {
+        Button aboutBtn = (Button)findViewById(R.id.aboutBtn);
+        aboutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User.getInstance().createNewCurrentJourney();
+                Intent intent = new Intent(MainMenuActivity.this, AboutActivity.class);
+                startActivity(intent);
+            }
+        });    }
 
 
     private void setupCarbon() {

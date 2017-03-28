@@ -52,4 +52,22 @@
     <string name="save_edit">SAVE EDIT</string>
     <string name="choose_the_single_date">Choose the Single Date</string>
     <string name="show_graph">Show Graph</string>
+
+    <!--strings for about activity-->
+    <string name="version">Version: </string>
+    <string name="about">About</string>
+    <string name="group_name">By Team Charcoal</string>
+    <string name="creation_year">Created Spring 2017</string>
+    <string name="sfu_home_page">SFU HOME <a href="https://www.sfu.ca/computing.html">https://www.sfu.ca/computing.html</a></string>
+    <string-array name="links">
+        <item>Resource Links Used:</item>
+        <item>Info Icon: https://www.iconfinder.com/icons/146127/about_help_info_information_more_info_properties_icon</item>
+    </string-array>
+    <string-array name="creators">
+        <item>By: </item>
+        <item>Tim Robertson, </item>
+        <item>Jarinya Hochstrasser, </item>
+        <item>Xiangyi Li, </item>
+        <item>Calvin Chou</item>
+    </string-array>
 </resources>
