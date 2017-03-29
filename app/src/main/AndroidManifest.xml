@@ -11,6 +11,7 @@
         <activity android:name=".ui.StartAnimationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -28,11 +29,12 @@
         <activity android:name=".ui.GraphActivity" />
         <activity android:name=".ui.SingleDayActivity" />
         <activity android:name=".ui.MultiDayGraphs" />
-        <activity android:name=".ui.SelectTransportationActivity"/>
-        <activity android:name=".ui.EditJourneyActivity"/>
+        <activity android:name=".ui.SelectTransportationActivity" />
+        <activity android:name=".ui.EditJourneyActivity" />
         <activity android:name=".ui.BillActivity" />
         <activity android:name=".ui.UtilityActivity" />
         <activity android:name=".ui.PickDateActivity" />
+        <activity android:name=".ui.SettingsActivity"></activity>
     </application>
 
 </manifest>
