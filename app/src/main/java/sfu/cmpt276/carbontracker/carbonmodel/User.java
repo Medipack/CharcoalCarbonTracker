@@ -98,7 +98,6 @@ public class User {
         return currentJourney;
     }
 
-
     public Vehicle getCarFromCarList(int index) {
         return vehicleList.get(index);
     }
