@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,14 +55,6 @@ public class SingleDayActivity extends AppCompatActivity {
     int curr_month;
     int curr_day;
 
-    int year_28;
-    int month_28;
-    int day_28;
-
-    int year_365;
-    int month_365;
-    int day_365;
-
     double emissionCar;
     double emissionBus;
     double emissionBike;
@@ -68,6 +62,8 @@ public class SingleDayActivity extends AppCompatActivity {
 
     float tempCar;
     float tempBus;
+    float tempSkytrain;
+    float tempBike;
 
     String vehicleCar;
     String vehicleBus;
@@ -79,29 +75,29 @@ public class SingleDayActivity extends AppCompatActivity {
     int skytrain_exist;
     int bike_exist;
 
-
-
     Double emissionShare;
     Date journeyDate;
     Utility utility;
     Utility utility_28;
+    Utility utility_365;
 
     int dateIndex;
 
     long tempDiff_gas;
     long min_gas;
-
     long min = 5;       //check overlap
-
     long tempDiff_elec;
     long min_elec;
 
-    Spinner spinner;
     int chart_position;
 
     PieChart chart_single;
     PieChart chart_28;
     PieChart chart_365;
+
+    Switch modeSwitch;
+    int switchMode = 0;
+    int switchRoute = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +107,19 @@ public class SingleDayActivity extends AppCompatActivity {
         setupSpinner();
         setupChart();
 
+
+        modeSwitch = (Switch) findViewById(R.id.modeSwitch);
+        modeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    switchRoute = 1;
+                }
+                else{
+                    switchMode = 1;
+                }
+            }
+        });
 
     }
 
@@ -136,6 +145,10 @@ public class SingleDayActivity extends AppCompatActivity {
 
     private void setupChart() {
         if(chart_position == 0){
+            //chart_single.setVisibility(View.VISIBLE);
+            //chart_28.setVisibility(View.INVISIBLE);
+
+
             Intent intent = getIntent();
             str_date = intent.getStringExtra("date string");
             //pie graph list
@@ -250,17 +263,14 @@ public class SingleDayActivity extends AppCompatActivity {
                 }
             }
 
-            //journey part
-
+            //one day - journey part
             String emission[] = new String[journeyList.size()];
             for(int k=0; k<journeyList.size();k++){
                 Journey journey = User.getInstance().getJourneyList().get(k);
                 journeyDate = journey.getDate();
-
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
                 String str_single = formatter.format(singleDate);
                 String str_journey = formatter.format(journeyDate);
-
                 if(Objects.equals(str_single, str_journey)) {
                     String car = User.getInstance().getJourneyList().get(k).getVehicleName();
                     double emissionTemp = User.getInstance().getJourneyList().get(k).getCarbonEmitted();
@@ -279,21 +289,20 @@ public class SingleDayActivity extends AppCompatActivity {
             chart_single.setData(data);
             chart_single.animateY(1000);
             chart_single.invalidate();
-            //chart_single.setVisibility(View.VISIBLE);
         }
 
 
         //28 pie graph
         else if(chart_position == 1){
             //chart_single.setVisibility(View.INVISIBLE);
-            List<PieEntry> pieEntries = new ArrayList<>();
+            //chart_28.setVisibility(View.VISIBLE);
+            List<PieEntry> pieEntries_28 = new ArrayList<>();
             final Calendar cal_current = Calendar.getInstance();
             curr_year = cal_current.get(Calendar.YEAR) - 1900;
             curr_month = cal_current.get(Calendar.MONTH);
             curr_day = cal_current.get(Calendar.DAY_OF_MONTH);
             currentDate = new Date(curr_year, curr_month, curr_day);
             before_28 = new Date(currentDate.getTime() - 28 * oneDay);      //before 28 is the 28 days ago
-
 
             //28 pie graph - journey part
             for(int k=0;k<journeyList.size();k++){
@@ -333,7 +342,7 @@ public class SingleDayActivity extends AppCompatActivity {
                         emissionSkytrain = emissionSkytrain + journey.getCarbonEmitted();
 
                         String str_emissionSkytrain = String.valueOf(emissionSkytrain);
-                        tempBus = Float.valueOf(str_emissionSkytrain);
+                        tempSkytrain = Float.valueOf(str_emissionSkytrain);
                     }
 
                     else if(vehicle.equals("Bike")){
@@ -342,53 +351,95 @@ public class SingleDayActivity extends AppCompatActivity {
                         emissionBike = emissionBike + journey.getCarbonEmitted();
 
                         String str_emissionBike = String.valueOf(emissionBike);
-                        tempBus = Float.valueOf(str_emissionBike);
+                        tempBike = Float.valueOf(str_emissionBike);
                     }
 
                 }
             }
 
             if(car_exist == 1){
-                pieEntries.add(new PieEntry(tempCar, vehicleCar));
+                pieEntries_28.add(new PieEntry(tempCar, vehicleCar));
             }
             if(bus_exist == 1){
-                pieEntries.add(new PieEntry(tempBus, vehicleBus));
+                pieEntries_28.add(new PieEntry(tempBus, vehicleBus));
             }
             if(skytrain_exist == 1){
-                pieEntries.add(new PieEntry(tempBus, vehicleSkytrain));
+                pieEntries_28.add(new PieEntry(tempSkytrain, vehicleSkytrain));
             }
             if(bike_exist == 1){
-                pieEntries.add(new PieEntry(tempBus, vehicleBike));
+                pieEntries_28.add(new PieEntry(tempBike, vehicleBike));
             }
 
 
             //28 pie graph - utility part
-            //natural gas
-            for(int n=0;n<User.getInstance().getUtilityList().countUtility();n++){
+            //natural gas + electricity
+            for(int n=0;n<User.getInstance().getUtilityList().countUtility();n++) {
                 utility_28 = User.getInstance().getUtilityList().getUtility(n);
                 startDate = utility_28.getStartDate();
                 endDate = utility_28.getEndDate();
 
                 //the period of bill in the last 28 days
-                if(startDate.getTime() >= before_28.getTime() && endDate.getTime() <= before_28.getTime()){
+                if (startDate.getTime() >= before_28.getTime() && endDate.getTime() <= currentDate.getTime()) {
                     //get total gas used
-                    emissionShare = User.getInstance().getUtilityList().getUtility(n).getNaturalGasUsed();
+                    emissionShare = User.getInstance().getUtilityList().getUtility(n).getPerDayUsage() * User.getInstance().getUtilityList().getUtility(n).getDaysInPeriod();
                     String str_singleEmission = String.valueOf(emissionShare);
                     float temp = Float.valueOf(str_singleEmission);
-                    pieEntries.add(new PieEntry(temp, Utility.GAS_NAME));
+
+                    if(User.getInstance().getUtilityList().getUtility(n).getUtility_type().equals(Utility.GAS_NAME)) {
+                        pieEntries_28.add(new PieEntry(temp, Utility.GAS_NAME));
+                    }
+                    else{
+                        pieEntries_28.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
+                    }
                 }
 
-                //startDate - 28 days - endDate - current
-                else if(startDate.getTime() < before_28.getTime() && endDate.getTime() <= before_28.getTime()){
+                //startDate - 28 days - endDate (current)
+                else if (startDate.getTime() < before_28.getTime() && endDate.getTime() == currentDate.getTime()) {
+                    //get the 28 days gas used
+                    emissionShare = User.getInstance().getUtilityList().getUtility(n).getPerDayUsage() * 28;
+                    String str_singleEmission = String.valueOf(emissionShare);
+                    float temp = Float.valueOf(str_singleEmission);
 
+                    if(User.getInstance().getUtilityList().getUtility(n).getUtility_type().equals(Utility.GAS_NAME)) {
+                        pieEntries_28.add(new PieEntry(temp, Utility.GAS_NAME));
+                    }
+                    else{
+                        pieEntries_28.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
+                    }
+                }
+
+                //start date before 28 days, end date in the 28 days
+                else if (startDate.getTime() < before_28.getTime() && endDate.getTime() >= before_28.getTime()) {
+                    //calculate the days between end date and 28 days before
+                    long periodEnd = (endDate.getTime() - before_28.getTime()) / oneDay;
+                    emissionShare = User.getInstance().getUtilityList().getUtility(n).getPerDayUsage() * periodEnd;
+                    String str_singleEmission = String.valueOf(emissionShare);
+                    float temp = Float.valueOf(str_singleEmission);
+
+                    if(User.getInstance().getUtilityList().getUtility(n).getUtility_type().equals(Utility.GAS_NAME)) {
+                        pieEntries_28.add(new PieEntry(temp, Utility.GAS_NAME));
+                    }
+                    else{
+                        pieEntries_28.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
+                    }
+                }
+
+                //the period not in the last 28 days
+                else if (startDate.getTime() < before_28.getTime() && endDate.getTime() < before_28.getTime()) {
+                    emissionShare = 0.0;
+                    String str_singleEmission = String.valueOf(emissionShare);
+                    float temp = Float.valueOf(str_singleEmission);
+
+                    if(User.getInstance().getUtilityList().getUtility(n).getUtility_type().equals(Utility.GAS_NAME)) {
+                        pieEntries_28.add(new PieEntry(temp, Utility.GAS_NAME));
+                    }
+                    else{
+                        pieEntries_28.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
+                    }
                 }
             }
 
-
-
-
-            
-            PieDataSet dataSet = new PieDataSet(pieEntries, "emission");
+            PieDataSet dataSet = new PieDataSet(pieEntries_28, "emission");
             dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
             PieData data = new PieData(dataSet);
 
@@ -396,6 +447,164 @@ public class SingleDayActivity extends AppCompatActivity {
             chart_28.setData(data);
             chart_28.animateY(1000);
             chart_28.invalidate();
+
+        }
+
+        //365
+        else if(chart_position == 2){
+            //chart_single.setVisibility(View.INVISIBLE);
+            //chart_365.setVisibility(View.VISIBLE);
+            List<PieEntry> pieEntries_365 = new ArrayList<>();
+            final Calendar cal_current = Calendar.getInstance();
+            curr_year = cal_current.get(Calendar.YEAR) - 1900;
+            curr_month = cal_current.get(Calendar.MONTH);
+            curr_day = cal_current.get(Calendar.DAY_OF_MONTH);
+            currentDate = new Date(curr_year, curr_month, curr_day);
+            before_365 = new Date(currentDate.getTime() - 365 * oneDay);      //before 28 is the 28 days ago
+
+            //365 pie graph - journey part
+            for(int k=0;k<journeyList.size();k++){
+                Journey journey = User.getInstance().getJourneyList().get(k);
+                journeyDate = journey.getDate();
+
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                String str_before = formatter.format(before_365);
+                String str_journey = formatter.format(journeyDate);
+                String str_current = formatter.format(currentDate);
+
+                if(Objects.equals(str_before, str_journey) || Objects.equals(str_current, str_journey) ||
+                        journeyDate.getTime() >= before_365.getTime() || journeyDate.getTime() <= currentDate.getTime()){
+                    String vehicle = journey.getVehicleName();
+                    Toast.makeText(this, "" + vehicle, Toast.LENGTH_SHORT).show();
+                    if(vehicle.equals("Car")){
+                        car_exist = 1;
+                        vehicleCar = vehicle;
+                        emissionCar = emissionCar + journey.getCarbonEmitted();
+
+                        String str_emissionCar = String.valueOf(emissionCar);
+                        tempCar = Float.valueOf(str_emissionCar);
+                    }
+
+                    else if(vehicle.equals("Bus")){
+                        bus_exist = 1;
+                        vehicleBus = vehicle;
+                        emissionBus = emissionBus + journey.getCarbonEmitted();
+
+                        String str_emissionBus = String.valueOf(emissionBus);
+                        tempBus = Float.valueOf(str_emissionBus);
+                    }
+
+                    else if(vehicle.equals("Skytrain")){
+                        bus_exist = 1;
+                        vehicleSkytrain = vehicle;
+                        emissionSkytrain = emissionSkytrain + journey.getCarbonEmitted();
+
+                        String str_emissionSkytrain = String.valueOf(emissionSkytrain);
+                        tempSkytrain = Float.valueOf(str_emissionSkytrain);
+                    }
+
+                    else if(vehicle.equals("Bike")){
+                        bus_exist = 1;
+                        vehicleBike = vehicle;
+                        emissionBike = emissionBike + journey.getCarbonEmitted();
+
+                        String str_emissionBike = String.valueOf(emissionBike);
+                        tempBike = Float.valueOf(str_emissionBike);
+                    }
+
+                }
+            }
+
+            if(car_exist == 1){
+                pieEntries_365.add(new PieEntry(tempCar, vehicleCar));
+            }
+            if(bus_exist == 1){
+                pieEntries_365.add(new PieEntry(tempBus, vehicleBus));
+            }
+            if(skytrain_exist == 1){
+                pieEntries_365.add(new PieEntry(tempSkytrain, vehicleSkytrain));
+            }
+            if(bike_exist == 1){
+                pieEntries_365.add(new PieEntry(tempBike, vehicleBike));
+            }
+
+
+            //365 pie graph - utility part
+            //natural gas + electricity
+            for(int n=0;n<User.getInstance().getUtilityList().countUtility();n++) {
+                utility_365 = User.getInstance().getUtilityList().getUtility(n);
+                startDate = utility_365.getStartDate();
+                endDate = utility_365.getEndDate();
+
+                //the period of bill in the last 365 days
+                if (startDate.getTime() >= before_365.getTime() && endDate.getTime() <= currentDate.getTime()) {
+                    //get total gas used
+                    emissionShare = User.getInstance().getUtilityList().getUtility(n).getPerDayUsage() * User.getInstance().getUtilityList().getUtility(n).getDaysInPeriod();
+                    String str_singleEmission = String.valueOf(emissionShare);
+                    float temp = Float.valueOf(str_singleEmission);
+
+                    if(User.getInstance().getUtilityList().getUtility(n).getUtility_type().equals(Utility.GAS_NAME)) {
+                        pieEntries_365.add(new PieEntry(temp, Utility.GAS_NAME));
+                    }
+                    else{
+                        pieEntries_365.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
+                    }
+                }
+
+                //startDate - 365 days - endDate (current)
+                else if (startDate.getTime() < before_365.getTime() && endDate.getTime() == currentDate.getTime()) {
+                    //get the 365 days gas used
+                    emissionShare = User.getInstance().getUtilityList().getUtility(n).getPerDayUsage() * 365;
+                    String str_singleEmission = String.valueOf(emissionShare);
+                    float temp = Float.valueOf(str_singleEmission);
+
+                    if(User.getInstance().getUtilityList().getUtility(n).getUtility_type().equals(Utility.GAS_NAME)) {
+                        pieEntries_365.add(new PieEntry(temp, Utility.GAS_NAME));
+                    }
+                    else{
+                        pieEntries_365.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
+                    }
+                }
+
+                //start date before 365 days, end date in the 365 days
+                else if (startDate.getTime() < before_28.getTime() && endDate.getTime() >= before_28.getTime()) {
+                    //calculate the days between end date and 28 days before
+                    long periodEnd = (endDate.getTime() - before_28.getTime()) / oneDay;
+                    emissionShare = User.getInstance().getUtilityList().getUtility(n).getPerDayUsage() * periodEnd;
+                    String str_singleEmission = String.valueOf(emissionShare);
+                    float temp = Float.valueOf(str_singleEmission);
+
+                    if(User.getInstance().getUtilityList().getUtility(n).getUtility_type().equals(Utility.GAS_NAME)) {
+                        pieEntries_365.add(new PieEntry(temp, Utility.GAS_NAME));
+                    }
+                    else{
+                        pieEntries_365.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
+                    }
+                }
+
+                //the period not in the last 365 days
+                else if (startDate.getTime() < before_365.getTime() && endDate.getTime() < before_365.getTime()) {
+                    emissionShare = 0.0;
+                    String str_singleEmission = String.valueOf(emissionShare);
+                    float temp = Float.valueOf(str_singleEmission);
+
+                    if(User.getInstance().getUtilityList().getUtility(n).getUtility_type().equals(Utility.GAS_NAME)) {
+                        pieEntries_365.add(new PieEntry(temp, Utility.GAS_NAME));
+                    }
+                    else{
+                        pieEntries_365.add(new PieEntry(temp, Utility.ELECTRICITY_NAME));
+                    }
+                }
+            }
+
+            PieDataSet dataSet = new PieDataSet(pieEntries_365, "emission");
+            dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+            PieData data = new PieData(dataSet);
+
+            chart_365 = (PieChart) findViewById(R.id.singleDayChart);
+            chart_365.setData(data);
+            chart_365.animateY(1000);
+            chart_365.invalidate();
 
         }
     }

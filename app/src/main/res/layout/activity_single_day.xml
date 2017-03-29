@@ -28,4 +28,14 @@
         android:entries="@array/spinner_item"
         android:id="@+id/graphSpinner" />
 
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:textOn="@string/routeSwitch"
+        android:textOff="@string/mode"
+        android:id="@+id/modeSwitch" />
+
+
 </RelativeLayout>
