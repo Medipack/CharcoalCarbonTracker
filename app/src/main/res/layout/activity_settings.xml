@@ -7,7 +7,7 @@
     tools:context="sfu.cmpt276.carbontracker.ui.SettingsActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/settings_titleTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settings"
@@ -31,7 +31,7 @@
         android:id="@+id/settings_unitsToggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/settings_titleTxt"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
