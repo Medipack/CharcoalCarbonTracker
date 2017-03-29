@@ -21,6 +21,7 @@ public class unitConversion {
     private double skytrainRate;
     private double walkBikeRate;
 
+    //Default constructor
     public unitConversion(){
         unitName = "CO2";
         electricityRate = ELECTRICITY_CO2;
