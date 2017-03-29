@@ -18,13 +18,14 @@ public class User {
     private VehicleListener vehicleListener;
     private RouteListener routeListener;
 
+    private UtilityList utilityList;
+    private VehicleDirectory mainDirectory;
     private List<Vehicle> vehicleList;
     private RouteList routeList;
     private List<Journey> journeyList;
-    private VehicleDirectory mainDirectory;
-    private UtilityList utilityList;
     private Journey currentJourney;
     private List<String> tips;
+    private unitConversion units;
 
     private User(){
         vehicleList = new ArrayList<>();
@@ -33,6 +34,7 @@ public class User {
         journeyList = new ArrayList<>();
         utilityList = new UtilityList();
         tips = new ArrayList<>();
+        units = new unitConversion();
     }
 
     private static User instance = new User();
@@ -63,6 +65,13 @@ public class User {
         return utilityList;
     }
 
+    public unitConversion getUnits() {
+        return units;
+    }
+
+    public void setUnits(unitConversion units) {
+        this.units = units;
+    }
 
     // *** Current Journey *** //
 

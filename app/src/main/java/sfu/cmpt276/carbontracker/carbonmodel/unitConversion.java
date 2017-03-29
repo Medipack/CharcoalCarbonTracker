@@ -15,9 +15,11 @@ public class unitConversion {
     private double electricityRate;
     private double naturalGasRate;
     private double gasolineRate;
+    private double dieselRate;
+    private double electricFuelRate;
     private double busRate;
     private double skytrainRate;
-    private double dieselRate;
+    private double walkBikeRate;
 
     public unitConversion(){
         unitName = "CO2";
@@ -25,11 +27,13 @@ public class unitConversion {
         naturalGasRate = NATURAL_GAS_CO2;
         gasolineRate = GASOLINE_CO2;
         dieselRate = DIESEL_CO2;
+        electricityRate = ELECTRIC_FUEL_CO2;
         busRate = BUS_CO2;
         skytrainRate = SKYTRAIN_CO2;
+        walkBikeRate = WALK_BIKE_CO2;
     }
 
-    //Getters
+    //***Getters***
 
     public String getUnitName() {
         return unitName;
@@ -51,6 +55,10 @@ public class unitConversion {
         return dieselRate;
     }
 
+    public double getElectricFuelRate() {
+        return electricFuelRate;
+    }
+
     public double getBusRate() {
         return busRate;
     }
@@ -59,7 +67,11 @@ public class unitConversion {
         return skytrainRate;
     }
 
-    //Setters
+    public double getWalkBikeRate() {
+        return walkBikeRate;
+    }
+
+    //***Setters***
 
     public void setUnitName(String unitName) {
         this.unitName = unitName;
@@ -81,11 +93,19 @@ public class unitConversion {
         this.dieselRate = dieselRate;
     }
 
+    public void setElectricFuelRate(double electricFuelRate) {
+        this.electricFuelRate = electricFuelRate;
+    }
+
     public void setBusRate(double busRate) {
         this.busRate = busRate;
     }
 
     public void setSkytrainRate(double skytrainRate) {
         this.skytrainRate = skytrainRate;
+    }
+
+    public void setWalkBikeRate(double walkBikeRate) {
+        this.walkBikeRate = walkBikeRate;
     }
 }
