@@ -26,11 +26,12 @@
             android:text="@string/icon_currently_chosen"
             android:id="@+id/currentIconTxt"
             android:layout_centerInParent="true"/>
-        <ImageButton
+        <Button
             android:layout_width="75sp"
             android:layout_height="75sp"
             android:background="@mipmap/car5"
             android:layout_toRightOf="@id/currentIconTxt"
+            android:id="@+id/currentIconImg"
             />
     </RelativeLayout>
 

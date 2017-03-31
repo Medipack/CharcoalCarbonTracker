@@ -2,6 +2,7 @@ package sfu.cmpt276.carbontracker.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,10 +35,12 @@ public class TransportationModeActivity extends AppCompatActivity {
 
     public static final String EDIT_VEHICLE_REQUEST = "EDIT_VEHICLE";
     private final String TAG = "TransportationActivity";
+    TypedArray icons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        icons =  getResources().obtainTypedArray(R.array.iconArray);
         setContentView(R.layout.activity_transportation_mode);
         setupCarDirectory();
         //addTestVehicleToArray();
@@ -64,6 +67,8 @@ public class TransportationModeActivity extends AppCompatActivity {
                 //bike.setTransport_mode(Car.WALK_BIKE);
                 //bike.setNickname("Bike");
                 user.setCurrentJourneyCar(User.BIKE);
+
+                user.getCurrentJourney().getVehicle().setIconID(2);
                 Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
                 startActivityForResult(intent, 0);
             }
@@ -80,6 +85,7 @@ public class TransportationModeActivity extends AppCompatActivity {
                 //skytrain.setTransport_mode(Car.SKYTRAIN);
                 //skytrain.setNickname("Skytrain");
                 user.setCurrentJourneyCar(User.SKYTRAIN);
+                user.getCurrentJourney().getVehicle().setIconID(3);
                 Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
                 startActivityForResult(intent, 0);
             }
@@ -95,6 +101,7 @@ public class TransportationModeActivity extends AppCompatActivity {
                 //Car bus = new Car("Bus", 89, 89, Car.BUS);
                 //bus.setTransport_mode(Car.BUS);
                 user.setCurrentJourneyCar(User.BUS);
+                user.getCurrentJourney().getVehicle().setIconID(1);
                 Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
                 startActivityForResult(intent, 0);
             }

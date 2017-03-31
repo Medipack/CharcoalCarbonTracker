@@ -248,6 +248,14 @@ public class Vehicle implements Cloneable, Serializable{
     public void setActive(Boolean active) {
         isActive = active;
     }
+
+    public int getIconID() {
+        return iconID;
+    }
+
+    public void setIconID(int iconID) {
+        this.iconID = iconID;
+    }
 }
 
 

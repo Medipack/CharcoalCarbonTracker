@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 
+import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.ui.RouteActivity;
 import sfu.cmpt276.carbontracker.ui.TransportationModeActivity;
 
@@ -24,6 +25,14 @@ public class IconActivity extends AppCompatActivity {
         loadIcons();
         setupOkButton();
         setupIconButtonclicks();
+        loadCurrentIcon();
+    }
+
+    private void loadCurrentIcon() {
+        Button currentIcon= (Button)findViewById(R.id.currentIconImg);
+        int iconID = User.getInstance().getCurrentJourney().getVehicle().getIconID();
+        TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
+        currentIcon.setBackground(icons.getDrawable(iconID));
     }
 
     private void setupIconButtonclicks() {
