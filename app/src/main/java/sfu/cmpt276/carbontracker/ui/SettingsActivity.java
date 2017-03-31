@@ -60,9 +60,11 @@ public class SettingsActivity extends AppCompatActivity {
     public static final int HASH_WALK = 8;
 
     unitConversion temp;
+    Boolean settingsChanged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        settingsChanged = User.getInstance().checkDefault();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -90,6 +92,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User.getInstance().setUnits(temp);
+                User.getInstance().setUnitChanged(settingsChanged);
                 finish();
             }
         });
@@ -97,16 +100,19 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void initializeTheToggle(final HashMap<String, HashMap<String, String>> unitMap) {
         ToggleButton unitToggle = (ToggleButton) findViewById(R.id.settings_unitsToggle);
+        //check if default
+        unitToggle.setChecked(User.getInstance().checkDefault());
         unitToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if(!isChecked){
                     List<Double> unitList = getHashedValues(CO2_NAME,unitMap);
                     setValues(CO2_NAME,unitList);
-
-                }else if (!isChecked){
+                    settingsChanged = false;
+                }else if (isChecked){
                     List<Double> unitList = getHashedValues($_NAME, unitMap);
                     setValues($_NAME, unitList);
+                    settingsChanged = true;
                 }
             }
         });

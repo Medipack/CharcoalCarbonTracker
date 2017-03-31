@@ -36,6 +36,7 @@ public class User {
     private Journey currentJourney;
     private List<String> tips;
     private unitConversion units;
+    private Boolean unitChanged;
 
     private User(){
         vehicleList = new ArrayList<>();
@@ -55,6 +56,7 @@ public class User {
                                     SKYTRAIN_CO2,
                                     WALK_BIKE_CO2
         );
+        unitChanged = false;
     }
 
     private static User instance = new User();
@@ -91,6 +93,14 @@ public class User {
 
     public void setUnits(unitConversion units) {
         this.units = units;
+    }
+
+    public Boolean checkDefault() {
+        return unitChanged;
+    }
+
+    public void setUnitChanged(Boolean value){
+        unitChanged = value;
     }
 
     // *** Current Journey *** //
