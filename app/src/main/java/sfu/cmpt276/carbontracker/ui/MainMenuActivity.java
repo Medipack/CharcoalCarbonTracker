@@ -1,6 +1,7 @@
 package sfu.cmpt276.carbontracker.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
         Database.getDB().initializeDatabase(this);
+        setStartingUnitSettings();
 
         setupMainDirectory();
         setupNewJourneyBtn();
@@ -33,6 +35,12 @@ public class MainMenuActivity extends AppCompatActivity {
         setupCarbon();
         setupUtility();
         setupGraph();
+    }
+
+    private void setStartingUnitSettings() {
+        SharedPreferences settings = getSharedPreferences("Settings", MODE_PRIVATE);
+        Boolean startSettings = settings.getBoolean("unitSettings", false);
+        User.getInstance().setUnitChanged(startSettings);
     }
 
     private void setupSettingsButton() {

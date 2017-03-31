@@ -1,5 +1,6 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -93,7 +94,10 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 User.getInstance().setUnits(temp);
                 User.getInstance().setUnitChanged(settingsChanged);
-                finish();
+                SharedPreferences settings = getSharedPreferences("Settings", MODE_PRIVATE);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("unitSettings", settingsChanged);
+                editor.commit();
             }
         });
     }
