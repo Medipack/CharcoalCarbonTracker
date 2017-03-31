@@ -30,6 +30,7 @@ public class Vehicle implements Cloneable, Serializable{
     private double cityCO2;
     private double hwyCO2;
     private double engineDispl;
+    private int iconID;
 
     //Constructor
     public Vehicle(){
@@ -44,6 +45,7 @@ public class Vehicle implements Cloneable, Serializable{
         hwyCO2 = 0;
         engineDispl = 0;
         transport_mode = CAR;
+        iconID = 0;
     }
 
     //Constructor for public modes of transportation
@@ -60,6 +62,8 @@ public class Vehicle implements Cloneable, Serializable{
         this.hwyCO2 = hwyCO2;
         engineDispl = 0;
         setTransport_mode(transport_mode);
+        iconID = 0;
+
     }
 
     public Vehicle(String nickname, String make, String model, int year){
@@ -69,6 +73,8 @@ public class Vehicle implements Cloneable, Serializable{
         this.model = model;
         this.year = year;
         transport_mode = CAR;
+        iconID = 0;
+
     }
 
     public Vehicle(String nickname, String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
@@ -83,6 +89,8 @@ public class Vehicle implements Cloneable, Serializable{
         setHwyCO2(hwyCO2);
         setEngineDispl(engineDispl);
         transport_mode = CAR;
+        iconID = 0;
+
     }
 
     public Vehicle(String model, String make, int year, String fuelType, String transmission, int cityCO2, int hwyCO2, double engineDispl){
@@ -97,6 +105,8 @@ public class Vehicle implements Cloneable, Serializable{
         setHwyCO2(hwyCO2);
         setEngineDispl(engineDispl);
         transport_mode = CAR;
+        iconID = 0;
+
     }
 
     //Getter
