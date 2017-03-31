@@ -2,15 +2,6 @@ package sfu.cmpt276.carbontracker.carbonmodel;
 
 public class unitConversion {
 
-    protected static final double ELECTRICITY_CO2 = 0.009; //kg of CO2 per KWh
-    protected static final double NATURAL_GAS_CO2 = 56.1; //kg of CO2 per GJ
-    protected static final double GASOLINE_CO2 = 2.34849; //kg of co2 per litre
-    protected static final double DIESEL_CO2 = 2.6839881; //kg of co2 per litre
-    protected static final double ELECTRIC_FUEL_CO2 = 0; //kg of co2 per gallon
-    protected static final double BUS_CO2 = 0.089; //kg of co2 per KM of travel
-    protected static final double WALK_BIKE_CO2 = 0; //kg of co2 per KM of travel
-    protected static final double SKYTRAIN_CO2 = 0; //kg of co2 per KM of travel todo: verify skytrain emisisons
-
     private String unitName;
     private double electricityRate;
     private double naturalGasRate;
@@ -22,16 +13,24 @@ public class unitConversion {
     private double walkBikeRate;
 
     //Default constructor
-    public unitConversion(){
-        unitName = "CO2";
-        electricityRate = ELECTRICITY_CO2;
-        naturalGasRate = NATURAL_GAS_CO2;
-        gasolineRate = GASOLINE_CO2;
-        dieselRate = DIESEL_CO2;
-        electricityRate = ELECTRIC_FUEL_CO2;
-        busRate = BUS_CO2;
-        skytrainRate = SKYTRAIN_CO2;
-        walkBikeRate = WALK_BIKE_CO2;
+    public unitConversion(String name,
+                          double electricity,
+                          double natGas,
+                          double gas,
+                          double diesel,
+                          double elecFuel,
+                          double busFare,
+                          double skyTrainFare,
+                          double walk){
+        unitName = name;
+        electricityRate = electricity;
+        naturalGasRate = natGas;
+        gasolineRate = gas;
+        dieselRate = diesel;
+        electricFuelRate = elecFuel;
+        busRate = busFare;
+        skytrainRate = skyTrainFare;
+        walkBikeRate = walk;
     }
 
     //***Getters***

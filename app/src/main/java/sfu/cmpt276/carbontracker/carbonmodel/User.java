@@ -15,6 +15,16 @@ public class User {
     public static final Vehicle BIKE = new Vehicle(1, "Bike", 0, 0, Vehicle.WALK_BIKE);
     public static final Vehicle SKYTRAIN = new Vehicle(2, "Skytrain", 89, 89, Vehicle.SKYTRAIN);
 
+    public static final String DEFAULT_NAME = "CO2";
+    public static final double ELECTRICITY_CO2 = 0.009; //kg of CO2 per KWh
+    public static final double NATURAL_GAS_CO2 = 56.1; //kg of CO2 per GJ
+    public static final double GASOLINE_CO2 = 2.34849; //kg of co2 per litre
+    public static final double DIESEL_CO2 = 2.6839881; //kg of co2 per litre
+    public static final double ELECTRIC_FUEL_CO2 = 0; //kg of co2 per gallon
+    public static final double BUS_CO2 = 0.089; //kg of co2 per KM of travel
+    public static final double WALK_BIKE_CO2 = 0; //kg of co2 per KM of travel
+    public static final double SKYTRAIN_CO2 = 0; //kg of co2 per KM of travel todo: verify skytrain emisisons
+
     private VehicleListener vehicleListener;
     private RouteListener routeListener;
 
@@ -34,7 +44,17 @@ public class User {
         journeyList = new ArrayList<>();
         utilityList = new UtilityList();
         tips = new ArrayList<>();
-        units = new unitConversion();
+        units = new unitConversion(
+                                    DEFAULT_NAME,
+                                    ELECTRICITY_CO2,
+                                    NATURAL_GAS_CO2,
+                                    GASOLINE_CO2,
+                                    DIESEL_CO2,
+                                    ELECTRIC_FUEL_CO2,
+                                    BUS_CO2,
+                                    SKYTRAIN_CO2,
+                                    WALK_BIKE_CO2
+        );
     }
 
     private static User instance = new User();
