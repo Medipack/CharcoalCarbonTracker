@@ -28,10 +28,22 @@ public class MainMenuActivity extends AppCompatActivity {
         setupMainDirectory();
         setupNewJourneyBtn();
         setupCarbonTotalsBtn();
+        setupSettingsButton();
 
         setupCarbon();
         setupUtility();
         setupGraph();
+    }
+
+    private void setupSettingsButton() {
+        Button button = (Button) findViewById(R.id.main_menu_settingsBtn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

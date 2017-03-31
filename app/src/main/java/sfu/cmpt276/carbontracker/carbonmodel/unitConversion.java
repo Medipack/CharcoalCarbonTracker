@@ -13,6 +13,19 @@ public class unitConversion {
     private double walkBikeRate;
 
     //Default constructor
+    public unitConversion(){
+        unitName= "";
+        electricFuelRate = 0;
+        naturalGasRate = 0;
+        gasolineRate = 0;
+        dieselRate = 0;
+        electricFuelRate = 0;
+        busRate = 0;
+        skytrainRate = 0;
+        walkBikeRate = 0;
+    }
+
+
     public unitConversion(String name,
                           double electricity,
                           double natGas,
@@ -31,6 +44,19 @@ public class unitConversion {
         busRate = busFare;
         skytrainRate = skyTrainFare;
         walkBikeRate = walk;
+    }
+
+    //Copy Constructor
+    public unitConversion(unitConversion ref) {
+        unitName = ref.getUnitName();
+        electricityRate = ref.getElectricityRate();
+        naturalGasRate = ref.getNaturalGasRate();
+        gasolineRate = ref.getGasolineRate();
+        dieselRate = ref.getDieselRate();
+        electricFuelRate = ref.getElectricFuelRate();
+        busRate = ref.getBusRate();
+        skytrainRate = ref.getSkytrainRate();
+        walkBikeRate = ref.getWalkBikeRate();
     }
 
     //***Getters***
