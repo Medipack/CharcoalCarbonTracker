@@ -5,12 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="sfu.cmpt276.carbontracker.IconActivity">
+
     <TextView
+        android:id="@+id/titleIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/choose_your_vehicle_icon"
         android:layout_centerHorizontal="true"
-        android:id="@+id/titleIcon"/>
+        android:paddingTop="20dp"
+        android:text="@string/choose_your_vehicle_icon"
+        android:textSize="30sp" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,9 +37,14 @@
 
 <GridLayout
     android:layout_below="@id/currentLayout"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/iconGrid">
+    android:columnCount="3"
+    android:useDefaultMargins="false"
+    android:paddingTop="20dp"
+    android:alignmentMode="alignMargins"
+    android:id="@+id/iconGrid"
+    android:layout_centerHorizontal="true">
 </GridLayout>
 
     <Button
@@ -45,6 +53,7 @@
         android:text="@string/ok"
         android:layout_below="@id/iconGrid"
         android:id="@+id/okIconBtn"
+        android:layout_centerHorizontal="true"
         />
 
 

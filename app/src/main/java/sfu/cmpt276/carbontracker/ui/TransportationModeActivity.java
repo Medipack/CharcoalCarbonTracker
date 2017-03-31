@@ -21,6 +21,7 @@ import android.widget.TextView;
 import java.io.InputStream;
 import java.util.List;
 
+import sfu.cmpt276.carbontracker.IconActivity;
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.ui.database.Database;
@@ -63,7 +64,7 @@ public class TransportationModeActivity extends AppCompatActivity {
                 //bike.setTransport_mode(Car.WALK_BIKE);
                 //bike.setNickname("Bike");
                 user.setCurrentJourneyCar(User.BIKE);
-                Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
+                Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
                 startActivityForResult(intent, 0);
             }
         });
@@ -79,7 +80,7 @@ public class TransportationModeActivity extends AppCompatActivity {
                 //skytrain.setTransport_mode(Car.SKYTRAIN);
                 //skytrain.setNickname("Skytrain");
                 user.setCurrentJourneyCar(User.SKYTRAIN);
-                Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
+                Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
                 startActivityForResult(intent, 0);
             }
         });
@@ -94,7 +95,7 @@ public class TransportationModeActivity extends AppCompatActivity {
                 //Car bus = new Car("Bus", 89, 89, Car.BUS);
                 //bus.setTransport_mode(Car.BUS);
                 user.setCurrentJourneyCar(User.BUS);
-                Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
+                Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
                 startActivityForResult(intent, 0);
             }
         });
