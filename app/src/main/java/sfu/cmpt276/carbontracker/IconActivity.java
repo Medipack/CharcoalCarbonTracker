@@ -23,6 +23,19 @@ public class IconActivity extends AppCompatActivity {
 
         loadIcons();
         setupOkButton();
+        setupIconButtonclicks();
+    }
+
+    private void setupIconButtonclicks() {
+        for(Button button : buttonArray)
+        {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //
+                }
+            });
+        }
     }
 
     @Override
