@@ -52,4 +52,11 @@
     <string name="save_edit">SAVE EDIT</string>
     <string name="choose_the_single_date">Choose the Single Date</string>
     <string name="show_graph">Show Graph</string>
+    <string name="routeSwitch">routeSwitch</string>
+    <string name="mode">mode</string>
+    <string-array name="spinner_item">
+        <item>Single Day</item>
+        <item>Last 28 Days</item>
+        <item>Last 376 Days</item>
+    </string-array>
 </resources>
