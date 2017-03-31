@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="sfu.cmpt276.carbontracker.IconActivity">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_your_vehicle_icon"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/titleIcon"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleIcon"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/currentLayout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/icon_currently_chosen"
+            android:id="@+id/currentIconTxt"
+            android:layout_centerInParent="true"/>
+        <ImageButton
+            android:layout_width="75sp"
+            android:layout_height="75sp"
+            android:background="@mipmap/car5"
+            android:layout_toRightOf="@id/currentIconTxt"
+            />
+    </RelativeLayout>
 
-</android.support.constraint.ConstraintLayout>
+
+<GridLayout
+    android:layout_below="@id/currentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/iconGrid">
+</GridLayout>
+
+</RelativeLayout>
