@@ -1,7 +1,20 @@
 package sfu.cmpt276.carbontracker.carbonmodel;
 
+import java.util.List;
+
 public class unitConversion {
 
+    //Set Index
+    public static final int SET_ELECTRICITY = 0;
+    public static final int SET_NATURAL_GAS = 1;
+    public static final int SET_GASOLINE = 2;
+    public static final int SET_DIESEL = 3;
+    public static final int SET_ELECTRIC_C = 4;
+    public static final int SET_BUSFARE = 5;
+    public static final int SET_SKYTRAIN = 6;
+    public static final int SET_WALK = 7;
+
+    //Attributes
     private String unitName;
     private double electricityRate;
     private double naturalGasRate;
@@ -133,5 +146,18 @@ public class unitConversion {
 
     public void setWalkBikeRate(double walkBikeRate) {
         this.walkBikeRate = walkBikeRate;
+    }
+
+    public void setValues(String name, List<Double> unitList) {
+        //set the values
+        setUnitName(name);
+        setElectricityRate(unitList.get(SET_ELECTRICITY));
+        setNaturalGasRate(unitList.get(SET_NATURAL_GAS));
+        setGasolineRate(unitList.get(SET_GASOLINE));
+        setDieselRate(unitList.get(SET_DIESEL));
+        setElectricFuelRate(unitList.get(SET_ELECTRIC_C));
+        setBusRate(unitList.get(SET_BUSFARE));
+        setSkytrainRate(unitList.get(SET_SKYTRAIN));
+        setWalkBikeRate(unitList.get(SET_WALK));
     }
 }

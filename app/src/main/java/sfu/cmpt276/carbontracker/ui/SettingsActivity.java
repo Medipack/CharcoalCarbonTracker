@@ -40,15 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected static final String SKYTRAIN = "Skytrain";
     public static final String $_NAME = "$";
     public static final String CO2_NAME = "CO2";
-    //Set Index
-    public static final int SET_ELECTRICITY = 0;
-    public static final int SET_NATURAL_GAS = 1;
-    public static final int SET_GASOLINE = 2;
-    public static final int SET_DIESEL = 3;
-    public static final int SET_ELECTRIC_C = 4;
-    public static final int SET_BUSFARE = 5;
-    public static final int SET_SKYTRAIN = 6;
-    public static final int SET_WALK = 7;
+
     //Hash Index
     public static final int HASH_NAME = 0;
     public static final int HASH_ELECTRICITY = 1;
@@ -94,12 +86,16 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 User.getInstance().setUnits(temp);
                 User.getInstance().setUnitChanged(settingsChanged);
-                SharedPreferences settings = getSharedPreferences("Settings", MODE_PRIVATE);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putBoolean("unitSettings", settingsChanged);
-                editor.commit();
+                saveToPreferences();
             }
         });
+    }
+
+    private void saveToPreferences() {
+        SharedPreferences settings = getSharedPreferences("Settings", MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("unitSettings", settingsChanged);
+        editor.commit();
     }
 
     private void initializeTheToggle(final HashMap<String, HashMap<String, String>> unitMap) {
@@ -111,28 +107,15 @@ public class SettingsActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(!isChecked){
                     List<Double> unitList = getHashedValues(CO2_NAME,unitMap);
-                    setValues(CO2_NAME,unitList);
+                    temp.setValues(CO2_NAME,unitList);
                     settingsChanged = false;
                 }else if (isChecked){
                     List<Double> unitList = getHashedValues($_NAME, unitMap);
-                    setValues($_NAME, unitList);
+                    temp.setValues($_NAME, unitList);
                     settingsChanged = true;
                 }
             }
         });
-    }
-
-    private void setValues(String name, List<Double> unitList) {
-        //set the values
-        temp.setUnitName(name);
-        temp.setElectricityRate(unitList.get(SET_ELECTRICITY));
-        temp.setNaturalGasRate(unitList.get(SET_NATURAL_GAS));
-        temp.setGasolineRate(unitList.get(SET_GASOLINE));
-        temp.setDieselRate(unitList.get(SET_DIESEL));
-        temp.setElectricFuelRate(unitList.get(SET_ELECTRIC_C));
-        temp.setBusRate(unitList.get(SET_BUSFARE));
-        temp.setSkytrainRate(unitList.get(SET_SKYTRAIN));
-        temp.setWalkBikeRate(unitList.get(SET_WALK));
     }
 
     @NonNull
