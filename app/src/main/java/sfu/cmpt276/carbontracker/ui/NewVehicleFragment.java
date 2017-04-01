@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import sfu.cmpt276.carbontracker.IconActivity;
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
@@ -73,6 +76,16 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         detailedVehicleListener = detailedCarArrayAdapter;
         ListView detailedCarListView = (ListView) view.findViewById(R.id.detailedCarList);
         detailedCarListView.setAdapter(detailedCarArrayAdapter);
+
+        Button btn = (Button)view.findViewById(R.id.iconBtn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), IconActivity.class);
+                intent.putExtra("caller",0);
+                startActivity(intent);
+            }
+        });
 
         detailedCarListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -71,6 +71,7 @@ public class TransportationModeActivity extends AppCompatActivity {
                 user.setCurrentJourneyCar(User.BIKE);
                 user.getCurrentJourney().getVehicle().setIconID(2);
                 Database.getDB().updateVehicle(user.getCurrentJourney().getVehicle());
+
                 Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
                 startActivityForResult(intent, 0);
             }

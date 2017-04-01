@@ -12,13 +12,13 @@ import android.widget.GridLayout;
 
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
+import sfu.cmpt276.carbontracker.ui.NewVehicleFragment;
 import sfu.cmpt276.carbontracker.ui.RouteActivity;
 import sfu.cmpt276.carbontracker.ui.TransportationModeActivity;
 import sfu.cmpt276.carbontracker.ui.database.Database;
 
 public class IconActivity extends AppCompatActivity {
     Button[] buttonArray = new Button[9];
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +29,8 @@ public class IconActivity extends AppCompatActivity {
         setupIconButtonclicks();
         loadCurrentIcon();
     }
+
+
 
     private void loadCurrentIcon() {
         Button currentIcon= (Button)findViewById(R.id.currentIconImg);
@@ -84,8 +86,11 @@ public class IconActivity extends AppCompatActivity {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(IconActivity.this, RouteActivity.class);
-                startActivityForResult(intent, 0);
+                int caller = getIntent().getIntExtra("caller" , -1);
+                if(caller!=0) {
+                    Intent intent = new Intent(IconActivity.this, RouteActivity.class);
+                    startActivityForResult(intent, 0);
+                }
                 finish();
             }
         });
