@@ -69,8 +69,8 @@ public class TransportationModeActivity extends AppCompatActivity {
                 //bike.setTransport_mode(Car.WALK_BIKE);
                 //bike.setNickname("Bike");
                 user.setCurrentJourneyCar(User.BIKE);
-
                 user.getCurrentJourney().getVehicle().setIconID(2);
+                Database.getDB().updateVehicle(user.getCurrentJourney().getVehicle());
                 Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
                 startActivityForResult(intent, 0);
             }
@@ -88,6 +88,7 @@ public class TransportationModeActivity extends AppCompatActivity {
                 //skytrain.setNickname("Skytrain");
                 user.setCurrentJourneyCar(User.SKYTRAIN);
                 user.getCurrentJourney().getVehicle().setIconID(3);
+                Database.getDB().updateVehicle(user.getCurrentJourney().getVehicle());
                 Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
                 startActivityForResult(intent, 0);
             }
@@ -104,6 +105,7 @@ public class TransportationModeActivity extends AppCompatActivity {
                 //bus.setTransport_mode(Car.BUS);
                 user.setCurrentJourneyCar(User.BUS);
                 user.getCurrentJourney().getVehicle().setIconID(1);
+                Database.getDB().updateVehicle(user.getCurrentJourney().getVehicle());
                 Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
                 startActivityForResult(intent, 0);
             }
@@ -187,7 +189,7 @@ public class TransportationModeActivity extends AppCompatActivity {
             int iconID =  vehicle.getIconID();
             TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
             if(iconID > -1 && iconImg != null)
-                 iconImg.setImageDrawable(icons.getDrawable(vehicle.getIconID()));
+                 iconImg.setImageDrawable(icons.getDrawable(iconID));
 
             return itemView;
         }
