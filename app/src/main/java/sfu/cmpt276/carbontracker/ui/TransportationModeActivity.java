@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -152,7 +154,7 @@ public class TransportationModeActivity extends AppCompatActivity {
         ListView carList = (ListView) findViewById(R.id.carListView);
         carList.setAdapter(carListAdapter);
     }
-
+//////////////start of adapter//////////
     private class VehicleListAdapter extends ArrayAdapter<Vehicle> implements VehicleListener {
         private List<Vehicle> vehicleList;
 
@@ -181,6 +183,12 @@ public class TransportationModeActivity extends AppCompatActivity {
             if(description != null)
                 description.setText(vehicle.getShortDecription());
 
+            ImageView iconImg = (ImageView) itemView.findViewById(R.id.car_icon);
+            int iconID =  vehicle.getIconID();
+            TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
+            if(iconID > -1 && iconImg != null)
+                 iconImg.setImageDrawable(icons.getDrawable(vehicle.getIconID()));
+
             return itemView;
         }
 
@@ -196,7 +204,7 @@ public class TransportationModeActivity extends AppCompatActivity {
             notifyDataSetChanged();
         }
     }
-
+///////////End of adapter///////////////////////////////
     private void registerListViewClickCallback() {
         ListView list = (ListView) findViewById(R.id.carListView);
 
