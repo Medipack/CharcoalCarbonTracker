@@ -26,6 +26,7 @@ class VehicleDatabaseHelper extends SQLiteOpenHelper {
     static final String COLUMN_CITYCO2 = "cityco2";
     static final String COLUMN_HWYCO2 = "hwyco2";
     static final String COLUMN_ENGINEDISPL = "enginedispl";
+    static final String COLUMN_ICON_ID = "iconID";
 
     private static final String DATABASE_NAME = "vehicles.db";
     private static final int DATABASE_VERSION = Database.DATABASE_VERSION; // update if Car class is ever changed
@@ -46,7 +47,8 @@ class VehicleDatabaseHelper extends SQLiteOpenHelper {
             COLUMN_YEAR + " integer not null, " +
             COLUMN_CITYCO2 + " integer not null, " +
             COLUMN_HWYCO2 + " integer not null, " +
-            COLUMN_ENGINEDISPL + " double not null);";
+            COLUMN_ENGINEDISPL + " double not null, " +
+            COLUMN_ICON_ID + " integer not null);";
 
     public VehicleDatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

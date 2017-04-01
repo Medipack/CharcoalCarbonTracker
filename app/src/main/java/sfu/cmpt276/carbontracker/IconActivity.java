@@ -36,21 +36,32 @@ public class IconActivity extends AppCompatActivity {
     }
 
     private void setupIconButtonclicks() {
-        for(Button button : buttonArray)
+        for(int i  = 0; i < buttonArray.length; i++)
         {
-            button.setOnClickListener(new View.OnClickListener() {
+            final int i_final = i;
+            buttonArray[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //
+                    Button currentIcon= (Button)findViewById(R.id.currentIconImg);
+                    TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
+                    currentIcon.setBackground(icons.getDrawable(i_final));
+                    User.getInstance().getCurrentJourney().getVehicle().setIconID(i_final);
                 }
             });
         }
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         formatButtons();
+        loadCurrentIcon();
     }
 
     private void formatButtons() {
