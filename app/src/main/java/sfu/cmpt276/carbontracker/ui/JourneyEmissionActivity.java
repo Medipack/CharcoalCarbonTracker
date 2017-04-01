@@ -1,6 +1,7 @@
 package sfu.cmpt276.carbontracker.ui;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,14 @@ public class JourneyEmissionActivity extends AppCompatActivity {
         setupShowTableButton();
         setuptxt();
         tipsDialog();
+        loadCurrentIcon();
+    }
+
+    private void loadCurrentIcon() {
+        Button currentIcon= (Button)findViewById(R.id.currentIconImg);
+        int iconID = User.getInstance().getCurrentJourney().getVehicle().getIconID();
+        TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
+        currentIcon.setBackground(icons.getDrawable(iconID));
     }
 
     private void tipsDialog() {

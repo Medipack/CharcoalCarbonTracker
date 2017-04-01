@@ -24,13 +24,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/icon_currently_chosen"
-            android:id="@+id/currentIconTxt"
+            android:id="@+id/iconTxt"
             android:layout_centerInParent="true"/>
         <Button
             android:layout_width="75sp"
             android:layout_height="75sp"
             android:background="@mipmap/car5"
-            android:layout_toRightOf="@id/currentIconTxt"
+            android:layout_toRightOf="@id/iconTxt"
             android:id="@+id/currentIconImg"
             />
     </RelativeLayout>
