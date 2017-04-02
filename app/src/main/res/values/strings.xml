@@ -58,4 +58,13 @@
     <string name="settings">Settings</string>
     <string name="units">Units</string>
     <string name="apply">Apply</string>
+    <string name="carTip1">Your total CO2 emissions is %1$,.2f kg.Check tire inflation by checking tires weekly (this can save 400–700 pounds of CO2/year!).</string>
+    <string name="carTip2">Your total CO2 emissions is %1$,.2f kg. Remember to drive below 90km/hr to maximize fuel efficiency.</string>
+    <string name="carTip3">Your total CO2 emissions is %1$,.2f kg. If the weather is cold, remember that idling wastes fuel.</string>
+    <string name="carTip4">Try to reduce some weight from your vehicle, this will cut down on your fuel consumption and reduce your %1$,.2f kg of CO2 emissions.</string>
+    <string name="carTip5"> Your total CO2 emissions is %1$,.2f kg. If your destination is less than 1.5km, consider walking or biking there  </string>
+    <string name="carTip6">Your total CO2 emissions is %1$,.2f kg. Consider combining trips to reduce your carbon footprint contribution.</string>
+    <string name="carTip7">Carpooling just once a week saves 20%% of your total carbon emissions of %1$,.2f.</string>
+    <string name="carTip8">Your total CO2 emissions is %1$,.2f kg. Purchase alternative fuel or electric vehicles, which could save 2–6 tonnes of CO2 emissions!</string>
+    <string name="carTip9">Taking the bus would have reduced your %1$,.2f kg CO2 by 33%%, consider this instead next time</string>
 </resources>
