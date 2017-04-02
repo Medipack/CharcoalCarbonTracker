@@ -36,7 +36,7 @@ public class User {
     private Journey currentJourney;
     private List<String> tips;
     private unitConversion units;
-    private Boolean unitChanged;
+    private int unitChanged;
 
     private User(){
         vehicleList = new ArrayList<>();
@@ -56,7 +56,7 @@ public class User {
                                     SKYTRAIN_CO2,
                                     WALK_BIKE_CO2
         );
-        unitChanged = false;
+        unitChanged = 0;
     }
 
     private static User instance = new User();
@@ -92,14 +92,14 @@ public class User {
     }
 
     public void setUnits(unitConversion units) {
-        this.units = units;
+        this.units = new unitConversion(units);
     }
 
-    public Boolean checkDefault() {
+    public int checkSetting() {
         return unitChanged;
     }
 
-    public void setUnitChanged(Boolean value){
+    public void setUnitChanged(int value){
         unitChanged = value;
     }
 
@@ -167,30 +167,6 @@ public class User {
         vehicleList.set(index, newVehicle);
         notifyListenerCarWasEdited();
     }
-
-
-    /*
-
-    public void removeCarFromCarList(Vehicle car){
-
-        Vehicle vehicle = vehicleList.get(index);
-        for(Journey journey : journeyList){
-            if(journey.getVehicle() == vehicle){
-                Vehicle newVehicle = new Vehicle();
-                try{
-                    newVehicle = (Vehicle) vehicle.clone();
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
-                journey.setVehicle(newVehicle);
-                journey.resetCarbonEmitted();
-            }
-        }
-        vehicleList.remove(car);
-
-        notifyListenerCarWasEdited();
-    }
-    */
 
 
     public void editRouteFromRouteList(int index, Route newRoute){

@@ -34,7 +34,7 @@
         <activity android:name=".ui.BillActivity" />
         <activity android:name=".ui.UtilityActivity" />
         <activity android:name=".ui.PickDateActivity" />
-        <activity android:name=".ui.SettingsActivity"></activity>
+        <activity android:name=".ui.SettingsActivity" />
     </application>
 
 </manifest>
