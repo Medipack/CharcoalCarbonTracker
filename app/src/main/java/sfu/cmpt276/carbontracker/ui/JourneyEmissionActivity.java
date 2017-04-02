@@ -69,6 +69,7 @@ public class JourneyEmissionActivity extends AppCompatActivity {
         Vehicle vehicle = journey.getVehicle();
         Route route = journey.getRoute();
         //todo change the grid data to include the extra vehicle data & add params to format grid
+        String[] values = getResources().getStringArray(R.array.unitNames);
         String[] gridData = {
                 getResources().getString(R.string.car_description), "",
                 getResources().getString(R.string.car_name), vehicle.getNickname(),
@@ -87,7 +88,7 @@ public class JourneyEmissionActivity extends AppCompatActivity {
                 getResources().getString(R.string.journey_info), "",
                 getResources().getString(R.string.total_distance), String.valueOf(journey.getTotalDistance()),
                 getResources().getString(R.string.date), String.valueOf(journey.getDate()),
-                getResources().getString(R.string.emission), String.valueOf(journey.getCarbonEmitted()),
+                values[User.getInstance().checkSetting()], String.valueOf(journey.getCarbonEmitted()),
         };
 
         GridView journeyGrid = (GridView) findViewById(R.id.journeyGRid);
