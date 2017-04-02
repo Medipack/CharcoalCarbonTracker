@@ -156,11 +156,25 @@ public class SettingsActivity extends AppCompatActivity {
         //extract values from map
         HashMap<String, String> tempMap = unitMap.get(name);
         List<Double> unitList = new ArrayList<Double>();
-        for (String key: tempMap.keySet()){
+        List<String> keyList = getKeys();
+        for (String key: keyList){
             double value = valueOf(tempMap.get(key));
             unitList.add(value);
         }
         return unitList;
+    }
+
+    private List<String> getKeys() {
+        List<String> keyList = new ArrayList<>();
+        keyList.add(ELECTRCITY);
+        keyList.add(NATURAL_GAS);
+        keyList.add(GASOLINE);
+        keyList.add(DIESEL);
+        keyList.add(ELECTRIC_FUEL);
+        keyList.add(BUS);
+        keyList.add(SKYTRAIN);
+        keyList.add(WALK);
+        return keyList;
     }
 
     private void readTheFile(HashMap<String, HashMap<String, String>> unitMap, InputStream input) {

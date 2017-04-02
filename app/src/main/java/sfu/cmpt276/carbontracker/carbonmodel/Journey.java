@@ -7,7 +7,8 @@ import java.util.Date;
  */
 
 public class Journey {
-//    private static final double GASOLINE = 2.34849; //kg of co2 per litre
+    public static final int MONEY = 1;
+    //    private static final double GASOLINE = 2.34849; //kg of co2 per litre
 //    private static final double DIESEL = 2.6839881; //kg of co2 per litre
 //    private static final double ELECTRIC = 0; //kg of co2 per gallon
 //    private static final double BUS = 0.089; //kg of co2 per KM of travel
@@ -58,18 +59,30 @@ public class Journey {
             return Math.round(co2 * cityLitres + co2 * highwayLitres);
         }
         else {
+            double emissions = 0;
             switch (vehicle.getTransport_mode()) {
                 case Vehicle.BUS:
                     co2 = unit.getBusRate();
+                    if (User.getInstance().checkSetting() == MONEY) {
+                        emissions = co2;
+                    }else{
+                        emissions = co2 * totalDistance;
+                    }
                     break;
                 case Vehicle.WALK_BIKE:
                     co2 = unit.getWalkBikeRate();
+                    emissions = co2 * totalDistance;
                     break;
                 case Vehicle.SKYTRAIN:
                     co2 = unit.getSkytrainRate();
+                    if (User.getInstance().checkSetting() == MONEY) {
+                        emissions = co2;
+                    }else{
+                        emissions = co2 * totalDistance;
+                    }
                     break;
             }
-            return co2 * totalDistance;
+            return emissions;
         }
     }
 

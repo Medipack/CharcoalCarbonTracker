@@ -60,6 +60,8 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void setStartingUnitSettings() {
         SharedPreferences settings = getSharedPreferences("Settings", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = settings.edit();
+//        editor.clear();
         int startSettings = settings.getInt("position", 0);
         User.getInstance().setUnitChanged(startSettings);
         unitConversion units = savedUnitPrefs(settings);
@@ -72,20 +74,20 @@ public class MainMenuActivity extends AppCompatActivity {
         double electricityRates = (double) settings.getFloat(ELECTRCITY, (float) ELECTRICITY_CO2);
         double naturalGasRates = (double) settings.getFloat(NATURAL_GAS, (float) NATURAL_GAS_CO2);
         double gasolineRates = (double) settings.getFloat(GASOLINE, (float) GASOLINE_CO2);
-        double diselRates = (double) settings.getFloat(DIESEL, (float) DIESEL_CO2);
+        double dieselRates = (double) settings.getFloat(DIESEL, (float) DIESEL_CO2);
         double electricityFuelRates = (double) settings.getFloat(ELECTRIC_FUEL, (float) ELECTRIC_FUEL_CO2);
         double busRates = (double) settings.getFloat(BUS, (float) BUS_CO2);
         double skyTrainRates = (double) settings.getFloat(SKYTRAIN, (float) SKYTRAIN_CO2);
         double walkRates = (double) settings.getFloat(WALK, (float) WALK_BIKE_CO2);
         return new unitConversion(name,
-                                                    electricityRates,
-                                                    naturalGasRates,
-                                                    gasolineRates,
-                                                    diselRates,
-                                                    electricityFuelRates,
-                                                    busRates,
-                                                    skyTrainRates,
-                                                    walkRates);
+                                    electricityRates,
+                                    naturalGasRates,
+                                    gasolineRates,
+                                    dieselRates,
+                                    electricityFuelRates,
+                                    busRates,
+                                    skyTrainRates,
+                                    walkRates);
     }
 
     private void setupSettingsButton() {
