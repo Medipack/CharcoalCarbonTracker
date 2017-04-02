@@ -259,6 +259,7 @@ public class TransportationModeActivity extends AppCompatActivity {
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == User.ACTIVITY_FINISHED_REQUESTCODE) {
             finish();
         }

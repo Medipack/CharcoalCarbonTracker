@@ -1,10 +1,12 @@
 package sfu.cmpt276.carbontracker.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,6 +24,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,6 +44,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
     private final int DEFAULT_EDIT_CAR_POSITION = -1;
     private final String TAG = "NewVehicleDialog";
+    private int iconID = 0;
     private Vehicle vehicle;
     private List<Vehicle> detailedVehicleList;
     private VehicleListener detailedVehicleListener;
@@ -77,15 +81,23 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         ListView detailedCarListView = (ListView) view.findViewById(R.id.detailedCarList);
         detailedCarListView.setAdapter(detailedCarArrayAdapter);
 
+        //icon//
+        Button currentIcon= (Button)view.findViewById(R.id.iconBtn);
+        TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
+        currentIcon.setBackground(icons.getDrawable(vehicle.getIconID()));
+
         Button btn = (Button)view.findViewById(R.id.iconBtn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), IconActivity.class);
                 intent.putExtra("caller",0);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
+
             }
         });
+        //end icon//
+
 
         detailedCarListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -107,7 +119,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 vehicle = detailedCarArrayAdapter.getSelectedCar();
                 EditText nickname = (EditText) view.findViewById(R.id.name);
                 vehicle.setNickname(String.valueOf(nickname.getText()).trim());
-
+                vehicle.setIconID(iconID);
                 if(editing) {
                     editExistingCar(editCarPosition, vehicle);
 
@@ -352,6 +364,26 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         car = Database.getDB().addVehicle(car);
         User.getInstance().setCurrentJourneyCar(car);
     }
-
     // *** end of database related methods *** //
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                iconID = data.getIntExtra("result", -1);
+                vehicle.setIconID(iconID);
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        View view = getView();
+        if (view != null) {
+            Button currentIcon= (Button)getView().findViewById(R.id.iconBtn);
+            TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
+            currentIcon.setBackground(icons.getDrawable(vehicle.getIconID()));
+        }
+    }
 }
