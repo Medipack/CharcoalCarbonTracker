@@ -51,6 +51,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
     private boolean editing = false;
     private int editCarPosition = DEFAULT_EDIT_CAR_POSITION;
+    private View theView;
 
     private DetailedVehicleAdapter detailedCarArrayAdapter;
 
@@ -73,6 +74,8 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         // Create the view
         @SuppressLint
                 ("InflateParams") final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
+        theView = view;
+
 
         detailedVehicleList = new ArrayList<>();
 
@@ -379,9 +382,8 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-        View view = getView();
-        if (view != null) {
-            Button currentIcon= (Button)getView().findViewById(R.id.iconBtn);
+        if (theView != null) {
+            Button currentIcon= (Button)theView.findViewById(R.id.iconBtn);
             TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
             currentIcon.setBackground(icons.getDrawable(vehicle.getIconID()));
         }
