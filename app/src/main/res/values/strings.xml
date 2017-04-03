@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Carbon Tracker</string>
     <string name="select_a_vehicle">Select a Vehicle</string>
+    <string name="nickname">Nickname</string>
     <string name="model">Model</string>
     <string name="year">Year</string>
     <string name="make">Make</string>
-    <string name="nickname">Nickname</string>
     <string name="name">Name</string>
     <string name="add_vehicle">Add Vehicle</string>
     <string name="select_a_route">Select a Route</string>
@@ -52,4 +52,28 @@
     <string name="save_edit">SAVE EDIT</string>
     <string name="choose_the_single_date">Choose the Single Date</string>
     <string name="show_graph">Show Graph</string>
+    <string name="language">Language</string>
+    <string name="money">$</string>
+    <string name="settings">Settings</string>
+    <string name="units">Units</string>
+    <string name="apply">Apply</string>
+    <string name="carTip1">Your total CO2 emissions is %1$,.2f kg.Check tire inflation by checking tires weekly (this can save 400–700 pounds of CO2/year!).</string>
+    <string name="carTip2">Your total CO2 emissions is %1$,.2f kg. Remember to drive below 90km/hr to maximize fuel efficiency.</string>
+    <string name="carTip3">Your total CO2 emissions is %1$,.2f kg. If the weather is cold, remember that idling wastes fuel.</string>
+    <string name="carTip4">Try to reduce some weight from your vehicle, this will cut down on your fuel consumption and reduce your %1$,.2f kg of CO2 emissions.</string>
+    <string name="carTip5"> Your total CO2 emissions is %1$,.2f kg. If your destination is less than 1.5km, consider walking or biking there  </string>
+    <string name="carTip6">Your total CO2 emissions is %1$,.2f kg. Consider combining trips to reduce your carbon footprint contribution.</string>
+    <string name="carTip7">Carpooling just once a week saves 20%% of your total carbon emissions of %1$,.2f.</string>
+    <string name="carTip8">Your total CO2 emissions is %1$,.2f kg. Purchase alternative fuel or electric vehicles, which could save 2–6 tonnes of CO2 emissions!</string>
+    <string name="carTip9">Taking the bus would have reduced your %1$,.2f kg CO2 by 33%%, consider this instead next time</string>
+    <string name="utilTip1">Your total utilities CO2 emissions is %1$,.2f kg. Did you know that hanging laundry outside instead of using a tumble dryer can save ~153kg CO2 a year?</string>
+    <string name="utilTip2">Your total utilities CO2 emissions is %1$,.2f kg. Consider turning down heating by 1 degree Celsius can reduce energy consumption by 8%%.</string>
+    <string name="utilTip3">Your total utilities CO2 emissions is %1$,.2f kg. Consider using energy saving light bulbs; LEDs can save 90%% of lighting costs and compact fluorescent lights use 75 to 80%% less electricity.</string>
+    <string name="utilTip4">Your total utilities CO2 emissions is %1$,.2f kg. Consider taking shorter showers; 15%% of a typical energy bill is spent heating water.</string>
+    <string name="utilTip5">Your total utilities CO2 emissions is %1$,.2f kg. Have you considered buying a programmable thermostat?</string>
+    <string name="utilTip6">Your total utilities CO2 emissions is %1$,.2f kg. When next you replace electrical appliances, look for an Energy Star logo </string>
+    <string name="utilTip7">You have emitted %1$,.2f kg of CO2 with your electricity usage alone, consider switching to natural gas.</string>
+    <string name="co2">CO2</string>
+    <string name="cost">Cost</string>
+    <string name="tree">Trees</string>
 </resources>

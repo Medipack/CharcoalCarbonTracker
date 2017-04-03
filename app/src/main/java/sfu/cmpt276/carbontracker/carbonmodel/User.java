@@ -15,16 +15,28 @@ public class User {
     public static final Vehicle BIKE = new Vehicle(1, "Bike", 0, 0, Vehicle.WALK_BIKE);
     public static final Vehicle SKYTRAIN = new Vehicle(2, "Skytrain", 89, 89, Vehicle.SKYTRAIN);
 
+    public static final String DEFAULT_NAME = "CO2";
+    public static final double ELECTRICITY_CO2 = 0.009; //kg of CO2 per KWh
+    public static final double NATURAL_GAS_CO2 = 56.1; //kg of CO2 per GJ
+    public static final double GASOLINE_CO2 = 2.34849; //kg of co2 per litre
+    public static final double DIESEL_CO2 = 2.6839881; //kg of co2 per litre
+    public static final double ELECTRIC_FUEL_CO2 = 0; //kg of co2 per gallon
+    public static final double BUS_CO2 = 0.089; //kg of co2 per KM of travel
+    public static final double WALK_BIKE_CO2 = 0; //kg of co2 per KM of travel
+    public static final double SKYTRAIN_CO2 = 0; //kg of co2 per KM of travel todo: verify skytrain emisisons
+
     private VehicleListener vehicleListener;
     private RouteListener routeListener;
 
+    private UtilityList utilityList;
+    private VehicleDirectory mainDirectory;
     private List<Vehicle> vehicleList;
     private RouteList routeList;
     private List<Journey> journeyList;
-    private VehicleDirectory mainDirectory;
-    private UtilityList utilityList;
     private Journey currentJourney;
     private List<String> tips;
+    private unitConversion units;
+    private int unitChanged;
 
     private User(){
         vehicleList = new ArrayList<>();
@@ -33,6 +45,18 @@ public class User {
         journeyList = new ArrayList<>();
         utilityList = new UtilityList();
         tips = new ArrayList<>();
+        units = new unitConversion(
+                                    DEFAULT_NAME,
+                                    ELECTRICITY_CO2,
+                                    NATURAL_GAS_CO2,
+                                    GASOLINE_CO2,
+                                    DIESEL_CO2,
+                                    ELECTRIC_FUEL_CO2,
+                                    BUS_CO2,
+                                    SKYTRAIN_CO2,
+                                    WALK_BIKE_CO2
+        );
+        unitChanged = 0;
     }
 
     private static User instance = new User();
@@ -63,6 +87,21 @@ public class User {
         return utilityList;
     }
 
+    public unitConversion getUnits() {
+        return units;
+    }
+
+    public void setUnits(unitConversion units) {
+        this.units = new unitConversion(units);
+    }
+
+    public int checkSetting() {
+        return unitChanged;
+    }
+
+    public void setUnitChanged(int value){
+        unitChanged = value;
+    }
 
     // *** Current Journey *** //
 
@@ -88,7 +127,6 @@ public class User {
     public Journey getCurrentJourney(){
         return currentJourney;
     }
-
 
     public Vehicle getCarFromCarList(int index) {
         return vehicleList.get(index);
@@ -129,30 +167,6 @@ public class User {
         vehicleList.set(index, newVehicle);
         notifyListenerCarWasEdited();
     }
-
-
-    /*
-
-    public void removeCarFromCarList(Vehicle car){
-
-        Vehicle vehicle = vehicleList.get(index);
-        for(Journey journey : journeyList){
-            if(journey.getVehicle() == vehicle){
-                Vehicle newVehicle = new Vehicle();
-                try{
-                    newVehicle = (Vehicle) vehicle.clone();
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
-                journey.setVehicle(newVehicle);
-                journey.resetCarbonEmitted();
-            }
-        }
-        vehicleList.remove(car);
-
-        notifyListenerCarWasEdited();
-    }
-    */
 
 
     public void editRouteFromRouteList(int index, Route newRoute){
