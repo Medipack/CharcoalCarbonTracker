@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,7 +26,6 @@ import sfu.cmpt276.carbontracker.IconActivity;
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.ui.database.Database;
-import sfu.cmpt276.carbontracker.ui.database.VehicleDataSource;
 import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
 import sfu.cmpt276.carbontracker.carbonmodel.VehicleListener;
 
@@ -36,6 +33,8 @@ import sfu.cmpt276.carbontracker.carbonmodel.VehicleListener;
 public class TransportationModeActivity extends AppCompatActivity {
 
     public static final String EDIT_VEHICLE_REQUEST = "EDIT_VEHICLE";
+    public static final int BIKE_ICON = 2;
+    public static final int SKYTRAIN_ICON = 3;
     private final String TAG = "TransportationActivity";
     TypedArray icons;
 
@@ -69,8 +68,9 @@ public class TransportationModeActivity extends AppCompatActivity {
                 //bike.setTransport_mode(Car.WALK_BIKE);
                 //bike.setNickname("Bike");
                 user.setCurrentJourneyCar(User.BIKE);
-                user.getCurrentJourney().getVehicle().setIconID(2);
-                Database.getDB().updateVehicle(user.getCurrentJourney().getVehicle());
+                user.getCurrentJourney().getVehicle().setIconID(BIKE_ICON);
+                Vehicle bike = user.getCurrentJourney().getVehicle();
+                Database.getDB().updateVehicle(bike);
 
                 Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
                 startActivityForResult(intent, 0);
@@ -88,7 +88,7 @@ public class TransportationModeActivity extends AppCompatActivity {
                 //skytrain.setTransport_mode(Car.SKYTRAIN);
                 //skytrain.setNickname("Skytrain");
                 user.setCurrentJourneyCar(User.SKYTRAIN);
-                user.getCurrentJourney().getVehicle().setIconID(3);
+                user.getCurrentJourney().getVehicle().setIconID(SKYTRAIN_ICON);
                 Database.getDB().updateVehicle(user.getCurrentJourney().getVehicle());
                 Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
                 startActivityForResult(intent, 0);
@@ -102,8 +102,6 @@ public class TransportationModeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User user = User.getInstance();
-                //Car bus = new Car("Bus", 89, 89, Car.BUS);
-                //bus.setTransport_mode(Car.BUS);
                 user.setCurrentJourneyCar(User.BUS);
                 user.getCurrentJourney().getVehicle().setIconID(1);
                 Database.getDB().updateVehicle(user.getCurrentJourney().getVehicle());
@@ -186,11 +184,30 @@ public class TransportationModeActivity extends AppCompatActivity {
             if(description != null)
                 description.setText(vehicle.getShortDecription());
 
-            ImageView iconImg = (ImageView) itemView.findViewById(R.id.car_icon);
+//            ImageView iconImg = (ImageView) itemView.findViewById(R.id.car_icon);
+//            int iconID =  vehicle.getIconID();
+            Button iconButton = (Button) itemView.findViewById(R.id.car_icon);
             int iconID =  vehicle.getIconID();
             TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
-            if(iconID > -1 && iconImg != null)
-                 iconImg.setImageDrawable(icons.getDrawable(iconID));
+            if(iconID > -1 && iconButton != null) {
+                iconButton.setBackground(icons.getDrawable(iconID));
+                iconButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //grab view of the parent row
+                        View row = (View) v.getParent();
+                        ListView listView = (ListView) row.getParent();
+                        //get the position of the row
+                        int position = listView.getPositionForView(row);
+                        Log.i(TAG, "Icon button has been clicked at" + position);
+                        //move to icon selection
+                        Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
+                        intent.putExtra("caller",0);
+                        intent.putExtra("position", position);
+                        startActivityForResult(intent, 1);
+                    }
+                });
+            }
 
             return itemView;
         }
@@ -220,7 +237,6 @@ public class TransportationModeActivity extends AppCompatActivity {
 
                 // Set current Journey to use the selected vehicle
                 User.getInstance().setCurrentJourneyCar(vehicle);
-
                 Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
                 startActivityForResult(intent, 0);
             }
@@ -232,11 +248,8 @@ public class TransportationModeActivity extends AppCompatActivity {
                 // User has long pressed to edit a vehicle
                 Vehicle vehicle = User.getInstance().getVehicleList().get(i);
                 Log.i(TAG, "User long pressed on " + vehicle.getShortDecription());
-
                 int index = User.getInstance().getVehicleList().indexOf(vehicle);
-
                 launchNewVehicleDialog(index);
-
                 return true;
             }
         });
@@ -258,11 +271,26 @@ public class TransportationModeActivity extends AppCompatActivity {
     }
 
 
+    private void refreshListView() {
+        ListView list = (ListView) findViewById(R.id.carListView);
+        ArrayAdapter adapter = (ArrayAdapter) list.getAdapter();
+        adapter.notifyDataSetChanged();
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == User.ACTIVITY_FINISHED_REQUESTCODE) {
             finish();
+        }else if(resultCode == RESULT_OK){
+            Intent intent = getIntent();
+            int position = intent.getIntExtra("position", -1);
+            int iconID = intent.getIntExtra("result", 0);
+            if(position >= 0) {
+                Vehicle vehicle = User.getInstance().getVehicleList().get(position);
+                vehicle.setIconID(iconID);
+            }
+            //rebuild the list
+            refreshListView();
         }
     }
-
 }

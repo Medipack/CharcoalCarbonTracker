@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    tools:context="sfu.cmpt276.carbontracker.ui.TransportationModeActivity">
-
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/car_icon"
-        android:layout_alignParentLeft="true">
-    </ImageView>
-
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/car_description"
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="24sp"
-    android:theme="@style/ListViewLightTheme"
-    android:layout_toRightOf="@id/car_icon"
-    >
-</TextView>
+    android:descendantFocusability="blocksDescendants">
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/car_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        ></Button>
+
+    <TextView
+        android:id="@+id/car_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/car_icon"
+        android:textSize="12sp"
+        android:theme="@style/ListViewLightTheme"></TextView>
+
+</TableRow>

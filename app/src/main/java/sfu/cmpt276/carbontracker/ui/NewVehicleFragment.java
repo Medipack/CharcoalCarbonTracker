@@ -10,6 +10,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.util.Log;
@@ -48,159 +49,34 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     private Vehicle vehicle;
     private List<Vehicle> detailedVehicleList;
     private VehicleListener detailedVehicleListener;
-
     private boolean editing = false;
     private int editCarPosition = DEFAULT_EDIT_CAR_POSITION;
-
     private DetailedVehicleAdapter detailedCarArrayAdapter;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
+        //temp vehicle
         vehicle = new Vehicle();
-
-        if(getArguments() != null)
-            editCarPosition = getArguments().getInt(TransportationModeActivity.EDIT_VEHICLE_REQUEST, DEFAULT_EDIT_CAR_POSITION); // defaults to -1
-
-        if(editCarPosition != DEFAULT_EDIT_CAR_POSITION)
-        {
-            vehicle = User.getInstance().getVehicleList().get(editCarPosition);
-            Log.i(TAG, "Editing vehicle " + vehicle.getShortDecription());
-            editing = true;
-        }
-
+        //get Arguments from fragments
+        checkIfEditing();
         // Create the view
-        @SuppressLint
-                ("InflateParams") final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
+        final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
+        setupIconBtn(view);
+        setUpCarListView(view);
+        //Buttons
+        DialogInterface.OnClickListener addListener = setupAddSaveBtn(view);
+        DialogInterface.OnClickListener deleteListener = setUpDeleteBtn();
+        DialogInterface.OnClickListener useListener = setupUseBtn(view);
+        DialogInterface.OnClickListener cancelListener = setupCancelBtn();
+        //Spinners
+        setUpSpinners(view);
+        //Builds dialog
+        //Checks for if editing
+        return dialogBuilder(view, addListener, deleteListener, useListener, cancelListener);
+    }
 
-        detailedVehicleList = new ArrayList<>();
-
-        detailedCarArrayAdapter = new DetailedVehicleAdapter(getActivity());
-        detailedVehicleListener = detailedCarArrayAdapter;
-        ListView detailedCarListView = (ListView) view.findViewById(R.id.detailedCarList);
-        detailedCarListView.setAdapter(detailedCarArrayAdapter);
-
-        //icon//
-        Button currentIcon= (Button)view.findViewById(R.id.iconBtn);
-        TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
-        currentIcon.setBackground(icons.getDrawable(vehicle.getIconID()));
-
-        Button btn = (Button)view.findViewById(R.id.iconBtn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), IconActivity.class);
-                intent.putExtra("caller",0);
-                startActivityForResult(intent, 1);
-
-            }
-        });
-        //end icon//
-
-
-        detailedCarListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // User has selected a vehicle
-                detailedVehicleList.get(i);
-                Log.i(TAG, "User selected vehicle \"" + vehicle.getNickname()
-                        + "\" " + vehicle.getMake() + " " + vehicle.getModel());
-                detailedCarArrayAdapter.setSelectedIndex(i);
-                detailedCarArrayAdapter.notifyDataSetChanged();
-            }
-        });
-
-
-        // Add/Save button listener
-        DialogInterface.OnClickListener addListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                vehicle = detailedCarArrayAdapter.getSelectedCar();
-                EditText nickname = (EditText) view.findViewById(R.id.name);
-                vehicle.setNickname(String.valueOf(nickname.getText()).trim());
-                vehicle.setIconID(iconID);
-                if(editing) {
-                    editExistingCar(editCarPosition, vehicle);
-
-                } else {
-                    addNewCar(vehicle);
-                }
-            }
-        };
-
-        // Delete button listener
-        DialogInterface.OnClickListener deleteListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                hideCar(editCarPosition);
-            }
-        };
-
-        // Use button listener
-        DialogInterface.OnClickListener useListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Log.i(TAG, "Use button clicked");
-                vehicle = detailedCarArrayAdapter.getSelectedCar();
-                EditText nickname = (EditText) view.findViewById(R.id.name);
-                vehicle.setNickname(String.valueOf(nickname.getText()).trim());
-
-                // Set current Journey to use the selected car
-                useNewCar(vehicle);
-
-                Intent intent = new Intent(getActivity(), RouteActivity.class);
-                startActivityForResult(intent, 0);
-            }
-        };
-
-        // Cancel button listener
-        DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Log.i(TAG, "Cancel button clicked");
-            }
-        };
-
-        final Spinner makeSpinner = (Spinner)view.findViewById(R.id.make);
-        final Spinner modelSpinner = (Spinner)view.findViewById(R.id.model);
-        final Spinner yearSpinner = (Spinner)view.findViewById(R.id.year);
-
-        populateSpinner(makeSpinner, getMakeList(), vehicle.getMake());
-
-        makeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-
-                vehicle.setMake(parent.getItemAtPosition(position).toString());
-                populateSpinner(modelSpinner, getModelList(vehicle.getMake()), String.valueOf(vehicle.getModel()));
-            }
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
-        modelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                vehicle.setModel(parent.getItemAtPosition(position).toString());
-                populateSpinner(yearSpinner, getYearList(vehicle.getMake(), vehicle.getModel()), String.valueOf(vehicle.getYear()));
-            }
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                vehicle.setYear(Integer.parseInt(parent.getItemAtPosition(position).toString()));
-                List<Vehicle> vehicleList = getCarList(vehicle.getMake(), vehicle.getModel(), String.valueOf(vehicle.getYear()));
-                detailedVehicleList.clear();
-                detailedVehicleList.addAll(vehicleList);
-                detailedVehicleListener.vehicleListWasEdited();
-            }
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
+    private Dialog dialogBuilder(View view, DialogInterface.OnClickListener addListener, DialogInterface.OnClickListener deleteListener, DialogInterface.OnClickListener useListener, DialogInterface.OnClickListener cancelListener) {
         if(editing){
             // Build the dialog
             final String title;
@@ -228,6 +104,168 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                     .setNeutralButton("USE", useListener)
                     .setNegativeButton("CANCEL", cancelListener)
                     .create();
+        }
+    }
+
+    private void setUpSpinners(View view) {
+        final Spinner makeSpinner = (Spinner)view.findViewById(R.id.make);
+        final Spinner modelSpinner = (Spinner)view.findViewById(R.id.model);
+        final Spinner yearSpinner = (Spinner)view.findViewById(R.id.year);
+        setMakeSpinCallback(makeSpinner, modelSpinner);
+        setModelSpinCallback(modelSpinner, yearSpinner);
+        setYearSpinCallback(yearSpinner);
+    }
+
+    private void setYearSpinCallback(Spinner yearSpinner) {
+        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                vehicle.setYear(Integer.parseInt(parent.getItemAtPosition(position).toString()));
+                List<Vehicle> vehicleList = getCarList(vehicle.getMake(), vehicle.getModel(), String.valueOf(vehicle.getYear()));
+                detailedVehicleList.clear();
+                detailedVehicleList.addAll(vehicleList);
+                detailedVehicleListener.vehicleListWasEdited();
+            }
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    private void setModelSpinCallback(Spinner modelSpinner, final Spinner yearSpinner) {
+        modelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                vehicle.setModel(parent.getItemAtPosition(position).toString());
+                populateSpinner(yearSpinner, getYearList(vehicle.getMake(), vehicle.getModel()), String.valueOf(vehicle.getYear()));
+            }
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    private void setMakeSpinCallback(Spinner makeSpinner, final Spinner modelSpinner) {
+        populateSpinner(makeSpinner, getMakeList(), vehicle.getMake());
+        makeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+
+                vehicle.setMake(parent.getItemAtPosition(position).toString());
+                populateSpinner(modelSpinner, getModelList(vehicle.getMake()), String.valueOf(vehicle.getModel()));
+            }
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    @NonNull
+    private DialogInterface.OnClickListener setupCancelBtn() {
+        // Cancel button listener
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.i(TAG, "Cancel button clicked");
+            }
+        };
+    }
+
+    @NonNull
+    private DialogInterface.OnClickListener setupUseBtn(final View view) {
+        // Use button listener
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.i(TAG, "Use button clicked");
+                vehicle = detailedCarArrayAdapter.getSelectedCar();
+                EditText nickname = (EditText) view.findViewById(R.id.name);
+                vehicle.setNickname(String.valueOf(nickname.getText()).trim());
+
+                // Set current Journey to use the selected car
+                useNewCar(vehicle);
+
+                Intent intent = new Intent(getActivity(), RouteActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        };
+    }
+
+    @NonNull
+    private DialogInterface.OnClickListener setUpDeleteBtn() {
+        // Delete button listener
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                hideCar(editCarPosition);
+            }
+        };
+    }
+
+    @NonNull
+    private DialogInterface.OnClickListener setupAddSaveBtn(final View view) {
+        // Add/Save button listener
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                vehicle = detailedCarArrayAdapter.getSelectedCar();
+                EditText nickname = (EditText) view.findViewById(R.id.name);
+                vehicle.setNickname(String.valueOf(nickname.getText()).trim());
+                vehicle.setIconID(iconID);
+                if(editing) {
+                    editExistingCar(editCarPosition, vehicle);
+
+                } else {
+                    addNewCar(vehicle);
+                }
+            }
+        };
+    }
+
+    private void setupIconBtn(View view) {
+        //icon//
+        Button currentIcon= (Button)view.findViewById(R.id.iconBtn);
+        TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
+        currentIcon.setBackground(icons.getDrawable(vehicle.getIconID()));
+
+        Button btn = (Button)view.findViewById(R.id.iconBtn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), IconActivity.class);
+                intent.putExtra("caller",0);
+                startActivityForResult(intent, 1);
+            }
+        });
+        //end icon//
+    }
+
+    private void setUpCarListView(View view) {
+        detailedVehicleList = new ArrayList<>();
+        detailedCarArrayAdapter = new DetailedVehicleAdapter(getActivity());
+        detailedVehicleListener = detailedCarArrayAdapter;
+        ListView detailedCarListView = (ListView) view.findViewById(R.id.detailedCarList);
+        detailedCarListView.setAdapter(detailedCarArrayAdapter);
+
+        detailedCarListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // User has selected a vehicle
+                detailedVehicleList.get(i);
+                Log.i(TAG, "User selected vehicle \"" + vehicle.getNickname()
+                        + "\" " + vehicle.getMake() + " " + vehicle.getModel());
+                detailedCarArrayAdapter.setSelectedIndex(i);
+                detailedCarArrayAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void checkIfEditing() {
+        if(getArguments() != null)
+            editCarPosition = getArguments().getInt(TransportationModeActivity.EDIT_VEHICLE_REQUEST, DEFAULT_EDIT_CAR_POSITION); // defaults to -1
+
+        if(editCarPosition != DEFAULT_EDIT_CAR_POSITION)
+        {
+            vehicle = User.getInstance().getVehicleList().get(editCarPosition);
+            Log.i(TAG, "Editing vehicle " + vehicle.getShortDecription());
+            editing = true;
         }
     }
 
@@ -380,8 +418,9 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
     public void onResume() {
         super.onResume();
         View view = getView();
+
         if (view != null) {
-            Button currentIcon= (Button)getView().findViewById(R.id.iconBtn);
+            Button currentIcon= (Button) view.findViewById(R.id.iconBtn);
             TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
             currentIcon.setBackground(icons.getDrawable(vehicle.getIconID()));
         }

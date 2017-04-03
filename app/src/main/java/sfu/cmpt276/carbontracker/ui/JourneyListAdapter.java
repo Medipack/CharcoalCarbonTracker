@@ -48,8 +48,7 @@ class JourneyListAdapter extends ArrayAdapter<Journey> {
         TextView emission = (TextView) journeyView.findViewById(R.id.viewEmission);
         //Fill the view
         //Date
-        @SuppressLint
-                ("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
         String str_date = sdf.format(thisJourney.getDate());
         date.setText(str_date);
         //Nickname
