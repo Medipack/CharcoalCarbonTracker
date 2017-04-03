@@ -11,9 +11,13 @@ public class User {
 
     public static final int ACTIVITY_FINISHED_REQUESTCODE = 1000;
 
-    public static final Vehicle BUS = new Vehicle(0, "Bus", 89, 89, Vehicle.BUS);
-    public static final Vehicle BIKE = new Vehicle(1, "Bike", 0, 0, Vehicle.WALK_BIKE);
-    public static final Vehicle SKYTRAIN = new Vehicle(2, "Skytrain", 89, 89, Vehicle.SKYTRAIN);
+    public static final int BUS_ICON = 0;
+    public static final int BIKE_ICON = 1;
+    public static final int SKYTRAIN_ICON = 2;
+
+    public static final Vehicle BUS = new Vehicle(0, "Bus", 89, 89, Vehicle.BUS, BUS_ICON);
+    public static final Vehicle BIKE = new Vehicle(1, "Bike", 0, 0, Vehicle.WALK_BIKE, BIKE_ICON);
+    public static final Vehicle SKYTRAIN = new Vehicle(2, "Skytrain", 89, 89, Vehicle.SKYTRAIN, SKYTRAIN_ICON);
 
     private VehicleListener vehicleListener;
     private RouteListener routeListener;
