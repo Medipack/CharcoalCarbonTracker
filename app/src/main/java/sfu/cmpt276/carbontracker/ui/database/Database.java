@@ -105,9 +105,11 @@ public class Database {
 
     private void addConstantsToVehicleDatabase() {
         vehicle_db.open();
-        vehicle_db.updateVehicle(User.BUS);
-        vehicle_db.updateVehicle(User.BIKE);
-        vehicle_db.updateVehicle(User.SKYTRAIN);
+        if(vehicle_db.getCarById(0) == null) {
+            vehicle_db.updateVehicle(User.BUS);
+            vehicle_db.updateVehicle(User.BIKE);
+            vehicle_db.updateVehicle(User.SKYTRAIN);
+        }
         vehicle_db.close();
     }
 

@@ -34,6 +34,7 @@ public class MainMenuActivity extends AppCompatActivity {
         setupGraph();
 
         setupAboutButton();
+
     }
 
     private void setupAboutButton() {

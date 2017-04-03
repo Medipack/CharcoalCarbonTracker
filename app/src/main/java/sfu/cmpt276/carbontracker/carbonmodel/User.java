@@ -1,10 +1,14 @@
 package sfu.cmpt276.carbontracker.carbonmodel;
 
+import android.provider.ContactsContract;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import sfu.cmpt276.carbontracker.ui.database.Database;
 
 /*Singleton class holding list of known cars, list of known routes, and list of known journeys*/
 public class User {
@@ -37,6 +41,7 @@ public class User {
         journeyList = new ArrayList<>();
         utilityList = new UtilityList();
         tips = new ArrayList<>();
+        updateTransportModes();
     }
 
     private static User instance = new User();
@@ -68,6 +73,27 @@ public class User {
     }
 
 
+    private void updateTransportModes()
+    {
+        if(getVehicleByID(0) != null)
+            BUS.setIconID(getVehicleByID(0).getIconID());
+        if(getVehicleByID(1) != null)
+            BIKE.setIconID(getVehicleByID(1).getIconID());
+        if(getVehicleByID(2) != null)
+            SKYTRAIN.setIconID(getVehicleByID(2).getIconID());
+    }
+
+    private Vehicle getVehicleByID(int id)
+    {
+        Vehicle result= null;
+
+        for(Vehicle vehicle: vehicleList)
+        {
+            if(vehicle.getId() == id)
+                result = vehicle;
+        }
+        return result;
+    }
     // *** Current Journey *** //
 
     public void createNewCurrentJourney(){
