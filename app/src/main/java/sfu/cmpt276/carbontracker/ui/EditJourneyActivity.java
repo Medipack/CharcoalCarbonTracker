@@ -36,7 +36,7 @@ import sfu.cmpt276.carbontracker.ui.database.Database;
 /* Activity to allow user to edit journey*/
 public class EditJourneyActivity extends AppCompatActivity {
 
-    private static final int EDIT_CODE = 1000;
+    private static final int EDIT_CODE = 1555;
     private Calendar calendar = Calendar.getInstance();
     private String nameSaved;
     private double citySaved;
@@ -320,10 +320,15 @@ public class EditJourneyActivity extends AppCompatActivity {
         if (transportationMode.equals(Vehicle.CAR)){
             Vehicle selectedVehicle = getCarSelection();
             editedJourney.setVehicle(selectedVehicle);
-        }else{
+        }else {
             Vehicle vehicle = new Vehicle();
-            vehicle.setTransport_mode(transportationMode);
-            vehicle.setNickname(transportationMode);
+            if (transportationMode == "bus") {
+                vehicle = User.BUS;
+            } else if (transportationMode == "skytrain") {
+                vehicle = User.SKYTRAIN;
+            } else if (transportationMode == "walk") {
+                vehicle = User.BIKE;
+            }
             editedJourney.setVehicle(vehicle);
         }
         editedJourney.setCarbonEmitted(editedJourney.calculateCarbonEmission());
