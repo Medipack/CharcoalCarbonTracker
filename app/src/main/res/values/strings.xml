@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Carbon Tracker</string>
     <string name="select_a_vehicle">Select a Vehicle</string>
-    <string name="nickname">Nickname</string>
     <string name="model">Model</string>
     <string name="year">Year</string>
     <string name="make">Make</string>
+    <string name="nickname">Nickname</string>
     <string name="name">Name</string>
     <string name="add_vehicle">Add Vehicle</string>
     <string name="select_a_route">Select a Route</string>
@@ -76,4 +76,13 @@
     <string name="co2">CO2</string>
     <string name="cost">Cost</string>
     <string name="tree">Trees</string>
+    <string name="routeSwitch">routeSwitch</string>
+    <string name="mode">mode</string>
+    <string name="carbon">carbon</string>
+    <string name="tracker">tracker</string>
+    <string-array name="spinner_item">
+        <item>Single Day</item>
+        <item>Last 28 Days</item>
+        <item>Last 376 Days</item>
+    </string-array>
 </resources>
