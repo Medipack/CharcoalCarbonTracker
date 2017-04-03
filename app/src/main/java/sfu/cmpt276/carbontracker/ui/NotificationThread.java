@@ -29,27 +29,23 @@ public class NotificationThread extends Thread {
         }
     }
 
-    private NotificationHandler notificationHandler = new NotificationHandler(this) {
+    private Context context;
+
+    public static final int NOTIFY = 1;
+    public static final int QUIT_CODE = 2;
+
+    private final NotificationHandler notificationHandler = new NotificationHandler(this) {
         @Override
         public void handleMessage(Message msg) {
             Log.i(NotificationThread.class.getName(), "Received notification code: " + msg.what);
-            if(msg.what == ADD_JOURNEY_CODE)
-                displayAddJourneyNotification();
-
-            else if(msg.what == ADD_BILL_CODE)
-                displayAddBillNotification();
+            if(msg.what == NOTIFY)
+                createNewNotification();
 
             else if(msg.what == QUIT_CODE) {
                 Looper.myLooper().quitSafely();
             }
         }
     };
-
-    public static final int ADD_JOURNEY_CODE = 1;
-    public static final int ADD_BILL_CODE = 2;
-    public static final int QUIT_CODE = 3;
-
-    private Context context;
 
     NotificationThread(Context context) {
         this.context = context;
@@ -60,6 +56,16 @@ public class NotificationThread extends Thread {
         Looper.prepare();
         Looper.loop();
     }
+
+    private void createNewNotification() {
+        // todo check journeys / bills entry dates
+        // no journeys entered today? notify
+        // only 1 journey entered today? notify
+        // no bills in last 1.5 months? notify
+
+        displayAddJourneyNotification();
+    }
+
 
     private void displayAddJourneyNotification() {
         // todo notification

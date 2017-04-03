@@ -81,7 +81,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         long nextNotificationDateInSystemUptime = systemTime + timeDifference;
 
-        handler.sendMessageAtTime(handler.obtainMessage(NotificationThread.ADD_JOURNEY_CODE, 0, 0, null),
+        handler.sendMessageAtTime(handler.obtainMessage(NotificationThread.NOTIFY, 0, 0, null),
                 nextNotificationDateInSystemUptime);
 
         Log.i(MainMenuActivity.class.getName(), "Set notification for " + calendar.getTime());
