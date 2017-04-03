@@ -67,6 +67,12 @@
         <item>Resource Links Used:</item>
         <item>Info Icon: https://www.iconfinder.com/icons/146127/about_help_info_information_more_info_properties_icon</item>
         <item>transport icons: http://www.graphicsfuel.com/2015/01/exclusive-45-free-transport-icons/</item>
+        <item>GHG per capita: https://www.ec.gc.ca/indicateurs-indicators/default.asp?lang=en&amp;n=79BA5699-1</item>
+        <item>Tree data: http://www.arborenvironmentalalliance.com/carbon-tree-facts.asp</item>
+        <item>Gas prices: http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/econ154a-eng.htm</item>
+        <item>Utility data: https://www.fortisbc.com/Pages/default.aspx</item>
+        <item>Utility data: https://www.bchydro.com/index.html </item>
+        <item>Graphs: https://github.com/PhilJay/MPAndroidChart</item>
     </string-array>
     <string-array name="creators">
         <item>By: </item>
