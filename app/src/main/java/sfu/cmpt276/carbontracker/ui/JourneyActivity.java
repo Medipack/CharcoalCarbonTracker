@@ -11,11 +11,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TableRow;
+import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
+import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.ui.database.Database;
 import sfu.cmpt276.carbontracker.ui.database.JourneyDataSource;
 /* Activity that displays carbon footprint in form of table of journeys or pie graph*/
@@ -32,11 +36,19 @@ public class JourneyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journey);
+        setUpTable();
         setupPieButton();
         setupDatabase();
         populateJourneyList();
         populateListView();
         registerJourneyListCallBack();
+    }
+
+    private void setUpTable() {
+        String[] values = getResources().getStringArray(R.array.unitNames);
+        TextView carbonValue = (TextView) findViewById(R.id.journey_table_emission);
+        int settings = User.getInstance().checkSetting();
+        carbonValue.setText(values[settings]);
     }
 
     private void setupDatabase() {

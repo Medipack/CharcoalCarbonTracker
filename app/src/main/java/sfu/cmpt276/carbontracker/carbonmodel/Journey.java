@@ -7,12 +7,13 @@ import java.util.Date;
  */
 
 public class Journey {
-    private static final double GASOLINE = 2.34849; //kg of co2 per litre
-    private static final double DIESEL = 2.6839881; //kg of co2 per litre
-    private static final double ELECTRIC = 0; //kg of co2 per gallon
-    private static final double BUS = 0.089; //kg of co2 per KM of travel
-    private static final double WALK_BIKE = 0; //kg of co2 per KM of travel
-    private static final double SKYTRAIN = 0; //kg of co2 per KM of travel todo: verify skytrain emisisons
+    public static final int MONEY = 1;
+    //    private static final double GASOLINE = 2.34849; //kg of co2 per litre
+//    private static final double DIESEL = 2.6839881; //kg of co2 per litre
+//    private static final double ELECTRIC = 0; //kg of co2 per gallon
+//    private static final double BUS = 0.089; //kg of co2 per KM of travel
+//    private static final double WALK_BIKE = 0; //kg of co2 per KM of travel
+//    private static final double SKYTRAIN = 0; //kg of co2 per KM of travel todo: verify skytrain emisisons
 
     private int id = -1;
     private Vehicle vehicle;
@@ -43,31 +44,45 @@ public class Journey {
 
     public double calculateCarbonEmission() //returns kg of co2 for journey
     {
+        User user = User.getInstance();
+        unitConversion unit = user.getUnits();
         double co2 = 0;
         if(vehicle.getTransport_mode().equals(Vehicle.CAR)) {
             double cityLitres = route.getRouteDistanceCity() / vehicle.getCityCO2(); //cityCO2 is in km per litre, so divide distance by this to get litres used
             double highwayLitres = route.getRouteDistanceHighway() / vehicle.getHwyCO2();
             if (vehicle.getFuelType().contains("Gasoline")) //checks for all gasoline types
-                co2 = GASOLINE;
+                co2 = unit.getGasolineRate();
             else if (vehicle.getFuelType().equals("Diesel"))
-                co2 = DIESEL;
+                co2 = unit.getDieselRate();
             else
-                co2 = ELECTRIC;
+                co2 = unit.getElectricFuelRate();
             return Math.round(co2 * cityLitres + co2 * highwayLitres);
         }
         else {
+            double emissions = 0;
             switch (vehicle.getTransport_mode()) {
                 case Vehicle.BUS:
-                    co2 = BUS;
+                    co2 = unit.getBusRate();
+                    if (User.getInstance().checkSetting() == MONEY) {
+                        emissions = co2;
+                    }else{
+                        emissions = co2 * totalDistance;
+                    }
                     break;
                 case Vehicle.WALK_BIKE:
-                    co2 = WALK_BIKE;
+                    co2 = unit.getWalkBikeRate();
+                    emissions = co2 * totalDistance;
                     break;
                 case Vehicle.SKYTRAIN:
-                    co2 = SKYTRAIN;
+                    co2 = unit.getSkytrainRate();
+                    if (User.getInstance().checkSetting() == MONEY) {
+                        emissions = co2;
+                    }else{
+                        emissions = co2 * totalDistance;
+                    }
                     break;
             }
-            return co2 * totalDistance;
+            return emissions;
         }
     }
 
