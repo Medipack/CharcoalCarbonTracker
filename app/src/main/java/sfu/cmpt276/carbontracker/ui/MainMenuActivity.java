@@ -49,15 +49,19 @@ public class MainMenuActivity extends AppCompatActivity {
         }
     }
 
+    private void startNewJourney() {
+        User.getInstance().createNewCurrentJourney();
+        Intent intent = new Intent(MainMenuActivity.this, TransportationModeActivity.class);
+        startActivity(intent);
+    }
+
     private void setupNewJourneyBtn()
     {
         Button newJourneyBtn = (Button)findViewById(R.id.createJourneyBtn);
         newJourneyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User.getInstance().createNewCurrentJourney();
-                Intent intent = new Intent(MainMenuActivity.this, TransportationModeActivity.class);
-                startActivity(intent);
+                startNewJourney();
             }
         });
     }
