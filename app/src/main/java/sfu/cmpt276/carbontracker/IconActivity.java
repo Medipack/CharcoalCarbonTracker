@@ -18,6 +18,7 @@ import sfu.cmpt276.carbontracker.ui.NewVehicleFragment;
 import sfu.cmpt276.carbontracker.ui.RouteActivity;
 import sfu.cmpt276.carbontracker.ui.TransportationModeActivity;
 import sfu.cmpt276.carbontracker.ui.database.Database;
+/* Activity allowing user to select an icon for their vehicle*/
 
 public class IconActivity extends AppCompatActivity {
     Button[] buttonArray = new Button[9];

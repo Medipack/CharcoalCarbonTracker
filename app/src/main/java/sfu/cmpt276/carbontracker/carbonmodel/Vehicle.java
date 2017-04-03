@@ -3,6 +3,7 @@ package sfu.cmpt276.carbontracker.carbonmodel;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+/*Class to hold vehicle data, including car, bus, skytrain, and walk/bike data*/
 
 public class Vehicle implements Cloneable, Serializable{
     //Constants

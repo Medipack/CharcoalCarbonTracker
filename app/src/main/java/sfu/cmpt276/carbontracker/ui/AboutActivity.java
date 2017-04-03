@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import sfu.cmpt276.carbontracker.BuildConfig;
 import sfu.cmpt276.carbontracker.R;
+/*Activity to show app information, i.e. team information, resources used, version number*/
 
 public class AboutActivity extends AppCompatActivity {
 
