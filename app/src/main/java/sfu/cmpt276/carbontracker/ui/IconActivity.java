@@ -1,22 +1,18 @@
-package sfu.cmpt276.carbontracker;
+package sfu.cmpt276.carbontracker.ui;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Icon;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.Toast;
 
+import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
-import sfu.cmpt276.carbontracker.ui.NewVehicleFragment;
-import sfu.cmpt276.carbontracker.ui.RouteActivity;
-import sfu.cmpt276.carbontracker.ui.TransportationModeActivity;
 import sfu.cmpt276.carbontracker.ui.database.Database;
 /* Activity allowing user to select an icon for their vehicle*/
 
