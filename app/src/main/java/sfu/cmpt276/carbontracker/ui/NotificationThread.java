@@ -30,15 +30,8 @@ import static android.content.Context.NOTIFICATION_SERVICE;
  */
 public class NotificationThread extends Thread {
 
-    // Send notification if within threshold
-    private static final int NUM_JOURNEYS_ENTERED_NOTIFY_MINIMUM = 0;
-    private static final int NUM_JOURNEYS_ENTERED_NOTIFY_MAXIMUM = 1;
-
-    // Send notification if within threshold
+    // Send notification if outside threshold
     private static final long DAYS_ELAPSED_SINCE_LAST_BILL_NOTIFY_THRESHOLD = 45;
-
-    private static final int ADD_JOURNEY_NOTIFICATION_CODE = 1;
-    private static final int ADD_BILL_NOTIFICATION_CODE = 2;
 
     //todo change notification icon to app icon (to be added)
     private static final int NOTIFICATION_ICON = R.mipmap.car1;
@@ -82,11 +75,7 @@ public class NotificationThread extends Thread {
 
     private void createNewNotifications() {
         int numJourneysAddedToday = getNumJourneysEnteredToday();
-
-        if(numJourneysAddedToday == NUM_JOURNEYS_ENTERED_NOTIFY_MINIMUM)
-            displayAddNewJourneyNotification(false);
-        else if(numJourneysAddedToday <= NUM_JOURNEYS_ENTERED_NOTIFY_MAXIMUM)
-            displayAddNewJourneyNotification(true);
+        displayAddNewJourneyNotification(numJourneysAddedToday);
 
         if(checkIfUtilityBillTimeElapsed())
             displayAddNewBillNotification();
@@ -94,7 +83,7 @@ public class NotificationThread extends Thread {
 
     private void displayAddNewBillNotification() {
         String title = "Add a Utility Bill";
-        String content = "Don't forget to add your Utility Bill. Tap to add!";
+        String content = "You have not entered {hydro, natural gas} in over a month and a half; Tap to add!";
 
         Intent intent = getNewBillIntent(context);
 
@@ -108,7 +97,7 @@ public class NotificationThread extends Thread {
 
         NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
-        manager.notify(ADD_BILL_NOTIFICATION_CODE, notification);
+        manager.notify(NOTIFY, notification);
     }
 
     private boolean checkIfUtilityBillTimeElapsed() {
@@ -150,13 +139,13 @@ public class NotificationThread extends Thread {
         return numJourneysAddedToday;
     }
 
-    private void displayAddNewJourneyNotification(boolean journeyAlreadyAddedToday) {
+    private void displayAddNewJourneyNotification(int numJourneysAdded) {
         String title;
         String content;
 
-        if(journeyAlreadyAddedToday) {
-            title = "Accurately track your Carbon Usage";
-            content = "Tap to add another Journey today!";
+        if(numJourneysAdded > 0) {
+            title = "Enter more Journeys";
+            content = "You entered " + numJourneysAdded + " Journeys, want to enter more?";
         } else {
             title = "Add a Journey for Today";
             content = "You haven't added any Journey's today. Tap to add a Journey!";
@@ -174,7 +163,7 @@ public class NotificationThread extends Thread {
 
         NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
-        manager.notify(ADD_JOURNEY_NOTIFICATION_CODE, notification);
+        manager.notify(NOTIFY, notification);
     }
 
     private Notification buildNotification(String title, String content, int iconId,
