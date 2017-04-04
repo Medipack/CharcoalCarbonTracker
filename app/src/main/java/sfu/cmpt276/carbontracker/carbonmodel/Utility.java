@@ -18,6 +18,7 @@ public class Utility {
     private String utility_type;
     private Date startDate;
     private Date endDate;
+    private Date dateEntered;
 
 
     private double electricUsed;     //in kWh
@@ -196,5 +197,13 @@ public class Utility {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Date getDateEntered() {
+        return dateEntered;
+    }
+
+    public void setDateEntered(Date dateEntered) {
+        this.dateEntered = dateEntered;
     }
 }

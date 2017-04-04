@@ -16,7 +16,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
  */
 public class Database {
 
-    protected static final int DATABASE_VERSION = 22; // Increment if any databases changed. Wipes ALL databases
+    protected static final int DATABASE_VERSION = 23; // Increment if any databases changed. Wipes ALL databases
 
     private static Database instance = new Database();
 
