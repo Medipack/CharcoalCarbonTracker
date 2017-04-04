@@ -37,11 +37,11 @@ public class MainMenuActivity extends AppCompatActivity {
         setupNewJourneyBtn();
         setupCarbonTotalsBtn();
 
-        setupNotificationThread();
-
         setupCarbon();
         setupUtility();
         setupGraph();
+
+        setupNotificationThread();
     }
 
     private void setupNotificationThread() {
