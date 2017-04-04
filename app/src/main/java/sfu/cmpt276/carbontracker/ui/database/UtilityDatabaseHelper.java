@@ -27,6 +27,7 @@ class UtilityDatabaseHelper extends SQLiteOpenHelper {
     static final String COLUMN_AVG_KWH_PREV = "avg_kwh_prev";
     static final String COLUMN_AVG_GJ_CURRENT = "avg_gj_current";
     static final String COLUMN_AVG_GJ_PREV = "avg_gj_prev";
+    static final String COLUMN_DATE_ENTERED = "date_entered";
 
 
     private static final String DATABASE_NAME = "utilities.db";
@@ -47,7 +48,8 @@ class UtilityDatabaseHelper extends SQLiteOpenHelper {
             COLUMN_AVG_KWH_CURRENT + " double not null, " +
             COLUMN_AVG_KWH_PREV + " double not null, " +
             COLUMN_AVG_GJ_CURRENT + " double not null, " +
-            COLUMN_AVG_GJ_PREV + " double not null);";
+            COLUMN_AVG_GJ_PREV + " double not null, " +
+            COLUMN_DATE_ENTERED + " long not null);";
 
     public UtilityDatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

@@ -35,7 +35,8 @@ public class UtilityDataSource {
             UtilityDatabaseHelper.COLUMN_AVG_KWH_CURRENT,
             UtilityDatabaseHelper.COLUMN_AVG_KWH_PREV,
             UtilityDatabaseHelper.COLUMN_AVG_GJ_CURRENT,
-            UtilityDatabaseHelper.COLUMN_AVG_GJ_PREV
+            UtilityDatabaseHelper.COLUMN_AVG_GJ_PREV,
+            UtilityDatabaseHelper.COLUMN_DATE_ENTERED
     };
 
     public UtilityDataSource(Context context) {
@@ -67,6 +68,7 @@ public class UtilityDataSource {
         values.put(UtilityDatabaseHelper.COLUMN_AVG_KWH_PREV, utility.getAverageKWhPrevious());
         values.put(UtilityDatabaseHelper.COLUMN_AVG_GJ_CURRENT, utility.getAverageGJCurrent());
         values.put(UtilityDatabaseHelper.COLUMN_AVG_GJ_PREV, utility.getAverageGJPrevious());
+        values.put(UtilityDatabaseHelper.COLUMN_DATE_ENTERED, (new Date()).getTime());
 
         return values;
     }
@@ -137,6 +139,11 @@ public class UtilityDataSource {
         utility.setAverageKWhPrevious(cursor.getDouble(10));
         utility.setAverageGJCurrent(cursor.getDouble(11));
         utility.setAverageGJPrevious(cursor.getDouble(12));
+
+        // Set Date in epoch time (long)
+        long entryDateInEpochTime = cursor.getLong(13);
+        Date entryDate = new Date(entryDateInEpochTime);
+        utility.setDateEntered(entryDate);
 
         return utility;
     }

@@ -5,12 +5,18 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
@@ -40,6 +46,8 @@ public class MainMenuActivity extends AppCompatActivity {
     public static final double WALK_BIKE_CO2 = 0; //kg of co2 per KM of travel
     public static final double SKYTRAIN_CO2 = 0; //kg of co2 per KM of travel todo: verify skytrain emisisons
 
+    private NotificationThread notificationThread;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +64,45 @@ public class MainMenuActivity extends AppCompatActivity {
         setupCarbon();
         setupUtility();
         setupGraph();
+
+        setupNotificationThread();
+    }
+
+    private void setupNotificationThread() {
+        notificationThread = new NotificationThread(this);
+        notificationThread.start();
+
+        final int NOTIFICATION_HOUR_IN_24HR_FORMAT = 21;
+
+        Date currentDate = new Date();
+
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(currentDate);
+
+        int currentHoursIn24HourFormat = calendar.get(Calendar.HOUR_OF_DAY);
+        if(currentHoursIn24HourFormat > NOTIFICATION_HOUR_IN_24HR_FORMAT)
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+
+        calendar.set(Calendar.HOUR_OF_DAY, NOTIFICATION_HOUR_IN_24HR_FORMAT);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        long nextNotificationDateInMillis;
+        nextNotificationDateInMillis = calendar.getTimeInMillis();
+        long timeDifference = nextNotificationDateInMillis - (new Date()).getTime();
+        long systemTime = SystemClock.uptimeMillis();
+        long nextNotificationDateInSystemUptime = systemTime + timeDifference;
+
+        Handler handler = null;
+        while(handler == null) {
+            handler = notificationThread.getNotificationhandler();
+        }
+
+        handler.sendMessageAtTime(handler.obtainMessage(NotificationThread.NOTIFY, 0, 0, null),
+                nextNotificationDateInSystemUptime);
+
+        Log.i(MainMenuActivity.class.getName(), "Set notification for " + calendar.getTime());
     }
 
     private void setStartingUnitSettings() {
@@ -116,15 +163,19 @@ public class MainMenuActivity extends AppCompatActivity {
         }
     }
 
+    private void startNewJourney() {
+        User.getInstance().createNewCurrentJourney();
+        Intent intent = new Intent(MainMenuActivity.this, TransportationModeActivity.class);
+        startActivity(intent);
+    }
+
     private void setupNewJourneyBtn()
     {
         Button newJourneyBtn = (Button)findViewById(R.id.createJourneyBtn);
         newJourneyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User.getInstance().createNewCurrentJourney();
-                Intent intent = new Intent(MainMenuActivity.this, TransportationModeActivity.class);
-                startActivity(intent);
+                startNewJourney();
             }
         });
     }

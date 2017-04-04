@@ -19,6 +19,7 @@ public class Journey {
     private Vehicle vehicle;
     private Route route;
     private Date date;
+    private Date dateEntered = null;
     private double totalDistance;
     private double carbonEmitted;
 
@@ -149,5 +150,13 @@ public class Journey {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Date getDateEntered() {
+        return dateEntered;
+    }
+
+    public void setDateEntered(Date dateEntered) {
+        this.dateEntered = dateEntered;
     }
 }
