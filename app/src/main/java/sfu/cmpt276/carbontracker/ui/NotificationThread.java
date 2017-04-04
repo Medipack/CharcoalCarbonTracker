@@ -15,10 +15,12 @@ import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.Journey;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
+import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -33,7 +35,7 @@ public class NotificationThread extends Thread {
     private static final int NUM_JOURNEYS_ENTERED_NOTIFY_MAXIMUM = 1;
 
     // Send notification if within threshold
-    private static final int DAYS_ELAPSED_SINCE_LAST_BILL_NOTIFY_THRESHOLD = 45;
+    private static final long DAYS_ELAPSED_SINCE_LAST_BILL_NOTIFY_THRESHOLD = 45;
 
     private static final int ADD_JOURNEY_NOTIFICATION_CODE = 1;
     private static final int ADD_BILL_NOTIFICATION_CODE = 2;
@@ -89,6 +91,59 @@ public class NotificationThread extends Thread {
         else if(numJourneysAddedToday <= NUM_JOURNEYS_ENTERED_NOTIFY_MAXIMUM)
             displayAddNewJourneyNotification(true);
 
+        if(checkIfUtilityBillTimeElapsed())
+            displayAddNewBillNotification();
+    }
+
+    private void displayAddNewBillNotification() {
+        String title = "Add a Utility Bill";
+        String content = "Don't forget to add your Utility Bill. Tap to add!";
+
+        Intent intent = getNewBillIntent(context);
+
+        PendingIntent pendingIntent = intentToPendingIntent(intent, context);
+
+        Notification notification = buildNotification(title,
+                content,
+                NOTIFICATION_ICON,
+                pendingIntent,
+                context);
+
+        NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+
+        manager.notify(ADD_BILL_NOTIFICATION_CODE, notification);
+    }
+
+    private boolean checkIfUtilityBillTimeElapsed() {
+        Date today = new Date();
+
+        if(User.getInstance().getUtilityList().getUtilities().size() <= 0)
+            return true;
+
+        for(Utility utility : User.getInstance().getUtilityList().getUtilities()) {
+            Date utilityDateEntered = utility.getDateEntered();
+
+            long daysElapsedInMillis = today.getTime() - utilityDateEntered.getTime();
+
+            //todo debug
+            Calendar calendar = GregorianCalendar.getInstance();
+            calendar.setTime(today);
+            calendar.set(Calendar.MONTH, 1);
+            calendar.set(Calendar.DAY_OF_MONTH, 13);
+
+            Date testDate = calendar.getTime();
+
+            daysElapsedInMillis = today.getTime() - (testDate).getTime();
+
+            long daysElapsed = TimeUnit.DAYS.convert(daysElapsedInMillis, TimeUnit.MILLISECONDS);
+
+            System.out.println("UTILITY : " + daysElapsed + " days elapsed = " + daysElapsedInMillis + " ms");
+
+            if(daysElapsed >= DAYS_ELAPSED_SINCE_LAST_BILL_NOTIFY_THRESHOLD)
+                return true;
+        }
+
+        return false;
     }
 
     private int getNumJourneysEnteredToday() {
@@ -123,7 +178,6 @@ public class NotificationThread extends Thread {
             title = "Add a Journey for Today";
             content = "You haven't added any Journey's today. Tap to add a Journey!";
         }
-
 
         Intent intent = getNewJourneyIntent(context);
 
@@ -164,6 +218,10 @@ public class NotificationThread extends Thread {
 
     private Intent getNewJourneyIntent(Context context) {
         return new Intent(context, TransportationModeActivity.class);
+    }
+
+    private Intent getNewBillIntent(Context context) {
+        return new Intent(context, BillActivity.class);
     }
 
     public Handler getNotificationhandler() {
