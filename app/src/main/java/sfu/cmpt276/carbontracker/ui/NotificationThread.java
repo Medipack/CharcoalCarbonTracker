@@ -62,7 +62,7 @@ public class NotificationThread extends Thread {
         public void handleMessage(Message msg) {
             Log.i(NotificationThread.class.getName(), "Received notification code: " + msg.what);
             if(msg.what == NOTIFY)
-                createNewNotification();
+                createNewNotifications();
 
             else if(msg.what == QUIT_CODE) {
                 Looper.myLooper().quitSafely();
@@ -80,10 +80,7 @@ public class NotificationThread extends Thread {
         Looper.loop();
     }
 
-    private void createNewNotification() {
-        // todo bills entry dates
-        // no bills in last 1.5 months? notify
-
+    private void createNewNotifications() {
         int numJourneysAddedToday = getNumJourneysEnteredToday();
 
         if(numJourneysAddedToday == NUM_JOURNEYS_ENTERED_NOTIFY_MINIMUM)
@@ -124,20 +121,7 @@ public class NotificationThread extends Thread {
             Date utilityDateEntered = utility.getDateEntered();
 
             long daysElapsedInMillis = today.getTime() - utilityDateEntered.getTime();
-
-            //todo debug
-            Calendar calendar = GregorianCalendar.getInstance();
-            calendar.setTime(today);
-            calendar.set(Calendar.MONTH, 1);
-            calendar.set(Calendar.DAY_OF_MONTH, 13);
-
-            Date testDate = calendar.getTime();
-
-            daysElapsedInMillis = today.getTime() - (testDate).getTime();
-
             long daysElapsed = TimeUnit.DAYS.convert(daysElapsedInMillis, TimeUnit.MILLISECONDS);
-
-            System.out.println("UTILITY : " + daysElapsed + " days elapsed = " + daysElapsedInMillis + " ms");
 
             if(daysElapsed >= DAYS_ELAPSED_SINCE_LAST_BILL_NOTIFY_THRESHOLD)
                 return true;
@@ -161,7 +145,6 @@ public class NotificationThread extends Thread {
             if(journeyDayEntered == currentDay){
                 numJourneysAddedToday++;
             }
-            System.out.println("NUM JOURNEYS ADDED TODAY : " + numJourneysAddedToday);
         }
 
         return numJourneysAddedToday;
