@@ -2,9 +2,11 @@ package sfu.cmpt276.carbontracker.ui;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,14 +33,33 @@ public class StartAnimationActivity extends AppCompatActivity {
                 finish();
             }
         }, welcomeTime);
+        FullScreencall();
+    }
+
+    public void FullScreencall() {
+        if(Build.VERSION.SDK_INT < 19){
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else {
+            //for higher api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
     }
 
     private void setupWelcome() {
-        TextView welcome = (TextView) findViewById(R.id.NameTitle);
-        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/Cache.ttf");
-        welcome.setTypeface(face);
+        TextView carbon = (TextView) findViewById(R.id.NameTitle);
+        Typeface face_carbon = Typeface.createFromAsset(getAssets(),"fonts/Cache.ttf");
+        carbon.setTypeface(face_carbon);
 
+        TextView tracker = (TextView) findViewById(R.id.NameTitleTracker);
+        Typeface face_tracker = Typeface.createFromAsset(getAssets(),"fonts/Cache.ttf");
+        tracker.setTypeface(face_tracker);
 
+        TextView charcoal = (TextView) findViewById(R.id.groupNameText);
+        Typeface face_charcoal = Typeface.createFromAsset(getAssets(),"fonts/Cache.ttf");
+        charcoal.setTypeface(face_charcoal);
     }
 
     private void setupCar() {

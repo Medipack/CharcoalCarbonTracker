@@ -1,8 +1,10 @@
 package sfu.cmpt276.carbontracker.ui;
 import android.content.Intent;
 import android.icu.text.UnicodeSet;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -107,7 +109,26 @@ public class SingleDayActivity extends AppCompatActivity {
         setupSpinner();
         setupChart();
         setupSwitch();
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        FullScreencall();
+
     }
+    public void FullScreencall() {
+        if(Build.VERSION.SDK_INT < 19){
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else {
+            //for higher api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
+    }
+
     private void setupSpinner() {
         Spinner chartType = (Spinner) findViewById(R.id.graphSpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(SingleDayActivity.this,
@@ -839,5 +860,11 @@ public class SingleDayActivity extends AppCompatActivity {
             chart_365.invalidate();
             //}
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
     }
 }

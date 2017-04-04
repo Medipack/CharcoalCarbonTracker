@@ -76,4 +76,8 @@
     <string name="co2">CO2</string>
     <string name="cost">Cost</string>
     <string name="tree">Trees</string>
+    <string name="routeSwitch">routeSwitch</string>
+    <string name="mode">mode</string>
+    <string name="carbon">carbon</string>
+    <string name="tracker">tracker</string>
 </resources>
