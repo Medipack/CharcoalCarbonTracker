@@ -145,7 +145,9 @@ public class NotificationThread extends Thread {
 
         if(numJourneysAdded > 0) {
             title = "Enter more Journeys";
-            content = "You entered " + numJourneysAdded + " Journeys, want to enter more?";
+            content = "You entered " + numJourneysAdded
+                    + " Journey" + (numJourneysAdded == 1 ? "" : "s") // 1337 grammar fixer
+                    + ", want to enter more?";
         } else {
             title = "Add a Journey for Today";
             content = "You haven't added any Journey's today. Tap to add a Journey!";
