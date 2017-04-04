@@ -48,7 +48,7 @@ public class MainMenuActivity extends AppCompatActivity {
         notificationThread = new NotificationThread(this);
         notificationThread.start();
 
-        int notificationHour = 19;
+        final int NOTIFICATION_HOUR_IN_24HR_FORMAT = 21;
 
         Date currentDate = new Date();
 
@@ -56,30 +56,24 @@ public class MainMenuActivity extends AppCompatActivity {
         calendar.setTime(currentDate);
 
         int currentHoursIn24HourFormat = calendar.get(Calendar.HOUR_OF_DAY);
-        if(currentHoursIn24HourFormat > notificationHour)
+        if(currentHoursIn24HourFormat > NOTIFICATION_HOUR_IN_24HR_FORMAT)
             calendar.add(Calendar.DAY_OF_YEAR, 1);
 
-        calendar.set(Calendar.HOUR_OF_DAY, notificationHour);
+        calendar.set(Calendar.HOUR_OF_DAY, NOTIFICATION_HOUR_IN_24HR_FORMAT);
         calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-
-
-        //todo this is debug only
-        calendar.setTime(currentDate);
-        calendar.add(Calendar.SECOND, 10);
 
         long nextNotificationDateInMillis;
         nextNotificationDateInMillis = calendar.getTimeInMillis();
+        long timeDifference = nextNotificationDateInMillis - (new Date()).getTime();
+        long systemTime = SystemClock.uptimeMillis();
+        long nextNotificationDateInSystemUptime = systemTime + timeDifference;
 
         Handler handler = null;
         while(handler == null) {
             handler = notificationThread.getNotificationhandler();
         }
-
-        long timeDifference = nextNotificationDateInMillis - (new Date()).getTime();
-        long systemTime = SystemClock.uptimeMillis();
-
-        long nextNotificationDateInSystemUptime = systemTime + timeDifference;
 
         handler.sendMessageAtTime(handler.obtainMessage(NotificationThread.NOTIFY, 0, 0, null),
                 nextNotificationDateInSystemUptime);
