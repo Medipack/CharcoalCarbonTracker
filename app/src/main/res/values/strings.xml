@@ -80,6 +80,16 @@
     <string name="mode">mode</string>
     <string name="carbon">carbon</string>
     <string name="tracker">tracker</string>
+    <string name="billAmountUsedError">Please enter the amount used</string>
+    <string name="billNumberOfPeopleError">Please enter the number of people</string>
+    <string name="billCurrentAverageError">Please enter the current average use</string>
+    <string name="billPreviousAvgError">Please enter the previous average use</string>
+    <string name="billSelectUtilityError">Select Gas or Electricity</string>
+    <string name="billStartDateError">Please enter a start date</string>
+    <string name="billEndDateError">Please enter an end date</string>
+    <string name="billEndBeforeStartError">End date cannot before the start date</string>
+    <string name="billFutureDateError">Start date cannot be today or future</string>
+    <string name="billEndDateFutureError">End date cannot be future</string>
     <string-array name="spinner_item">
         <item>Single Day</item>
         <item>Last 28 Days</item>
