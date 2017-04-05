@@ -99,7 +99,7 @@ public class GraphActivity extends AppCompatActivity {
             str_singleDate = df.format(singleDate);
 
             if(System.currentTimeMillis() < singleDate.getTime()){
-                Toast.makeText(GraphActivity.this, "Date cannot be in future", Toast.LENGTH_SHORT).show();
+                Toast.makeText(GraphActivity.this, R.string.graphFutureDateError, Toast.LENGTH_SHORT).show();
             }
 
             else {
@@ -123,7 +123,7 @@ public class GraphActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     else{
-                        Toast.makeText(GraphActivity.this, "Please choose the date", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GraphActivity.this, R.string.graphChooseDateError, Toast.LENGTH_SHORT).show();
                     }
                 }
                 else if(last28Days.isChecked()){
