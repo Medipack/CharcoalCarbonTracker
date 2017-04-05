@@ -82,6 +82,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         detailedCarListView.setAdapter(detailedCarArrayAdapter);
 
         //icon//
+        iconID = vehicle.getIconID();
         Button currentIcon= (Button)view.findViewById(R.id.iconBtn);
         TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
         currentIcon.setBackground(icons.getDrawable(vehicle.getIconID()));
@@ -211,7 +212,6 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 TextView name = (TextView) view.findViewById(R.id.name);
                 name.setText(vehicle.getNickname());
             }
-
             return new AlertDialog.Builder(getActivity())
                     .setTitle(title)
                     .setView(view)
