@@ -19,6 +19,7 @@ import sfu.cmpt276.carbontracker.ui.database.Database;
 public class IconActivity extends AppCompatActivity {
     Button[] buttonArray = new Button[9];
     int returnInt = 0;
+    int selectedID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,7 @@ public class IconActivity extends AppCompatActivity {
         int iconID = User.getInstance().getCurrentJourney().getVehicle().getIconID();
         TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
         currentIcon.setBackground(icons.getDrawable(iconID));
+        selectedID = iconID;
     }
 
     private void setupIconButtonclicks() {
@@ -49,15 +51,8 @@ public class IconActivity extends AppCompatActivity {
                     Button currentIcon= (Button)findViewById(R.id.currentIconImg);
                     TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
                     currentIcon.setBackground(icons.getDrawable(i_final));
-                    int caller = getIntent().getIntExtra("caller" , -1);
-                    if(caller!=0) {
-                        Vehicle vehicle = User.getInstance().getCurrentJourney().getVehicle();
-                        vehicle.setIconID(i_final);
-                        Database.getDB().updateVehicle(vehicle);
-                    }
-                    else {
-                        returnInt = i_final;
-                    }
+                    selectedID = i_final;
+
                 }
             });
         }
@@ -93,12 +88,15 @@ public class IconActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int caller = getIntent().getIntExtra("caller" , -1);
                 if(caller!=0) {
+                    Vehicle vehicle = User.getInstance().getCurrentJourney().getVehicle();
+                    vehicle.setIconID(selectedID);
+                    Database.getDB().updateVehicle(vehicle);
                     Intent intent = new Intent(IconActivity.this, RouteActivity.class);
                     startActivityForResult(intent, 0);
                 }
                 else {
                     Intent returnIntent = new Intent();
-                    returnIntent.putExtra("result", returnInt);
+                    returnIntent.putExtra("result", selectedID);
                     setResult(Activity.RESULT_OK, returnIntent);
                 }
                 finish();

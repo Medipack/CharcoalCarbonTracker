@@ -5,11 +5,11 @@
         <item>@mipmap/bus</item>
         <item>@mipmap/bike</item>
         <item>@mipmap/skytrain1</item>
-        <item>@mipmap/jet</item>
-        <item>@mipmap/spaceship</item>
-        <item>@mipmap/ufo</item>
+        <item>@mipmap/car02</item>
+        <item>@mipmap/car03</item>
+        <item>@mipmap/car04</item>
+        <item>@mipmap/bus02</item>
         <item>@mipmap/unicycle</item>
-        <item>@mipmap/scooter</item>
 
     </integer-array>
 </resources>
