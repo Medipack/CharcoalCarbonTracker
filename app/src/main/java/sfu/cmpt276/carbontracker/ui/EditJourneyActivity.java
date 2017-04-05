@@ -176,15 +176,15 @@ public class EditJourneyActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if (routeName.length() == 0) {
                             Toast.makeText(EditJourneyActivity.this,
-                                    R.string.editJourneyNameError,
+                                    R.string.nameError,
                                     Toast.LENGTH_SHORT).show();
                         } else if (routeCity.length() == 0) {
                             Toast.makeText(EditJourneyActivity.this,
-                                    R.string.editJourneyCityError,
+                                    R.string.cityDistanceError,
                                     Toast.LENGTH_SHORT).show();
                         } else if (routeHighway.length() == 0) {
                             Toast.makeText(EditJourneyActivity.this,
-                                    R.string.editJourneyHwyError,
+                                    R.string.hwyDistanceError,
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             nameSaved = routeName.getText().toString();
@@ -194,9 +194,9 @@ public class EditJourneyActivity extends AppCompatActivity {
                             highwaySaved = Double.valueOf(str_highwaySaved);
 
                             if (citySaved == 0) {
-                                Toast.makeText(EditJourneyActivity.this, R.string.editJourneyPositiveCity, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditJourneyActivity.this, R.string.positiveCityDistance, Toast.LENGTH_SHORT).show();
                             } else if (highwaySaved == 0) {
-                                Toast.makeText(EditJourneyActivity.this, R.string.editJourneyPositiveHwy, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditJourneyActivity.this, R.string.positiveHwyDistance, Toast.LENGTH_SHORT).show();
                             } else {
                                 Route newRoute = new Route(nameSaved, citySaved, highwaySaved);
                                 Database.getDB().addRoute(newRoute);
@@ -223,15 +223,15 @@ public class EditJourneyActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if (routeName.length() == 0) {
                             Toast.makeText(EditJourneyActivity.this,
-                                    R.string.editJourneyNameError,
+                                    R.string.nameError,
                                     Toast.LENGTH_SHORT).show();
                         } else if (routeCity.length() == 0) {
                             Toast.makeText(EditJourneyActivity.this,
-                                    R.string.editJourneyCityError,
+                                    R.string.cityDistanceError,
                                     Toast.LENGTH_SHORT).show();
                         } else if (routeHighway.length() == 0) {
                             Toast.makeText(EditJourneyActivity.this,
-                                    R.string.editJourneyHwyError,
+                                    R.string.hwyDistanceError,
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             nameSaved = routeName.getText().toString();
@@ -241,9 +241,9 @@ public class EditJourneyActivity extends AppCompatActivity {
                             highwaySaved = Double.valueOf(str_highwaySaved);
 
                             if (citySaved == 0) {
-                                Toast.makeText(EditJourneyActivity.this,  R.string.editJourneyPositiveCity, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditJourneyActivity.this,  R.string.positiveCityDistance, Toast.LENGTH_SHORT).show();
                             } else if (highwaySaved == 0) {
-                                Toast.makeText(EditJourneyActivity.this, R.string.editJourneyPositiveHwy, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditJourneyActivity.this, R.string.positiveHwyDistance, Toast.LENGTH_SHORT).show();
                             } else {
                                 newRoute = new Route(nameSaved, citySaved, highwaySaved);
                                 User.getInstance().setCurrentJourneyRoute(newRoute);
