@@ -90,11 +90,11 @@
     <string name="billEndBeforeStartError">End date cannot before the start date</string>
     <string name="billFutureDateError">Start date cannot be today or future</string>
     <string name="billEndDateFutureError">End date cannot be future</string>
-    <string name="editJourneyNameError">Please enter a name</string>
-    <string name="editJourneyCityError">Please enter the city distance</string>
-    <string name="editJourneyHwyError">Please enter the highway distance</string>
-    <string name="editJourneyPositiveCity">Please enter an positive city distance</string>
-    <string name="editJourneyPositiveHwy">Please enter an positive highway distance</string>
+    <string name="nameError">Please enter a name</string>
+    <string name="cityDistanceError">Please enter the city distance</string>
+    <string name="hwyDistanceError">Please enter the highway distance</string>
+    <string name="positiveCityDistance">Please enter an positive city distance</string>
+    <string name="positiveHwyDistance">Please enter an positive highway distance</string>
     <string name="graphFutureDateError">Date cannot be in future</string>
     <string name="graphChooseDateError">Please choose the date</string>
     <string name="deleteJourneyAlert">Are you sure you want to delete this journey?</string>

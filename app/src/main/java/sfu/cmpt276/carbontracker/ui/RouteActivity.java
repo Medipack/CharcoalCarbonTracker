@@ -112,17 +112,17 @@ public class RouteActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if(routeName.length() == 0){
                             Toast.makeText(RouteActivity.this,
-                                    "Please enter a name",
+                                    R.string.nameError,
                                     Toast.LENGTH_SHORT).show();
                         }
                         else if (routeCity.length() == 0) {
                             Toast.makeText(RouteActivity.this,
-                                    "Please enter the city distance",
+                                    R.string.cityDistanceError,
                                     Toast.LENGTH_SHORT).show();
                         }
                         else if(routeHighway.length() == 0){
                             Toast.makeText(RouteActivity.this,
-                                    "Please enter the highway distance",
+                                    R.string.hwyDistanceError,
                                     Toast.LENGTH_SHORT).show();
                         }
                         else{
@@ -133,10 +133,10 @@ public class RouteActivity extends AppCompatActivity {
                             highwaySaved = Double.valueOf(str_highwaySaved);
 
                             if (citySaved == 0) {
-                                Toast.makeText(RouteActivity.this, "Please enter an positive city distance", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RouteActivity.this, R.string.positiveCityDistance, Toast.LENGTH_SHORT).show();
                             }
                             else if (highwaySaved == 0) {
-                                Toast.makeText(RouteActivity.this, "Please enter an positive highway distance", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RouteActivity.this, R.string.positiveHwyDistance, Toast.LENGTH_SHORT).show();
                             }
                             else {
                                 Route newRoute = new Route(nameSaved, citySaved, highwaySaved);
@@ -164,17 +164,17 @@ public class RouteActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if(routeName.length() == 0){
                             Toast.makeText(RouteActivity.this,
-                                    "Please enter a name",
+                                    R.string.nameError,
                                     Toast.LENGTH_SHORT).show();
                         }
                         else if (routeCity.length() == 0) {
                             Toast.makeText(RouteActivity.this,
-                                    "Please enter the city distance",
+                                    R.string.cityDistanceError,
                                     Toast.LENGTH_SHORT).show();
                         }
                         else if(routeHighway.length() == 0){
                             Toast.makeText(RouteActivity.this,
-                                    "Please enter the highway distance",
+                                    R.string.hwyDistanceError,
                                     Toast.LENGTH_SHORT).show();
                         }
                         else{
@@ -185,11 +185,11 @@ public class RouteActivity extends AppCompatActivity {
                             highwaySaved = Double.valueOf(str_highwaySaved);
 
                             if (citySaved == 0) {
-                                Toast.makeText(RouteActivity.this, "Please enter an positive city distance", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RouteActivity.this, R.string.positiveCityDistance, Toast.LENGTH_SHORT).show();
                             }
                             else if (highwaySaved == 0) {
-                                Toast.makeText(RouteActivity.this, "Please enter an positive highway distance", Toast.LENGTH_SHORT).show();
-                            }
+                                Toast.makeText(RouteActivity.this, R.string.positiveHwyDistance, Toast.LENGTH_SHORT).show();
+                        }
                             else {
                                 newRoute = new Route(nameSaved, citySaved, highwaySaved);
                                 useNewRoute(newRoute);
@@ -252,17 +252,17 @@ public class RouteActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if (editName.length() == 0) {
                             Toast.makeText(RouteActivity.this,
-                                    "Please enter a name",
+                                    R.string.nameError,
                                     Toast.LENGTH_SHORT).show();
                         }
                         else if (editCity.length() == 0) {
                             Toast.makeText(RouteActivity.this,
-                                    "Please enter the city distance",
+                                    R.string.cityDistanceError,
                                     Toast.LENGTH_SHORT).show();
                         }
                         else if (editHighway.length() == 0) {
                             Toast.makeText(RouteActivity.this,
-                                    "Please enter the highway distance",
+                                    R.string.hwyDistanceError,
                                     Toast.LENGTH_SHORT).show();
                         }
                         else {
@@ -274,10 +274,10 @@ public class RouteActivity extends AppCompatActivity {
                             double editHighwaySaved = Double.valueOf(str_editHighwaySaved);
 
                             if (editCitySaved == 0) {
-                                Toast.makeText(RouteActivity.this, "Please enter an positive city distance", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RouteActivity.this, R.string.positiveCityDistance, Toast.LENGTH_SHORT).show();
                             }
                             else if (editHighwaySaved == 0) {
-                                Toast.makeText(RouteActivity.this, "Please enter an positive highway distance", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RouteActivity.this, R.string.positiveHwyDistance, Toast.LENGTH_SHORT).show();
                             }
                             else {
                                 Route editRoute = new Route(editNameSaved, editCitySaved, editHighwaySaved);
