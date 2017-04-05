@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/green_blue_back"
     tools:context="sfu.cmpt276.carbontracker.ui.BillActivity">
 
     <TextView
@@ -26,9 +27,9 @@
     </RadioGroup>
 
     <Button
-        android:text="@string/from"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@mipmap/date_icon2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="150dp"
@@ -44,9 +45,9 @@
         android:id="@+id/startDateText" />
 
     <Button
-        android:text="@string/to"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@mipmap/date_icon2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignTop="@+id/startBtn"
         android:layout_alignStart="@+id/textView"
         android:layout_marginStart="0dp"
@@ -106,22 +107,23 @@
         android:hint="@string/previous_average" />
 
     <Button
-        android:text="@string/save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@mipmap/save_icon3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="200dp"
+        android:layout_marginEnd="100dp"
         android:layout_marginBottom="20dp"
         android:id="@+id/utilitySaveBtn"
         tools:ignore="RelativeOverlap" />
 
     <Button
-        android:text="@string/delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@mipmap/delete_icon2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignTop="@+id/utilitySaveBtn"
-        android:layout_toEndOf="@+id/utilityGroup"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
         android:id="@+id/deleteBtn" />
 
 </RelativeLayout>

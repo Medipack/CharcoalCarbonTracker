@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/pink_back"
     tools:context="sfu.cmpt276.carbontracker.ui.SettingsActivity">
 
     <TextView
@@ -60,12 +61,12 @@
 
     <Button
         android:id="@+id/settings_apply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="23dp"
         android:layout_marginEnd="15dp"
-        android:text="@string/apply" />
+        android:background="@mipmap/apply"/>
 
 </RelativeLayout>

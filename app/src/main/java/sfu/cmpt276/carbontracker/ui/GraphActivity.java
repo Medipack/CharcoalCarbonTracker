@@ -28,7 +28,7 @@ public class GraphActivity extends AppCompatActivity {
 
     private static final int DAYS_IN_FOUR_WEEKS = 28;
     private static final int DAYS_IN_YEAR = 365;
-    private RadioButton singleDay;
+    private RadioButton pieGraph;
     private RadioButton last28Days;
     private RadioButton last365Days;
     private int year_default;
@@ -75,18 +75,18 @@ public class GraphActivity extends AppCompatActivity {
     }
 
     private void createGraphRadioBtn() {
-        singleDay = new RadioButton(this);
+        pieGraph = new RadioButton(this);
         last28Days = new RadioButton(this);
         last365Days = new RadioButton(this);
 
         RadioGroup group = (RadioGroup)findViewById(R.id.graphRB);
         final String[] choice = getResources().getStringArray(R.array.choose_graph);
 
-        singleDay.setText(choice[0]);
+        pieGraph.setText(choice[0]);
         last28Days.setText(choice[1]);
         last365Days.setText(choice[2]);
 
-        group.addView(singleDay);
+        group.addView(pieGraph);
         group.addView(last28Days);
         group.addView(last365Days);
     }
@@ -136,7 +136,7 @@ public class GraphActivity extends AppCompatActivity {
         show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(singleDay.isChecked()){
+                if(pieGraph.isChecked()){
                     //check whether user choose the date
                     if(check == 10){
                         Intent intent = new Intent(GraphActivity.this, SingleDayActivity.class);

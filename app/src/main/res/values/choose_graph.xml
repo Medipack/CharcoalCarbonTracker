@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="choose_graph">
-        <item>Single Day</item>>
+        <item>Pie Graph</item>>
         <item>Last 28 days</item>>
         <item>Last 365 days</item>>
     </string-array>

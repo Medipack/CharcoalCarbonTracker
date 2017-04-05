@@ -1,11 +1,14 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -245,4 +248,5 @@ public class SettingsActivity extends AppCompatActivity {
             finish();
         return super.onOptionsItemSelected(item);
     }
+
 }
