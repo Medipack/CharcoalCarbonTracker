@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_single_day"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -8,13 +9,28 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="sfu.cmpt276.carbontracker.ui.SingleDayActivity">
-
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/singleDayChart"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="150dp"
         android:layout_height="400dp"
         android:layout_width="match_parent"
         />
-
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="#6fd78922"
+        android:entries="@array/spinner_item"
+        android:id="@+id/graphSpinner" />
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:textOn="@string/routeSwitch"
+        android:textOff="@string/mode"
+        android:id="@+id/modeSwitch" />
 </RelativeLayout>
