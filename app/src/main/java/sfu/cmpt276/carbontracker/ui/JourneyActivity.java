@@ -93,8 +93,8 @@ public class JourneyActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 final int index = position;
                 AlertDialog.Builder alert = new AlertDialog.Builder(JourneyActivity.this);
-                alert.setMessage("Are you sure you want to delete this journey?");
-                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                alert.setMessage(R.string.deleteJourneyAlert);
+                alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //User user = User.getInstance();
@@ -103,7 +103,7 @@ public class JourneyActivity extends AppCompatActivity {
                         deleteJourney(journeyToDelete);
                     }
                 });
-                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

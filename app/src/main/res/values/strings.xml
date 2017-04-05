@@ -97,9 +97,34 @@
     <string name="editJourneyPositiveHwy">Please enter an positive highway distance</string>
     <string name="graphFutureDateError">Date cannot be in future</string>
     <string name="graphChooseDateError">Please choose the date</string>
+    <string name="deleteJourneyAlert">Are you sure you want to delete this journey?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="bus">bus</string>
+    <string name="cars">cars</string>
+    <string name="skytrain">skytrain</string>
+    <string name="walk_bike">walk/bike</string>
+    <string name="electricity">electricity</string>
+    <string name="naturalGas">natural gas</string>
+    <string name="co2PerCapita">Kg Co2 per capita</string>
+    <string name="co2PerCapitaTarget">Kg Co2/capita Target</string>
     <string-array name="spinner_item">
         <item>Single Day</item>
         <item>Last 28 Days</item>
         <item>Last 376 Days</item>
+    </string-array>
+    <string-array name="months">
+        <item>Jan</item>
+        <item>Feb</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>Aug</item>
+        <item>Sept</item>
+        <item>Oct</item>
+        <item>Nov</item>
+        <item>Dec</item>
     </string-array>
 </resources>
