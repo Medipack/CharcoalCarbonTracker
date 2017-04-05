@@ -40,7 +40,7 @@ public class PieGraphActivity extends AppCompatActivity {
             pieEntries.add(new PieEntry(emission, car));
         }
 
-        PieDataSet dataSet = new PieDataSet(pieEntries, "emission");
+        PieDataSet dataSet = new PieDataSet(pieEntries, getString(R.string.emission1));
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         PieData data = new PieData(dataSet);
 

@@ -180,9 +180,9 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             // Build the dialog
             final String title;
             if(vehicle.getNickname().equals(new Vehicle().getNickname()))
-                title = "Edit Vehicle";
+                title = getString(R.string.editVehicle);
             else {
-                title = "Edit \"" + vehicle.getNickname() + "\"";
+                title = getString(R.string.edit) + vehicle.getNickname() + "\"";
                 TextView name = (TextView) view.findViewById(R.id.name);
                 name.setText(vehicle.getNickname());
             }
@@ -190,18 +190,18 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
             return new AlertDialog.Builder(getActivity())
                     .setTitle(title)
                     .setView(view)
-                    .setNeutralButton("DELETE", deleteListener)
-                    .setPositiveButton("SAVE", addListener)
-                    .setNegativeButton("CANCEL", cancelListener)
+                    .setNeutralButton(R.string.delete, deleteListener)
+                    .setPositiveButton(R.string.save, addListener)
+                    .setNegativeButton(R.string.cancel, cancelListener)
                     .create();
         } else {
             // Build the dialog
             return new AlertDialog.Builder(getActivity())
-                    .setTitle("Add New Vehicle")
+                    .setTitle(R.string.addNewVehicle)
                     .setView(view)
-                    .setPositiveButton("ADD", addListener)
-                    .setNeutralButton("USE", useListener)
-                    .setNegativeButton("CANCEL", cancelListener)
+                    .setPositiveButton(R.string.add, addListener)
+                    .setNeutralButton(R.string.use, useListener)
+                    .setNegativeButton(R.string.cancel, cancelListener)
                     .create();
         }
     }

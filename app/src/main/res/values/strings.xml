@@ -108,6 +108,11 @@
     <string name="naturalGas">natural gas</string>
     <string name="co2PerCapita">Kg Co2 per capita</string>
     <string name="co2PerCapitaTarget">Kg Co2/capita Target</string>
+    <string name="editVehicle">Edit Vehicle</string>
+    <string name="edit">Edit \"</string>
+    <string name="addNewVehicle">Add New Vehicle</string>
+    <string name="pickEarlierDate">Please pick an earlier date</string>
+    <string name="emission1">emission</string>
     <string-array name="spinner_item">
         <item>Single Day</item>
         <item>Last 28 Days</item>
