@@ -18,6 +18,7 @@ class JourneyDatabaseHelper extends SQLiteOpenHelper {
     static final String COLUMN_CAR_ID = "car_id";
     static final String COLUMN_ROUTE_ID = "route_id";
     static final String COLUMN_DATE = "date";
+    static final String COLUMN_DATE_ENTERED = "date_entered";
 
     private static final String DATABASE_NAME = "journeys.db";
     private static final int DATABASE_VERSION = Database.DATABASE_VERSION; // update if Journey class is ever changed
@@ -28,7 +29,8 @@ class JourneyDatabaseHelper extends SQLiteOpenHelper {
             COLUMN_ID + " integer primary key autoincrement, " +
             COLUMN_CAR_ID + " integer not null, " +
             COLUMN_ROUTE_ID + " integer not null, " +
-            COLUMN_DATE + " long not null);";
+            COLUMN_DATE + " long not null, " +
+            COLUMN_DATE_ENTERED + " long not null);";
 
     public JourneyDatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

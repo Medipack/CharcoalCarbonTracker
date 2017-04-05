@@ -27,7 +27,8 @@ public class JourneyDataSource {
             JourneyDatabaseHelper.COLUMN_ID,
             JourneyDatabaseHelper.COLUMN_CAR_ID,
             JourneyDatabaseHelper.COLUMN_ROUTE_ID,
-            JourneyDatabaseHelper.COLUMN_DATE
+            JourneyDatabaseHelper.COLUMN_DATE,
+            JourneyDatabaseHelper.COLUMN_DATE_ENTERED
     };
 
     public JourneyDataSource(Context context) {
@@ -50,6 +51,7 @@ public class JourneyDataSource {
         values.put(JourneyDatabaseHelper.COLUMN_CAR_ID, journey.getVehicle().getId());
         values.put(JourneyDatabaseHelper.COLUMN_ROUTE_ID, journey.getRoute().getId());
         values.put(JourneyDatabaseHelper.COLUMN_DATE, journey.getDate().getTime());
+        values.put(JourneyDatabaseHelper.COLUMN_DATE_ENTERED, (new Date()).getTime());
 
         return values;
     }
@@ -117,9 +119,14 @@ public class JourneyDataSource {
         route_db.close();
 
         // Set Date in epoch time (long)
-        long epoch_time = cursor.getLong(3);
-        Date date = new Date(epoch_time);
+        long dateTime = cursor.getLong(3);
+        Date date = new Date(dateTime);
         journey.setDate(date);
+
+        // Set Date in epoch time (long)
+        long dateEnteredTime = cursor.getLong(4);
+        Date dateEntered = new Date(dateEnteredTime);
+        journey.setDateEntered(dateEntered);
 
         return journey;
     }

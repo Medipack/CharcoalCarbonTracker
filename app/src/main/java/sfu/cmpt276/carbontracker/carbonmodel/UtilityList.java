@@ -32,7 +32,7 @@ public class UtilityList {
         utilities.remove(index);
     }
     //count size of the utility
-    private int countUtility(){
+    public int countUtility(){
         return utilities.size();
     }
     //get utility in the utility list
