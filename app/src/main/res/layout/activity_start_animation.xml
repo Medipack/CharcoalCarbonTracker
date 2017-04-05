@@ -31,7 +31,8 @@
         tools:ignore="ContentDescription" />
 
     <TextView
-        android:text="@string/carbon_tracker"
+        
+        android:text="@string/carbon"
         android:textColor="#e67031"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,6 +40,29 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/NameTitle"
         android:textStyle="normal|bold"
+        android:textSize="48sp" />
+
+    <TextView
+        android:text="@string/tracker"
+        android:textColor="#e67031"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="60dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/NameTitleTracker"
+        android:textStyle="normal|bold"
         android:textSize="56sp" />
+
+    <TextView
+        android:text="Charcoal"
+        android:textColor="#269b24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/NameTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:id="@+id/groupNameText"
+        android:textSize="24sp" />
 
 </RelativeLayout>

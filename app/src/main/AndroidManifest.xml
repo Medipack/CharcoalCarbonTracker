@@ -36,6 +36,7 @@
         <activity android:name=".ui.PickDateActivity" />
         <activity android:name=".ui.AboutActivity" />
         <activity android:name=".ui.IconActivity"></activity>
+        <activity android:name=".ui.SettingsActivity" />
     </application>
 
 </manifest>

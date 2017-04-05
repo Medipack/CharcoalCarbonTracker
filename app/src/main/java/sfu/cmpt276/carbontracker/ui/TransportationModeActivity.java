@@ -41,6 +41,9 @@ public class TransportationModeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         icons =  getResources().obtainTypedArray(R.array.iconArray);
         setContentView(R.layout.activity_transportation_mode);
+
+        User.getInstance().createNewCurrentJourney();
+
         setupCarDirectory();
         //addTestVehicleToArray();
         setupSelectModeTxt();

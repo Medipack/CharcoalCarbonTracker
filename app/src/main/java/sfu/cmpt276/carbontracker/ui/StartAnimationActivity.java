@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import sfu.cmpt276.carbontracker.R;
 
 /*
@@ -21,6 +23,7 @@ public class StartAnimationActivity extends AppCompatActivity {
         setupCar();
 
         setupWelcome();
+        setupGroupName();
         int welcomeTime = 6000;
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -33,12 +36,20 @@ public class StartAnimationActivity extends AppCompatActivity {
         }, welcomeTime);
     }
 
+
     private void setupWelcome() {
-        TextView welcome = (TextView) findViewById(R.id.NameTitle);
+        TextView carbon = (TextView) findViewById(R.id.NameTitle);
+        TextView tracker = (TextView) findViewById(R.id.NameTitleTracker);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/Cache.ttf");
+        carbon.setTypeface(face);
+        tracker.setTypeface(face);
+
+    }
+
+    private void setupGroupName() {
+        TextView welcome = (TextView) findViewById(R.id.groupNameText);
         Typeface face = Typeface.createFromAsset(getAssets(),"fonts/Cache.ttf");
         welcome.setTypeface(face);
-
-
     }
 
     private void setupCar() {

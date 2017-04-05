@@ -8,8 +8,8 @@ import java.util.Date;
 
 public class Utility {
 
-    private static final double ELECTRICITY = 0.009; //kg of CO2 per KWh
-    private static final double NATURAL_GAS = 56.1; //kg of CO2 per GJ
+//    private static final double ELECTRICITY = 0.009; //kg of CO2 per KWh
+//    private static final double NATURAL_GAS = 56.1; //kg of CO2 per GJ
     public static final String ELECTRICITY_NAME = "electricity";
     public static final String GAS_NAME = "gas";
 
@@ -18,6 +18,7 @@ public class Utility {
     private String utility_type;
     private Date startDate;
     private Date endDate;
+    private Date dateEntered;
 
 
     private double electricUsed;     //in kWh
@@ -165,20 +166,24 @@ public class Utility {
     }
 
     public double getPerPersonEmission(){
+        User user = User.getInstance();
+        unitConversion unit = user.getUnits();
         if(utility_type.equals(ELECTRICITY_NAME)){
-            return ELECTRICITY * electricUsed/numberOfPeople;   // kg per kwh per person
+            return unit.getElectricityRate() * electricUsed/numberOfPeople;   // kg per kwh per person
         }
         else{
-            return NATURAL_GAS * naturalGasUsed/numberOfPeople;                 //kg per GJ per person
+            return unit.getNaturalGasRate() * naturalGasUsed/numberOfPeople;                 //kg per GJ per person
         }
     }
 
     public double getPerDayUsage(){
+        User user = User.getInstance();
+        unitConversion unit = user.getUnits();
         if(utility_type.equals(ELECTRICITY_NAME)){
-            return ELECTRICITY  * electricUsed / daysInPeriod;   // kg per kwh per day
+            return unit.getElectricityRate()  * electricUsed / daysInPeriod;   // kg per kwh per day
         }
         else{
-            return NATURAL_GAS * naturalGasUsed / daysInPeriod;                 //kg per GJ per day
+            return unit.getNaturalGasRate() * naturalGasUsed / daysInPeriod;  //kg per GJ per day
         }
     }
 
@@ -196,5 +201,13 @@ public class Utility {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Date getDateEntered() {
+        return dateEntered;
+    }
+
+    public void setDateEntered(Date dateEntered) {
+        this.dateEntered = dateEntered;
     }
 }
