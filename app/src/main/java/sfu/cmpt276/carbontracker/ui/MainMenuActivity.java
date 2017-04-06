@@ -82,8 +82,6 @@ public class MainMenuActivity extends AppCompatActivity {
             decorView.setSystemUiVisibility(uiOptions);
         }
 
-        setupAboutButton();
-
         setupNotificationThread();
     }
 
@@ -156,27 +154,6 @@ public class MainMenuActivity extends AppCompatActivity {
                                     walkRates);
     }
 
-    private void setupSettingsButton() {
-        Button button = (Button) findViewById(R.id.main_menu_settingsBtn);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void setupAboutButton() {
-        Button aboutBtn = (Button)findViewById(R.id.aboutBtn);
-        aboutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                User.getInstance().createNewCurrentJourney();
-                Intent intent = new Intent(MainMenuActivity.this, AboutActivity.class);
-                startActivity(intent);
-            }
-        });    }
 
 
     private void setupCarbon() {
@@ -258,7 +235,9 @@ public class MainMenuActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
                 startActivity(intent);
                 break;
-            //case R.id.about:
+            case R.id.about:
+                Intent intent1 = new Intent(MainMenuActivity.this, AboutActivity.class);
+                startActivity(intent1);
         }
         return super.onOptionsItemSelected(item);
     }

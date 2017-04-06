@@ -62,20 +62,12 @@ public class StartAnimationActivity extends AppCompatActivity {
     }
 
     private void setupGroupName() {
-        TextView welcome = (TextView) findViewById(R.id.groupNameText);
-        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/Cache.ttf");
-        welcome.setTypeface(face);
         TextView carbon = (TextView) findViewById(R.id.NameTitle);
         Typeface face_carbon = Typeface.createFromAsset(getAssets(),"fonts/Cache.ttf");
         carbon.setTypeface(face_carbon);
-
         TextView tracker = (TextView) findViewById(R.id.NameTitleTracker);
         Typeface face_tracker = Typeface.createFromAsset(getAssets(),"fonts/Cache.ttf");
         tracker.setTypeface(face_tracker);
-
-        TextView charcoal = (TextView) findViewById(R.id.groupNameText);
-        Typeface face_charcoal = Typeface.createFromAsset(getAssets(),"fonts/Cache.ttf");
-        charcoal.setTypeface(face_charcoal);
     }
 
     private void setupCar() {
