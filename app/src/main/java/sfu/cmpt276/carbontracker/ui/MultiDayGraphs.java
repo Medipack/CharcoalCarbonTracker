@@ -91,24 +91,37 @@ public class MultiDayGraphs extends AppCompatActivity {
     }
 
     private void setupChart(int days) {
-        chart = (CombinedChart) findViewById(R.id.barChart);
+        CombinedChart chart = (CombinedChart) findViewById(R.id.monthChart);
         CombinedData data = new CombinedData();
-        chart.setDrawOrder(new CombinedChart.DrawOrder[]{
-                CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE, CombinedChart.DrawOrder.LINE
-        });
-
         XAxis xAxis = chart.getXAxis();
         if(days == DAYS_IN_YEAR) {
-
-            String[] xAxisValues = {"jan", "feb", "march", "april", "may", "june", "july", "august", "sept", "dec", "oct", "nov"};
+            CombinedChart otherChart = (CombinedChart) findViewById(R.id.monthChart);
+            otherChart.setVisibility(View.INVISIBLE);
+             chart = (CombinedChart) findViewById(R.id.yearChart);
+             chart.setVisibility(View.VISIBLE);
+             data = new CombinedData();
+            chart.setDrawOrder(new CombinedChart.DrawOrder[]{
+                    CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE, CombinedChart.DrawOrder.LINE
+            });
+            xAxis = chart.getXAxis();
+            String[] xAxisValues =  {"jan", "feb", "march", "april", "may", "june", "july", "august", "sept", "dec", "oct", "nov"};
             xAxis.setValueFormatter(new XAxisVaueFormatter(xAxisValues));
-            xAxis.setLabelCount(MONTH_COUNT);
+            xAxis.setLabelCount(MONTH_COUNT-2);
 
             data.setData(generateStackedBarData_365Days());
             data.setData(generateLineData(MONTH_COUNT, MONTHLY_EMISSIONS_PER_CAPITA, MONTHLY_PER_CAPITA_EMISSION_TARGET));
         }
         else if(days == DAYS_IN_4_WEEKS)
         {
+            CombinedChart otherChart = (CombinedChart) findViewById(R.id.yearChart);
+            otherChart.setVisibility(View.INVISIBLE);
+            chart = (CombinedChart) findViewById(R.id.monthChart);
+            chart.setVisibility(View.VISIBLE);
+            data = new CombinedData();
+            chart.setDrawOrder(new CombinedChart.DrawOrder[]{
+                    CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE, CombinedChart.DrawOrder.LINE
+            });
+            xAxis = chart.getXAxis();
             String[] xAxisValues = new String[DAYS_IN_4_WEEKS];
             List<Date> dateList = GraphHelper.getDateList(DAYS_IN_4_WEEKS);
             float c = 0;
