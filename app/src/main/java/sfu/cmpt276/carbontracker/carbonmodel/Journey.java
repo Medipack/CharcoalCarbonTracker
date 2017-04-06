@@ -114,7 +114,9 @@ public class Journey {
     }
 
     public double getCarbonEmitted() {
-        return carbonEmitted;
+        double carbon = calculateCarbonEmission();
+        carbonEmitted = carbon;
+        return carbon;
     }
 
     public void setCarbonEmitted(double carbonEmitted) {
