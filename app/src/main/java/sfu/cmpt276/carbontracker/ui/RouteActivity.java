@@ -4,11 +4,13 @@ package sfu.cmpt276.carbontracker.ui;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -47,6 +49,24 @@ public class RouteActivity extends AppCompatActivity {
         setupAddRoute();
         setUpRouteListView();
         registerClickCallback();
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        FullScreencall();
+    }
+
+    public void FullScreencall() {
+        if(Build.VERSION.SDK_INT < 19){
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else {
+            //for higher api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
     }
 
     private class RouteListAdapter extends ArrayAdapter<Route> implements RouteListener {
@@ -359,6 +379,14 @@ public class RouteActivity extends AppCompatActivity {
             setResult(User.ACTIVITY_FINISHED_REQUESTCODE);
             finish();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home)
+            setResult(User.ACTIVITY_FINISHED_REQUESTCODE);
+            finish();
+        return super.onOptionsItemSelected(item);
     }
 }
 

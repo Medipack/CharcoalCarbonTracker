@@ -5,9 +5,12 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -70,6 +73,7 @@ public class BillActivity extends AppCompatActivity {
         createRadioButton();
         setupSaveButton();
         setupDeleteButton();
+        setupBillFonts();
 
         final Calendar cal = Calendar.getInstance();
         year_x = cal.get(Calendar.YEAR);
@@ -82,6 +86,31 @@ public class BillActivity extends AppCompatActivity {
         if(intent.getExtras() != null) {
             position = intent.getIntExtra("pos", 0);
             populateBill(position);
+        }
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        FullScreencall();
+    }
+
+    private void setupBillFonts() {
+        TextView carbon = (TextView) findViewById(R.id.textView);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/AlexBook.otf");
+        carbon.setTypeface(face);
+    }
+
+    public void FullScreencall() {
+        if(Build.VERSION.SDK_INT < 19){
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else {
+            //for higher api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
         }
     }
 
@@ -334,4 +363,12 @@ public class BillActivity extends AppCompatActivity {
             previousAvgInput.setText(String.valueOf(utility.getAverageKWhPrevious()));
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
+    }
+
 }

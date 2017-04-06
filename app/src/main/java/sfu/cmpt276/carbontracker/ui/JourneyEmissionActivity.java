@@ -3,14 +3,17 @@ package sfu.cmpt276.carbontracker.ui;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -34,6 +37,25 @@ public class JourneyEmissionActivity extends AppCompatActivity {
         setupShowTableButton();
         setuptxt();
         tipsDialog();
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        FullScreencall();
+    }
+
+    public void FullScreencall() {
+        if(Build.VERSION.SDK_INT < 19){
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else {
+            //for higher api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
         loadCurrentIcon();
     }
 
@@ -113,6 +135,14 @@ public class JourneyEmissionActivity extends AppCompatActivity {
     public void onBackPressed() {
         setResult(User.ACTIVITY_FINISHED_REQUESTCODE);
         finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home)
+            setResult(User.ACTIVITY_FINISHED_REQUESTCODE);
+            finish();
+        return super.onOptionsItemSelected(item);
     }
 
 }

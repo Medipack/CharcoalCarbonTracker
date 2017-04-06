@@ -2,9 +2,14 @@ package sfu.cmpt276.carbontracker.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -44,39 +49,93 @@ public class MultiDayGraphs extends AppCompatActivity {
     private static final float MONTHLY_PER_CAPITA_EMISSION_TARGET = YEARLY_PER_CAPITA_EMMISSION_TARGET/12;
     private static final float DAILY_PER_CAPITA_EMMISSION_TARGET = YEARLY_PER_CAPITA_EMMISSION_TARGET/365;
 
+    CombinedChart chart;
+    int temp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multi_day_graphs);
 
         Intent intent = getIntent();
-        setupChart(intent.getIntExtra("days", 0));
+        setupSpinner();
+        FullScreencall();
+    }
+
+    public void FullScreencall() {
+        if(Build.VERSION.SDK_INT < 19){
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else {
+            //for higher api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
+    }
+
+    private void setupSpinner() {
+        String[] labels = getResources().getStringArray(R.array.graph_spinner);
+        Spinner chartType = (Spinner) findViewById(R.id.barGraphSpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MultiDayGraphs.this,
+                android.R.layout.simple_spinner_item, labels);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        chartType.setAdapter(adapter);
+        chartType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0)
+                {
+                    setupChart(DAYS_IN_4_WEEKS);
+                }
+                else if(position == 1)
+                {
+                    setupChart(DAYS_IN_YEAR);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setupChart(getIntent().getIntExtra("days", 0));
     }
 
     private void setupChart(int days) {
-        CombinedChart chart = (CombinedChart) findViewById(R.id.barChart);
+        CombinedChart chart = (CombinedChart) findViewById(R.id.monthChart);
         CombinedData data = new CombinedData();
-        chart.setDrawOrder(new CombinedChart.DrawOrder[]{
-                CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE, CombinedChart.DrawOrder.LINE
-        });
-
         XAxis xAxis = chart.getXAxis();
         if(days == DAYS_IN_YEAR) {
-            String[] xAxisValues = {"jan", "feb", "march", "april", "may", "june", "july", "august", "sept", "dec", "oct", "nov"};
+            CombinedChart otherChart = (CombinedChart) findViewById(R.id.monthChart);
+            otherChart.setVisibility(View.INVISIBLE);
+             chart = (CombinedChart) findViewById(R.id.yearChart);
+             chart.setVisibility(View.VISIBLE);
+             data = new CombinedData();
+            chart.setDrawOrder(new CombinedChart.DrawOrder[]{
+                    CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE, CombinedChart.DrawOrder.LINE
+            });
+            xAxis = chart.getXAxis();
+            String[] xAxisValues =  {"jan", "feb", "march", "april", "may", "june", "july", "august", "sept", "dec", "oct", "nov"};
             xAxis.setValueFormatter(new XAxisVaueFormatter(xAxisValues));
-            xAxis.setLabelCount(MONTH_COUNT);
+            xAxis.setLabelCount(MONTH_COUNT-2);
 
             data.setData(generateStackedBarData_365Days());
             data.setData(generateLineData(MONTH_COUNT, MONTHLY_EMISSIONS_PER_CAPITA, MONTHLY_PER_CAPITA_EMISSION_TARGET));
         }
         else if(days == DAYS_IN_4_WEEKS)
         {
+            CombinedChart otherChart = (CombinedChart) findViewById(R.id.yearChart);
+            otherChart.setVisibility(View.INVISIBLE);
+            chart = (CombinedChart) findViewById(R.id.monthChart);
+            chart.setVisibility(View.VISIBLE);
+            data = new CombinedData();
+            chart.setDrawOrder(new CombinedChart.DrawOrder[]{
+                    CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE, CombinedChart.DrawOrder.LINE
+            });
+            xAxis = chart.getXAxis();
             String[] xAxisValues = new String[DAYS_IN_4_WEEKS];
             List<Date> dateList = GraphHelper.getDateList(DAYS_IN_4_WEEKS);
             float c = 0;

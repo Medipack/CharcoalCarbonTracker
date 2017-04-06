@@ -76,15 +76,14 @@
     <string name="co2">CO2</string>
     <string name="cost">Cost</string>
     <string name="tree">Trees</string>
+    <string-array name="graph_spinner">
+        <item>28 Days</item>
+        <item>365 Days</item>
+    </string-array>
     <string name="routeSwitch">routeSwitch</string>
     <string name="mode">mode</string>
     <string name="carbon">carbon</string>
     <string name="tracker">tracker</string>
-    <string-array name="spinner_item">
-        <item>Single Day</item>
-        <item>Last 28 Days</item>
-        <item>Last 376 Days</item>
-    </string-array>
 
     <!--strings for about activity-->
     <string name="version">Version: </string>

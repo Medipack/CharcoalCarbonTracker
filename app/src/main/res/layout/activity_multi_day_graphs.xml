@@ -3,11 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/pink_back"
     tools:context="sfu.cmpt276.carbontracker.ui.MultiDayGraphs">
 
+
     <com.github.mikephil.charting.charts.CombinedChart
-        android:id="@+id/barChart"
+        android:id="@+id/monthChart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="60dp"
+        android:visibility="invisible"/>
+
+    <com.github.mikephil.charting.charts.CombinedChart
+        android:id="@+id/yearChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="60dp"
+        android:visibility="invisible"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/barGraphSpinner" />
 
 </RelativeLayout>
