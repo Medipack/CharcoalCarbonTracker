@@ -29,8 +29,7 @@ public class GraphActivity extends AppCompatActivity {
     private static final int DAYS_IN_FOUR_WEEKS = 28;
     private static final int DAYS_IN_YEAR = 365;
     private RadioButton pieGraph;
-    private RadioButton last28Days;
-    private RadioButton last365Days;
+    private RadioButton barGraph;
     private int year_default;
     private int month_default;
     private int day_default;
@@ -76,19 +75,16 @@ public class GraphActivity extends AppCompatActivity {
 
     private void createGraphRadioBtn() {
         pieGraph = new RadioButton(this);
-        last28Days = new RadioButton(this);
-        last365Days = new RadioButton(this);
+        barGraph = new RadioButton(this);
 
         RadioGroup group = (RadioGroup)findViewById(R.id.graphRB);
         final String[] choice = getResources().getStringArray(R.array.choose_graph);
 
         pieGraph.setText(choice[0]);
-        last28Days.setText(choice[1]);
-        last365Days.setText(choice[2]);
+        barGraph.setText(choice[1]);
 
         group.addView(pieGraph);
-        group.addView(last28Days);
-        group.addView(last365Days);
+        group.addView(barGraph);
     }
 
     private void showDateDialog() {
@@ -147,16 +143,9 @@ public class GraphActivity extends AppCompatActivity {
                         Toast.makeText(GraphActivity.this, "Please choose the date", Toast.LENGTH_SHORT).show();
                     }
                 }
-                else if(last28Days.isChecked()){
-                    Toast.makeText(GraphActivity.this, "28", Toast.LENGTH_SHORT).show();
+                else if(barGraph.isChecked()){
                     Intent intent = new Intent(GraphActivity.this, MultiDayGraphs.class);
                     intent.putExtra("days", DAYS_IN_FOUR_WEEKS);
-                    startActivity(intent);
-                }
-                else if(last365Days.isChecked()){
-                    Toast.makeText(GraphActivity.this, "365", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(GraphActivity.this, MultiDayGraphs.class);
-                    intent.putExtra("days", DAYS_IN_YEAR);
                     startActivity(intent);
                 }
             }

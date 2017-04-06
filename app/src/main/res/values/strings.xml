@@ -80,4 +80,8 @@
     <string name="mode">mode</string>
     <string name="carbon">carbon</string>
     <string name="tracker">tracker</string>
+    <string-array name="graph_spinner">
+        <item>28 Days</item>
+        <item>365 Days</item>
+    </string-array>
 </resources>

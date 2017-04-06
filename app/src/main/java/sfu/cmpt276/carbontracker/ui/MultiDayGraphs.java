@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -44,23 +48,50 @@ public class MultiDayGraphs extends AppCompatActivity {
     private static final float MONTHLY_PER_CAPITA_EMISSION_TARGET = YEARLY_PER_CAPITA_EMMISSION_TARGET/12;
     private static final float DAILY_PER_CAPITA_EMMISSION_TARGET = YEARLY_PER_CAPITA_EMMISSION_TARGET/365;
 
+    CombinedChart chart;
+    int temp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multi_day_graphs);
 
         Intent intent = getIntent();
-        setupChart(intent.getIntExtra("days", 0));
+        setupSpinner();
+    }
+
+    private void setupSpinner() {
+        String[] labels = getResources().getStringArray(R.array.graph_spinner);
+        Spinner chartType = (Spinner) findViewById(R.id.barGraphSpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MultiDayGraphs.this,
+                android.R.layout.simple_spinner_item, labels);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        chartType.setAdapter(adapter);
+        chartType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0)
+                {
+                    setupChart(DAYS_IN_4_WEEKS);
+                }
+                else if(position == 1)
+                {
+                    setupChart(DAYS_IN_YEAR);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setupChart(getIntent().getIntExtra("days", 0));
     }
 
     private void setupChart(int days) {
-        CombinedChart chart = (CombinedChart) findViewById(R.id.barChart);
+        chart = (CombinedChart) findViewById(R.id.barChart);
         CombinedData data = new CombinedData();
         chart.setDrawOrder(new CombinedChart.DrawOrder[]{
                 CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE, CombinedChart.DrawOrder.LINE
@@ -68,6 +99,7 @@ public class MultiDayGraphs extends AppCompatActivity {
 
         XAxis xAxis = chart.getXAxis();
         if(days == DAYS_IN_YEAR) {
+
             String[] xAxisValues = {"jan", "feb", "march", "april", "may", "june", "july", "august", "sept", "dec", "oct", "nov"};
             xAxis.setValueFormatter(new XAxisVaueFormatter(xAxisValues));
             xAxis.setLabelCount(MONTH_COUNT);

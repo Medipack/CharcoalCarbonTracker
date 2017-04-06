@@ -286,7 +286,6 @@ public class SingleDayActivity extends AppCompatActivity {
                                 str_journey = formatter.format(journeyDate);
                                 //check whether in last 28 days
                                 if (journeyDate.getTime() >= before_28.getTime()) {
-                                    Toast.makeText(SingleDayActivity.this, "yea", Toast.LENGTH_SHORT).show();
                                     Route route = User.getInstance().getRouteList().getRoute(r);
                                     if (Objects.equals(User.getInstance().getRouteList().getRoute(r).getRouteName(), journey.getRouteName())) {
                                         if (times_route <= 1) {
@@ -748,7 +747,6 @@ public class SingleDayActivity extends AppCompatActivity {
                 str_journey = formatter.format(journeyDate);
                 if (journeyDate.getTime() >= before_365.getTime()) {
                     String vehicle = journey.getVehicleName();
-                    Toast.makeText(this, "" + vehicle, Toast.LENGTH_SHORT).show();
                     if (vehicle.equals("Bus")) {
                         bus_exist = 1;
                         vehicleBus = vehicle;
