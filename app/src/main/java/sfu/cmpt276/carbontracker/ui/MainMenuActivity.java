@@ -65,6 +65,8 @@ public class MainMenuActivity extends AppCompatActivity {
         setupUtility();
         setupGraph();
 
+        setupAboutButton();
+
         setupNotificationThread();
     }
 
@@ -147,6 +149,17 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void setupAboutButton() {
+        Button aboutBtn = (Button)findViewById(R.id.aboutBtn);
+        aboutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User.getInstance().createNewCurrentJourney();
+                Intent intent = new Intent(MainMenuActivity.this, AboutActivity.class);
+                startActivity(intent);
+            }
+        });    }
 
 
     private void setupCarbon() {

@@ -33,7 +33,8 @@ public class VehicleDataSource {
             VehicleDatabaseHelper.COLUMN_YEAR,
             VehicleDatabaseHelper.COLUMN_CITYCO2,
             VehicleDatabaseHelper.COLUMN_HWYCO2,
-            VehicleDatabaseHelper.COLUMN_ENGINEDISPL};
+            VehicleDatabaseHelper.COLUMN_ENGINEDISPL,
+            VehicleDatabaseHelper.COLUMN_ICON_ID};
 
     public VehicleDataSource(Context context) {
         dbHelper = new VehicleDatabaseHelper(context);
@@ -63,6 +64,7 @@ public class VehicleDataSource {
         values.put(VehicleDatabaseHelper.COLUMN_CITYCO2, vehicle.getCityCO2());
         values.put(VehicleDatabaseHelper.COLUMN_HWYCO2, vehicle.getHwyCO2());
         values.put(VehicleDatabaseHelper.COLUMN_ENGINEDISPL, vehicle.getEngineDispl());
+        values.put(VehicleDatabaseHelper.COLUMN_ICON_ID, vehicle.getIconID());
         return values;
     }
 
@@ -122,6 +124,7 @@ public class VehicleDataSource {
         vehicle.setCityCO2(cursor.getInt(9));
         vehicle.setHwyCO2(cursor.getInt(10));
         vehicle.setEngineDispl(cursor.getDouble(11));
+        vehicle.setIconID(cursor.getInt(12));
 
         return vehicle;
     }

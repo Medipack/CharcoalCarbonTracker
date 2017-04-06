@@ -85,4 +85,33 @@
         <item>Last 28 Days</item>
         <item>Last 376 Days</item>
     </string-array>
+
+    <!--strings for about activity-->
+    <string name="version">Version: </string>
+    <string name="about">About</string>
+    <string name="group_name">By Team Charcoal</string>
+    <string name="creation_year">Created Spring 2017</string>
+    <string name="sfu_home_page">SFU HOME <a href="https://www.sfu.ca/computing.html">https://www.sfu.ca/computing.html</a></string>
+    <string name="icon_currently_chosen">Icon Currently Chosen:</string>
+    <string name="choose_your_vehicle_icon">Choose Your Vehicle Icon</string>
+    <string name="ok">OK</string>
+    <string name="vehicleIcon">Vehicle Icon</string>
+    <string-array name="links">
+        <item>Resource Links Used:</item>
+        <item>Info Icon: https://www.iconfinder.com/icons/146127/about_help_info_information_more_info_properties_icon</item>
+        <item>transport icons: http://www.graphicsfuel.com/2015/01/exclusive-45-free-transport-icons/</item>
+        <item>GHG per capita: https://www.ec.gc.ca/indicateurs-indicators/default.asp?lang=en&amp;n=79BA5699-1</item>
+        <item>Tree data: http://www.arborenvironmentalalliance.com/carbon-tree-facts.asp</item>
+        <item>Gas prices: http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/econ154a-eng.htm</item>
+        <item>Utility data: https://www.fortisbc.com/Pages/default.aspx</item>
+        <item>Utility data: https://www.bchydro.com/index.html </item>
+        <item>Graphs: https://github.com/PhilJay/MPAndroidChart</item>
+    </string-array>
+    <string-array name="creators">
+        <item>By: </item>
+        <item>Tim Robertson, </item>
+        <item>Jarinya Hochstrasser, </item>
+        <item>Xiangyi Li, </item>
+        <item>Calvin Chou</item>
+    </string-array>
 </resources>
