@@ -2,6 +2,7 @@ package sfu.cmpt276.carbontracker.ui;
 
 import android.graphics.Typeface;
 import android.os.Build;
+import android.graphics.Typeface;
 import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 
