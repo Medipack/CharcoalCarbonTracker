@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -59,6 +60,13 @@ public class GraphActivity extends AppCompatActivity {
         }
 
         FullScreencall();
+        setupFonts();
+    }
+
+    private void setupFonts() {
+        TextView carbon = (TextView) findViewById(R.id.graphTitle);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/AlexBook.otf");
+        carbon.setTypeface(face);
     }
 
     public void FullScreencall() {
