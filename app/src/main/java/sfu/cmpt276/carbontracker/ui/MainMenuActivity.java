@@ -182,7 +182,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     }
 
-   /* public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar, menu);
         return super.onCreateOptionsMenu(menu);
@@ -198,7 +198,7 @@ public class MainMenuActivity extends AppCompatActivity {
             //case R.id.about:
         }
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 
 
 
