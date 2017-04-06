@@ -1,8 +1,12 @@
 package sfu.cmpt276.carbontracker.carbonmodel;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import sfu.cmpt276.carbontracker.ui.UtilityActivity;
 
 
 /**
@@ -41,8 +45,8 @@ public class UtilityList {
         return utilities.get(index);
     }
     //utility information in the list
-    public String[] getUtilityDescription(){
-        String[] descriptions = new String[countUtility()];
+    /*public String[] getUtilityDescription(){
+        /*String[] descriptions = new String[countUtility()];
         for(int i=0; i<countUtility();i++) {
             Utility utility = getUtility(i);
             if (utility.getUtility_type().equals("gas")) {
@@ -62,7 +66,8 @@ public class UtilityList {
             }
         }
         return descriptions;
-    }
+
+    }*/
 
     private void validateIndexWithException(int index) {
         if(index<0 || index>=countUtility()){

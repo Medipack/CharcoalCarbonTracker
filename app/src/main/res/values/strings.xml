@@ -113,6 +113,21 @@
     <string name="addNewVehicle">Add New Vehicle</string>
     <string name="pickEarlierDate">Please pick an earlier date</string>
     <string name="emission1">emission</string>
+
+    <string name="fromUtilityList">:  \nfrom \s</string>
+    <string name="toUtilityList">\nto \s</string>
+    <string name="daysTotalUtilityList">\s days in total\n</string>
+    <string name="usedByUtilityList">\s used by</string>
+    <string name="peopleUtilityList">\s people in home</string>
+    <string name="currentAvgUtilityList">\ncurrent average is: \s</string>
+    <string name="peopleShareUtilityList">\n GJ people in home share:</string>
+    <string name="perPersonEmissionUtilityList">\nemission per person:</string>
+    <string name="perDayEmissionUtilityList">g \nemission per day:</string>
+    <string name="gUtilityList">g</string>
+    <string name="previousAvgKwhUtilityList">kwh, \nprevious average is:</string>
+    <string name="peopleShareKwh">kwh \npeople in home share:</string>
+    <string name="newLine">\n</string>
+    <string name="previousAvgGj">GJ, \nprevious average is:</string>
     <string-array name="spinner_item">
         <item>Single Day</item>
         <item>Last 28 Days</item>

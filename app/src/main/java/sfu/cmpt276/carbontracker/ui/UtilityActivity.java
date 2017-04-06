@@ -59,7 +59,8 @@ public class UtilityActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,                       // Context for the activity
                 R.layout.bill_item,          // Layout to use (create)
-                User.getInstance().getUtilityList().getUtilityDescription());            // Items to be displayed
+                getUtilityDescriptions(User.getInstance().getUtilityList())
+        );            // Items to be displayed
 
         // Configure the list view
         list = (ListView) findViewById(R.id.utilityList);
@@ -89,6 +90,30 @@ public class UtilityActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public String[] getUtilityDescriptions(UtilityList utilityList)
+    {
+        String[] descriptions = new String[utilityList.countUtility()];
+        for(int i=0; i<utilityList.countUtility();i++) {
+            Utility utility = utilityList.getUtility(i);
+            if (utility.getUtility_type().equals("gas")) {
+                descriptions[i] = utility.getUtility_type() + getString(R.string.fromUtilityList) + utility.getStartDate() +  getString(R.string.toUtilityList) + utility.getEndDate()
+                        + "\n" + utility.getDaysInPeriod() + getString(R.string.daysTotalUtilityList) + utility.getNaturalGasUsed() + getString(R.string.usedByUtilityList) + utility.getNumberOfPeople()
+                        + getString(R.string.peopleUtilityList) + getString(R.string.currentAvgUtilityList) + utility.getAverageGJCurrent() + getString(R.string.previousAvgGj) + utility.getAverageGJPrevious()
+                        +  getString(R.string.peopleShareUtilityList) + utility.getPeopleShare() + getString(R.string.perPersonEmissionUtilityList) + utility.getPerPersonEmission()
+                        + getString(R.string.perDayEmissionUtilityList) + utility.getPerDayUsage() + getString(R.string.gUtilityList);
+            }
+
+            else{
+                descriptions[i] = utility.getUtility_type() + getString(R.string.fromUtilityList) + utility.getStartDate() + getString(R.string.toUtilityList) + utility.getEndDate()
+                        + getString(R.string.newLine) + utility.getDaysInPeriod() + getString(R.string.daysTotalUtilityList) + utility.getElectricUsed() + getString(R.string.usedByUtilityList) + utility.getNumberOfPeople()
+                        + getString(R.string.peopleUtilityList) + getString(R.string.currentAvgUtilityList) + utility.getAverageKWhCurrent() + getString(R.string.previousAvgKwhUtilityList) + utility.getAverageKWhPrevious()
+                        +  getString(R.string.peopleShareKwh) + utility.getPeopleShare() + getString(R.string.perPersonEmissionUtilityList) + utility.getPerPersonEmission()
+                        + getString(R.string.perDayEmissionUtilityList) + utility.getPerDayUsage() + getString(R.string.gUtilityList);
+            }
+        }
+        return descriptions;
     }
 
 }
