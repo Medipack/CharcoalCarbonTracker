@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -72,6 +73,7 @@ public class BillActivity extends AppCompatActivity {
         createRadioButton();
         setupSaveButton();
         setupDeleteButton();
+        setupBillFonts();
 
         final Calendar cal = Calendar.getInstance();
         year_x = cal.get(Calendar.YEAR);
@@ -92,6 +94,12 @@ public class BillActivity extends AppCompatActivity {
         }
 
         FullScreencall();
+    }
+
+    private void setupBillFonts() {
+        TextView carbon = (TextView) findViewById(R.id.textView);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/AlexBook.otf");
+        carbon.setTypeface(face);
     }
 
     public void FullScreencall() {

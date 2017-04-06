@@ -56,7 +56,6 @@ public class MainMenuActivity extends AppCompatActivity {
         setupMainDirectory();
         setupNewJourneyBtn();
         setupCarbonTotalsBtn();
-        setupSettingsButton();
 
         setupCarbon();
         setupUtility();
@@ -107,18 +106,6 @@ public class MainMenuActivity extends AppCompatActivity {
                                     skyTrainRates,
                                     walkRates);
     }
-
-    private void setupSettingsButton() {
-        Button button = (Button) findViewById(R.id.main_menu_settingsBtn);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
 
     private void setupCarbon() {
         TextView carbon = (TextView) findViewById(R.id.carbon);

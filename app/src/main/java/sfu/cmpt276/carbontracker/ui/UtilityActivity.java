@@ -1,5 +1,6 @@
 package sfu.cmpt276.carbontracker.ui;
 
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -36,11 +38,19 @@ public class UtilityActivity extends AppCompatActivity {
         setupAddBtn();
         registerClickCallback();
         FullScreencall();
+        setupBillListFonts();
 
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+    }
+
+    private void setupBillListFonts() {
+        TextView carbon = (TextView) findViewById(R.id.listTitle);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/AlexBook.otf");
+        carbon.setTypeface(face);
+
     }
 
     public void FullScreencall() {
