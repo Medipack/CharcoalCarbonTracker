@@ -113,4 +113,5 @@
         <item>Xiangyi Li, </item>
         <item>Calvin Chou</item>
     </string-array>
+    <string name="bus"></string>
 </resources>
