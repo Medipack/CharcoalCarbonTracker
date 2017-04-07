@@ -34,6 +34,8 @@
         <activity android:name=".ui.BillActivity" />
         <activity android:name=".ui.UtilityActivity" />
         <activity android:name=".ui.PickDateActivity" />
+        <activity android:name=".ui.AboutActivity" />
+        <activity android:name=".ui.IconActivity"></activity>
         <activity android:name=".ui.SettingsActivity" />
     </application>
 

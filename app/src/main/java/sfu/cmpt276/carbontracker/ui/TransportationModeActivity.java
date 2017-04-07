@@ -2,7 +2,9 @@ package sfu.cmpt276.carbontracker.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,13 +12,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.InputStream;
 import java.util.List;
@@ -24,7 +29,6 @@ import java.util.List;
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.ui.database.Database;
-import sfu.cmpt276.carbontracker.ui.database.VehicleDataSource;
 import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
 import sfu.cmpt276.carbontracker.carbonmodel.VehicleListener;
 
@@ -33,16 +37,18 @@ public class TransportationModeActivity extends AppCompatActivity {
 
     public static final String EDIT_VEHICLE_REQUEST = "EDIT_VEHICLE";
     private final String TAG = "TransportationActivity";
+    TypedArray icons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        icons =  getResources().obtainTypedArray(R.array.iconArray);
         setContentView(R.layout.activity_transportation_mode);
 
         User.getInstance().createNewCurrentJourney();
 
         setupCarDirectory();
-        //addTestVehicleToArray();
+
         setupSelectModeTxt();
         setUpAddVehicleButton();
         setUpBikeButton();
@@ -54,6 +60,25 @@ public class TransportationModeActivity extends AppCompatActivity {
         setupCarDirectory();
 
         setupSelectModeTxt();
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        FullScreencall();
+    }
+
+    public void FullScreencall() {
+        if(Build.VERSION.SDK_INT < 19){
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else {
+            //for higher api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
     }
 
     private void setUpBikeButton() {
@@ -66,7 +91,10 @@ public class TransportationModeActivity extends AppCompatActivity {
                 //bike.setTransport_mode(Car.WALK_BIKE);
                 //bike.setNickname("Bike");
                 user.setCurrentJourneyCar(User.BIKE);
-                Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
+                user.getCurrentJourney().getVehicle().setIconID(2);
+                Database.getDB().updateVehicle(user.getCurrentJourney().getVehicle());
+
+                Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
                 startActivityForResult(intent, 0);
             }
         });
@@ -82,7 +110,9 @@ public class TransportationModeActivity extends AppCompatActivity {
                 //skytrain.setTransport_mode(Car.SKYTRAIN);
                 //skytrain.setNickname("Skytrain");
                 user.setCurrentJourneyCar(User.SKYTRAIN);
-                Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
+                user.getCurrentJourney().getVehicle().setIconID(3);
+                Database.getDB().updateVehicle(user.getCurrentJourney().getVehicle());
+                Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
                 startActivityForResult(intent, 0);
             }
         });
@@ -97,7 +127,9 @@ public class TransportationModeActivity extends AppCompatActivity {
                 //Car bus = new Car("Bus", 89, 89, Car.BUS);
                 //bus.setTransport_mode(Car.BUS);
                 user.setCurrentJourneyCar(User.BUS);
-                Intent intent = new Intent(TransportationModeActivity.this, RouteActivity.class);
+                user.getCurrentJourney().getVehicle().setIconID(1);
+                Database.getDB().updateVehicle(user.getCurrentJourney().getVehicle());
+                Intent intent = new Intent(TransportationModeActivity.this, IconActivity.class);
                 startActivityForResult(intent, 0);
             }
         });
@@ -147,7 +179,7 @@ public class TransportationModeActivity extends AppCompatActivity {
         ListView carList = (ListView) findViewById(R.id.carListView);
         carList.setAdapter(carListAdapter);
     }
-
+//////////////start of adapter//////////
     private class VehicleListAdapter extends ArrayAdapter<Vehicle> implements VehicleListener {
         private List<Vehicle> vehicleList;
 
@@ -176,6 +208,12 @@ public class TransportationModeActivity extends AppCompatActivity {
             if(description != null)
                 description.setText(vehicle.getShortDecription());
 
+            ImageView iconImg = (ImageView) itemView.findViewById(R.id.car_icon);
+            int iconID =  vehicle.getIconID();
+            TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
+            if(iconID > -1 && iconImg != null)
+                 iconImg.setImageDrawable(icons.getDrawable(iconID));
+
             return itemView;
         }
 
@@ -191,7 +229,7 @@ public class TransportationModeActivity extends AppCompatActivity {
             notifyDataSetChanged();
         }
     }
-
+///////////End of adapter///////////////////////////////
     private void registerListViewClickCallback() {
         ListView list = (ListView) findViewById(R.id.carListView);
 
@@ -243,9 +281,17 @@ public class TransportationModeActivity extends AppCompatActivity {
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == User.ACTIVITY_FINISHED_REQUESTCODE) {
             finish();
         }
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
+    }
 }

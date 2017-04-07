@@ -76,75 +76,41 @@
     <string name="co2">CO2</string>
     <string name="cost">Cost</string>
     <string name="tree">Trees</string>
+    <string-array name="graph_spinner">
+        <item>28 Days</item>
+        <item>365 Days</item>
+    </string-array>
     <string name="routeSwitch">routeSwitch</string>
     <string name="mode">mode</string>
     <string name="carbon">carbon</string>
     <string name="tracker">tracker</string>
-    <string name="billAmountUsedError">Please enter the amount used</string>
-    <string name="billNumberOfPeopleError">Please enter the number of people</string>
-    <string name="billCurrentAverageError">Please enter the current average use</string>
-    <string name="billPreviousAvgError">Please enter the previous average use</string>
-    <string name="billSelectUtilityError">Select Gas or Electricity</string>
-    <string name="billStartDateError">Please enter a start date</string>
-    <string name="billEndDateError">Please enter an end date</string>
-    <string name="billEndBeforeStartError">End date cannot before the start date</string>
-    <string name="billFutureDateError">Start date cannot be today or future</string>
-    <string name="billEndDateFutureError">End date cannot be future</string>
-    <string name="nameError">Please enter a name</string>
-    <string name="cityDistanceError">Please enter the city distance</string>
-    <string name="hwyDistanceError">Please enter the highway distance</string>
-    <string name="positiveCityDistance">Please enter an positive city distance</string>
-    <string name="positiveHwyDistance">Please enter an positive highway distance</string>
-    <string name="graphFutureDateError">Date cannot be in future</string>
-    <string name="graphChooseDateError">Please choose the date</string>
-    <string name="deleteJourneyAlert">Are you sure you want to delete this journey?</string>
-    <string name="yes">YES</string>
-    <string name="no">NO</string>
-    <string name="bus">Bus</string>
-    <string name="cars">Cars</string>
-    <string name="skytrain">Skytrain</string>
-    <string name="walk_bike">Walk/Bike</string>
-    <string name="electricity">Electricity</string>
-    <string name="naturalGas">Natural gas</string>
-    <string name="co2PerCapita">Kg Co2 per capita</string>
-    <string name="co2PerCapitaTarget">Kg Co2/capita Target</string>
-    <string name="editVehicle">Edit Vehicle</string>
-    <string name="edit">Edit \"</string>
-    <string name="addNewVehicle">Add New Vehicle</string>
-    <string name="pickEarlierDate">Please pick an earlier date</string>
-    <string name="emission1">emission</string>
 
-    <string name="fromUtilityList">:  \nfrom \s</string>
-    <string name="toUtilityList">\nto \s</string>
-    <string name="daysTotalUtilityList">\s days in total\n</string>
-    <string name="usedByUtilityList">\s used by</string>
-    <string name="peopleUtilityList">\s people in home</string>
-    <string name="currentAvgUtilityList">\ncurrent average is: \s</string>
-    <string name="peopleShareUtilityList">\n GJ people in home share:</string>
-    <string name="perPersonEmissionUtilityList">\nemission per person:</string>
-    <string name="perDayEmissionUtilityList">g \nemission per day:</string>
-    <string name="gUtilityList">g</string>
-    <string name="previousAvgKwhUtilityList">kwh, \nprevious average is:</string>
-    <string name="peopleShareKwh">kwh \npeople in home share:</string>
-    <string name="newLine">\n</string>
-    <string name="previousAvgGj">GJ, \nprevious average is:</string>
-    <string-array name="spinner_item">
-        <item>Single Day</item>
-        <item>Last 28 Days</item>
-        <item>Last 376 Days</item>
+    <!--strings for about activity-->
+    <string name="version">Version: </string>
+    <string name="about">About</string>
+    <string name="group_name">By Team Charcoal</string>
+    <string name="creation_year">Created Spring 2017</string>
+    <string name="sfu_home_page">SFU HOME <a href="https://www.sfu.ca/computing.html">https://www.sfu.ca/computing.html</a></string>
+    <string name="icon_currently_chosen">Icon Currently Chosen:</string>
+    <string name="choose_your_vehicle_icon">Choose Your Vehicle Icon</string>
+    <string name="ok">OK</string>
+    <string name="vehicleIcon">Vehicle Icon</string>
+    <string-array name="links">
+        <item>Resource Links Used:</item>
+        <item>Info Icon: https://www.iconfinder.com/icons/146127/about_help_info_information_more_info_properties_icon</item>
+        <item>transport icons: http://www.graphicsfuel.com/2015/01/exclusive-45-free-transport-icons/</item>
+        <item>GHG per capita: https://www.ec.gc.ca/indicateurs-indicators/default.asp?lang=en&amp;n=79BA5699-1</item>
+        <item>Tree data: http://www.arborenvironmentalalliance.com/carbon-tree-facts.asp</item>
+        <item>Gas prices: http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/econ154a-eng.htm</item>
+        <item>Utility data: https://www.fortisbc.com/Pages/default.aspx</item>
+        <item>Utility data: https://www.bchydro.com/index.html </item>
+        <item>Graphs: https://github.com/PhilJay/MPAndroidChart</item>
     </string-array>
-    <string-array name="months">
-        <item>Jan</item>
-        <item>Feb</item>
-        <item>March</item>
-        <item>April</item>
-        <item>May</item>
-        <item>June</item>
-        <item>July</item>
-        <item>Aug</item>
-        <item>Sept</item>
-        <item>Oct</item>
-        <item>Nov</item>
-        <item>Dec</item>
+    <string-array name="creators">
+        <item>By: </item>
+        <item>Tim Robertson, </item>
+        <item>Jarinya Hochstrasser, </item>
+        <item>Xiangyi Li, </item>
+        <item>Calvin Chou</item>
     </string-array>
 </resources>

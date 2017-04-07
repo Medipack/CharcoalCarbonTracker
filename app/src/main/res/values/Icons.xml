@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="iconArray">
+        <item>@mipmap/car</item>
+        <item>@mipmap/bus</item>
+        <item>@mipmap/bike</item>
+        <item>@mipmap/skytrain1</item>
+        <item>@mipmap/car02</item>
+        <item>@mipmap/car03</item>
+        <item>@mipmap/car04</item>
+        <item>@mipmap/bus02</item>
+        <item>@mipmap/unicycle</item>
+
+    </integer-array>
+</resources>
