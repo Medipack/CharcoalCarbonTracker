@@ -1,0 +1,151 @@
+<resources>
+    <string name="app_name">Rastreador de Carbono</string>
+    <string name="select_a_vehicle">Selecciona un vehículo</string>
+    <string name="model">Modelo</string>
+    <string name="year">Año</string>
+    <string name="make">Marca</string>
+    <string name="nickname">Apodo</string>
+    <string name="name">Nombre</string>
+    <string name="add_vehicle">Añadid Vehículo</string>
+    <string name="select_a_route">Seleccionad una ruta</string>
+    <string name="journey_emissions">Emisiones de Viaje</string>
+    <string name="car_name">nombre de coche</string>
+    <string name="car_description">Información del coche:</string>
+    <string name="fuel_type">Tipo de combustible</string>
+    <string name="transmission">Transmisión:
+</string>
+    <string name="displacement">Desplazamiento del motor</string>
+    <string name="route_info">Información de ruta:</string>
+    <string name="route_name">Nombre:</string>
+    <string name="city_distance">Ciudad Distancia:</string>
+    <string name="highway_distance">carretera Distancia</string>
+    <string name="total_distance">Distancia Total</string>
+    <string name="journey_info">Información de Viaje:</string>
+    <string name="date">Fecha</string>
+    <string name="emission">Emisiones de Anhídrido Carbónico</string>
+    <string name="date_txt">Fecha</string>
+    <string name="route">Ruta</string>
+    <string name="distance">Distancia</string>
+    <string name="select_vehicle">Seleccionad Vehículo</string>
+    <string name="bill">Factura</string>
+    <string name="amount_used">Cantidad Utilizada (KWH o GJ)</string>
+    <string name="people"># de Personas</string>
+    <string name="current_average">Intensidad Media (KWh o GJ)</string>
+    <string name="previous_average">Anterior Media (kWh o GJ)</string>
+    <string name="save">Guardad</string>
+    <string name="to">A</string>
+    <string name="from">De</string>
+    <string name="select_transportation_mode">Seleccionad el Modo de Transporte:</string>
+    <string name="some_environmentally_conscious_tips">Algunos consejos conscientes del medio ambiente...</string>
+    <string name="insert_tip_text_here">Insertar texto de la información aquí</string>
+    <string name="back">regresad</string>
+    <string name="d_1_of_d_2">%1$d de %2$d</string>
+    <string name="forward">avanzad</string>
+    <string name="vehicle">Vehículos</string>
+    <string name="delete">Borrad</string>
+    <string name="xx_xx_xxxx">xx / xx / xxxx</string>
+    <string name="carbon_tracker">Rastreador de Carbono</string>
+    <string name="main_menu">Menú Principal</string>
+    <string name="add">Añadid</string>
+    <string name="view">Ved</string>
+    <string name="cancel">Cancelad</string>
+    <string name="use">USO</string>
+    <string name="save_edit">GUARDAD EDITAD</string>
+    <string name="choose_the_single_date">Elige la Fecha</string>
+    <string name="show_graph">Mostrad gráfico</string>
+    <string name="language">Idioma</string>
+    <string name="money">$</string>
+    <string name="settings">Ajustes</string>
+    <string name="units">Unidades</string>
+    <string name="apply">Aplicad</string>
+    <string name="carTip1">Sus emisiones totales de CO2 es 1% inflado de los neumáticos $ ,. 2f kg.Check comprobando los neumáticos semanal (esto puede ahorrar 400-700 libras de CO2 / año!).</string>
+    <string name="carTip2">Sus emisiones totales de CO2 es% 1 $ ,. kg 2f. Recuerde conducir por debajo de 90 km / h para maximizar la eficiencia del combustible.</string>
+    <string name="carTip3">Sus emisiones totales de CO2 es% 1 $ ,. kg 2f. Si el clima es frío, recuerda que desperdicia combustible al ralentí.</string>
+    <string name="carTip4">Tratar de reducir algo de peso de su vehículo, esto va a reducir su consumo de combustible y reducir el% 1 $ ,. kg 2f de las emisiones de CO2.</string>
+    <string name="carTip5"> Sus emisiones totales de CO2 es% 1 $ ,. kg 2f. Si su destino es inferior a 1,5 kilometros, considere caminar o ir en bicicleta hay  </string>
+    <string name="carTip6">Sus emisiones totales de CO2 es% 1 $ ,. kg 2f. Considerar la combinación de viajes para reducir su contribución huella de carbono.</string>
+    <string name="carTip7">Compartir coche sólo una vez a la semana ahorra un 20 %% de sus emisiones totales de carbono de 1% $ ,. 2f.</string>
+    <string name="carTip8">Sus emisiones totales de CO2 es% 1 $ ,. kg 2f. Comprar combustible alternativo o vehículos eléctricos, lo que podría ahorrar 2-6 toneladas de emisiones de CO2!</string>
+    <string name="carTip9">Tomar el autobús habría reducido su% 1 $ ,. 2f kg de CO2 en un 33 %%, considerar este lugar la próxima vez</string>
+    <string name="utilTip1">Sus emisiones totales de CO2 utilidades es% 1 $ ,. 2f kg. ¿Sabías que colgar ropa afuera en lugar de utilizar una secadora puede ahorrar ~ 153 kg de CO2 al año?</string>
+    <string name="utilTip2">Sus emisiones totales de CO2 utilidades es% 1 $ ,. 2f kg. Considere bajando la calefacción por 1 grado Celsius puede reducir el consumo de energía en un 8 %%.</string>
+    <string name="utilTip3">Sus emisiones totales de CO2 utilidades es% 1 $ ,. 2f kg. Considere el uso de bombillas de bajo consumo; LEDs pueden ahorrar 90 %% de los costos de iluminación y luces fluorescentes compactas utilizan 75 a 80 %% menos electricidad.</string>
+    <string name="utilTip4">Sus emisiones totales de CO2 utilidades es% 1 $ ,. 2f kg. Considere tomar duchas más cortas; 15 %% de un proyecto de ley de energía típica se gasta el calentamiento de agua.</string>
+    <string name="utilTip5">Sus emisiones totales de CO2 utilidades es% 1 $ ,. 2f kg. ¿Ha pensado en comprar un termostato programable?</string>
+    <string name="utilTip6">Sus emisiones totales de CO2 utilidades es% 1 $ ,. 2f kg. Cuando se reemplaza el próximo aparatos eléctricos, busque un logotipo de Energy Star </string>
+    <string name="utilTip7">Usted ha emitido% 1 $ ,. 2f kg de CO2 con su consumo de electricidad solo, considerar el cambio a gas natural.</string>
+    <string name="co2">CO2</string>
+    <string name="cost">Costo</string>
+    <string name="tree">Árboles...</string>
+    <string name="routeSwitch">routeSwitch</string>
+    <string name="mode">modo.</string>
+    <string name="carbon">Mercados de</string>
+    <string name="tracker">Rastreador</string>
+    <string name="billAmountUsedError">Por favor, introduzca la cantidad utilizada</string>
+    <string name="billNumberOfPeopleError">Por favor, introduzca el número de personas</string>
+    <string name="billCurrentAverageError">Por favor, introduzca el uso promedio actual</string>
+    <string name="billPreviousAvgError">Por favor, introduzca el uso promedio anterior</string>
+    <string name="billSelectUtilityError">Seleccione el gas o la electricidad</string>
+    <string name="billStartDateError">Por favor, introduzca una fecha de inicio</string>
+    <string name="billEndDateError">Por favor, introduzca una fecha de finalización</string>
+    <string name="billEndBeforeStartError">fecha de finalización no puede antes de la fecha de inicio</string>
+    <string name="billFutureDateError">fecha de inicio no puede ser hoy o en el futuro</string>
+    <string name="billEndDateFutureError">fecha de finalización no puede ser el futuro</string>
+    <string name="nameError">Por favor, ingresa tu nombre</string>
+    <string name="cityDistanceError">Por favor, introduzca la distancia de la ciudad</string>
+    <string name="hwyDistanceError">Por favor, introduzca la distancia carretera</string>
+    <string name="positiveCityDistance">Por favor, introduzca una distancia positiva de la ciudad</string>
+    <string name="positiveHwyDistance">Por favor, introduzca una distancia positiva carretera</string>
+    <string name="graphFutureDateError">La fecha no puede ser en el futuro</string>
+    <string name="graphChooseDateError">Por favor seleccione la fecha</string>
+    <string name="deleteJourneyAlert">¿Está seguro de que desea borrar esta experirencia?</string>
+    <string name="yes">SI</string>
+    <string name="no">No</string>
+    <string name="bus">Autobús.</string>
+    <string name="cars">carros</string>
+    <string name="skytrain">Tren Aereo</string>
+    <string name="walk_bike">paseo / bicicleta</string>
+    <string name="electricity">Electricidad</string>
+    <string name="naturalGas">Gas natural</string>
+    <string name="co2PerCapita">Co2 kg per cápita</string>
+    <string name="co2PerCapitaTarget">Kg CO2 / cápita Target</string>
+    <string name="editVehicle">Editar Vehículo</string>
+    <string name="edit">Editar \"</string>
+    <string name="addNewVehicle">Añadid para vehículos nuevos</string>
+    <string name="pickEarlierDate">Por favor elija una fecha anterior</string>
+    <string name="emission1">Emisión</string>
+
+    <string name="fromUtilityList">: \n de \ s</string>
+    <string name="toUtilityList">\n a \s</string>
+    <string name="daysTotalUtilityList">\s días en total \n</string>
+    <string name="usedByUtilityList">\s utilizado por</string>
+    <string name="peopleUtilityList">\s personas en el hogar</string>
+    <string name="currentAvgUtilityList">\n la corriente promedio es: \ s</string>
+    <string name="peopleShareUtilityList">\ n personas GJ en la cuota de la casa:</string>
+    <string name="perPersonEmissionUtilityList">\ Nemission por persona:</string>
+    <string name="perDayEmissionUtilityList">g \n emission por día:</string>
+    <string name="gUtilityList">g</string>
+    <string name="previousAvgKwhUtilityList">kwh, media \n previous es:</string>
+    <string name="peopleShareKwh">kwh \n personas en la cuota de la casa:</string>
+    <string name="newLine">\n</string>
+    <string name="previousAvgGj">GJ, \nmedia previous es:</string>
+    <string-array name="spinner_item">
+        <item>Día sola</item>
+        <item>Los 28 días</item>
+        <item>Los 376 días</item>
+    </string-array>
+    <string-array name="months">
+        <item>Enero</item>
+        <item>Feb</item>
+        <item>Marzo</item>
+        <item>Abr</item>
+        <item>Mayo</item>
+        <item>Jun</item>
+        <item>Jul</item>
+        <item>Agosto</item>
+        <item>Set</item>
+        <item>Oct</item>
+        <item>Nov</item>
+        <item>Dic</item>
+    </string-array>
+</resources>
