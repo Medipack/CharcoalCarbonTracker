@@ -138,6 +138,22 @@
     <string name="utility_remind_title">Add a Utility Bill</string>
     <string name="journey_remind">You haven\'t added any Journey\'s today. Tap to add a Journey!</string>
     <string name="more_journeys">Enter more Journeys</string>
+    <string name="version">Version: </string>
+    <string name="about">About</string>
+    <string name="group_name">By Team Charcoal</string>
+    <string name="creation_year">Created Spring 2017</string>
+    <string name="sfu_home_page" translatable="false">SFU HOME <a href="https://www.sfu.ca/computing.html">https://www.sfu.ca/computing.html</a></string>
+    <string name="icon_currently_chosen">Icon Currently Chosen:</string>
+    <string name="choose_your_vehicle_icon">Choose Your Vehicle Icon</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="vehicleIcon">Vehicle Icon</string>
+    <string name="walk">walk</string>
+    <string name="icon">Icon</string>
+    <string name="you_entered">You entered</string>
+    <string name="_journey">Journey</string>
+    <string name="want_to_add_more">, want to enter more?</string>
+    <string name="add_a_journey_for_today">Add a Journey for Today</string>
+    <string name="graphs">Graphs</string>
     <string-array name="graph_spinner">
         <item>Single Day</item>
         <item>Last 28 Days</item>
@@ -157,22 +173,6 @@
         <item>Nov</item>
         <item>Dec</item>
     </string-array>
-    <!--strings for about activity-->
-<string name="version">Version: </string>
-<string name="about">About</string>
-<string name="group_name">By Team Charcoal</string>
-<string name="creation_year">Created Spring 2017</string>
-<string name="sfu_home_page" translatable="false">SFU HOME <a href="https://www.sfu.ca/computing.html">https://www.sfu.ca/computing.html</a></string>
-<string name="icon_currently_chosen">Icon Currently Chosen:</string>
-<string name="choose_your_vehicle_icon">Choose Your Vehicle Icon</string>
-<string name="ok" translatable="false">OK</string>
-<string name="vehicleIcon">Vehicle Icon</string>
-    <string name="walk">walk</string>
-    <string name="icon">Icon</string>
-    <string name="you_entered">You entered</string>
-    <string name="_journey">Journey</string>
-    <string name="want_to_add_more">, want to enter more?</string>
-    <string name="add_a_journey_for_today">Add a Journey for Today</string>
     <string-array name="links">
 <item>Resource Links Used:</item>
 <item>Info Icon: https://www.iconfinder.com/icons/146127/about_help_info_information_more_info_properties_icon</item>

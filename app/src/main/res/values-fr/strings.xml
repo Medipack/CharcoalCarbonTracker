@@ -171,4 +171,5 @@
     <string name="you_entered">Vous avez ajouté</string>
     <string name="bar_graph">Graphique à Barres</string>
     <string name="pie_graph">Graphique Circulaire</string>
+    <string name="graphs">Les Graphiques</string>
 </resources>
