@@ -35,6 +35,9 @@ import sfu.cmpt276.carbontracker.carbonmodel.unitConversion;
 
 import static java.lang.Double.valueOf;
 
+
+//Activity to allow the user to set the language
+
 public class SettingsActivity extends AppCompatActivity {
 
     //Units Index
@@ -98,6 +101,7 @@ public class SettingsActivity extends AppCompatActivity {
         FullScreencall();
     }
 
+    //Sets the view to fullscreen
     public void FullScreencall() {
         if(Build.VERSION.SDK_INT < 19){
             View v = this.getWindow().getDecorView();

@@ -2,6 +2,9 @@ package sfu.cmpt276.carbontracker.carbonmodel;
 
 import java.util.List;
 
+/**
+ * Class to hold the units of conversion for each set of environmental statistic
+ */
 public class unitConversion {
 
     //Set Index
