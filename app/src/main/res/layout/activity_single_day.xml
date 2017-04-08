@@ -23,8 +23,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
-        android:background="#6fd78922"
-
         android:id="@+id/graphSpinner" />
     <Switch
         android:layout_width="wrap_content"
