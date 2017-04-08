@@ -5,11 +5,13 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -36,7 +38,7 @@ import sfu.cmpt276.carbontracker.ui.database.Database;
 /* Activity to allow user to edit journey*/
 public class EditJourneyActivity extends AppCompatActivity {
 
-    private static final int EDIT_CODE = 1000;
+    private static final int EDIT_CODE = 1555;
     public static final String TAG = "MyApp";
     public static final String MM_DD_YY = "MM/dd/yy";
     private Calendar calendar = Calendar.getInstance();
@@ -61,6 +63,26 @@ public class EditJourneyActivity extends AppCompatActivity {
         setUpChangeModeToBus(index);
         setUpChangeModeToSkytrain(index);
         setUpChangeModeToBike(index);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        FullScreencall();
+    }
+
+
+    public void FullScreencall() {
+        if(Build.VERSION.SDK_INT < 19){
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else {
+            //for higher api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
     }
 
     private void setUpChangeModeToBike(final int index) {
@@ -321,10 +343,15 @@ public class EditJourneyActivity extends AppCompatActivity {
         if (transportationMode.equals(Vehicle.CAR)){
             Vehicle selectedVehicle = getCarSelection();
             editedJourney.setVehicle(selectedVehicle);
-        }else{
+        }else {
             Vehicle vehicle = new Vehicle();
-            vehicle.setTransport_mode(transportationMode);
-            vehicle.setNickname(transportationMode);
+            if (transportationMode == "bus") {
+                vehicle = User.BUS;
+            } else if (transportationMode == "skytrain") {
+                vehicle = User.SKYTRAIN;
+            } else if (transportationMode == "walk") {
+                vehicle = User.BIKE;
+            }
             editedJourney.setVehicle(vehicle);
         }
         editedJourney.setCarbonEmitted(editedJourney.calculateCarbonEmission());
@@ -374,5 +401,12 @@ public class EditJourneyActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         NewVehicleFragment dialog = new NewVehicleFragment();
         dialog.show(manager, "NewVehicleDialog");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
     }
 }

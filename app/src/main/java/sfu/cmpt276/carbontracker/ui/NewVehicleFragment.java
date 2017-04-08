@@ -1,10 +1,12 @@
 package sfu.cmpt276.carbontracker.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -38,12 +41,14 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
 
     private final int DEFAULT_EDIT_CAR_POSITION = -1;
     private final String TAG = "NewVehicleDialog";
+    private int iconID = 0;
     private Vehicle vehicle;
     private List<Vehicle> detailedVehicleList;
     private VehicleListener detailedVehicleListener;
 
     private boolean editing = false;
     private int editCarPosition = DEFAULT_EDIT_CAR_POSITION;
+    private View theView;
 
     private DetailedVehicleAdapter detailedCarArrayAdapter;
 
@@ -66,6 +71,8 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         // Create the view
         @SuppressLint
                 ("InflateParams") final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_vehicle, null);
+        theView = view;
+
 
         detailedVehicleList = new ArrayList<>();
 
@@ -73,6 +80,25 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         detailedVehicleListener = detailedCarArrayAdapter;
         ListView detailedCarListView = (ListView) view.findViewById(R.id.detailedCarList);
         detailedCarListView.setAdapter(detailedCarArrayAdapter);
+
+        //icon//
+        iconID = vehicle.getIconID();
+        Button currentIcon= (Button)view.findViewById(R.id.iconBtn);
+        TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
+        currentIcon.setBackground(icons.getDrawable(vehicle.getIconID()));
+
+        Button btn = (Button)view.findViewById(R.id.iconBtn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), IconActivity.class);
+                intent.putExtra("caller",0);
+                startActivityForResult(intent, 1);
+
+            }
+        });
+        //end icon//
+
 
         detailedCarListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -94,7 +120,7 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 vehicle = detailedCarArrayAdapter.getSelectedCar();
                 EditText nickname = (EditText) view.findViewById(R.id.name);
                 vehicle.setNickname(String.valueOf(nickname.getText()).trim());
-
+                vehicle.setIconID(iconID);
                 if(editing) {
                     editExistingCar(editCarPosition, vehicle);
 
@@ -186,7 +212,6 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
                 TextView name = (TextView) view.findViewById(R.id.name);
                 name.setText(vehicle.getNickname());
             }
-
             return new AlertDialog.Builder(getActivity())
                     .setTitle(title)
                     .setView(view)
@@ -339,6 +364,25 @@ public class NewVehicleFragment extends AppCompatDialogFragment {
         car = Database.getDB().addVehicle(car);
         User.getInstance().setCurrentJourneyCar(car);
     }
-
     // *** end of database related methods *** //
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                iconID = data.getIntExtra("result", -1);
+                vehicle.setIconID(iconID);
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (theView != null) {
+            Button currentIcon= (Button)theView.findViewById(R.id.iconBtn);
+            TypedArray icons = getResources().obtainTypedArray(R.array.iconArray);
+            currentIcon.setBackground(icons.getDrawable(vehicle.getIconID()));
+        }
+    }
 }

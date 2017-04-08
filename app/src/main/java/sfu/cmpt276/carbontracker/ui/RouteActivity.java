@@ -4,11 +4,13 @@ package sfu.cmpt276.carbontracker.ui;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -47,6 +49,24 @@ public class RouteActivity extends AppCompatActivity {
         setupAddRoute();
         setUpRouteListView();
         registerClickCallback();
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        FullScreencall();
+    }
+
+    public void FullScreencall() {
+        if(Build.VERSION.SDK_INT < 19){
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else {
+            //for higher api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
     }
 
     private class RouteListAdapter extends ArrayAdapter<Route> implements RouteListener {
@@ -115,36 +135,29 @@ public class RouteActivity extends AppCompatActivity {
                                     R.string.nameError,
                                     Toast.LENGTH_SHORT).show();
                         }
-                        else if (routeCity.length() == 0) {
-                            Toast.makeText(RouteActivity.this,
-                                    R.string.cityDistanceError,
-                                    Toast.LENGTH_SHORT).show();
+                        if (routeCity.length() == 0) {
+                            routeCity.setText(0 + "");
                         }
-                        else if(routeHighway.length() == 0){
-                            Toast.makeText(RouteActivity.this,
-                                    R.string.hwyDistanceError,
-                                    Toast.LENGTH_SHORT).show();
+                        if(routeHighway.length() == 0){
+                            routeHighway.setText(0 + "");
                         }
-                        else{
-                            nameSaved = routeName.getText().toString();
-                            String str_citySaved = routeCity.getText().toString();
-                            citySaved = Double.valueOf(str_citySaved);
-                            String str_highwaySaved = routeHighway.getText().toString();
-                            highwaySaved = Double.valueOf(str_highwaySaved);
 
-                            if (citySaved == 0) {
-                                Toast.makeText(RouteActivity.this, R.string.positiveCityDistance, Toast.LENGTH_SHORT).show();
-                            }
-                            else if (highwaySaved == 0) {
-                                Toast.makeText(RouteActivity.this, R.string.positiveHwyDistance, Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                Route newRoute = new Route(nameSaved, citySaved, highwaySaved);
-                                addNewRoute(newRoute);
-                                setUpRouteListView();
-                                viewDialog.cancel();
-                            }
+                        nameSaved = routeName.getText().toString();
+                        String str_citySaved = routeCity.getText().toString();
+                        citySaved = Double.valueOf(str_citySaved);
+                        String str_highwaySaved = routeHighway.getText().toString();
+                        highwaySaved = Double.valueOf(str_highwaySaved);
+                        if(citySaved == 0  && highwaySaved == 0)
+                        {
+                            Toast.makeText(RouteActivity.this, "Please enter an positive distance for either city of highway", Toast.LENGTH_SHORT).show();
                         }
+                        else {
+                            Route newRoute = new Route(nameSaved, citySaved, highwaySaved);
+                            addNewRoute(newRoute);
+                            setUpRouteListView();
+                            viewDialog.cancel();
+                        }
+
                     }
 
                 });
@@ -167,38 +180,29 @@ public class RouteActivity extends AppCompatActivity {
                                     R.string.nameError,
                                     Toast.LENGTH_SHORT).show();
                         }
-                        else if (routeCity.length() == 0) {
-                            Toast.makeText(RouteActivity.this,
-                                    R.string.cityDistanceError,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        else if(routeHighway.length() == 0){
-                            Toast.makeText(RouteActivity.this,
-                                    R.string.hwyDistanceError,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            nameSaved = routeName.getText().toString();
-                            String str_citySaved = routeCity.getText().toString();
-                            citySaved = Double.valueOf(str_citySaved);
-                            String str_highwaySaved = routeHighway.getText().toString();
-                            highwaySaved = Double.valueOf(str_highwaySaved);
+                        if (routeCity.length() == 0) {
+                            routeCity.setText(0 + "");
 
-                            if (citySaved == 0) {
-                                Toast.makeText(RouteActivity.this, R.string.positiveCityDistance, Toast.LENGTH_SHORT).show();
-                            }
-                            else if (highwaySaved == 0) {
-                                Toast.makeText(RouteActivity.this, R.string.positiveHwyDistance, Toast.LENGTH_SHORT).show();
                         }
-                            else {
-                                newRoute = new Route(nameSaved, citySaved, highwaySaved);
-                                useNewRoute(newRoute);
+                        if(routeHighway.length() == 0){
+                            routeHighway.setText(0 + "");
+                        }
+                        nameSaved = routeName.getText().toString();
+                        String str_citySaved = routeCity.getText().toString();
+                        citySaved = Double.valueOf(str_citySaved);
+                        String str_highwaySaved = routeHighway.getText().toString();
+                        highwaySaved = Double.valueOf(str_highwaySaved);
+                        if (citySaved == 0 && highwaySaved == 0)
+                        {
+                            Toast.makeText(RouteActivity.this, "Please enter an positive distance for either city of highway", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            newRoute = new Route(nameSaved, citySaved, highwaySaved);
+                            useNewRoute(newRoute);
+                            Intent intent = new Intent(RouteActivity.this, PickDateActivity.class);
+                            startActivityForResult(intent,0);
 
-                                Intent intent = new Intent(RouteActivity.this, PickDateActivity.class);
-                                startActivityForResult(intent,0);
-
-                                viewDialog.cancel();
-                            }
+                            viewDialog.cancel();
                         }
                     }
                 });
@@ -255,17 +259,12 @@ public class RouteActivity extends AppCompatActivity {
                                     R.string.nameError,
                                     Toast.LENGTH_SHORT).show();
                         }
-                        else if (editCity.length() == 0) {
-                            Toast.makeText(RouteActivity.this,
-                                    R.string.cityDistanceError,
-                                    Toast.LENGTH_SHORT).show();
+                        if (editCity.length() == 0) {
+                            editCity.setText(0 + "");
                         }
-                        else if (editHighway.length() == 0) {
-                            Toast.makeText(RouteActivity.this,
-                                    R.string.hwyDistanceError,
-                                    Toast.LENGTH_SHORT).show();
+                        if (editHighway.length() == 0) {
+                            editHighway.setText(0 +"");
                         }
-                        else {
 
                             String editNameSaved = editName.getText().toString();
                             String str_editCitySaved = editCity.getText().toString();
@@ -273,19 +272,17 @@ public class RouteActivity extends AppCompatActivity {
                             String str_editHighwaySaved = editHighway.getText().toString();
                             double editHighwaySaved = Double.valueOf(str_editHighwaySaved);
 
-                            if (editCitySaved == 0) {
-                                Toast.makeText(RouteActivity.this, R.string.positiveCityDistance, Toast.LENGTH_SHORT).show();
+                            if (editCitySaved == 0 && editHighwaySaved == 0) {
+                                Toast.makeText(RouteActivity.this, "Please enter an positive distance for either city of highway", Toast.LENGTH_SHORT).show();
                             }
-                            else if (editHighwaySaved == 0) {
-                                Toast.makeText(RouteActivity.this, R.string.positiveHwyDistance, Toast.LENGTH_SHORT).show();
-                            }
+
                             else {
                                 Route editRoute = new Route(editNameSaved, editCitySaved, editHighwaySaved);
                                 editExistingRoute(position, editRoute);
                                 setUpRouteListView();
                                 editDialog.cancel();
                             }
-                        }
+
                     }
                 });
 
@@ -382,6 +379,14 @@ public class RouteActivity extends AppCompatActivity {
             setResult(User.ACTIVITY_FINISHED_REQUESTCODE);
             finish();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home)
+            setResult(User.ACTIVITY_FINISHED_REQUESTCODE);
+            finish();
+        return super.onOptionsItemSelected(item);
     }
 }
 

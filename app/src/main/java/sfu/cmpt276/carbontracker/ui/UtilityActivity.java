@@ -1,16 +1,21 @@
 package sfu.cmpt276.carbontracker.ui;
 
 import android.graphics.Typeface;
+import android.os.Build;
+import android.graphics.Typeface;
 import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -33,7 +38,32 @@ public class UtilityActivity extends AppCompatActivity {
         populateListView();
         setupAddBtn();
         registerClickCallback();
+        FullScreencall();
+        setupBillListFonts();
 
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
+    private void setupBillListFonts() {
+        TextView carbon = (TextView) findViewById(R.id.listTitle);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/AlexBook.otf");
+        carbon.setTypeface(face);
+
+    }
+
+    public void FullScreencall() {
+        if(Build.VERSION.SDK_INT < 19){
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else {
+            //for higher api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
     }
 
     private void tipDialogue() {
@@ -90,6 +120,12 @@ public class UtilityActivity extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
     }
 
     public String[] getUtilityDescriptions(UtilityList utilityList)

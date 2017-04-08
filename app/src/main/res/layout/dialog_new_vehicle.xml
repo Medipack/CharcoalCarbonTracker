@@ -5,6 +5,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/activity_vertical_margin">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleIcon"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/currentLayout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/icon_currently_chosen"
+            android:id="@+id/iconTxt"
+            android:layout_centerInParent="true"/>
+        <Button
+            android:layout_width="75sp"
+            android:layout_height="75sp"
+            android:background="@mipmap/car5"
+            android:layout_toRightOf="@id/iconTxt"
+            android:id="@+id/iconBtn"
+            />
+    </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"

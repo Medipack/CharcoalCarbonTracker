@@ -4,8 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -26,10 +29,9 @@ public class GraphActivity extends AppCompatActivity {
 
     private static final int DAYS_IN_FOUR_WEEKS = 28;
     private static final int DAYS_IN_YEAR = 365;
+    private RadioButton pieGraph;
+    private RadioButton barGraph;
     public static final String MM_DD_YYYY = "MM/dd/yyyy";
-    private RadioButton singleDay;
-    private RadioButton last28Days;
-    private RadioButton last365Days;
     private int year_default;
     private int month_default;
     private int day_default;
@@ -52,23 +54,46 @@ public class GraphActivity extends AppCompatActivity {
         year_default = cal.get(Calendar.YEAR);
         month_default = cal.get(Calendar.MONTH);
         day_default = cal.get(Calendar.DAY_OF_MONTH);
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        FullScreencall();
+        setupFonts();
+    }
+
+    private void setupFonts() {
+        TextView carbon = (TextView) findViewById(R.id.graphTitle);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/AlexBook.otf");
+        carbon.setTypeface(face);
+    }
+
+    public void FullScreencall() {
+        if(Build.VERSION.SDK_INT < 19){
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else {
+            //for higher api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
     }
 
     private void createGraphRadioBtn() {
-        singleDay = new RadioButton(this);
-        last28Days = new RadioButton(this);
-        last365Days = new RadioButton(this);
+        pieGraph = new RadioButton(this);
+        barGraph = new RadioButton(this);
 
         RadioGroup group = (RadioGroup)findViewById(R.id.graphRB);
         final String[] choice = getResources().getStringArray(R.array.choose_graph);
 
-        singleDay.setText(choice[0]);
-        last28Days.setText(choice[1]);
-        last365Days.setText(choice[2]);
+        pieGraph.setText(choice[0]);
+        barGraph.setText(choice[1]);
 
-        group.addView(singleDay);
-        group.addView(last28Days);
-        group.addView(last365Days);
+        group.addView(pieGraph);
+        group.addView(barGraph);
     }
 
     private void showDateDialog() {
@@ -116,7 +141,7 @@ public class GraphActivity extends AppCompatActivity {
         show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(singleDay.isChecked()){
+                if(pieGraph.isChecked()){
                     //check whether user choose the date
                     if(check == 10){
                         Intent intent = new Intent(GraphActivity.this, SingleDayActivity.class);
@@ -127,19 +152,19 @@ public class GraphActivity extends AppCompatActivity {
                         Toast.makeText(GraphActivity.this, R.string.graphChooseDateError, Toast.LENGTH_SHORT).show();
                     }
                 }
-                else if(last28Days.isChecked()){
-                    Toast.makeText(GraphActivity.this, "28", Toast.LENGTH_SHORT).show();
+                else if(barGraph.isChecked()){
                     Intent intent = new Intent(GraphActivity.this, MultiDayGraphs.class);
                     intent.putExtra("days", DAYS_IN_FOUR_WEEKS);
                     startActivity(intent);
                 }
-                else if(last365Days.isChecked()){
-                    Toast.makeText(GraphActivity.this, "365", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(GraphActivity.this, MultiDayGraphs.class);
-                    intent.putExtra("days", DAYS_IN_YEAR);
-                    startActivity(intent);
-                }
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
     }
 }

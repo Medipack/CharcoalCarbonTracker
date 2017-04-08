@@ -2,12 +2,14 @@ package sfu.cmpt276.carbontracker.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -62,6 +64,12 @@ class JourneyListAdapter extends ArrayAdapter<Journey> {
         //Emissions
         String totalEmissions = Double.toString(thisJourney.getCarbonEmitted());
         emission.setText(totalEmissions);
+
+        ImageView iconImg = (ImageView) journeyView.findViewById(R.id.car_icon);
+        int iconID =  thisJourney.getVehicle().getIconID();
+        TypedArray icons = context.getResources().obtainTypedArray(R.array.iconArray);
+        if(iconID > -1 && iconImg != null)
+            iconImg.setImageDrawable(icons.getDrawable(iconID));
 
         return journeyView;
     }

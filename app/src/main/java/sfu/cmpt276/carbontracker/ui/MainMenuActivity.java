@@ -3,15 +3,20 @@ package sfu.cmpt276.carbontracker.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.InputStream;
 import java.util.Calendar;
@@ -59,11 +64,23 @@ public class MainMenuActivity extends AppCompatActivity {
         setupMainDirectory();
         setupNewJourneyBtn();
         setupCarbonTotalsBtn();
-        setupSettingsButton();
 
         setupCarbon();
         setupUtility();
         setupGraph();
+        FullScreencall();
+    }
+
+    public void FullScreencall() {
+        if(Build.VERSION.SDK_INT < 19){
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else {
+            //for higher api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
 
         setupNotificationThread();
     }
@@ -137,16 +154,6 @@ public class MainMenuActivity extends AppCompatActivity {
                                     walkRates);
     }
 
-    private void setupSettingsButton() {
-        Button button = (Button) findViewById(R.id.main_menu_settingsBtn);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
 
 
     private void setupCarbon() {
@@ -214,5 +221,28 @@ public class MainMenuActivity extends AppCompatActivity {
         });
 
     }
+
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.setting:
+                Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.about:
+                Intent intent1 = new Intent(MainMenuActivity.this, AboutActivity.class);
+                startActivity(intent1);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
 
 }

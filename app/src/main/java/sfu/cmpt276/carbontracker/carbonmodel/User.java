@@ -1,19 +1,27 @@
 package sfu.cmpt276.carbontracker.carbonmodel;
 
+import android.provider.ContactsContract;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import sfu.cmpt276.carbontracker.ui.database.Database;
+
 /*Singleton class holding list of known cars, list of known routes, and list of known journeys*/
 public class User {
 
     public static final int ACTIVITY_FINISHED_REQUESTCODE = 1000;
 
-    public static final Vehicle BUS = new Vehicle(0, "Bus", 89, 89, Vehicle.BUS);
-    public static final Vehicle BIKE = new Vehicle(1, "Bike", 0, 0, Vehicle.WALK_BIKE);
-    public static final Vehicle SKYTRAIN = new Vehicle(2, "Skytrain", 89, 89, Vehicle.SKYTRAIN);
+    public static final int BUS_ICON = 1;
+    public static final int BIKE_ICON = 2;
+    public static final int SKYTRAIN_ICON = 3;
+
+    public static final Vehicle BUS = new Vehicle(0, "Bus", 89, 89, Vehicle.BUS, BUS_ICON);
+    public static final Vehicle BIKE = new Vehicle(1, "Bike", 0, 0, Vehicle.WALK_BIKE, BIKE_ICON);
+    public static final Vehicle SKYTRAIN = new Vehicle(2, "Skytrain", 89, 89, Vehicle.SKYTRAIN, SKYTRAIN_ICON);
 
     public static final String DEFAULT_NAME = "CO2";
     public static final double ELECTRICITY_CO2 = 0.009; //kg of CO2 per KWh
@@ -57,6 +65,7 @@ public class User {
                                     WALK_BIKE_CO2
         );
         unitChanged = 0;
+        updateTransportModes();
     }
 
     private static User instance = new User();
@@ -103,6 +112,27 @@ public class User {
         unitChanged = value;
     }
 
+    private void updateTransportModes()
+    {
+        if(getVehicleByID(0) != null)
+            BUS.setIconID(getVehicleByID(0).getIconID());
+        if(getVehicleByID(1) != null)
+            BIKE.setIconID(getVehicleByID(1).getIconID());
+        if(getVehicleByID(2) != null)
+            SKYTRAIN.setIconID(getVehicleByID(2).getIconID());
+    }
+
+    private Vehicle getVehicleByID(int id)
+    {
+        Vehicle result= null;
+
+        for(Vehicle vehicle: vehicleList)
+        {
+            if(vehicle.getId() == id)
+                result = vehicle;
+        }
+        return result;
+    }
     // *** Current Journey *** //
 
     public void createNewCurrentJourney(){
