@@ -86,4 +86,11 @@ class JourneyListAdapter extends ArrayAdapter<Journey> {
 
         return journeyView;
     }
+
+    public void updateList(List<Journey> newlist) {
+        journeyList.clear();
+        journeyList.addAll(newlist);
+        this.notifyDataSetChanged();
+    }
+
 }

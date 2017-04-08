@@ -7,10 +7,10 @@ import java.math.RoundingMode;
 
 public class Vehicle implements Cloneable, Serializable{
     //Constants
-    public static final String CAR = "car";
-    public static final String BUS = "bus";
-    public static final String SKYTRAIN = "skytrain";
-    public static final String WALK_BIKE = "walk/bike";
+    public static final String CAR = "Car";
+    public static final String BUS = "Bus";
+    public static final String SKYTRAIN = "Skytrain";
+    public static final String WALK_BIKE = "Bike";
 
     private static final String DEFAULT_NICKNAME = "";
     private static final String DEFAULT_DESCRIPTION = "N/A";

@@ -168,7 +168,10 @@ public class JourneyActivity extends AppCompatActivity {
         switch (requestCode) {
             case (EDIT_CODE) : {
                 if (resultCode == EDIT_CODE) {
-                    populateListView();
+                    //populateListView();
+                    ListView list = (ListView) findViewById(R.id.listJourney);
+                    JourneyListAdapter adapter = (JourneyListAdapter) list.getAdapter();
+                    adapter.updateList(User.getInstance().getJourneyList());
                 }
                 break;
             }
