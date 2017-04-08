@@ -87,8 +87,6 @@ public class SettingsActivity extends AppCompatActivity {
         readTheFile(unitMap, input);
         //initialize the toggle
         initializeTheSpinner(unitMap);
-        //initialize the language spinner
-        Spinner languageSpin = (Spinner) findViewById(R.id.settings_languageSpinner);
         //initialize the apply button
         setUpApplyBtn();
 

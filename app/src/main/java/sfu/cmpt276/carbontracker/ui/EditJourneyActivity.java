@@ -38,7 +38,9 @@ import sfu.cmpt276.carbontracker.ui.database.Database;
 /* Activity to allow user to edit journey*/
 public class EditJourneyActivity extends AppCompatActivity {
 
-    private static final int EDIT_CODE = 1555;
+    private static final int EDIT_CODE = 1000;
+    public static final String TAG = "MyApp";
+    public static final String MM_DD_YY = "MM/dd/yy";
     private Calendar calendar = Calendar.getInstance();
     private String nameSaved;
     private double citySaved;
@@ -89,7 +91,7 @@ public class EditJourneyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setJourneyEdits(index, Vehicle.WALK_BIKE);
-                Log.i("MyApp", "clicked");
+                Log.i(TAG, "clicked");
                 setResult(EDIT_CODE);
                 finish();
             }
@@ -102,7 +104,7 @@ public class EditJourneyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setJourneyEdits(index, Vehicle.SKYTRAIN);
-                Log.i("MyApp", "clicked");
+                Log.i(TAG, "clicked");
                 setResult(EDIT_CODE);
                 finish();
             }
@@ -146,7 +148,7 @@ public class EditJourneyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setJourneyEdits(index, Vehicle.BUS);
-                Log.i("MyApp", "clicked");
+                Log.i(TAG, "clicked");
                 setResult(EDIT_CODE);
                 finish();
             }
@@ -155,9 +157,8 @@ public class EditJourneyActivity extends AppCompatActivity {
 
     private void updateDate(){
         EditText calendarDate = (EditText) findViewById(R.id.edit_journey_editable_date);
-        String calendarFormat = "MM/dd/yy";
-        @SuppressLint
-                ("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat(calendarFormat);
+        String calendarFormat = MM_DD_YY;
+        SimpleDateFormat sdf = new SimpleDateFormat(calendarFormat);
         String journeyDate_str = sdf.format(calendar.getTime());
         calendarDate.setText(journeyDate_str);
     }
@@ -198,15 +199,15 @@ public class EditJourneyActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if (routeName.length() == 0) {
                             Toast.makeText(EditJourneyActivity.this,
-                                    "Please enter a name",
+                                    R.string.nameError,
                                     Toast.LENGTH_SHORT).show();
                         } else if (routeCity.length() == 0) {
                             Toast.makeText(EditJourneyActivity.this,
-                                    "Please enter the city distance",
+                                    R.string.cityDistanceError,
                                     Toast.LENGTH_SHORT).show();
                         } else if (routeHighway.length() == 0) {
                             Toast.makeText(EditJourneyActivity.this,
-                                    "Please enter the highway distance",
+                                    R.string.hwyDistanceError,
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             nameSaved = routeName.getText().toString();
@@ -216,9 +217,9 @@ public class EditJourneyActivity extends AppCompatActivity {
                             highwaySaved = Double.valueOf(str_highwaySaved);
 
                             if (citySaved == 0) {
-                                Toast.makeText(EditJourneyActivity.this, "Please enter an positive city distance", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditJourneyActivity.this, R.string.positiveCityDistance, Toast.LENGTH_SHORT).show();
                             } else if (highwaySaved == 0) {
-                                Toast.makeText(EditJourneyActivity.this, "Please enter an positive highway distance", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditJourneyActivity.this, R.string.positiveHwyDistance, Toast.LENGTH_SHORT).show();
                             } else {
                                 Route newRoute = new Route(nameSaved, citySaved, highwaySaved);
                                 Database.getDB().addRoute(newRoute);
@@ -245,15 +246,15 @@ public class EditJourneyActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if (routeName.length() == 0) {
                             Toast.makeText(EditJourneyActivity.this,
-                                    "Please enter a name",
+                                    R.string.nameError,
                                     Toast.LENGTH_SHORT).show();
                         } else if (routeCity.length() == 0) {
                             Toast.makeText(EditJourneyActivity.this,
-                                    "Please enter the city distance",
+                                    R.string.cityDistanceError,
                                     Toast.LENGTH_SHORT).show();
                         } else if (routeHighway.length() == 0) {
                             Toast.makeText(EditJourneyActivity.this,
-                                    "Please enter the highway distance",
+                                    R.string.hwyDistanceError,
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             nameSaved = routeName.getText().toString();
@@ -263,14 +264,14 @@ public class EditJourneyActivity extends AppCompatActivity {
                             highwaySaved = Double.valueOf(str_highwaySaved);
 
                             if (citySaved == 0) {
-                                Toast.makeText(EditJourneyActivity.this, "Please enter an positive city distance", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditJourneyActivity.this,  R.string.positiveCityDistance, Toast.LENGTH_SHORT).show();
                             } else if (highwaySaved == 0) {
-                                Toast.makeText(EditJourneyActivity.this, "Please enter an positive highway distance", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditJourneyActivity.this, R.string.positiveHwyDistance, Toast.LENGTH_SHORT).show();
                             } else {
                                 newRoute = new Route(nameSaved, citySaved, highwaySaved);
                                 User.getInstance().setCurrentJourneyRoute(newRoute);
 
-                                Log.i("MyApp", "User selected route \"" + newRoute.getRouteName() + "\"");
+                                Log.i(TAG, "User selected route \"" + newRoute.getRouteName() + "\"");
 
                                 // Set current Journey to use the selected route
                                 User.getInstance().setCurrentJourneyRoute(newRoute);
@@ -327,7 +328,7 @@ public class EditJourneyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setJourneyEdits(index, Vehicle.CAR);
-                Log.i("MyApp", "clicked");
+                Log.i(TAG, "clicked");
                 setResult(EDIT_CODE);
                 finish();
             }
@@ -344,11 +345,11 @@ public class EditJourneyActivity extends AppCompatActivity {
             editedJourney.setVehicle(selectedVehicle);
         }else {
             Vehicle vehicle = new Vehicle();
-            if (transportationMode == "bus") {
+            if (transportationMode == Vehicle.BUS) {
                 vehicle = User.BUS;
-            } else if (transportationMode == "skytrain") {
+            } else if (transportationMode == Vehicle.SKYTRAIN) {
                 vehicle = User.SKYTRAIN;
-            } else if (transportationMode == "walk") {
+            } else if (transportationMode == Vehicle.WALK_BIKE) {
                 vehicle = User.BIKE;
             }
             editedJourney.setVehicle(vehicle);

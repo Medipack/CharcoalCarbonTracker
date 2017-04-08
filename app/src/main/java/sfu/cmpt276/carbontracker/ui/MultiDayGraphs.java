@@ -227,12 +227,12 @@ public class MultiDayGraphs extends AppCompatActivity {
         }
 
         //set all barData sets to include entries from all months and name sets
-        busSet = new BarDataSet(busEntries, "bus");
-        carSet = new BarDataSet(carEntries, "cars");
-        skytrainSet = new BarDataSet(skytrainEntries, "skytrain");
-        walk_bikeSet = new BarDataSet(walk_bikeEntries, "walk/bike");
-        electricSet = new BarDataSet(electricityEntries, "electricity");
-        naturalGasSet = new BarDataSet(naturalGasEntries, "natural gas");
+        busSet = new BarDataSet(busEntries, getString(R.string.bus));
+        carSet = new BarDataSet(carEntries, getString(R.string.cars));
+        skytrainSet = new BarDataSet(skytrainEntries, getString(R.string.skytrain));
+        walk_bikeSet = new BarDataSet(walk_bikeEntries, getString(R.string.walk_bike));
+        electricSet = new BarDataSet(electricityEntries, getString(R.string.electricity));
+        naturalGasSet = new BarDataSet(naturalGasEntries, getString(R.string.naturalGas));
 
         //set the colors from each set from the color.xml
         int[] carColors = getApplicationContext().getResources().getIntArray(R.array.carColors);
@@ -294,12 +294,12 @@ public class MultiDayGraphs extends AppCompatActivity {
         }
 
         //set the sets to include all entries for the 28 days and name the sets
-        busSet = new BarDataSet(busEntries, "bus");
-        carSet = new BarDataSet(entries, "cars");
-        skytrainSet = new BarDataSet(skytrainEntries, "skytrain");
-        walk_bikeSet = new BarDataSet(walk_bikeEntries, "walk/bike");
-        electricSet = new BarDataSet(electricityEntries, "electricity");
-        naturalGasSet = new BarDataSet(naturalGasEntries, "natural gas");
+        busSet = new BarDataSet(busEntries, getString(R.string.bus));
+        carSet = new BarDataSet(entries, getString(R.string.cars));
+        skytrainSet = new BarDataSet(skytrainEntries, getString(R.string.skytrain));
+        walk_bikeSet = new BarDataSet(walk_bikeEntries, getString(R.string.walk_bike));
+        electricSet = new BarDataSet(electricityEntries, getString(R.string.electricity));
+        naturalGasSet = new BarDataSet(naturalGasEntries, getString(R.string.naturalGas));
 
         //set the set colors using the color.xml
         int[] carColors = getApplicationContext().getResources().getIntArray(R.array.carColors);
@@ -329,7 +329,7 @@ public class MultiDayGraphs extends AppCompatActivity {
 
         int color = ContextCompat.getColor(getApplicationContext(), R.color.averageColor);
 
-        LineDataSet perCapitaSet = new LineDataSet(perCapitaEntries, "Kg Co2 per capita");
+        LineDataSet perCapitaSet = new LineDataSet(perCapitaEntries, getString(R.string.co2PerCapita));
         perCapitaSet.setColor(color);
         perCapitaSet.setFillColor(color);
         perCapitaSet.setCircleColor(color);
@@ -338,7 +338,7 @@ public class MultiDayGraphs extends AppCompatActivity {
         perCapitaSet.setAxisDependency(YAxis.AxisDependency.LEFT);
 
         color = ContextCompat.getColor(getApplicationContext(), R.color.targetColor);
-        LineDataSet targetSet = new LineDataSet(targetEntries, "Kg Co2/capita Target");
+        LineDataSet targetSet = new LineDataSet(targetEntries, getString(R.string.co2PerCapitaTarget));
         targetSet.setColor(color);
         targetSet.setFillColor(color);
         targetSet.setCircleColor(color);

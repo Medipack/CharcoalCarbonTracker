@@ -33,6 +33,7 @@ import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 /*Activity to display bills for user input*/
 public class BillActivity extends AppCompatActivity {
 
+    public static final String MM_DD_YYYY = "MM/dd/yyyy";
     private int year_x;
     private int month_x;
     private int day_x;
@@ -139,28 +140,28 @@ public class BillActivity extends AppCompatActivity {
                 amountInput = (EditText) findViewById(R.id.amountInput);
                 String str_amount = amountInput.getText().toString();
                 if(str_amount.length() == 0) {
-                    showErrorToast("Please enter the amount used");
+                    showErrorToast(getString(R.string.billAmountUsedError));
                     return;
                 }
 
                 peopleInput = (EditText) findViewById(R.id.peopleInput);
                 String str_people = peopleInput.getText().toString();
                 if(str_people.length() == 0) {
-                    showErrorToast("Please enter the number of people");
+                    showErrorToast(getString(R.string.billNumberOfPeopleError));
                     return;
                 }
 
                 currentAvgInput = (EditText) findViewById(R.id.currentAvgInput);
                 String str_currentAvg = currentAvgInput.getText().toString();
                 if(str_currentAvg.length() == 0) {
-                    showErrorToast("Please enter the current average use");
+                    showErrorToast(getString(R.string.billCurrentAverageError));
                     return;
                 }
 
                 previousAvgInput = (EditText) findViewById(R.id.previousAvgInput);
                 String str_previousAvg = previousAvgInput.getText().toString();
                 if(str_previousAvg.length() == 0) {
-                    showErrorToast("Please enter the previous average use");
+                    showErrorToast(getString(R.string.billPreviousAvgError));
                     return;
                 }
 
@@ -176,17 +177,17 @@ public class BillActivity extends AppCompatActivity {
                     newUtility.setAverageKWhCurrent(Double.parseDouble(str_currentAvg));
                     newUtility.setAverageKWhPrevious(Double.parseDouble(str_previousAvg));
                 } else {
-                    Toast.makeText(BillActivity.this, "Select Gas or Electricity", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BillActivity.this, R.string.billSelectUtilityError, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(!startDateSet) {
-                    showErrorToast("Please enter a start date");
+                    showErrorToast(getString(R.string.billStartDateError));
                     return;
                 }
 
                 if(!endDateSet) {
-                    showErrorToast("Please enter an end date");
+                    showErrorToast(getString(R.string.billEndDateError));
                     return;
                 }
 
@@ -271,8 +272,7 @@ public class BillActivity extends AppCompatActivity {
             day_x = dayOfMonth;
             startDate = new Date(year_x - 1900, month_x - 1, day_x);
 
-            @SuppressLint
-                    ("SimpleDateFormat") DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat df = new SimpleDateFormat(MM_DD_YYYY);
             String str_startDate = df.format(startDate);
 
             startDateText = (TextView) findViewById(R.id.startDateText);
@@ -289,21 +289,20 @@ public class BillActivity extends AppCompatActivity {
             endDate = new Date(year_y - 1900, month_y - 1, day_y);
             long temp = endDate.getTime() - startDate.getTime();
 
-            @SuppressLint
-                    ("SimpleDateFormat") DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat df = new SimpleDateFormat(MM_DD_YYYY);
             String str_endDate = df.format(endDate);
 
             long oneDay = 1000 * 60 * 60 * 24;
             long period = temp / oneDay + 1;
             tempPeriod = Long.toString(period);
             if(startDate.getTime() >= endDate.getTime()){
-                Toast.makeText(BillActivity.this, "End date cannot before the start date", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BillActivity.this, R.string.billEndBeforeStartError, Toast.LENGTH_SHORT).show();
             }
             else if(System.currentTimeMillis() <= startDate.getTime()){
-                Toast.makeText(BillActivity.this, "Start date cannot be today or future", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BillActivity.this, R.string.billFutureDateError, Toast.LENGTH_SHORT).show();
             }
             else if(System.currentTimeMillis() < endDate.getTime()){
-                Toast.makeText(BillActivity.this, "End date cannot be future", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BillActivity.this, R.string.billEndDateFutureError, Toast.LENGTH_SHORT).show();
             }
             else {
                 endDateText = (TextView) findViewById(R.id.endDateText);

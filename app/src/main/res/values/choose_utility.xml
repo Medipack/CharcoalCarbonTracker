@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="choose_utility">
-        <item>Natural Gas</item>>
-        <item>Electricity</item>>
+        <item>@string/naturalGas</item>>
+        <item>@string/electricity</item>>
     </string-array>
 </resources>

@@ -67,19 +67,19 @@ public class Journey {
                     if (User.getInstance().checkSetting() == MONEY) {
                         emissions = co2;
                     }else{
-                        emissions = co2 * totalDistance;
+                        emissions = Math.round(co2 * totalDistance);
                     }
                     break;
                 case Vehicle.WALK_BIKE:
                     co2 = unit.getWalkBikeRate();
-                    emissions = co2 * totalDistance;
+                    emissions = Math.round(co2 * totalDistance);
                     break;
                 case Vehicle.SKYTRAIN:
                     co2 = unit.getSkytrainRate();
                     if (User.getInstance().checkSetting() == MONEY) {
-                        emissions = co2;
+                        emissions = Math.round(co2);
                     }else{
-                        emissions = co2 * totalDistance;
+                        emissions = Math.round(co2 * totalDistance);
                     }
                     break;
             }

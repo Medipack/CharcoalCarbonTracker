@@ -45,21 +45,21 @@
         android:text="@string/xx_xx_xxxx" />
 
     <TextView
-        android:text="Choose the single date:"
+        android:id="@+id/chooseDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/graphRB"
-        android:id="@+id/chooseDate" />
+        android:text="@string/choose_the_single_date" />
 
     <TextView
-        android:text="Graphs"
-        android:textColor="#f28435"
+        android:id="@+id/graphTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/graphTitle"
+        android:text="@string/graphs"
+        android:textColor="#f28435"
         android:textSize="24sp"
         android:textStyle="normal|bold" />
 </RelativeLayout>

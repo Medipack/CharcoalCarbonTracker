@@ -51,7 +51,7 @@ public class PickDateActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Date newDate = calendar.getTime();
                 if(newDate.getTime() > journeyDate.getTime()){
-                    String msg = "Please pick an earlier date";
+                    String msg = getString(R.string.pickEarlierDate);
                     Toast.makeText(PickDateActivity.this, msg, Toast.LENGTH_SHORT).show();
                 }else {
                     setJourneyDate(newDate);

@@ -82,8 +82,8 @@ public class NotificationThread extends Thread {
     }
 
     private void displayAddNewBillNotification() {
-        String title = "Add a Utility Bill";
-        String content = "You have not entered {hydro, natural gas} in over a month and a half; Tap to add!";
+        String title = context.getString(R.string.utility_remind_title);
+        String content = context.getString(R.string.utility_remind);
 
         Intent intent = getNewBillIntent(context);
 
@@ -144,13 +144,13 @@ public class NotificationThread extends Thread {
         String content;
 
         if(numJourneysAdded > 0) {
-            title = "Enter more Journeys";
-            content = "You entered " + numJourneysAdded
-                    + " Journey" + (numJourneysAdded == 1 ? "" : "s") // 1337 grammar fixer
-                    + ", want to enter more?";
+            title = context.getString(R.string.more_journeys);
+            content = context.getString(R.string.you_entered) + numJourneysAdded
+                    + context.getString(R.string._journey) + (numJourneysAdded == 1 ? "" : "s") // 1337 grammar fixer
+                    + context.getString(R.string.want_to_add_more);
         } else {
-            title = "Add a Journey for Today";
-            content = "You haven't added any Journey's today. Tap to add a Journey!";
+            title = context.getString(R.string.add_a_journey_for_today);
+            content = context.getString(R.string.journey_remind);
         }
 
         Intent intent = getNewJourneyIntent(context);

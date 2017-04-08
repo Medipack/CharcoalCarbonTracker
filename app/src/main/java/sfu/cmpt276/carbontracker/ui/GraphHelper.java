@@ -22,7 +22,9 @@ import sfu.cmpt276.carbontracker.carbonmodel.Vehicle;
 
 public class GraphHelper {
 
-///////365 day graph methods///////
+    public static final String YYYY_MM_DD = "yyyy-MM-dd";
+
+    ///////365 day graph methods///////
     //Returns total emissions for a particular transport mode during a particular month
     public static float getJourneyEmissionsForMonthForTransportType(int m, String transportModeWanted) {
         float totalEmissions = 0;
@@ -129,7 +131,7 @@ public class GraphHelper {
             Date journeyDateWithoutTime = new Date();
             Date dateWantedWithoutTime = new Date();
 
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD);
             try {
                 journeyDateWithoutTime = sdf.parse(sdf.format(journey.getDate()));
                 dateWantedWithoutTime = sdf.parse(sdf.format(dateWanted));
@@ -200,7 +202,7 @@ public class GraphHelper {
             Date utilityEndDateWithoutTime = new Date();
             Date dateWantedWithoutTime = new Date();
 
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD);
             try {
                 utilityStartDateWithoutTime = sdf.parse(sdf.format(utility.getStartDate()));
                 utilityEndDateWithoutTime = sdf.parse(sdf.format(utility.getEndDate()));

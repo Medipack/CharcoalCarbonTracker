@@ -132,7 +132,7 @@ public class RouteActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if(routeName.length() == 0){
                             Toast.makeText(RouteActivity.this,
-                                    "Please enter a name",
+                                    R.string.nameError,
                                     Toast.LENGTH_SHORT).show();
                         }
                         if (routeCity.length() == 0) {
@@ -177,7 +177,7 @@ public class RouteActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if(routeName.length() == 0){
                             Toast.makeText(RouteActivity.this,
-                                    "Please enter a name",
+                                    R.string.nameError,
                                     Toast.LENGTH_SHORT).show();
                         }
                         if (routeCity.length() == 0) {
@@ -256,7 +256,7 @@ public class RouteActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if (editName.length() == 0) {
                             Toast.makeText(RouteActivity.this,
-                                    "Please enter a name",
+                                    R.string.nameError,
                                     Toast.LENGTH_SHORT).show();
                         }
                         if (editCity.length() == 0) {

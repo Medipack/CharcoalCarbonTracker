@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="choose_graph">
-        <item>Pie Graph</item>>
-        <item>Bar Graph</item>>
+        <item>@string/pie_graph</item>>
+        <item>@string/bar_graph</item>>
 =    </string-array>
 </resources>

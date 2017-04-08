@@ -31,6 +31,7 @@ public class GraphActivity extends AppCompatActivity {
     private static final int DAYS_IN_YEAR = 365;
     private RadioButton pieGraph;
     private RadioButton barGraph;
+    public static final String MM_DD_YYYY = "MM/dd/yyyy";
     private int year_default;
     private int month_default;
     private int day_default;
@@ -120,11 +121,11 @@ public class GraphActivity extends AppCompatActivity {
             day_default = dayOfMonth;
             Date singleDate = new Date(year_default - 1900, month_default - 1, day_default);
 
-            @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat df = new SimpleDateFormat(MM_DD_YYYY);
             str_singleDate = df.format(singleDate);
 
             if(System.currentTimeMillis() < singleDate.getTime()){
-                Toast.makeText(GraphActivity.this, "Date cannot be in future", Toast.LENGTH_SHORT).show();
+                Toast.makeText(GraphActivity.this, R.string.graphFutureDateError, Toast.LENGTH_SHORT).show();
             }
 
             else {
@@ -148,7 +149,7 @@ public class GraphActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     else{
-                        Toast.makeText(GraphActivity.this, "Please choose the date", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GraphActivity.this, R.string.graphChooseDateError, Toast.LENGTH_SHORT).show();
                     }
                 }
                 else if(barGraph.isChecked()){
