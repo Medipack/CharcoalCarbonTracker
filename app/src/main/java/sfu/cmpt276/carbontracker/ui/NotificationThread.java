@@ -72,9 +72,7 @@ public final class NotificationThread extends TimerTask {
 
     @Override
     public void run() {
-        Looper.loop();
         createNewNotifications();
-        Looper.myLooper().quitSafely();
     }
 
     private void createNewNotifications() {
