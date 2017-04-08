@@ -272,8 +272,7 @@ public class BillActivity extends AppCompatActivity {
             day_x = dayOfMonth;
             startDate = new Date(year_x - 1900, month_x - 1, day_x);
 
-            @SuppressLint
-                    ("SimpleDateFormat") DateFormat df = new SimpleDateFormat(MM_DD_YYYY);
+            DateFormat df = new SimpleDateFormat(MM_DD_YYYY);
             String str_startDate = df.format(startDate);
 
             startDateText = (TextView) findViewById(R.id.startDateText);
@@ -290,8 +289,7 @@ public class BillActivity extends AppCompatActivity {
             endDate = new Date(year_y - 1900, month_y - 1, day_y);
             long temp = endDate.getTime() - startDate.getTime();
 
-            @SuppressLint
-                    ("SimpleDateFormat") DateFormat df = new SimpleDateFormat(MM_DD_YYYY);
+            DateFormat df = new SimpleDateFormat(MM_DD_YYYY);
             String str_endDate = df.format(endDate);
 
             long oneDay = 1000 * 60 * 60 * 24;

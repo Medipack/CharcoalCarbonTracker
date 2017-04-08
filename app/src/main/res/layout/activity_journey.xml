@@ -47,10 +47,13 @@
         android:layout_alignParentEnd="true">
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:id="@+id/journey_table_icon"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="           " />
+            android:layout_weight="1.0"
+            android:text="@string/icon"
+            android:textSize="14sp"
+            android:textStyle="normal|bold|italic" />
 
         <TextView
             android:id="@+id/journey_table_date"
@@ -67,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:text="@string/vehicle"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textStyle="normal|bold|italic" />
 
         <TextView
@@ -76,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:text="@string/route"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textStyle="normal|bold|italic" />
 
         <TextView
@@ -85,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:text="@string/distance"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textStyle="normal|bold|italic" />
 
         <TextView
@@ -94,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:text="@string/emission"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textStyle="normal|bold|italic" />
 
     </TableRow>

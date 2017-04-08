@@ -345,11 +345,11 @@ public class EditJourneyActivity extends AppCompatActivity {
             editedJourney.setVehicle(selectedVehicle);
         }else {
             Vehicle vehicle = new Vehicle();
-            if (transportationMode == "bus") {
+            if (transportationMode == Vehicle.BUS) {
                 vehicle = User.BUS;
-            } else if (transportationMode == "skytrain") {
+            } else if (transportationMode == Vehicle.SKYTRAIN) {
                 vehicle = User.SKYTRAIN;
-            } else if (transportationMode == "walk") {
+            } else if (transportationMode == Vehicle.WALK_BIKE) {
                 vehicle = User.BIKE;
             }
             editedJourney.setVehicle(vehicle);

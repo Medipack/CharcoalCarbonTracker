@@ -51,10 +51,9 @@
     <string name="cancel">Cancelad</string>
     <string name="use">USO</string>
     <string name="save_edit">GUARDAD EDITAD</string>
-    <string name="choose_the_single_date">Elige la Fecha</string>
+    <string name="choose_the_single_date">Elija la Fecha</string>
     <string name="show_graph">Mostrad gráfico</string>
     <string name="language">Idioma</string>
-    <string name="money">$</string>
     <string name="settings">Ajustes</string>
     <string name="units">Unidades</string>
     <string name="apply">Aplicad</string>
@@ -129,8 +128,8 @@
     <string name="peopleShareKwh">kwh \n personas en la cuota de la casa:</string>
     <string name="newLine">\n</string>
     <string name="previousAvgGj">GJ, \nmedia previous es:</string>
-    <string name="single_day">SINGLE DAY</string>
-    <string name="last_28_days">LAST 28 DAYS</string>
+    <string name="single_day">SOLO DIA</string>
+    <string name="last_28_days">Últimos 28 días</string>
     <string name="emission_label">emission</string>
     <string-array name="spinner_item">
         <item>Día sola</item>
@@ -151,4 +150,24 @@
         <item>Nov</item>
         <item>Dic</item>
     </string-array>
+    <string name="about">Respecto a</string>
+    <string name="choose_your_vehicle_icon">Elija su icono de vehículo</string>
+    <string name="creation_year">Creado en primavera de 2017</string>
+    <string name="group_name">Creado por Team Charcoal</string>
+    <string name="icon_currently_chosen">Icono actualmente elegido:</string>
+    <string name="journey_remind">No has añadido ningún viaje hoy. Toque para agregar un viaje!</string>
+    <string name="last_year">Últimos 365 días</string>
+    <string name="more_journeys">Introduzca más viajes</string>
+    <string name="utility_remind">"Usted no ha entrado en {hydro, gas natural} en más de un mes y medio; Presiona para agregar!  "</string>
+    <string name="utility_remind_title">Agregar una factura de servicios públicos</string>
+    <string name="vehicleIcon">Icono de vehículo</string>
+    <string name="version">Versión</string>
+    <string name="_journey">Viaje</string>
+    <string name="add_a_journey_for_today">Agregar un viaje para hoy</string>
+    <string name="icon">Icono</string>
+    <string name="walk">caminar</string>
+    <string name="want_to_add_more">, quiere entrar más?</string>
+    <string name="you_entered">Tu agregaste</string>
+    <string name="bar_graph">Gráfico de Barras</string>
+    <string name="pie_graph">Gráfico de Sectores</string>
 </resources>

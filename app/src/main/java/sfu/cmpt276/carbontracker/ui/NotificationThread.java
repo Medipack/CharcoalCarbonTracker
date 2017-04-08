@@ -145,11 +145,11 @@ public class NotificationThread extends Thread {
 
         if(numJourneysAdded > 0) {
             title = context.getString(R.string.more_journeys);
-            content = "You entered " + numJourneysAdded
-                    + " Journey" + (numJourneysAdded == 1 ? "" : "s") // 1337 grammar fixer
-                    + ", want to enter more?";
+            content = context.getString(R.string.you_entered) + numJourneysAdded
+                    + context.getString(R.string._journey) + (numJourneysAdded == 1 ? "" : "s") // 1337 grammar fixer
+                    + context.getString(R.string.want_to_add_more);
         } else {
-            title = "Add a Journey for Today";
+            title = context.getString(R.string.add_a_journey_for_today);
             content = context.getString(R.string.journey_remind);
         }
 

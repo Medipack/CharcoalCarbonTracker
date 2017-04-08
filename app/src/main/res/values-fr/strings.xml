@@ -145,4 +145,30 @@
         <item>Nov</item>
         <item>Dec</item>
     </string-array>
+    <string name="about">Au sujet de</string>
+    <string name="carTip9">Tomando el autobús habría reducido su %1$,.2f kg CO2 por 33%%, considere esto en su lugar la próxima vez</string>
+    <string name="carbon_tracker">Tracker du Carbone</string>
+    <string name="choose_your_vehicle_icon">Choisissez votre icône de véhicule</string>
+    <string name="creation_year">Créé au printemps 2017</string>
+    <string name="emission_label">émission</string>
+    <string name="group_name">Créé par Team Charcoal</string>
+    <string name="icon_currently_chosen">Icône actuellement choisi:</string>
+    <string name="journey_remind">Vous n\'avez ajouté aucun Journey\'s aujourd\'hui. Appuyez pour ajouter un voyage!</string>
+    <string name="last_28_days">28 derniers jours</string>
+    <string name="last_year">365 derniers jours</string>
+    <string name="more_journeys">Entrez plus de voyages</string>
+    <string name="single_day">SEULE JOURNÉE</string>
+    <string name="utility_remind">Vous n\'avez pas entré dans {hydro, gaz naturel} depuis plus d\'un mois et demi; Appuyez pour ajouter!</string>
+    <string name="utility_remind_title">Ajoutez une facture d\'utilité</string>
+    <string name="vehicleIcon">Icône du véhicule</string>
+    <string name="version">Version</string>
+    <string name="view">Vue</string>
+    <string name="_journey">Voyage</string>
+    <string name="add_a_journey_for_today">Ajouter un voyage pour aujourd\'hui</string>
+    <string name="icon">Icône</string>
+    <string name="walk">marche</string>
+    <string name="want_to_add_more">, voulez-vous entrer plus?</string>
+    <string name="you_entered">Vous avez ajouté</string>
+    <string name="bar_graph">Graphique à Barres</string>
+    <string name="pie_graph">Graphique Circulaire</string>
 </resources>
