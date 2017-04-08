@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Timer;
 
 import sfu.cmpt276.carbontracker.R;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
@@ -87,7 +88,6 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void setupNotificationThread() {
         notificationThread = new NotificationThread(this);
-        notificationThread.start();
 
         final int NOTIFICATION_HOUR_IN_24HR_FORMAT = 21;
 
@@ -105,19 +105,13 @@ public class MainMenuActivity extends AppCompatActivity {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-        long nextNotificationDateInMillis;
-        nextNotificationDateInMillis = calendar.getTimeInMillis();
-        long timeDifference = nextNotificationDateInMillis - (new Date()).getTime();
-        long systemTime = SystemClock.uptimeMillis();
-        long nextNotificationDateInSystemUptime = systemTime + timeDifference;
+        calendar.setTime(new Date());
+        calendar.add(Calendar.SECOND, 10);
 
-        Handler handler = null;
-        while(handler == null) {
-            handler = notificationThread.getNotificationhandler();
-        }
+        final long ONCE_PER_DAY_MILLIS = 1000*60*60*24;
 
-        handler.sendMessageAtTime(handler.obtainMessage(NotificationThread.NOTIFY, 0, 0, null),
-                nextNotificationDateInSystemUptime);
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(notificationThread, calendar.getTime(), ONCE_PER_DAY_MILLIS);
 
         Log.i(MainMenuActivity.class.getName(), "Set notification for " + calendar.getTime());
     }

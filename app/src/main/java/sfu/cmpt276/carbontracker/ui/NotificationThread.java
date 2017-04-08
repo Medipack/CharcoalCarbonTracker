@@ -15,6 +15,7 @@ import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import sfu.cmpt276.carbontracker.R;
@@ -28,7 +29,7 @@ import static android.content.Context.NOTIFICATION_SERVICE;
  * Thread for handling Notifications
  * Waits until specified time to show notification to user
  */
-public class NotificationThread extends Thread {
+public final class NotificationThread extends TimerTask {
 
     // Send notification if outside threshold
     private static final long DAYS_ELAPSED_SINCE_LAST_BILL_NOTIFY_THRESHOLD = 45;
@@ -50,6 +51,7 @@ public class NotificationThread extends Thread {
     public static final int NOTIFY = 1;
     public static final int QUIT_CODE = 2;
 
+    /*
     private final NotificationHandler notificationHandler = new NotificationHandler(this) {
         @Override
         public void handleMessage(Message msg) {
@@ -62,6 +64,7 @@ public class NotificationThread extends Thread {
             }
         }
     };
+    */
 
     NotificationThread(Context context) {
         this.context = context;
@@ -69,8 +72,9 @@ public class NotificationThread extends Thread {
 
     @Override
     public void run() {
-        Looper.prepare();
         Looper.loop();
+        createNewNotifications();
+        Looper.myLooper().quitSafely();
     }
 
     private void createNewNotifications() {
@@ -198,9 +202,11 @@ public class NotificationThread extends Thread {
         return new Intent(context, BillActivity.class);
     }
 
+    /*
     public Handler getNotificationhandler() {
         return notificationHandler;
     }
+    */
 }
 
 
