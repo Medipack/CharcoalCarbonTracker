@@ -34,8 +34,7 @@ import sfu.cmpt276.carbontracker.carbonmodel.Route;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 public class SingleDayActivity extends AppCompatActivity {
-    public static final String MM_DD_YYYY = "MM/dd/yyyy";
-    private String[] charts = {getString(R.string.single_day), getString(R.string.last_28_days), getString(R.string.last_year)};
+    private String[] charts = {"SINGLE DAY", "LAST 28 DAYS", "LAST 365 DAYS"};
     List journeyList = User.getInstance().getJourneyList();
     String str_date;
     Date singleDate;
@@ -97,7 +96,7 @@ public class SingleDayActivity extends AppCompatActivity {
     Date currentDate = new Date(curr_year, curr_month, curr_day);
     Date before_28 = new Date(currentDate.getTime() - 28 * oneDay);      //before 28 is the 28 days ago
     Date before_365 = new Date(currentDate.getTime() - 365 * oneDay);      ////before 365 is the 365 days ago
-    SimpleDateFormat formatter = new SimpleDateFormat(MM_DD_YYYY);
+    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
     String str_before = formatter.format(before_28);
     String str_before365 = formatter.format(before_365);
     String str_journey;
@@ -110,13 +109,11 @@ public class SingleDayActivity extends AppCompatActivity {
         setupSpinner();
         setupChart();
         setupSwitch();
-
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         FullScreencall();
-
     }
     public void FullScreencall() {
         if(Build.VERSION.SDK_INT < 19){
@@ -129,7 +126,6 @@ public class SingleDayActivity extends AppCompatActivity {
             decorView.setSystemUiVisibility(uiOptions);
         }
     }
-
     private void setupSpinner() {
         Spinner chartType = (Spinner) findViewById(R.id.graphSpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(SingleDayActivity.this,
@@ -157,6 +153,7 @@ public class SingleDayActivity extends AppCompatActivity {
                     //single day pie graph - [Route]
                     List<PieEntry> pieEntries_route = new ArrayList<>();
                     if (chart_position == 0) {
+                        times_route = times_route + 1;
                         //avoid adding additional data if click one more times
                         //journey part - [Route]
                         for (int r = 0; r < routeSize; r++) {
@@ -182,7 +179,7 @@ public class SingleDayActivity extends AppCompatActivity {
                         //pie graph list
                         try {
                             DateFormat formatter;
-                            formatter = new SimpleDateFormat(MM_DD_YYYY);
+                            formatter = new SimpleDateFormat("MM/dd/yyyy");
                             singleDate = (Date) formatter.parse(str_date);
                         } catch (Exception e) {
                         }
@@ -277,6 +274,7 @@ public class SingleDayActivity extends AppCompatActivity {
                     }
                     //28 pie graph - [Route]
                     if (chart_position == 1) {
+                        times_route = times_route + 1;
                         //journey part - [Route]
                         for (int r = 0; r < routeSize; r++) {
                             for (int j = 0; j < User.getInstance().getJourneyList().size(); j++) {
@@ -285,9 +283,12 @@ public class SingleDayActivity extends AppCompatActivity {
                                 str_journey = formatter.format(journeyDate);
                                 //check whether in last 28 days
                                 if (journeyDate.getTime() >= before_28.getTime()) {
+                                    Toast.makeText(SingleDayActivity.this, "yea", Toast.LENGTH_SHORT).show();
                                     Route route = User.getInstance().getRouteList().getRoute(r);
                                     if (Objects.equals(User.getInstance().getRouteList().getRoute(r).getRouteName(), journey.getRouteName())) {
-                                        emissionRoute_28 = emissionRoute_28 + journey.getCarbonEmitted();
+                                        if (times_route <= 1) {
+                                            emissionRoute_28 = emissionRoute_28 + journey.getCarbonEmitted();
+                                        }
                                         String str_emissionRoute = String.valueOf(emissionRoute_28);
                                         tempRoute = Float.valueOf(str_emissionRoute);
                                         pieEntries_route.add(new PieEntry(tempRoute, route.getRouteName()));
@@ -351,6 +352,7 @@ public class SingleDayActivity extends AppCompatActivity {
                     }
                     //365 pie graph - [Route]
                     else if (chart_position == 2) {
+                        times_route = times_route + 1;
                         //journey part - [Route]
                         for (int r = 0; r < routeSize; r++) {
                             for (int j = 0; j < User.getInstance().getJourneyList().size(); j++) {
@@ -361,10 +363,12 @@ public class SingleDayActivity extends AppCompatActivity {
                                 if (journeyDate.getTime() >= before_365.getTime()) {
                                     Route route = User.getInstance().getRouteList().getRoute(r);
                                     if (Objects.equals(User.getInstance().getRouteList().getRoute(r).getRouteName(), journey.getRouteName())) {
-                                        emissionRoute_365 = emissionRoute_365 + journey.getCarbonEmitted();
-                                        String str_emissionRoute = String.valueOf(emissionRoute_365);
-                                        tempRoute = Float.valueOf(str_emissionRoute);
-                                        pieEntries_route.add(new PieEntry(tempRoute, route.getRouteName()));
+                                        if (times_route <= 1) {
+                                            emissionRoute_365 = emissionRoute_365 + journey.getCarbonEmitted();
+                                            String str_emissionRoute = String.valueOf(emissionRoute_365);
+                                            tempRoute = Float.valueOf(str_emissionRoute);
+                                            pieEntries_route.add(new PieEntry(tempRoute, route.getRouteName()));
+                                        }
                                     }
                                 }
                             }
@@ -424,7 +428,7 @@ public class SingleDayActivity extends AppCompatActivity {
                         }
                     }
                     //show pie graph - single + 28 + 365 - [Route]
-                    PieDataSet dataSet = new PieDataSet(pieEntries_route, getString(R.string.emission));
+                    PieDataSet dataSet = new PieDataSet(pieEntries_route, "emission");
                     dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
                     PieData data = new PieData(dataSet);
                     //get the chart:
@@ -434,7 +438,7 @@ public class SingleDayActivity extends AppCompatActivity {
                     chart_single.invalidate();
                 }
                 else{
-                    Toast.makeText(SingleDayActivity.this, getString(R.string.mode), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SingleDayActivity.this, "mode", Toast.LENGTH_SHORT).show();
                     setupChart();
                 }
             }
@@ -450,7 +454,7 @@ public class SingleDayActivity extends AppCompatActivity {
             List<PieEntry> pieEntries = new ArrayList<>();
             try {
                 DateFormat formatter;
-                formatter = new SimpleDateFormat(MM_DD_YYYY);
+                formatter = new SimpleDateFormat("MM/dd/yyyy");
                 singleDate = (Date) formatter.parse(str_date);
             } catch (Exception e) {
             }
@@ -741,6 +745,7 @@ public class SingleDayActivity extends AppCompatActivity {
                 str_journey = formatter.format(journeyDate);
                 if (journeyDate.getTime() >= before_365.getTime()) {
                     String vehicle = journey.getVehicleName();
+                    Toast.makeText(this, "" + vehicle, Toast.LENGTH_SHORT).show();
                     if (vehicle.equals("Bus")) {
                         bus_exist = 1;
                         vehicleBus = vehicle;
