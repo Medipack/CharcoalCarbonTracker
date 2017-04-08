@@ -344,7 +344,7 @@ public class EditJourneyActivity extends AppCompatActivity {
             Vehicle selectedVehicle = getCarSelection();
             editedJourney.setVehicle(selectedVehicle);
         }else {
-            Vehicle vehicle = new Vehicle();
+            Vehicle vehicle = user.getVehicleList().get(index);
             if (transportationMode == Vehicle.BUS) {
                 vehicle = User.BUS;
             } else if (transportationMode == Vehicle.SKYTRAIN) {
