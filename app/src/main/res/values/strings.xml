@@ -154,6 +154,7 @@
     <string name="want_to_add_more">, want to enter more?</string>
     <string name="add_a_journey_for_today">Add a Journey for Today</string>
     <string name="graphs">Graphs</string>
+    <string name="bill_list">Bill List</string>
     <string-array name="graph_spinner">
         <item>Single Day</item>
         <item>Last 28 Days</item>

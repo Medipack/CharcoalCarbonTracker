@@ -30,7 +30,7 @@
         tools:ignore="RelativeOverlap" />
 
     <TextView
-        android:text="Bill List"
+        android:text="@string/bill_list"
         android:textColor="#3a871e"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
