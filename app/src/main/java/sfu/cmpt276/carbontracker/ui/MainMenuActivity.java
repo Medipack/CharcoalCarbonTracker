@@ -105,9 +105,6 @@ public class MainMenuActivity extends AppCompatActivity {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-        calendar.setTime(new Date());
-        calendar.add(Calendar.SECOND, 10);
-
         final long ONCE_PER_DAY_MILLIS = 1000*60*60*24;
 
         Timer timer = new Timer();
