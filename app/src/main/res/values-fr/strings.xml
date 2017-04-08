@@ -81,4 +81,7 @@
     <string name="view">Vue</string>
     <string name="xx_xx_xxxx">xx/xx/xxxx</string>
     <string name="year">Année</string>
+    <string name="single_day">SINGLE DAY</string>
+    <string name="last_28_days">LAST 28 DAYS</string>
+    <string name="emission_label">emission</string>
 </resources>

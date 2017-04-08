@@ -26,6 +26,7 @@ public class GraphActivity extends AppCompatActivity {
 
     private static final int DAYS_IN_FOUR_WEEKS = 28;
     private static final int DAYS_IN_YEAR = 365;
+    public static final String MM_DD_YYYY = "MM/dd/yyyy";
     private RadioButton singleDay;
     private RadioButton last28Days;
     private RadioButton last365Days;
@@ -95,7 +96,7 @@ public class GraphActivity extends AppCompatActivity {
             day_default = dayOfMonth;
             Date singleDate = new Date(year_default - 1900, month_default - 1, day_default);
 
-            @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat df = new SimpleDateFormat(MM_DD_YYYY);
             str_singleDate = df.format(singleDate);
 
             if(System.currentTimeMillis() < singleDate.getTime()){

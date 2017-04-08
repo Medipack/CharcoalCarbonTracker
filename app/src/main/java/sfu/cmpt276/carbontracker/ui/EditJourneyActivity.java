@@ -37,6 +37,8 @@ import sfu.cmpt276.carbontracker.ui.database.Database;
 public class EditJourneyActivity extends AppCompatActivity {
 
     private static final int EDIT_CODE = 1000;
+    public static final String TAG = "MyApp";
+    public static final String MM_DD_YY = "MM/dd/yy";
     private Calendar calendar = Calendar.getInstance();
     private String nameSaved;
     private double citySaved;
@@ -67,7 +69,7 @@ public class EditJourneyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setJourneyEdits(index, Vehicle.WALK_BIKE);
-                Log.i("MyApp", "clicked");
+                Log.i(TAG, "clicked");
                 setResult(EDIT_CODE);
                 finish();
             }
@@ -80,7 +82,7 @@ public class EditJourneyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setJourneyEdits(index, Vehicle.SKYTRAIN);
-                Log.i("MyApp", "clicked");
+                Log.i(TAG, "clicked");
                 setResult(EDIT_CODE);
                 finish();
             }
@@ -124,7 +126,7 @@ public class EditJourneyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setJourneyEdits(index, Vehicle.BUS);
-                Log.i("MyApp", "clicked");
+                Log.i(TAG, "clicked");
                 setResult(EDIT_CODE);
                 finish();
             }
@@ -133,9 +135,8 @@ public class EditJourneyActivity extends AppCompatActivity {
 
     private void updateDate(){
         EditText calendarDate = (EditText) findViewById(R.id.edit_journey_editable_date);
-        String calendarFormat = "MM/dd/yy";
-        @SuppressLint
-                ("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat(calendarFormat);
+        String calendarFormat = MM_DD_YY;
+        SimpleDateFormat sdf = new SimpleDateFormat(calendarFormat);
         String journeyDate_str = sdf.format(calendar.getTime());
         calendarDate.setText(journeyDate_str);
     }
@@ -248,7 +249,7 @@ public class EditJourneyActivity extends AppCompatActivity {
                                 newRoute = new Route(nameSaved, citySaved, highwaySaved);
                                 User.getInstance().setCurrentJourneyRoute(newRoute);
 
-                                Log.i("MyApp", "User selected route \"" + newRoute.getRouteName() + "\"");
+                                Log.i(TAG, "User selected route \"" + newRoute.getRouteName() + "\"");
 
                                 // Set current Journey to use the selected route
                                 User.getInstance().setCurrentJourneyRoute(newRoute);
@@ -305,7 +306,7 @@ public class EditJourneyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setJourneyEdits(index, Vehicle.CAR);
-                Log.i("MyApp", "clicked");
+                Log.i(TAG, "clicked");
                 setResult(EDIT_CODE);
                 finish();
             }

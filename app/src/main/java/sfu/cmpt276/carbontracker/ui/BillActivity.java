@@ -30,6 +30,7 @@ import sfu.cmpt276.carbontracker.ui.database.UtilityDataSource;
 /*Activity to display bills for user input*/
 public class BillActivity extends AppCompatActivity {
 
+    public static final String MM_DD_YYYY = "MM/dd/yyyy";
     private int year_x;
     private int month_x;
     private int day_x;
@@ -243,7 +244,7 @@ public class BillActivity extends AppCompatActivity {
             startDate = new Date(year_x - 1900, month_x - 1, day_x);
 
             @SuppressLint
-                    ("SimpleDateFormat") DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+                    ("SimpleDateFormat") DateFormat df = new SimpleDateFormat(MM_DD_YYYY);
             String str_startDate = df.format(startDate);
 
             startDateText = (TextView) findViewById(R.id.startDateText);
@@ -261,7 +262,7 @@ public class BillActivity extends AppCompatActivity {
             long temp = endDate.getTime() - startDate.getTime();
 
             @SuppressLint
-                    ("SimpleDateFormat") DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+                    ("SimpleDateFormat") DateFormat df = new SimpleDateFormat(MM_DD_YYYY);
             String str_endDate = df.format(endDate);
 
             long oneDay = 1000 * 60 * 60 * 24;

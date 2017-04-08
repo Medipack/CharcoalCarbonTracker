@@ -129,6 +129,9 @@
     <string name="peopleShareKwh">kwh \n personas en la cuota de la casa:</string>
     <string name="newLine">\n</string>
     <string name="previousAvgGj">GJ, \nmedia previous es:</string>
+    <string name="single_day">SINGLE DAY</string>
+    <string name="last_28_days">LAST 28 DAYS</string>
+    <string name="emission_label">emission</string>
     <string-array name="spinner_item">
         <item>Día sola</item>
         <item>Los 28 días</item>

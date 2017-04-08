@@ -32,7 +32,8 @@ import sfu.cmpt276.carbontracker.carbonmodel.Route;
 import sfu.cmpt276.carbontracker.carbonmodel.User;
 import sfu.cmpt276.carbontracker.carbonmodel.Utility;
 public class SingleDayActivity extends AppCompatActivity {
-    private String[] charts = {"SINGLE DAY", "LAST 28 DAYS", "LAST 365 DAYS"};
+    public static final String MM_DD_YYYY = "MM/dd/yyyy";
+    private String[] charts = {getString(R.string.single_day), getString(R.string.last_28_days), getString(R.string.last_year)};
     List journeyList = User.getInstance().getJourneyList();
     String str_date;
     Date singleDate;
@@ -94,7 +95,7 @@ public class SingleDayActivity extends AppCompatActivity {
     Date currentDate = new Date(curr_year, curr_month, curr_day);
     Date before_28 = new Date(currentDate.getTime() - 28 * oneDay);      //before 28 is the 28 days ago
     Date before_365 = new Date(currentDate.getTime() - 365 * oneDay);      ////before 365 is the 365 days ago
-    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+    SimpleDateFormat formatter = new SimpleDateFormat(MM_DD_YYYY);
     String str_before = formatter.format(before_28);
     String str_before365 = formatter.format(before_365);
     String str_journey;
@@ -161,7 +162,7 @@ public class SingleDayActivity extends AppCompatActivity {
                         //pie graph list
                         try {
                             DateFormat formatter;
-                            formatter = new SimpleDateFormat("MM/dd/yyyy");
+                            formatter = new SimpleDateFormat(MM_DD_YYYY);
                             singleDate = (Date) formatter.parse(str_date);
                         } catch (Exception e) {
                         }
@@ -410,7 +411,7 @@ public class SingleDayActivity extends AppCompatActivity {
                         }
                     }
                     //show pie graph - single + 28 + 365 - [Route]
-                    PieDataSet dataSet = new PieDataSet(pieEntries_route, "emission");
+                    PieDataSet dataSet = new PieDataSet(pieEntries_route, getString(R.string.emission));
                     dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
                     PieData data = new PieData(dataSet);
                     //get the chart:
@@ -420,7 +421,7 @@ public class SingleDayActivity extends AppCompatActivity {
                     chart_single.invalidate();
                 }
                 else{
-                    Toast.makeText(SingleDayActivity.this, "mode", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SingleDayActivity.this, getString(R.string.mode), Toast.LENGTH_SHORT).show();
                     setupChart();
                 }
             }
@@ -436,7 +437,7 @@ public class SingleDayActivity extends AppCompatActivity {
             List<PieEntry> pieEntries = new ArrayList<>();
             try {
                 DateFormat formatter;
-                formatter = new SimpleDateFormat("MM/dd/yyyy");
+                formatter = new SimpleDateFormat(MM_DD_YYYY);
                 singleDate = (Date) formatter.parse(str_date);
             } catch (Exception e) {
             }

@@ -128,6 +128,14 @@
     <string name="peopleShareKwh">kwh \npeople in home share:</string>
     <string name="newLine">\n</string>
     <string name="previousAvgGj">GJ, \nprevious average is:</string>
+    <string name="single_day">SINGLE DAY</string>
+    <string name="last_28_days">LAST 28 DAYS</string>
+    <string name="last_year">LAST 365 DAYS</string>
+    <string name="emission_label">emission</string>
+    <string name="utility_remind">You have not entered {hydro, natural gas} in over a month and a half; Tap to add!</string>
+    <string name="utility_remind_title">Add a Utility Bill</string>
+    <string name="journey_remind">You haven\'t added any Journey\'s today. Tap to add a Journey!</string>
+    <string name="more_journeys">Enter more Journeys</string>
     <string-array name="spinner_item">
         <item>Single Day</item>
         <item>Last 28 Days</item>
