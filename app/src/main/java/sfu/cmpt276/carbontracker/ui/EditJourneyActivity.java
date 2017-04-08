@@ -38,7 +38,7 @@ import sfu.cmpt276.carbontracker.ui.database.Database;
 /* Activity to allow user to edit journey*/
 public class EditJourneyActivity extends AppCompatActivity {
 
-    private static final int EDIT_CODE = 1555;
+    private static final int EDIT_CODE = 1000;
     public static final String TAG = "MyApp";
     public static final String MM_DD_YY = "MM/dd/yy";
     private Calendar calendar = Calendar.getInstance();
